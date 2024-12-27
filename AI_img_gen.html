@@ -1,0 +1,1317 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Text to Image Prompt - Jana Bridi</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            background-color: #18181B;
+            color: white;
+            padding-top: 6rem;
+        }
+
+        /* Navigation */
+        .main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(24, 24, 27, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #F97316;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Project Header */
+        .project-header {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 0;
+        }
+
+        .project-title {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            color: #F97316;
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 1rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Project Info Grid */
+        .project-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            padding: 2rem;
+            background-color: #27272A;
+            border-radius: 1rem;
+            margin: 4rem 0;
+        }
+
+        .info-column h2 {
+            font-size: 1.25rem;
+            color: #F97316;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-column p {
+            color: #A1A1AA;
+            margin-bottom: 2rem;
+        }
+
+        /* Content Sections */
+        .section {
+            margin: 6rem 0;
+        }
+
+        .section h3 {
+            font-size: 2rem;
+            color: #F97316;
+            margin-bottom: 1.5rem;
+        }
+
+        .section p {
+            color: #A1A1AA;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Problem Statement */
+        .problem-statement {
+            background-color: #27272A;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 2rem 0;
+            border-left: 4px solid #F97316;
+        }
+
+        /* Competitive Analysis */
+        .comp-analysis {
+            margin: 2rem 0;
+        }
+
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #27272A;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .comp-table th,
+        .comp-table td {
+            padding: 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid #3F3F46;
+        }
+
+        .comp-table th {
+            background-color: #F97316;
+            color: white;
+        }
+
+        .comp-table td {
+            color: #A1A1AA;
+        }
+
+        .comp-table ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .comp-table li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .project-title {
+                font-size: 2.5rem;
+            }
+
+            .project-info {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .main-nav {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .nav-links {
+                margin-top: 1rem;
+                gap: 1rem;
+            }
+
+            body {
+                padding-top: 8rem;
+            }
+        }
+        .sketches-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+    }
+
+    .sketch-item {
+        background-color: #27272A;
+        padding: 1rem;
+        border-radius: 1rem;
+        transition: transform 0.3s ease;
+    }
+
+    .sketch-item:hover {
+        transform: translateY(-5px);
+    }
+
+    .sketch-item img {
+        width: 100%;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Wireframes Section */
+    .wireframes-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+    }
+
+    .wireframe-item {
+        background-color: #27272A;
+        padding: 1rem;
+        border-radius: 1rem;
+    }
+
+    .wireframe-item img {
+        width: 100%;
+        border-radius: 0.5rem;
+    }
+
+    /* Prototype Section */
+    .prototype-container {
+        background-color: #27272A;
+        padding: 2rem;
+        border-radius: 1rem;
+        margin: 2rem 0;
+    }
+
+    .prototype-frame {
+        width: 100%;
+        border-radius: 0.5rem;
+        margin: 2rem 0;
+    }
+
+    /* Summary Section */
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin: 2rem 0;
+    }
+
+    .summary-card {
+        background-color: #27272A;
+        padding: 2rem;
+        border-radius: 1rem;
+        transition: transform 0.3s ease;
+    }
+
+    .summary-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .summary-card h4 {
+        color: #F97316;
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+    }
+
+    .summary-card p {
+        color: #A1A1AA;
+    }
+
+    /* Future Directions */
+    .future-directions {
+        background-color: #27272A;
+        padding: 2rem;
+        border-radius: 1rem;
+        margin: 2rem 0;
+        border-left: 4px solid #F97316;
+    }
+
+    @media (max-width: 768px) {
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <a href="index.html" class="logo">Jana Bridi</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="https://docs.google.com/document/d/1t1_m6O4Gym2jisck62LkEFu7Hahhc5FKJzOWG4fY89g/edit?usp=sharing">Resume</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Project Header -->
+        <section class="project-header">
+            <h1 class="project-title">Prompt Engineering for AI Text-to-Image Generators</h1>
+            <img src="Group 1.png" alt="AI Text to Image Project" class="hero-image">
+        </section>
+
+        <!-- Project Info -->
+        <div class="project-info">
+            <div class="info-column">
+                <h2>Project Type</h2>
+                <p>Mobile Application</p>
+                <h2>Timeline</h2>
+                <p>January 2024 - March 2024</p>
+            </div>
+            <div class="info-column">
+                <h2>Role</h2>
+                <p>UX Designer, Researcher, Visual Designer</p>
+                <h2>Team</h2>
+                <p>4 Designers</p>
+            </div>
+        </div>
+
+        <!-- Background -->
+        <section class="section">
+            <h3>Background</h3>
+            <p>This project was for an upper division Design class at UCSD called Design for Creativity and Productivity. For this project we designed and prototyped an interactive system that addressed a problem in productivity.</p>
+        </section>
+
+        <!-- Understanding the Problem -->
+        <section class="section">
+            <h3>Understanding the Problem</h3>
+            <p>AI models lack effective iterative feedback mechanisms that scale with user proficiency</p>
+            
+            <h2>Underlying Cause</h2>
+            <ul>
+                <li>Greater fine tuning of AI model response requires knowledge of application-specific jargon from end users</li>
+                <li>Beginners are constrained by their limited knowledge of the application/field</li>
+                <li>Companies are constrained by the constraints of their end users</li>
+            </ul>
+
+            <div class="problem-statement">
+                <h4>Problem Statement</h4>
+                <p>"Given that the user has a well-formed intent, how can they interact with previously generated images to fine-tune the model to create what they want?"</p>
+            </div>
+        </section>
+
+        <!-- Research -->
+        <section class="section">
+            <h3>Research</h3>
+            <div class="comp-analysis">
+                <h4>Competitive Analysis</h4>
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Competitors</th>
+                            <th>Strengths</th>
+                            <th>Limitations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>GenAssist</td>
+                            <td>Accessible text-to-image generation system that simplifies image selection and generation for Blind and Low Vision Creators</td>
+                            <td>
+                                <ul>
+                                    <li>Focuses on accessibility and creativity rather than productivity</li>
+                                    <li>Users are unfamiliar with domain-specific styling terms for first image</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Promptify</td>
+                            <td>Enhance text-to-image generation through interactive LLM system that suggests and refines prompts</td>
+                            <td>
+                                <ul>
+                                    <li>Users that knew what they wanted found extra prompt ideation features less useful/more tedious</li>
+                                    <li>Systems flexibility to accommodate different user preferences is limited</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+ <!-- Sketches Section -->
+ <section class="section">
+    <h3>Design Process</h3>
+    <h4>Initial Sketches</h4>
+    <p>We each did low-fi sketches to brainstorm different ideas to address the problem</p>
+    <div class="sketches-grid">
+        <div class="sketch-item">
+            <img src="sketch1.png" alt="Initial Sketch 1">
+        </div>
+        <div class="sketch-item">
+            <img src="sketch2.png" alt="Initial Sketch 2">
+        </div>
+    </div>
+
+    <h4>Sketch Improvements</h4>
+    <p>After review, we selected and refined the negative prompting feature and image component selection, adding more detail to our concepts.</p>
+    <div class="sketches-grid">
+        <div class="sketch-item">
+            <img src="sketch3.png" alt="Improved Sketch 1">
+        </div>
+        <div class="sketch-item">
+            <img src="sketch4.png" alt="Improved Sketch 2">
+        </div>
+        <div class="sketch-item">
+            <img src="sketch 5.png" alt="Improved Sketch 3">
+        </div>
+    </div>
+</section>
+
+<!-- Wireframes Section -->
+<section class="section">
+    <h3>Wireframes</h3>
+    <p>We developed our wireframes based on the refined sketches, incorporating user feedback and design principles.</p>
+    <div class="wireframes-container">
+        <div class="wireframe-item">
+            <img src="wireframe1.png" alt="Wireframe 1">
+        </div>
+        <div class="wireframe-item">
+            <img src="wireframe2.png" alt="Wireframe 2">
+        </div>
+        <div class="wireframe-item">
+            <img src="wireframe3.png" alt="Wireframe 3">
+        </div>
+    </div>
+</section>
+
+<!-- Final Prototype Section -->
+<section class="section">
+    <h3>Final Prototype</h3>
+    <div class="prototype-container">
+        <iframe class="prototype-frame" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2F15CreWvu1kXQd8hcewnrJc%2FUntitled%3Ftype%3Ddesign%26node-id%3D1-912%26t%3DhXOXHiNGOCzP7UBo-1%26scaling%3Dscale-down%26page-id%3D0%253A1%26starting-point-node-id%3D1%253A912%26mode%3Ddesign" allowfullscreen></iframe>
+    </div>
+</section>
+
+<!-- Summary Section -->
+<section class="section">
+    <h3>Summary</h3>
+    <div class="summary-grid">
+        <div class="summary-card">
+            <h4>Natural Language Feedback</h4>
+            <p>Isolated editable natural language statements help users develop mental model of the system</p>
+        </div>
+        <div class="summary-card">
+            <h4>Component Selection</h4>
+            <p>Component selection allows user to specify intent during fine-tuning</p>
+        </div>
+        <div class="summary-card">
+            <h4>Vocal Input Translation</h4>
+            <p>Translating natural utterances into specific, executable commands</p>
+        </div>
+    </div>
+
+    <p class="future-directions">
+        To recap, we created three different features that all try to bridge the gap between user intents and system output and encourage system understanding. We see that isolated editable natural language statements help users develop a mental model of how the system works. Component selection offers an intuitive way for users to specify what components of an image that they like or dislike, and vocal input allows us to translate our most natural form of language input into executable commands that the computer can understand accurately.
+    </p>
+</section>
+
+<!-- Future Directions Section -->
+<section class="section">
+    <h3>Implications and Future Directions</h3>
+    <div class="future-directions">
+        <p>As these LLM models improve we'll be able to achieve more and be able to perform even more complex text-to-image generation tasks. But if we continue to use natural language as a mode of input, we need to make sure that this increased complexity of the system is still able to connect with our basic intents. We believe that leveraging AI to encourage system understanding of these complex mechanisms will be very important in how these models will be able to keep this bridge of communication between user and system strong.</p>
+        <br>
+        <p>However, within text-to-image generation, we operated on two main assumptions: that the user already had a well-formed idea of what they wanted, and that images had already been created. Future research should look into how we can encourage creativity through prompt engineering, even before an initial batch of images is created. How can we design effective interfaces that guide the user through prompt generation without constraining creativity?</p>
+    </div>
+</section>
+</body>
+</html
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natural Language Input - Enhanced Case Study</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --primary: #8B4513;
+            --secondary: #D2691E;
+            --accent: #DEB887;
+            --text: #333;
+            --background: #FFF5EB;
+            --spacing: 2rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--background);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing);
+        }
+
+        .hero {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+        .hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-content {
+    position: absolute;
+    left: 50%;
+    bottom: 10%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+.explore-btn {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background-color: white;
+    color: var(--primary);
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.explore-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            margin: 3rem 0 1.5rem;
+            color: var(--primary);
+        }
+
+        h3 {
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            margin: 2rem 0 1rem;
+            color: var(--secondary);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        section {
+            padding: var(--spacing) 0;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .research-section {
+            background: white;
+            padding: 4rem 0;
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .solution-card {
+            padding: 2rem;
+            border-left: 4px solid var(--accent);
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 300px;
+            background: #e0e0e0;
+            margin: 2rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-style: italic;
+        }
+        .demo-container {
+            position: relative;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            min-height: 400px;
+        }
+
+        .interactive-demo {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .demo-input {
+            padding: 1rem;
+            border: 2px solid var(--primary);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .demo-output {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 4px;
+            min-height: 100px;
+            margin-top: 1rem;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #fff;
+            padding: 1.5rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .implementation-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .tab {
+            padding: 0.5rem 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            color: var(--text);
+        }
+
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* System Example Styles */
+        .system-example {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .example-input, .example-output {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .step-sequence {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Additional Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .system-example {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .problem-grid, .solution-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .navigation {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .floating-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #007bff;
+      color: white;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .floating-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+
+    /* Optional: Add animation for button appearance */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .floating-button {
+      animation: fadeIn 0.5s ease-out;
+    }
+    </style>
+</head>
+<body>
+    <nav class="navigation">
+        <ul class="nav-links">
+            <li><a href="#problem">Problem</a></li>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#research">Research</a></li>
+            <li><a href="#ideation">Ideation</a></li>
+            <li><a href="#prototypes">Prototypes</a></li>
+            <li><a href="#solution">Final Solution</a></li>
+            <li><a href="index.html">Back To Home</a></li>
+        </ul>
+    </nav>
+
+    <button class="floating-button"><a href ="index.html">Home</a></button>
+    <div class="hero">
+        <img src="./images/Project Title2.png" alt="Hero background" class="hero-image">
+        <div class="hero-content">
+            <a href="#overview" class="explore-btn">Explore</a>
+        </div>
+    </div>
+
+    <main class="container">
+        <section id="overview">
+            <h2>Project Overview</h2>
+            <p>Natural Language Input (NLI) explores how users can effectively interact with AI systems through natural language, focusing on improving the fine-tuning process of Large Text and Graphics Models (LTGM). Our research investigates ways to bridge the gap between user intent and system output while making the interaction more intuitive and efficient.</p>
+        </section>
+
+        <section id="problems">
+            <h2>Key Challenges</h2>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <h3>Ambiguous Natural Language</h3>
+                    <p>Users struggle to express their intents in ways that AI systems can accurately interpret, leading to misaligned outputs and frustration.</p>
+                </div>
+                <div class="problem-card">
+                    <h3>Alignment Problem</h3>
+                    <p>There's often a disconnect between high-level user goals and the specific, executable actions of the computer system.</p>
+                </div>
+                <div class="problem-card">
+                    <h3>Black Box Problem</h3>
+                    <p>Users without domain-specific knowledge struggle to understand system mechanisms and formulate effective queries.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="research" class="research-section">
+            <h2>Research Process</h2>
+            <p>Our research combined analysis of existing solutions like VoiceCuts [CHI '19], Stylette [CHI '22], and Grounded Abstraction Matching [CHI '23] with our own user studies and prototyping.</p>
+
+            <div class="image-placeholder">
+                [Research timeline visualization]
+            </div>
+
+            <h3>Key Research Insights</h3>
+            <ul>
+                <li>Users benefit from natural language feedback that explains system interpretation</li>
+                <li>Component selection helps users specify intent during fine-tuning</li>
+                <li>Vocal input can be effectively translated into specific, executable commands</li>
+            </ul>
+        </section>
+
+        <section id="solution">
+            <h2>Our Solution</h2>
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <h3>Component Selection</h3>
+                    <p>Allows users to select specific parts of generated content they want to keep or modify, making the fine-tuning process more intuitive.</p>
+                </div>
+                <div class="solution-card">
+                    <h3>Vocal Input Translation</h3>
+                    <p>Translates natural language utterances into specific, executable commands that the system can understand and act upon.</p>
+                </div>
+                <div class="solution-card">
+                    <h3>Natural Language Feedback</h3>
+                    <p>Provides clear feedback about how the system interprets user inputs, helping users build a better mental model of the system.</p>
+                </div>
+            </div>
+
+            <div class="image-placeholder">
+                [Interface demonstration]
+            </div>
+        </section>
+
+        <section id="outcomes">
+            <h2>Impact & Future Directions</h2>
+            <p>Our research demonstrates that by combining component selection, vocal input, and natural language feedback, we can create more intuitive and effective ways for users to fine-tune AI system outputs. Future work will focus on:</p>
+            <ul>
+                <li>Expanding prompt engineering capabilities</li>
+                <li>Improving system understanding as complexity increases</li>
+                <li>Developing more sophisticated natural language translation mechanisms</li>
+            </ul>
+        </section>
+        <section id="design-process">
+            <h2>Design Process</h2>
+            <div class="process-timeline">
+                <div class="timeline-item">
+                    <h3>Initial Sketches</h3>
+                    <div class="image-placeholder">
+                        [Initial sketches showing prompt writing interface]
+                    </div>
+                    <ul>
+                        <li>Produces low-level keywords from high-level interactions</li>
+                        <li>Provides faster, more intuitive way to generate/remove images</li>
+                        <li>Suggests new considerations for exploring diverse aspects</li>
+                        <li>Incorporates negative prompting for better image styles</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Improved Sketches</h3>
+                    <div class="image-placeholder">
+                        [Wireframes showing component selection]
+                    </div>
+                    <ul>
+                        <li>Image component selection for keeping desired elements</li>
+                        <li>Natural language feedback for system understanding</li>
+                        <li>Vocal feedback integration for immediate adjustments</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Final Prototype</h3>
+                    <div class="image-placeholder">
+                        [Final interface demonstration]
+                    </div>
+                    <p>Combined approach featuring:</p>
+                    <ul>
+                        <li>Component selection for precise control</li>
+                        <li>Vocal input translation</li>
+                        <li>Natural language feedback system</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="user-testing">
+            <h2>User Testing & Iterations</h2>
+            <div class="testing-grid">
+                <div class="testing-card">
+                    <h3>First Round Testing</h3>
+                    <p>Key findings:</p>
+                    <ul>
+                        <li>Users wanted more control over specific components</li>
+                        <li>Natural language feedback needed clearer structure</li>
+                        <li>Vocal input required better error handling</li>
+                    </ul>
+                </div>
+
+                <div class="testing-card">
+                    <h3>Iterations</h3>
+                    <p>Improvements made:</p>
+                    <ul>
+                        <li>Enhanced component selection interface</li>
+                        <li>Restructured feedback presentation</li>
+                        <li>Improved vocal input recognition</li>
+                    </ul>
+                </div>
+
+                <div class="testing-card">
+                    <h3>Final Testing</h3>
+                    <p>Results:</p>
+                    <ul>
+                        <li>Increased user confidence in system interaction</li>
+                        <li>Better understanding of system capabilities</li>
+                        <li>More efficient fine-tuning process</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="technical-details">
+            <h2>Technical Implementation</h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h3>Natural Language Processing</h3>
+                    <p>Implementation details for converting user input into system commands</p>
+                    <div class="image-placeholder">
+                        [NLP system diagram]
+                    </div>
+                </div>
+
+                <div class="tech-card">
+                    <h3>Component Selection System</h3>
+                    <p>Technical architecture for interactive selection and modification</p>
+                    <div class="image-placeholder">
+                        [Component selection workflow]
+                    </div>
+                </div>
+
+                <div class="tech-card">
+                    <h3>Feedback Generation</h3>
+                    <p>System for generating clear, actionable feedback</p>
+                    <div class="image-placeholder">
+                        [Feedback system diagram]
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="research-details">
+            <h2>Research Deep Dive</h2>
+            <div class="research-content">
+                <h3>Related Work Analysis</h3>
+                <p>Our research built upon several key papers:</p>
+                <ul>
+                    <li>VoiceCuts [CHI '19] - Voice input for creative applications</li>
+                    <li>Stylette [CHI '22] - Natural language for web styling</li>
+                    <li>Grounded Abstraction Matching [CHI '23] - Bridging abstraction gaps</li>
+                </ul>
+
+                <h3>Novel Contributions</h3>
+                <p>Our work extends existing research by:</p>
+                <ul>
+                    <li>Combining vocal input with component selection</li>
+                    <li>Implementing real-time natural language feedback</li>
+                    <li>Creating a more intuitive fine-tuning process</li>
+                </ul>
+            </div>
+        </section>
+        <!-- New Technical Implementation Section -->
+    <section id="technical-implementation">
+        <h2>Technical Deep Dive</h2>
+        
+        <div class="implementation-tabs">
+            <button class="tab active" data-tab="architecture">Architecture</button>
+            <button class="tab" data-tab="nlp">NLP System</button>
+            <button class="tab" data-tab="components">Component Selection</button>
+        </div>
+
+        <div class="tab-content active" id="architecture">
+            <h3>System Architecture</h3>
+            <div class="code-block">
+                // Core system architecture
+                class NLISystem {
+                    constructor() {
+                        this.nlpProcessor = new NLPProcessor();
+                        this.componentSelector = new ComponentSelector();
+                        this.feedbackGenerator = new FeedbackGenerator();
+                    }
+
+                    processInput(userInput) {
+                        const parsedIntent = this.nlpProcessor.parseInput(userInput);
+                        const selectedComponents = this.componentSelector.identify(parsedIntent);
+                        const feedback = this.feedbackGenerator.generate(parsedIntent, selectedComponents);
+                        return { parsedIntent, selectedComponents, feedback };
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="tab-content" id="nlp">
+            <h3>Natural Language Processing</h3>
+            <div class="code-block">
+                class NLPProcessor {
+                    parseInput(input) {
+                        // Intent classification
+                        const intent = this.classifyIntent(input);
+                        
+                        // Entity extraction
+                        const entities = this.extractEntities(input);
+                        
+                        // Action mapping
+                        const actions = this.mapToActions(intent, entities);
+                        
+                        return { intent, entities, actions };
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="tab-content" id="components">
+            <h3>Component Selection System</h3>
+            <div class="code-block">
+                class ComponentSelector {
+                    identify(parsedIntent) {
+                        // Component identification logic
+                        const relevantComponents = this.findRelevantComponents(parsedIntent);
+                        
+                        // Selection validation
+                        const validatedSelection = this.validateSelection(relevantComponents);
+                        
+                        return validatedSelection;
+                    }
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section id="interactive-demo">
+        <h2>System in Action</h2>
+        <div class="demo-container">
+            <div class="interactive-demo">
+                <label for="user-input">Try the system:</label>
+                <input type="text" id="user-input" class="demo-input" placeholder="Enter your command (e.g., 'Make the background darker')">
+                <div class="demo-output" id="system-output">
+                    System response will appear here...
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Example Use Cases -->
+    <section id="example-use-cases">
+        <h2>Example Use Cases</h2>
+        
+        <div class="system-example">
+            <div class="example-input">
+                <h3>User Input</h3>
+                <p>"Generate a photograph of a cat, but make it more playful and add some toys"</p>
+            </div>
+            <div class="example-output">
+                <h3>System Response</h3>
+                <div class="step-sequence">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div>Intent Recognition: Image modification with specific attributes</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div>Component Selection: Main subject (cat) and environment (toys)</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div>Attribute Application: Playful expression, dynamic pose</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="system-example">
+            <div class="example-input">
+                <h3>User Input</h3>
+                <p>"Make the lighting more dramatic and increase contrast"</p>
+            </div>
+            <div class="example-output">
+                <h3>System Response</h3>
+                <div class="step-sequence">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div>Parameter Identification: Lighting and contrast</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div>Value Adjustment: Increasing dramatic lighting effects</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div>Feedback Generation: Visual preview and adjustment options</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    </main>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.from(".problem-card", {
+            scrollTrigger: {
+                trigger: ".problem-grid",
+                start: "top center",
+                toggleActions: "play none none reverse"
+            },
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2
+        });
+
+        gsap.from(".solution-card", {
+            scrollTrigger: {
+                trigger: ".solution-grid",
+                start: "top center",
+                toggleActions: "play none none reverse"
+            },
+            x: -50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2
+        });
+        sap.from(".timeline-item", {
+    scrollTrigger: {
+        trigger: ".process-timeline",
+        start: "top center",
+        toggleActions: "play none none reverse"
+    },
+    y: 50,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.3
+});
+
+gsap.from(".testing-card", {
+    scrollTrigger: {
+        trigger: ".testing-grid",
+        start: "top center",
+        toggleActions: "play none none reverse"
+    },
+    y: 50,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.2
+});
+
+gsap.from(".tech-card", {
+    scrollTrigger: {
+        trigger: ".tech-grid",
+        start: "top center",
+        toggleActions: "play none none reverse"
+    },
+    x: -50,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.2
+});
+ // Tab functionality
+ document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Interactive demo functionality
+        const userInput = document.getElementById('user-input');
+        const systemOutput = document.getElementById('system-output');
+
+        userInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                const input = e.target.value;
+                // Simulate system processing
+                setTimeout(() => {
+                    systemOutput.innerHTML = `Processing: "${input}"<br><br>System: I understand you want to ${input.toLowerCase()}. Here's how I can help...`;
+                }, 500);
+            }
+        });
+
+        // Intersection Observer for fade-in animations
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        });
+
+        document.querySelectorAll('.fade-in').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Enhanced GSAP animations
+        gsap.from(".system-example", {
+            scrollTrigger: {
+                trigger: ".system-example",
+                start: "top center",
+                toggleActions: "play none none reverse"
+            },
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.3
+        });
+
+        gsap.from(".step", {
+            scrollTrigger: {
+                trigger: ".step-sequence",
+                start: "top center",
+                toggleActions: "play none none reverse"
+            },
+            x: -50,
+            opacity: 0,
+            duration: 0.5,
+            stagger: 0.2
+        });
+        
+    </script>
+</body>
+</html>
+>>>>>>> e49d2a3 (Initial commit with foler content)

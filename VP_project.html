@@ -1,0 +1,1784 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Pathways - Jana Bridi</title>
+    <style>
+        /* Base styles from previous portfolio */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            background-color: #18181B;
+            color: white;
+            padding-top: 6rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Project Header */
+        .project-header {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 6rem 0;
+        }
+
+        .project-title {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            color: #F97316;
+        }
+
+        .project-hero-img {
+            width: 100%;
+            border-radius: 1rem;
+            margin: 2rem 0;
+        }
+
+        /* Project Info */
+        .project-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+            margin: 4rem 0;
+            padding: 2rem;
+            background-color: #27272A;
+            border-radius: 1rem;
+        }
+
+        .info-column h2 {
+            font-size: 1.5rem;
+            color: #F97316;
+            margin-bottom: 1rem;
+        }
+
+        .info-column p {
+            color: #A1A1AA;
+            margin-bottom: 2rem;
+        }
+
+        /* Project Content */
+        .project-section {
+            margin: 6rem 0;
+        }
+
+        .project-section h3 {
+            font-size: 2rem;
+            color: #F97316;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-section p {
+            color: #A1A1AA;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .problem-statement {
+            background-color: #27272A;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 2rem 0;
+            border-left: 4px solid #F97316;
+        }
+
+        /* Research Section */
+        .research-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .research-card {
+            background-color: #27272A;
+            padding: 2rem;
+            border-radius: 1rem;
+        }
+
+        .research-card h4 {
+            color: #F97316;
+            margin-bottom: 1rem;
+        }
+
+        .research-card ul {
+            list-style: none;
+            color: #A1A1AA;
+        }
+
+        .research-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Images and Media */
+        .image-container {
+            margin: 2rem 0;
+        }
+
+        .image-container img {
+            width: 100%;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .image-caption {
+            color: #A1A1AA;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .project-info-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .research-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-title {
+                font-size: 3rem;
+            }
+        }
+        .research-block {
+    margin-bottom: 4rem;
+}
+
+.research-block h4 {
+    color: #F97316;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.analysis-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #27272A;
+    border-radius: 1rem;
+    overflow: hidden;
+    margin: 2rem 0;
+}
+
+.analysis-table th,
+.analysis-table td {
+    padding: 1.5rem;
+    text-align: left;
+}
+
+.analysis-table th {
+    background-color: #F97316;
+    color: white;
+}
+
+.analysis-table td {
+    color: #A1A1AA;
+}
+
+.analysis-table ul {
+    list-style: none;
+    padding: 0;
+}
+
+.analysis-table li {
+    margin-bottom: 0.5rem;
+}
+
+.quote-card {
+    background-color: #27272A;
+    padding: 2rem;
+    border-radius: 1rem;
+    margin: 2rem 0;
+    border-left: 4px solid #F97316;
+}
+
+.quote-card p {
+    font-style: italic;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.quote-card cite {
+    color: #A1A1AA;
+}
+
+.findings-grid img {
+    width: 100%;
+    border-radius: 1rem;
+    margin: 2rem 0;
+}
+
+.prototype-block {
+    margin-bottom: 4rem;
+}
+
+.prototype-block h4 {
+    color: #F97316;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.image-grid figure {
+    text-align: center;
+}
+
+.image-grid img {
+    width: 100%;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+}
+
+.image-grid figcaption {
+    color: #A1A1AA;
+}
+
+.feedback-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.feedback-card {
+    background-color: #27272A;
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.feedback-card h5 {
+    color: #F97316;
+    margin-bottom: 1rem;
+}
+
+.feedback-card ul {
+    list-style: none;
+    padding: 0;
+    color: #A1A1AA;
+}
+
+.feature-showcase {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.feature {
+    background-color: #27272A;
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.feature img {
+    width: 100%;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.feature-description h5 {
+    color: #F97316;
+    margin-bottom: 1rem;
+}
+
+.feature-description p {
+    color: #A1A1AA;
+}
+
+@media (max-width: 768px) {
+    .feedback-grid,
+    .feature-showcase,
+    .image-grid {
+        grid-template-columns: 1fr;
+    }
+}
+ /* Navigation Styles */
+ .main-nav {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            background: rgba(24, 24, 27, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: calc(100% - 4rem);
+            max-width: 1200px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .logo:hover {
+            color: #F97316;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.875rem;
+        }
+
+        .nav-links a:hover {
+            color: #F97316;
+        }
+        @media (max-width: 768px) {
+            .main-nav {
+                flex-direction: column;
+                gap: 1rem;
+                top: 0;
+                width: 100%;
+                border-radius: 0;
+                padding: 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            body {
+                padding-top: 8rem;
+            }
+        }
+
+        <style>
+    .findings-container {
+        padding: 2rem;
+        margin: 2rem 0;
+        background-color: #27272A;
+        border-radius: 1rem;
+    }
+
+    .findings-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .findings-column {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .findings-header {
+        background-color: #2F5061;
+        color: white;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .findings-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .finding-item {
+        background-color: #E5E7EB;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        color: #1F2937;
+    }
+
+    .theme-box {
+        background-color: #CBD5E1;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        color: #1F2937;
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .solution-item {
+        background-color: #2F5061;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        color: white;
+        margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .findings-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <a href="index.html" class="logo">JB</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#works">Selected Works</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="https://docs.google.com/document/d/1t1_m6O4Gym2jisck62LkEFu7Hahhc5FKJzOWG4fY89g/edit?usp=sharing" target="_blank">Resume</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Project Header -->
+        <section class="project-header">
+            <h1 class="project-title">Visual Pathways</h1>
+            <img src="Project Title.png" alt="Visual Pathways Hero Image" class="project-hero-img">
+
+            <!-- Project Info Grid -->
+            <div class="project-info-grid">
+                <div class="info-column">
+                    <h2>Project Type</h2>
+                    <p>Mobile Application</p>
+                    <h2>Timeline</h2>
+                    <p>January 2024 - March 2024</p>
+                </div>
+                <div class="info-column">
+                    <h2>Role</h2>
+                    <p>UX Designer, Researcher</p>
+                    <h2>Team</h2>
+                    <p>6 Designers</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Background Section -->
+        <section class="project-section">
+            <h3>Background</h3>
+            <p>This project was made for a upper division design class here at UC San Diego called Social Computing. In this class we explore the intersection between social behavior and computational systems. The final project for this class was to design a social computing experience that is functional and can be "played" by multiple people within a specific setting.</p>
+        </section>
+
+        <!-- Challenge Section -->
+        <section class="project-section">
+            <h3>The Challenge</h3>
+            <p>In today's job market, a staggering 70% of American workers find themselves unsatisfied with their career choices, a condition that emphasises an issue of career misalignment and dissatisfaction.</p>
+        </section>
+
+        <!-- Solution Section -->
+        <section class="project-section">
+            <h3>Solution</h3>
+            <p>Visual Pathways directly tackles the challenge of career dissatisfaction through an immersive VR platform that builds upon conventional career guidance methods. By simulating real-life work experiences across various industries, it allows students to explore and understand different career paths through virtual reality.</p>
+            
+            <div class="problem-statement">
+                <h4>Problem Statement</h4>
+                <p>"How can we design an immersive app that addresses widespread career dissatisfaction by offering interactive, VR-based simulations of various professions, guided by industry professionals, to provide users with a comprehensive and engaging way to explore potential career paths, better aligning their skills and interests with real-world job expectations?"</p>
+            </div>
+        </section>
+
+        <!-- Research Section Preview -->
+        <section class="project-section">
+            <h3>Research Highlights</h3>
+            <div class="research-grid">
+                <div class="research-card">
+                    <h4>Competitive Analysis</h4>
+                    <p>Analyzed 3+ competing products in the career guidance space</p>
+                </div>
+                <div class="research-card">
+                    <h4>User Interviews</h4>
+                    <p>Conducted interviews with students and industry professionals</p>
+                </div>
+            </div>
+        </section>
+        <!-- Full Research Section -->
+        <section class="project-section">
+            <h3>Research Process</h3>
+            
+            <!-- Competitive Analysis -->
+            <div class="research-block">
+                <h4>Competitive Analysis</h4>
+                <div class="comp-analysis">
+                    <table class="analysis-table">
+                        <thead>
+                            <tr>
+                                <th>Competitors</th>
+                                <th>Strengths</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Transfr</td>
+                                <td>
+                                    <ul>
+                                        <li>Student exploration through short accessible sessions</li>
+                                        <li>Career selection with dual enrollment credits</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>CareerLabsVR</td>
+                                <td>
+                                    <ul>
+                                        <li>Tools for career practitioners</li>
+                                        <li>Comprehensive e-learning modules and resources</li>
+                                        <li>Regular subscriber support and community practice</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Interview Insights -->
+            <div class="research-block">
+                <h4>Interview Insights</h4>
+                <div class="quote-card">
+                    <p>"I think having the options to do both [shadowing in person and VR] would be awesome, but I think it's crucial to be able to do it [shadowing] in person."</p>
+                    <cite>- Taj, High School Student</cite>
+                </div>
+                <div class="findings-container">
+                    <div class="findings-grid">
+                        <!-- Interview Research Column -->
+                        <div class="findings-column">
+                            <div class="findings-header">Interview Research</div>
+                            <div class="findings-content">
+                                <div class="finding-item">Careers Fairs are unorganized</div>
+                                <div class="finding-item">There is little to no guidance based on interests</div>
+                                <div class="finding-item">People value an in-person career exploration</div>
+                                <div class="finding-item">Employers want people to understand the job and technical requirements</div>
+                                <div class="finding-item">People are excited about VR</div>
+                                <div class="finding-item">People want 1:1 or small group interaction</div>
+                                <div class="finding-item">Employers want people actually interested in their field, not everyone</div>
+                            </div>
+                        </div>
+                
+                        <!-- Themes Column -->
+                        <div class="findings-column">
+                            <div class="findings-header">Themes</div>
+                            <div class="findings-content">
+                                <div class="theme-box">Organization</div>
+                                <div class="theme-box">Co-Location</div>
+                                <div class="theme-box">Technical Skills and Interests</div>
+                            </div>
+                        </div>
+                
+                        <!-- Solutions Column -->
+                        <div class="findings-column">
+                            <div class="findings-header">Solutions</div>
+                            <div class="findings-content">
+                                <div class="solution-item">Our app provides scheduling and even organization</div>
+                                <div class="solution-item">Participants are screened and guided based on their interests</div>
+                                <div class="solution-item">Our app is used in person where people will talk face to face or in small group</div>
+                                <div class="solution-item">The VR shadowing demonstrates to students the technical requirements</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prototyping Section -->
+        <section class="project-section">
+            <h3>Prototyping Process</h3>
+            
+            <!-- Design Goals -->
+            <div class="prototype-block">
+                <h4>Design Goals</h4>
+                <p>Based on our research, we identified that career fairs are often disorganized and lack personalized guidance. Users showed strong interest in VR-based career exploration and job shadowing experiences.</p>
+                
+                <div class="image-grid">
+                    <figure>
+                        <img src="user flow.jpg" alt="User Flow Diagram" class="process-image">
+                        <figcaption>User Flow Diagram</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="lofi.png" alt="Low-fidelity Wireframes" class="process-image">
+                        <figcaption>Low-fidelity Wireframes</figcaption>
+                    </figure>
+                </div>
+            </div>
+
+            <!-- First Iteration -->
+            <div class="prototype-block">
+                <h4>First Iteration</h4>
+                <div class="prototype-features">
+                    <ul>
+                        <li>Personality quiz implementation</li>
+                        <li>VR demo videos from top 3 matches</li>
+                        <li>Slack integration for recruiter communication</li>
+                        <li>In-person recruiter meetings and aptitude tests</li>
+                    </ul>
+                </div>
+
+                <div class="feedback-grid">
+                    <div class="feedback-card">
+                        <h5>In-person Feedback</h5>
+                        <ul>
+                            <li>Aptitude tests translation issues</li>
+                            <li>Overcrowding at popular career stations</li>
+                            <li>Low Slack engagement</li>
+                        </ul>
+                    </div>
+                    <div class="feedback-card">
+                        <h5>Survey Feedback</h5>
+                        <ul>
+                            <li>Career relevance concerns</li>
+                            <li>Positive quiz experience</li>
+                            <li>Engaging VR demonstrations</li>
+                        </ul>
+                    </div>
+                    <div class="feedback-card">
+                        <h5>IA Feedback</h5>
+                        <ul>
+                            <li>Limited VR interaction</li>
+                            <li>Unclear recruiter benefits</li>
+                            <li>Disconnected networking experience</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Iteration -->
+            <div class="prototype-block">
+                <h4>Second Iteration Improvements</h4>
+                <div class="improvements-grid">
+                    <div class="improvement-card">
+                        <h5>Career Relevance</h5>
+                        <p>Expanded career options beyond available VR demos, focusing on interactive experiences rather than pre-recorded content.</p>
+                    </div>
+                    <div class="improvement-card">
+                        <h5>Interactive VR Experience</h5>
+                        <p>Implemented joint VR sessions where students and recruiters could interact during demonstrations.</p>
+                    </div>
+                    <div class="improvement-card">
+                        <h5>Recruiter Benefits</h5>
+                        <p>Enhanced recruiter engagement through direct interaction and talent identification capabilities.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Final Design -->
+            <div class="prototype-block">
+                <h4>Final Design</h4>
+                <div class="final-design-showcase">
+                    <div class="design-preview">
+                        <img src="Recording2024-03-21141052-ezgif.com-video-to-gif-converter.gif" alt="Final Prototype Demo" class="prototype-gif">
+                    </div>
+                    
+                    <div class="style-guide">
+                        <h5>Style Guide</h5>
+                        <p>Our final design embraces a futuristic aesthetic to complement the VR experience.</p>
+                        <img src="components.png" alt="Design Components" class="components-image">
+                    </div>
+
+                    <div class="feature-showcase">
+                        <div class="feature">
+                            <img src="scheduling-ezgif.com-video-to-gif-converter.gif" alt="Scheduling Feature" class="feature-gif">
+                            <div class="feature-description">
+                                <h5>Scheduling</h5>
+                                <p>Personalized career recommendations with integrated VR session scheduling and professional meetings.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature">
+                            <img src="GIFMaker_me (1).gif" alt="Social Features" class="feature-gif">
+                            <div class="feature-description">
+                                <h5>Socialization</h5>
+                                <p>Integrated communication platform for professionals and students, enabling messaging and network building.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Pathways Case Study - VR Career Exploration</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --text: #1f2937;
+            --bg: #f8fafc;
+            --accent: #3b82f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+.hero {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+        .hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-content {
+    position: absolute;
+    left: 50%;
+    bottom: 10%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+.explore-btn {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background-color: white;
+    color: var(--primary);
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.explore-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section:nth-child(even) {
+            background: white;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--secondary);
+        }
+
+        .section-subtitle {
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem;
+            color: var(--primary);
+        }
+
+        .problem-section {
+            background: linear-gradient(rgba(0,0,0,0.02), rgba(0,0,0,0.05));
+            padding: 4rem 0;
+            margin-top: -5rem;
+        }
+
+        .problem-quote {
+            font-style: italic;
+            font-size: 1.25rem;
+            color: var(--text);
+            max-width: 800px;
+            margin: 2rem auto;
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .impact-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .impact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .key-stat {
+            font-size: 2.5rem;
+            color: var(--primary);
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 3rem auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: var(--accent);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+
+        .timeline-item {
+            padding: 1rem 2rem;
+            position: relative;
+            width: 50%;
+            margin: 2rem 0;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            top: 50%;
+            right: -10px;
+            margin-top: -10px;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            left: -10px;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .competitors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.competitor-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.competitor-logo {
+    max-width: 200px;
+    margin-bottom: 1rem;
+}
+
+
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .research-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .prototype-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .prototype-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .prototype-img {
+            width: 100%;
+            height: 800px;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+
+        .prototype-content {
+            padding: 1.5rem;
+        }
+
+        .quote {
+            font-style: italic;
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+            margin: 1rem 0;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .navigation {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item::after {
+                left: 21px;
+            }
+        }
+
+        .design-phase {
+    margin: 4rem 0;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.flow-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 2rem 0;
+    position: relative;
+}
+
+.flow-step {
+    background: var(--background);
+    padding: 1.5rem;
+    border-radius: 8px;
+    position: relative;
+    margin-left: 2rem;
+    border-left: 4px solid var(--primary);
+}
+
+.flow-step::before {
+    content: '';
+    position: absolute;
+    left: -2.5rem;
+    top: 50%;
+    width: 1rem;
+    height: 1rem;
+    background: var(--primary);
+    border-radius: 50%;
+    transform: translateY(-50%);
+}
+
+.interface-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.interface-item {
+    background: var(--background);
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .flow-diagram {
+        margin-left: 1rem;
+    }
+    
+    .interface-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    * {box-sizing:border-box}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+.text {
+  color: #1f2937;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+}
+
+.floating-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #007bff;
+      color: white;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .floating-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+
+    /* Optional: Add animation for button appearance */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .floating-button {
+      animation: fadeIn 0.5s ease-out;
+    }
+    </style>
+</head>
+<body>
+    <nav class="navigation">
+        <ul class="nav-links">
+            <li><a href="#problem">Problem</a></li>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#research">Research</a></li>
+            <li><a href="#ideation">Ideation</a></li>
+            <li><a href="#prototypes">Prototypes</a></li>
+            <li><a href="#solution">Final Solution</a></li>
+        </ul>
+    </nav>
+
+    <!--<div class="hero">
+        <div class="hero-content">-->
+            <div class="hero">
+                <img src="./images/Project Title.png" alt="Hero background" class="hero-image">
+                <div class="hero-content">
+                    <a href="#overview" class="explore-btn">Explore</a>
+                </div>
+            </div>
+           <!-- <h1>Visual Pathways</h1>
+            <p>Revolutionizing career exploration through virtual reality</p>-->
+            <button class="floating-button"><a href ="index.html">Home</a></button>
+        
+    </div>
+
+    <section id="problem" class="problem-section">
+        <div class="container">
+            <h2 class="section-title">The Problem</h2>
+            
+            <div class="problem-quote">
+                "The average person will change careers 5-7 times during their working life, yet most students feel unprepared to make even their first career choice."
+            </div>
+
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <div class="impact-icon">🎓</div>
+                    <h3>Student Struggle</h3>
+                    <div class="key-stat">41%</div>
+                    <p>of students feel unprepared to make a career choice at graduation</p>
+                </div>
+                
+                <div class="impact-card">
+                    <div class="impact-icon">💼</div>
+                    <h3>Career Dissatisfaction</h3>
+                    <div class="key-stat">70%</div>
+                    <p>of American workers are unsatisfied with their career choices</p>
+                </div>
+                
+                <div class="impact-card">
+                    <div class="impact-icon">🎯</div>
+                    <h3>Engagement Gap</h3>
+                    <div class="key-stat">80%</div>
+                    <p>of students want deeper knowledge about their aptitudes</p>
+                </div>
+            </div>
+            </div>
+            <!-- Final Interface Mockups -->
+        <div class="design-phase">
+            <h3>Final Interface Design</h3>
+            <div class="interface-grid">
+                <div class="interface-item">
+                        <img src="./images/Profile Creation (1).png" alt="Profile Creation Screen">
+                    <p>User profile creation and onboarding</p>
+                </div>
+                <div class="interface-item">
+                    <div class="image-placeholder">
+                        <img src="./images/Matching Quiz (2).png" alt="Career Matching Interface">
+                    </div>
+                    <p>Career quiz and results visualization</p>
+                </div>
+                <div class="interface-item">
+                    <div class="image-placeholder">
+                        <img src="./images/Schedule - Bryan (1).png" alt="Schedule Management">
+                    </div>
+                    <p>Automated scheduling system</p>
+                </div>
+                <div class="interface-item">
+                    <div class="image-placeholder">
+                        <img src="./images/VR buffer (2).png" alt="VR Buffer Screen">
+                    </div>
+                    <p>Interactive VR career exploration space</p>
+                </div>
+                <div class="interface-item">
+                    <div class="image-placeholder">
+                        <img src="./images/Search (LinkedIn) (1).png" alt="meet">s
+                    </div>
+                    <p>Follow up connections after Career Fair</p>
+                </div>
+               
+            </div>
+        </div>
+    </section>
+
+            <div class="research-grid">
+                <div class="research-card">
+                    <h3>Current Challenges</h3>
+                    <ul>
+                        <li>Traditional career fairs are overwhelming and impersonal</li>
+                        <li>Limited opportunities for hands-on career exploration</li>
+                        <li>Difficulty connecting with industry professionals</li>
+                        <li>Lack of personalized career guidance</li>
+                    </ul>
+                </div>
+                
+                <div class="research-card">
+                    <h3>Impact on Society</h3>
+                    <ul>
+                        <li>Increased student loan debt from changing majors</li>
+                        <li>Lower job satisfaction and productivity</li>
+                        <li>Higher turnover rates in early career positions</li>
+                        <li>Missed opportunities for both students and employers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="overview" class="section">
+        <div class="container">
+            <h2 class="section-title">Project Overview</h2>
+            <div class="research-grid">
+                <div class="research-card">
+                    <h3>Social Context</h3>
+                    <p>High school and early college students in the stages of career exploration who are uncertain about their path due to unfamiliarity with different professions.</p>
+                </div>
+                <div class="research-card">
+                    <h3>Our Solution</h3>
+                    <p>A VR-powered platform that combines personalized career matching, immersive job shadowing, and meaningful connections with industry professionals.</p>
+                </div>
+                <div class="research-card">
+                    <h3>Expected Impact</h3>
+                    <p>Help students make more informed career decisions through hands-on experience and direct interaction with professionals in their field of interest.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="research" class="section">
+        <div class="container">
+            <h2 class="section-title">Research & Discovery</h2>
+            
+            <h3 class="section-subtitle">User Research</h3>
+            <div class="research-grid">
+                <div class="research-card">
+                    <h4>Methodology</h4>
+                    <p>Conducted 4 semi-structured interviews with:</p>
+                    <ul>
+                        <li>2 college students</li>
+                        <li>1 high school student</li>
+                        <li>1 industry professional</li>
+                    </ul>
+                </div>
+                <div class="research-card">
+                    <h4>Key Findings</h4>
+                    <ul>
+                        <li>Career fairs are overwhelming and disorganized</li>
+                        <li>Students value in-person interaction</li>
+                        <li>Professionals want to connect with motivated students</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quote">
+                "I think having the option to do both [shadowing in person and VR] would be awesome, but I think it's crucial to be able to do it [shadowing] in person."
+                <br>- Taj, High School Student
+            </div>
+        </div>
+    </section>
+    <!-- Competitive Analysis Section -->
+<section id="competitive-analysis">
+    <h2>Competitive Analysis</h2>
+    <div class="competitors-grid">
+        <div class="competitor-card">
+            <img src="./images/transfr logo.png" alt="Transfr logo" class="competitor-logo">
+            <h3>Transfr</h3>
+            <div class="competitor-details">
+                <p>A student explores career possibilities with short accessible sessions in Career Exploration</p>
+                <ul>
+                    <li>Career selection leads to training with dual enrollment credits</li>
+                    <li>Requires paid access for full features</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="competitor-card">
+            <img src="./images/careerlabsvr.png" alt="CareerLabsVR logo" class="competitor-logo">
+            <h3>CareerLabsVR</h3>
+            <div class="competitor-details">
+                <p>Develop tools to assist career practitioners and those who assist in guiding career choices.</p>
+                <ul>
+                    <li>E-learning modules for VR facilitators</li>
+                    <li>Comprehensive resources including observation forms, walkthrough videos</li>
+                    <li>Career info sheets with salary information (US and Canada)</li>
+                    <li>Community of practice support calls</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+    <section id="design-process">
+        <h2>Design Process & User Flow</h2>
+        
+        <!-- Initial Wire Frames -->
+        <div class="design-phase">
+            <h3>Initial Wireframes - Week 4</h3>
+            <div class="image-placeholder">
+                <img src="./images/lofi.png" alt="lofi" >
+            </div>
+            <p>Our first design iteration explored:</p>
+            <ul>
+                <li>Basic career quiz functionality</li>
+                <li>VR demonstration space layout</li>
+                <li>Initial organization of career fair scheduling</li>
+                <li>Communication channels between students and recruiters</li>
+            </ul>
+        </div>
+    
+        <!-- User Flow -->
+        <div class="design-phase">
+            <h3>User Flow - Prototype 1</h3>
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <h4>1. Career Quiz</h4>
+                    <p>Students complete personalized career matching assessment</p>
+                </div>
+                <div class="flow-step">
+                    <h4>2. VR Demo Videos</h4>
+                    <p>Watch top 3 career matches through VR demonstrations (sourced from Transfr)</p>
+                </div>
+                <div class="flow-step">
+                    <h4>3. Slack Integration</h4>
+                    <p>Join communication channels with recruiters</p>
+                </div>
+                <div class="flow-step">
+                    <h4>4. In-Person Meeting</h4>
+                    <p>Visit preferred career table for recruiter discussion and aptitude tests</p>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Iteration & Improvements -->
+        <div class="design-phase">
+            <h3>Prototype 2 - Refined Flow</h3>
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <h4>1. Enhanced Career Quiz</h4>
+                    <p>Improved matching algorithm with more relevant career options</p>
+                </div>
+                <div class="flow-step">
+                    <h4>2. Social Integration</h4>
+                    <p>Join Slack channels to connect with peers and industry professionals</p>
+                </div>
+                <div class="flow-step">
+                    <h4>3. Interactive VR Experience</h4>
+                    <p>Complete VR walkthrough and aptitude tests with recruiter guidance</p>
+                </div>
+                <div class="flow-step">
+                    <h4>4. Rotation & Networking</h4>
+                    <p>Explore second career match with same interactive format</p>
+                </div>
+                <div class="flow-step">
+                    <h4>5. Follow-up</h4>
+                    <p>Recruiters connect with top candidates for further networking</p>
+                </div>
+            </div>
+        </div>
+    
+        
+    <section id="ideation" class="section">
+        <div class="container">
+            <h2 class="section-title">Ideation & Design Process</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Problem Definition</h3>
+                        <p>Identified key pain points in career exploration</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>User Research</h3>
+                        <p>Conducted interviews and analyzed existing solutions</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Solution Design</h3>
+                        <p>Developed VR-based approach to career exploration</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Prototyping</h3>
+                        <p>Created and refined interactive prototypes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="prototypes" class="section">
+        <div class="container">
+            <h2 class="section-title">Prototypes & Iterations</h2>
+
+            <div class="prototype-showcase">
+                <div class="prototype-card">
+                   <!-- <div class="prototype-img">[Prototype 1 Screenshot]</div>-->
+                    <div class="slideshow-container">
+
+                        <!-- Full-width images with number and caption text -->
+                        <div class="mySlides fade">
+                          <div class="numbertext">1 / 3</div>
+                          <img src="./images/Slides Screen.png" style="width:100%">
+                          <div class="text">Slides from Prototype Presentation</div>
+                        </div>
+                      
+                        <div class="mySlides fade">
+                          <div class="numbertext">2 / 3</div>
+                          <img src="./images/Slides 2.png" style="width:100%">
+                          <div class="text">Slides From Prototype Presentation</div>
+                        </div>
+                      
+                        <div class="mySlides fade">
+                          <div class="numbertext">3 / 3</div>
+                          <img src="./images/Slack.png" style="width:100%">
+                          <div class="text">Slack Screen used </div>
+                        </div>
+                      
+                        <!-- Next and previous buttons -->
+                        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                      </div>
+                      <br>
+                      
+                      <!-- The dots/circles -->
+                      <div style="text-align:center">
+                        <span class="dot" onclick="currentSlide(1)"></span>
+                        <span class="dot" onclick="currentSlide(2)"></span>
+                        <span class="dot" onclick="currentSlide(3)"></span>
+                      </div>
+                    <div class="prototype-content">
+                        <h3>First Iteration</h3>
+                        <p>Initial Features:</p>
+                        <ul>
+                            <li>Career quiz matching</li>
+                            <li>Independent VR demo videos<li></li>
+
+                            <li>Slack integration for communication</li>
+                            <li>Basic aptitude tests</li>
+                        </ul>
+                        <h4>Key Learnings:</h4>
+                        <ul>
+                            <li>VR sessions needed more interaction</li>
+                            <li>Popular careers created bottlenecks</li>
+                            <li>Communication platform needed better integration</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="prototype-card">
+                    <div class="prototype-img">[Prototype 2 Screenshot]</div>
+                    <div class="prototype-content">
+                        <h3>Second Iteration</h3>
+                        <p>Improvements:</p>
+                        <ul>
+                            <li>Interactive VR environments</li>
+                            <li>Real-time collaboration with recruiters</li>
+                            <li>Enhanced matching algorithm</li>
+                            <li>Integrated communication system</li>
+                        </ul>
+                        <h4>User Feedback:</h4>
+                        <ul>
+                            <li>"This was really fun" - Student</li>
+                            <li>More engaging aptitude tests</li>
+                            <li>Better space utilization</li>
+                            <li>Improved recruiter interaction</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="research-grid">
+                <div class="research-card">
+                    <h3>What We Learned</h3>
+                    <p>Key insights from our prototyping process:</p>
+                    <ul>
+                        <li>VR experience must be interactive, not just observational</li>
+                        <li>Both students and recruiters need clear value propositions</li>
+                        <li>Integration of virtual and in-person experiences is crucial</li>
+                        <li>Communication tools must be seamlessly integrated</li>
+                    </ul>
+                </div>
+                <div class="research-card">
+                    <h3>How We Adapted</h3>
+                    <p>Changes made based on feedback:</p>
+                    <ul>
+                        <li>Redesigned VR interface for better interaction</li>
+                        <li>Added real-time collaboration features</li>
+                        <li>Improved matching algorithm accuracy</li>
+                        <li>Created integrated communication platform</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="solution" class="section">
+        <div class="container">
+            <h2 class="section-title">Final Solution</h2>
+
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <div class="impact-icon">🎯</div>
+                    <h3>Smart Matching</h3>
+                    <p>Personalized career recommendations through our intelligent matching algorithm</p>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-icon">🌐</div>
+                    <h3>Interactive VR</h3>
+                    <p>Immersive virtual environments for hands-on career exploration</p>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-icon">🤝</div>
+                    <h3>Real Connections</h3>
+                    <p>Meaningful interactions between students and industry professionals</p>
+                </div>
+            </div>
+
+            <div class="prototype-showcase">
+                <div class="prototype-card">
+                    <div class="prototype-img">
+                        <img src="./images/scheduling-ezgif.com-video-to-gif-converter.gif" alt="gif">
+                    </div>
+                    </div>
+                    <div class="prototype-content">
+                        <h3>User Interface</h3>
+                        <ul>
+                            <li>Clean, intuitive design</li>
+                            <li>Easy navigation between features</li>
+                            <li>Integrated messaging system</li>
+                            <li>Schedule management tools</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="prototype-card">
+                    <div class="prototype-img">
+                        <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/proto/4JamZs9t0clIU09Y0Y2U0p/Figma-cogs-123-cover?node-id=1-379&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A379&show-proto-sidebar=1&embed-host=share" allowfullscreen></iframe>
+                    </div>
+                    <div class="prototype-content">
+                        <h3>VR Experience</h3>
+                        <ul>
+                            <li>Interactive job simulations</li>
+                            <li>Real-time collaboration</li>
+                            <li>Virtual aptitude tests</li>
+                            <li>Guided career exploration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="research-grid">
+                <div class="research-card">
+                    <h3>Future Development</h3>
+                    <p>Planned features and improvements:</p>
+                    <ul>
+                        <li>Gamification elements for increased engagement</li>
+                        <li>Integration with educational institutions</li>
+                        <li>Enhanced analytics for career counselors</li>
+                        <li>Expanded career options and simulations</li>
+                    </ul>
+                </div>
+                <div class="research-card">
+                    <h3>Expected Impact</h3>
+                    <p>Long-term benefits of Visual Pathways:</p>
+                    <ul>
+                        <li>More informed career decisions</li>
+                        <li>Reduced career changes and associated costs</li>
+                        <li>Improved job satisfaction</li>
+                        <li>Better talent matching for employers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerCallback = (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(observerCallback, {
+            threshold: 0.1
+        });
+
+        // Observe all cards and sections
+        document.querySelectorAll('.research-card, .impact-card, .prototype-card').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+        let slideIndex = 1;
+showSlides(slideIndex);
+
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+}
+    </script>
+</body>
+</html>
+>>>>>>> e49d2a3 (Initial commit with foler content)
