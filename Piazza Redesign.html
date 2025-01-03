@@ -130,16 +130,93 @@
     .floating-button {
       animation: fadeIn 0.5s ease-out;
     }
+
+    .navigation {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+        }
+
+            .explore-btn {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background-color: white;
+    color: var(--primary);
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.explore-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
     </style>
 </head>
 <body>
-    <div class="hero">
-        <div class="container hero-content">
-            <h1>Piazza Mobile App Redesign</h1>
-            <p class="hero-subtitle">Enhancing the Mobile Discussion Board Experience</p>
-        </div>
+    <nav class="navigation">
+        <ul class="nav-links">
+            <li><a href="#problem">Problem</a></li>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#research">Research</a></li>
+            <li><a href="#ideation">Ideation</a></li>
+            <li><a href="#prototypes">Prototypes</a></li>
+            <li><a href="#solution">Final Solution</a></li>
+        </ul>
+    </nav>
+
+    <!--<div class="hero">
+        <div class="hero-content">-->
+            <div class="hero">
+                <img src="./images/ProjectTitle4.png" alt="Hero background" class="hero-image">
+                <div class="hero-content">
+                    <a href="#overview" class="explore-btn">Explore</a>
+                </div>
+            </div>
+           <!-- <h1>Visual Pathways</h1>
+            <p>Revolutionizing career exploration through virtual reality</p>-->
+            <button class="floating-button"><a href ="index.html">Home</a></button>
+        
     </div>
-    <button class="floating-button"><a href ="index.html">Home</a></button>
     <main class="container">
         <section id="overview">
             <h2>Project Overview</h2>

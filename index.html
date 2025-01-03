@@ -17,7 +17,23 @@
             line-height: 1.6;
             color: white;
             background-color: #18181B;
+            
         }
+        body {
+    cursor: default;
+    /* Using larger emoji as cursor with better positioning */
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' style='font-size:32px'><text y='25' x='4'>⭐</text></svg>"), auto;
+}
+
+
+a, 
+button,
+.main-nav a,
+.project-link,
+.contact-method a,
+.social-links a {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' style='font-size:32px'><text y='25' x='4'>🌟</text></svg>"), pointer;
+}
 
         /* Navigation Styles */
         .main-nav {
@@ -47,7 +63,7 @@
             color: #F97316;
         }
 
-        /* Hero Section 
+         Hero Section 
         .hero {
             min-height: 100vh;
             position: relative;
@@ -110,9 +126,9 @@
             opacity: 0;
             transform: translateX(-20px);
             animation: slideIn 0.8s ease forwards 1s;
-        }*/
+        }
 
-        .hero {
+      /*  .hero {
             padding: 100px 0;
             min-height: 100vh;
             display: flex;
@@ -159,12 +175,12 @@
             font-size: 1.2rem;
         }
 
-        .title-large h2 {
+       /* .title-large h2 {
             font-size: 2rem;
             color: #f7f2f2;
-        }
+        }*/
 
-        .profile-image {
+      /* .profile-image {
             flex: 0 0 400px;
             height: 400px;
             background: #f0f0f0;
@@ -192,8 +208,8 @@
 
             .hero-title {
                 font-size: 3rem;
-            }
-        }
+            }*/
+    
 
         /* Works Section */
         .works {
@@ -549,7 +565,7 @@
 }
 
 
-.profile-image {
+/*.profile-image {
             flex: 0 0 400px;
             height: 500px;
             background: #f0f0f0;
@@ -574,7 +590,7 @@
                 width: 100%;
                 height: 400px;
             }
-        }
+        }*/
     </style>
 </head>
 <body>
@@ -689,7 +705,7 @@
 
         <a href="Piazza Redesign.html" class="project-link">
             <div class="project">
-                <h3>Redesigning prompting for AI image generative AI</h3>
+                <h3>Redesigning Piazza Mobile App</h3>
                 <div class="project-grid">
                     <div class="project-info">
                         <div class="info-block">
@@ -710,12 +726,12 @@
 
                         <div class="info-block">
                             <h4>About</h4>
-                            <p>This project was for an upper division Design class at UCSD called Design for Creativity and Productivity. For this project we designed and prototyped an interactive system that addressed a problem in productivity</p>
+                            <p>This project was for an upper division Design class at UCSD called Web Usability and Information Artichtecture.</p>
                         </div>
                     </div>
 
                     <div class="project-images">
-                        <img src="./images/Project Title2.png" alt="Project Title">
+                        <img src="./images/ProjectTitle4.png" alt="Project Title">
                        <!-- <img src="/api/placeholder/600/400" alt="Design System Project Image 2">-->
                     </div>
                 </div>
@@ -906,6 +922,42 @@
                 }
             }
             }
+            .interests-grid a.interest-item {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: rgb(50, 33, 33);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.interests-grid a.interest-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+    color: white;
+}
+
+.interests-grid a.interest-item .button-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.interests-grid a.interest-item .interest-icon {
+    color: var(--purple);
+    font-size: 1.5rem;
+}
+
+.interests-grid a.interest-item .listen-text {
+    font-size: 0.8rem;
+    color: #F97316;
+    opacity: 0.8;
+    margin-top: 0.5rem;
+}
         </style>
     
         <div class="about-container">
@@ -917,10 +969,13 @@
                     <p>My passion for creativity extends beyond design - I'm a nationally recognized flutist who brings joy to senior centers, and a dedicated STEM mentor for high school girls. These experiences fuel my mission to create meaningful impact through thoughtful design solutions.</p>
                 </div>
                 <div class="interests-grid">
-                    <div class="interest-item">
-                        <i class="fas fa-music interest-icon"></i>
-                        <span>Flutist</span>
-                    </div>
+                    <a href="music.html" class="interest-item">
+                        <div class="button-content">
+                            <i class="fas fa-music interest-icon"></i>
+                            <span>Flutist</span>
+                        </div>
+                        <div class="listen-text">Take a listen to some of my work →</div>
+                    </a>
                     <div class="interest-item">
                         <i class="fas fa-users interest-icon"></i>
                         <span>STEM Mentor</span>
