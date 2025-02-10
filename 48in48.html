@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boogie for Health - 48 in 48 Project</title>
+    <title>Farmers Market Website Case Study</title>
     <style>
-        /* Previous base styles remain the same */
+        /* Previous styles remain the same until client-needs */
         * {
             margin: 0;
             padding: 0;
@@ -15,602 +15,1826 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
-            background-color: #18181B;
-            color: white;
-            padding-top: 6rem;
+            color: #232323;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .intro-section {
+            background-color: #F7F7F7;
+        }
+
+        .client-section {
+            background-color: #FFFFFF;
+        }
+
+        .timeline-section {
+            background-color: #F7F7F7;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
+            width: 100%;
         }
 
-        /* Project Header */
-        .project-header {
-            min-height: 80vh;
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .logo {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            
+            margin: 0 auto 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            gap: 20px;
+        }
+
+        .nav-group {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            padding: 6rem 0;
+            align-items: center;
+            gap: 15px;
         }
 
-        .project-title {
-            font-size: 4rem;
-            font-weight: bold;
-            margin-bottom: 2rem;
-            color: #F97316;
-        }
-
-        .project-hero-img {
-            width: 100%;
-            border-radius: 1rem;
-            margin: 2rem 0;
-        }
-
-        /* Project Info */
-        .project-info-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 4rem;
-            margin: 4rem 0;
-            padding: 2rem;
-            background-color: #27272A;
-            border-radius: 1rem;
-        }
-
-        .info-column h2 {
-            font-size: 1.5rem;
-            color: #F97316;
-            margin-bottom: 1rem;
-        }
-
-        .info-column p {
-            color: #A1A1AA;
-            margin-bottom: 2rem;
-        }
-
-        /* Project Content */
-        .project-section {
-            margin: 6rem 0;
-        }
-
-        .project-section h3 {
-            font-size: 2rem;
-            color: #F97316;
-            margin-bottom: 1.5rem;
-        }
-
-        .project-section p {
-            color: #A1A1AA;
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-        }
-
-        .problem-statement {
-            background-color: #27272A;
-            padding: 2rem;
-            border-radius: 1rem;
-            margin: 2rem 0;
-            border-left: 4px solid #F97316;
-        }
-
-        /* Research Section */
-        .research-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .research-card {
-            background-color: #27272A;
-            padding: 2rem;
-            border-radius: 1rem;
-        }
-
-        .research-card h4 {
-            color: #F97316;
-            margin-bottom: 1rem;
-        }
-
-        .research-card ul {
-            list-style: none;
-            color: #A1A1AA;
-        }
-
-        .research-card li {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Images and Media */
-        .image-container {
-            margin: 2rem 0;
-        }
-
-        .image-container img {
-            width: 100%;
-            border-radius: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .image-caption {
-            color: #A1A1AA;
-            font-size: 0.9rem;
+        .nav-item {
+            padding: 15px 30px;
+            background-color: #2B5B35;
+            color: #FFFFFF;
+            border-radius: 4px;
             text-align: center;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-content {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 4px;
+            text-align: center;
+            width: 100%;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .emoji {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .site-link {
+            color: #2B5B35;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 15px;
+            border: 2px solid #2B5B35;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .site-link:hover {
+            background-color: #2B5B35;
+            color: #FFFFFF;
+        }
+
+        .nav-item:hover {
+            background-color: #1B4B25;
+        }
+
+       
+        .client-needs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+            perspective: 1000px;
+        }
+
+        .need-item {
+            position: relative;
+            height: 200px;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .need-item.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .need-item-front, .need-item-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .need-item-front {
+            background-color: #2B5B35;
+            color: #FFFFFF;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .need-item-back {
+            background-color: #1B4B25;
+            color: #FFFFFF;
+            transform: rotateY(180deg);
+            text-align: center;
+            font-size: 0.9em;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .time-divider {
+            text-align: center;
+            padding: 30px 0;
+            background-color: #232323;
+            color: #FFFFFF;
+            font-size: 24px;
+            margin: 40px 0;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 40px 0;
+        }
+
+        .timeline-item {
+            border-left: 3px solid #2B5B35;
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+            background-color: #FFFFFF;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            width: 15px;
+            height: 15px;
+            background: #2B5B35;
+            border-radius: 50%;
+            position: absolute;
+            left: -9px;
+            top: 32px;
+        }
+
+        h2 {
+            color: #232323;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        h3 {
+            color: #2B5B35;
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            color: #2B5B35;
+            font-weight: bold;
+        }
+
+        .emoji-timer {
+            font-size: 2em;
+            margin-right: 10px;
+        }
+     /* Wireframes Section */
+     .wireframes-section {
+            background-color: white;
+        }
+
+        .wireframe-showcase {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.wireframe-main {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.wireframe-display {
+    width: 100%;
+    height: 600px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #f5f5f5;
+}
+
+.wireframe-display img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 0.3s ease;
+}
+
+.wireframe-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-top: 1px solid #eee;
+}
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #2B5B35;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.nav-btn:hover {
+    opacity: 1;
+}
+
+.prev {
+    left: -20px;
+}
+
+.next {
+    right: -20px;
+}
+
+.wireframe-thumbnails {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding: 20px 0;
+    scrollbar-width: thin;
+    scrollbar-color: #2B5B35 #f0f0f0;
+}
+
+.thumbnail {
+    position: relative;
+    flex: 0 0 150px;
+    height: 100px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbnail span {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: rgba(43, 91, 53, 0.9);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+}
+
+.thumbnail.active {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 2px #2B5B35;
+}
+
+.thumbnail:hover {
+    transform: translateY(-5px);
+}
+
+        /* Timeline Section */
+        .timeline-section {
+            background-color: #F7F7F7;
+        }
+
+        .challenges-section {
+            background-color: #FFFFFF;
+            padding: 60px 0;
+        }
+
+        .challenge-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .challenge-card {
+            background-color: #F7F7F7;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .time-divider {
+            text-align: center;
+            padding: 30px 0;
+            background-color: #232323;
+            color: #FFFFFF;
+            font-size: 24px;
+            margin: 40px 0;
+            border-radius: 8px;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 40px 0;
+        }
+
+        .timeline-item {
+            border-left: 3px solid #2B5B35;
+            padding: 30px;
+            margin: 30px 0 30px 20px;
+            position: relative;
+            background-color: white;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            width: 15px;
+            height: 15px;
+            background: #2B5B35;
+            border-radius: 50%;
+            position: absolute;
+            left: -9px;
+            top: 32px;
+        }
+
+        .design-section {
+            background-color: #FFFFFF;
+        }
+
+        .color-palette {
+            display: flex;
+            gap: 20px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .color-item {
+            flex: 1;
+            min-width: 200px;
+            padding: 20px;
+            border-radius: 8px;
+            color: white;
+            text-align: center;
+        }
+
+        .emoji {
+            font-size: 24px;
+            margin: 0 10px;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .project-info-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
+            .client-profile,
+            .ia-container {
+                flex-direction: column;
             }
 
-            .research-grid {
+            .client-image {
+                width: 100%;
+                height: 300px;
+            }
+
+            .wireframes-grid {
                 grid-template-columns: 1fr;
             }
 
-            .project-title {
-                font-size: 3rem;
+            .navigation {
+                flex-direction: column;
+            }
+
+            .nav-group {
+                width: 100%;
             }
         }
-        .research-block {
-    margin-bottom: 4rem;
+          /* Information Architecture Section */
+          .ia-section {
+            background-color: #F7F7F7;
+        }
+
+        .ia-container {
+            display: flex;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .ia-description {
+            flex: 1;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .ia-diagram {
+            flex: 2;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .client-profile {
+    display: flex;
+    gap: 40px;
+    margin: 40px 0;
+    padding: 30px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    align-items: flex-start;  /* Aligns items to the top */
 }
 
-.research-block h4 {
-    color: #F97316;
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.analysis-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #27272A;
-    border-radius: 1rem;
+.client-image {
+    flex: 0 0 350px;  /* Reduced from 400px to better fit common image sizes */
+    height: 350px;
     overflow: hidden;
-    margin: 2rem 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.analysis-table th,
-.analysis-table td {
-    padding: 1.5rem;
-    text-align: left;
-}
-
-.analysis-table th {
-    background-color: #F97316;
-    color: white;
-}
-
-.analysis-table td {
-    color: #A1A1AA;
-}
-
-.analysis-table ul {
-    list-style: none;
-    padding: 0;
-}
-
-.analysis-table li {
-    margin-bottom: 0.5rem;
-}
-
-.quote-card {
-    background-color: #27272A;
-    padding: 2rem;
-    border-radius: 1rem;
-    margin: 2rem 0;
-    border-left: 4px solid #F97316;
-}
-
-.quote-card p {
-    font-style: italic;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-}
-
-.quote-card cite {
-    color: #A1A1AA;
-}
-
-.findings-grid img {
+.client-image img {
     width: 100%;
-    border-radius: 1rem;
-    margin: 2rem 0;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;  /* Centers the image */
 }
 
-.prototype-block {
-    margin-bottom: 4rem;
+.client-bio {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;  /* Reduced from 20px for tighter spacing */
+    padding: 10px 0;
 }
 
-.prototype-block h4 {
-    color: #F97316;
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
+.client-bio h3 {
+    color: #2B5B35;
+    font-size: 2em;
+    margin-bottom: 10px;
 }
 
-.image-grid {
+.client-bio p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin: 0;  /* Remove default paragraph margins */
+    color: #333;
+}
+/* Previous client-profile CSS remains the same */
+
+.highlight-text {
+    color: #2B5B35;
+    font-weight: 500;
+    padding: 2px 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.highlight-text::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #2B5B35;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.highlight-text:hover {
+    transform: scale(1.1);
+    background-color: rgba(43, 91, 53, 0.1);
+}
+
+.highlight-text:hover::after {
+    transform: scaleX(1);
+}
+
+/* Add subtle animation for initial load */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.client-bio p {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.client-bio p:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .client-profile {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .client-image {
+        width: 100%;
+        height: 300px;
+    }
+
+    .client-bio {
+        padding: 20px 0 0 0;
+    }
+}
+        /* CSS for Design Approach Section */
+.design-section {
+    padding: 80px 0;
+    background-color: #FFFFFF;
+}
+
+.design-content {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.design-intro {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.2em;
+    line-height: 1.6;
+}
+
+/* Color Palette Styles */
+.color-section {
+    margin-top: 40px;
+}
+
+.color-section h3 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+    color: #232323;
+}
+
+.color-palette {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin: 2rem 0;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    padding: 20px;
 }
 
-.image-grid figure {
+.color-item {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.color-preview {
+    height: 150px;
+    transition: transform 0.3s ease;
+}
+
+.color-info {
+    padding: 20px;
     text-align: center;
 }
 
-.image-grid img {
-    width: 100%;
-    border-radius: 1rem;
-    margin-bottom: 1rem;
+.color-hex {
+    font-family: monospace;
+    color: #666;
 }
 
-.image-grid figcaption {
-    color: #A1A1AA;
+/* Design Principles Styles */
+.design-principles {
+    margin-top: 60px;
 }
 
-.feedback-grid {
+.design-principles h3 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+    color: #232323;
+}
+
+.principles-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin: 2rem 0;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 20px;
 }
 
-.feedback-card {
-    background-color: #27272A;
-    padding: 2rem;
-    border-radius: 1rem;
+.principle-card {
+    background: #f5f5f5;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s ease;
 }
 
-.feedback-card h5 {
-    color: #F97316;
-    margin-bottom: 1rem;
+.principle-icon {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    display: block;
 }
 
-.feedback-card ul {
-    list-style: none;
-    padding: 0;
-    color: #A1A1AA;
+.principle-card h4 {
+    color: #2B5B35;
+    margin-bottom: 15px;
+    font-size: 1.4em;
 }
 
-.feature-showcase {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin: 2rem 0;
+/* Hover Effects */
+.color-item:hover {
+    transform: translateY(-5px);
 }
 
-.feature {
-    background-color: #27272A;
-    padding: 2rem;
-    border-radius: 1rem;
+.color-item:hover .color-preview {
+    transform: scale(1.05);
 }
 
-.feature img {
-    width: 100%;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
+.principle-card:hover {
+    transform: translateY(-5px);
+    background: #f0f0f0;
 }
 
-.feature-description h5 {
-    color: #F97316;
-    margin-bottom: 1rem;
-}
-
-.feature-description p {
-    color: #A1A1AA;
-}
-
+/* Responsive Design */
 @media (max-width: 768px) {
-    .feedback-grid,
-    .feature-showcase,
-    .image-grid {
+    .design-section {
+        padding: 40px 20px;
+    }
+    
+    .color-palette,
+    .principles-grid {
         grid-template-columns: 1fr;
     }
 }
- /* Navigation Styles */
- .main-nav {
-            position: fixed;
-            top: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-            background: rgba(24, 24, 27, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            border-radius: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: calc(100% - 4rem);
-            max-width: 1200px;
-        }
+/* Challenge Alert Section Styles */
+.challenge-alert {
+    background: linear-gradient(rgba(255, 0, 0, 0.1), rgba(255, 0, 0, 0.05));
+    padding: 60px 20px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
+.alert-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 5px 30px rgba(255, 0, 0, 0.2);
+    text-align: center;
+}
 
-        .logo:hover {
-            color: #F97316;
-        }
+.alert-icon {
+    font-size: 4em;
+    margin-bottom: 20px;
+    position: relative;
+    height: 100px;
+}
 
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
+.emoji-alert, .stop-sign {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s infinite;
+}
 
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-            font-size: 0.875rem;
-        }
+.emoji-alert {
+    animation-delay: 0.5s;
+}
 
-        .nav-links a:hover {
-            color: #F97316;
-        }
-        @media (max-width: 768px) {
-            .main-nav {
-                flex-direction: column;
-                gap: 1rem;
-                top: 0;
-                width: 100%;
-                border-radius: 0;
-                padding: 1rem;
-            }
+.stop-sign {
+    animation-delay: 0s;
+}
 
-            .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 1rem;
-            }
+.alert-title {
+    font-size: 3.5em;
+    color: #ff3333;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-            body {
-                padding-top: 8rem;
-            }
-        }
-        /* Process Section Specific Styles */
-        .process-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
+.alert-message {
+    margin: 30px 0;
+}
 
-        .process-item {
-            background-color: #27272A;
-            padding: 2rem;
-            border-radius: 1rem;
-            transition: transform 0.3s ease;
-        }
+.blink-text {
+    color: #ff3333;
+    font-weight: bold;
+    font-size: 1.5em;
+    animation: blink 1s infinite;
+    margin-bottom: 15px;
+}
 
-        .process-item:hover {
-            transform: translateY(-5px);
-        }
+.alert-message h3 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 20px;
+}
 
-        .process-item h4 {
-            color: #F97316;
-            margin-bottom: 1rem;
-            font-size: 1.25rem;
-        }
+.timer {
+    background-color: #333;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+    font-size: 1.2em;
+}
 
-        .image-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
+.action-needed {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+}
 
-        .gallery-item {
-            background-color: #27272A;
-            padding: 1rem;
-            border-radius: 1rem;
-            overflow: hidden;
-        }
+.action-needed h4 {
+    color: #333;
+    font-size: 1.4em;
+    margin-bottom: 15px;
+}
 
-        .gallery-item img {
-            width: 100%;
-            height: auto;
-            border-radius: 0.5rem;
-            transition: transform 0.3s ease;
-        }
+.action-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
 
-        .gallery-item:hover img {
-            transform: scale(1.02);
-        }
+.action-list li {
+    background-color: white;
+    padding: 15px 25px;
+    border-radius: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
 
-        .caption {
-            color: #A1A1AA;
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-            text-align: center;
-        }
+.action-list li:hover {
+    transform: translateY(-5px);
+}
 
-        .floating-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #007bff;
-      color: white;
-      padding: 15px 25px;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      transition: transform 0.2s, box-shadow 0.2s;
+@keyframes bounce {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-20px);
+    }
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .alert-title {
+        font-size: 2.5em;
     }
 
-    .floating-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    .alert-message h3 {
+        font-size: 1.5em;
     }
 
-    /* Optional: Add animation for button appearance */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .action-list {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+/* Additional CSS for the image section */
+.challenge-image-container {
+    position: relative;
+    margin: 30px auto;
+    max-width: 800px;
+    border-radius: 15px;
+    overflow: hidden;
+
+}
+
+.challenge-image {
+    width: 100%;
+    height: 400px;
+   
+}
+
+.challenge-image img {
+    width: 100%;
+    height: 100%;
+    
+}
+
+
+
+
+
+
+
+/* Add to existing media queries */
+@media (max-width: 768px) {
+    .challenge-image-container {
+        margin: 20px -20px;
+        border-radius: 0;
+    }
+    
+    .challenge-image {
+        height: 300px;
     }
 
-    .floating-button {
-      animation: fadeIn 0.5s ease-out;
+    .image-overlay {
+        font-size: 2em;
     }
+}
+ 
+/* About Project Section Styles */
+.about-project {
+    padding: 4rem 0;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    color: #000000;
+    margin-bottom: 2rem;
+}
+
+.project-content {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+}
+
+.project-content p {
+    color: #A1A1AA;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+.client-needs-blurb {
+    margin: 2rem 0;
+}
+
+.client-needs-blurb p {
+    color: #A1A1AA;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+}
+.design-system {
+    padding: 4rem 0;
+    background-color: #F8F9FA; /* Light gray background */
+}
+
+.section-title {
+    color: #333;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.section-intro {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    color: #6B7280; /* Medium gray text */
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.design-grid {
+    display: grid;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.design-item {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.design-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.design-item h3 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.image-container {
+    background: #F8F9FA; /* Light gray background for image container */
+    border-radius: 0.5rem;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+.design-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0.25rem;
+}
+
+/* Add custom scrollbar for design system images */
+.image-container {
+    max-height: 600px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #E5E7EB #F8F9FA;
+}
+
+.image-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.image-container::-webkit-scrollbar-track {
+    background: #F8F9FA;
+}
+
+.image-container::-webkit-scrollbar-thumb {
+    background-color: #E5E7EB;
+    border-radius: 3px;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+    .design-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Make the first item span full width */
+    .design-item:first-child {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .design-system {
+        padding: 2rem 0;
+    }
+    
+    .design-item {
+        padding: 1.5rem;
+    }
+    
+    .image-container {
+        padding: 0.5rem;
+    }
+}
+.hifi-wireframes {
+    padding: 4rem 0;
+    background-color: #F8F9FA;
+}
+
+.section-title {
+    color: #333;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.section-intro {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    color: #6B7280;
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.wireframe-showcase {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.wireframe-main {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.main-wireframe {
+    flex: 1;
+    max-width: 60%;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.wireframe-description {
+    flex: 1;
+    padding: 1rem;
+}
+
+.wireframe-description h3 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.wireframe-description p {
+    color: #6B7280;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-list li {
+    color: #6B7280;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.feature-list li::before {
+    content: "•";
+    color: #333;
+    position: absolute;
+    left: 0;
+}
+
+@media (max-width: 992px) {
+    .wireframe-main {
+        flex-direction: column;
+    }
+
+    .main-wireframe {
+        max-width: 100%;
+    }
+
+    .wireframe-description {
+        padding: 1rem 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .hifi-wireframes {
+        padding: 2rem 0;
+    }
+
+    .wireframe-showcase {
+        padding: 1.5rem;
+    }
+}
+.key-pages {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.key-pages h3 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.pages-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.page-card {
+    background: #F8F9FA;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.page-card:hover {
+    transform: translateY(-4px);
+}
+
+.page-preview {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.page-info {
+    padding: 1.5rem;
+}
+
+.page-info h4 {
+    color: #333;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.page-info p {
+    color: #6B7280;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .hifi-wireframes {
+        padding: 2rem 0;
+    }
+
+    .wireframe-item,
+    .key-pages {
+        padding: 1.5rem;
+    }
+
+    .wireframe-info {
+        padding-right: 0;
+    }
+
+    .pages-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+
+
+  
+
     </style>
 </head>
 <body>
-    <!-- Navigation (same as previous) -->
-    <button class="floating-button"><a href ="index.html">Home</a></button>
-    <div class="container">
-        <!-- Project Header -->
-        <section class="project-header">
-            <h1 class="project-title">Boogie for Health Website</h1>
-            <!-- Add your final homepage design image here -->
-            <img src="path-to-final-homepage.png" alt="Boogie for Health Homepage" class="hero-image">
-        </section>
-
-        <!-- Project Info -->
-        <div class="project-info">
-            <div class="info-column">
-                <h2>Project Type</h2>
-                <p>48 in 48 Non-Profit Website</p>
-                <h2>Timeline</h2>
-                <p>48 Hours</p>
+    <section class="intro-section">
+        <div class="container">
+            <div class="header">
+                <img src="./images/Primary_Black 1.png" class="logo">
+                <div class="navigation">
+                <div class="nav-group">
+                    <div class="nav-item">Timeline</div>
+                    <div class="nav-content">
+                        <span class="emoji">⏰</span>
+                        <p>48 Hours</p>
+                    </div>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-item">Role</div>
+                    <div class="nav-content">
+                        <span class="emoji">👩‍💻</span>
+                        <p>UX Designer</p>
+                    </div>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-item">Tools</div>
+                    <div class="nav-content">
+                        <span class="emoji">🛠️</span>
+                        <p>WordPress</p>
+                        <p>Figma</p>
+                        <p>Slack</p>
+                    </div>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-item">Results</div>
+                    <div class="nav-content">
+                        <span class="emoji">🏆</span>
+                        <p>Working Site</p>
+                        <a href="#" class="site-link">View Site</a>
+                        <p>First Place Award! 🎉</p>
+                    </div>
+                </div>
             </div>
-            <div class="info-column">
-                <h2>Role</h2>
-                <p>UX Designer & Developer</p>
-                <h2>Team</h2>
-                <p>Collaborative Weekend Sprint</p>
             </div>
         </div>
-
-        <!-- Background Section -->
-        <section class="section">
-            <h3>Background</h3>
-            <p>As part of the 48 in 48 initiative, I joined a dynamic team of designers and developers to create a complete website for Boogie for Health in just 48 hours. This intensive project combined rapid design thinking with efficient development to deliver a functional and visually appealing website for a non-profit organization.</p>
-        </section>
-
-        <!-- Design Process -->
-        <section class="section">
-            <h3>Design Process</h3>
+    </section>
+    <section class="about-project">
+        <div class="container">
+            <h2 class="section-title">About the Project</h2>
+            <div class="project-content">
+                <p>48 in 48 is an innovative program that brings together talented volunteers to create 48 websites for 48 non-profit organizations in just 48 hours. This intensive hackathon-style event demonstrates the power of collective effort and technical expertise in serving community organizations.</p>
+                <p>During this event, teams of designers, developers, and digital professionals collaborate to provide non-profits with modern, functional websites that help them better serve their communities and achieve their missions.</p>
+            </div>
             
-            <!-- Site Architecture -->
-            <div class="process-item">
-                <h4>Site Architecture</h4>
-                <p>We began with comprehensive site mapping to establish a clear information hierarchy and navigation structure.</p>
-                <!-- Add your sitemap image here -->
-                <div class="image-gallery">
-                    <div class="gallery-item">
-                        <img src="path-to-sitemap.png" alt="Site Map">
-                        <p class="caption">Initial site architecture mapping</p>
+                </div>
+        </div>
+        <div class="time-divider">
+            <span class="emoji-timer">⌛</span>
+            Time Started: <span class="highlight">48 hours</span>
+        </div>
+    </section>
+    
+        <section class="client-section">
+            <div class="container">
+                <h2>About Our Client</h2>
+                <div class="client-profile">
+                    <div class="client-image">
+                        <img src="./images/JUDIDESIRE.png" alt="Judy - Farmers Market Manager">
+                    </div>
+                    <div class="client-bio">
+                        <h3>Meet Judy</h3>
+                        <p>Our client is the visionary behind <span class="highlight-text">sustainable farmers markets</span> in our community. Her mission is to create <span class="highlight-text">vibrant spaces</span> where local vendors and consumers connect while promoting <span class="highlight-text">environmental consciousness</span>.</p>
+                        <p>Through her <span class="highlight-text">innovative approach</span>, she has successfully launched multiple market locations, empowering over <span class="highlight-text">100+ local vendors</span> and serving thousands of community members.</p>
+                    </div>
+                </div>
+                <div class="client-needs-blurb">
+                    <p>Our client, who manages the local farmers market, came to us with specific goals to enhance their digital presence. Her main focus was on creating a platform that would facilitate donations, attract volunteers, bring in more vendors, showcase upcoming farmers markets schedules, and highlight their various community programs. These needs guided our design decisions and development priorities throughout the 48-hour project timeline.</p>
+                </div>
+            <div class="client-needs">
+                <div class="need-item">
+                    <div class="need-item-front">Donations</div>
+                    <div class="need-item-back">
+                        Enable easy online donations to support market operations and community programs. Includes transparent tracking and tax receipt generation.
+                    </div>
+                </div>
+                <div class="need-item">
+                    <div class="need-item-front">Volunteer Management</div>
+                    <div class="need-item-back">
+                        Streamlined volunteer sign-up system with scheduling, role assignments, and hour tracking for market events and programs.
+                    </div>
+                </div>
+                <div class="need-item">
+                    <div class="need-item-front">Vendor Recruitment</div>
+                    <div class="need-item-back">
+                        Online application portal for new vendors, including documentation submission, category selection, and market preferences.
+                    </div>
+                </div>
+                <div class="need-item">
+                    <div class="need-item-front">Market Schedules</div>
+                    <div class="need-item-back">
+                        Interactive calendar showing market dates, times, and locations. Features vendor listings and special event highlights.
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Wireframing -->
-            <div class="process-item">
-                <h4>Wireframing</h4>
-                <p>Created low-fidelity wireframes to establish layout and content structure, focusing on user flow and information hierarchy.</p>
-                <!-- Add your wireframe images here -->
-                <div class="image-gallery">
-                    <div class="gallery-item">
-                        <img src="path-to-wireframe1.png" alt="Homepage Wireframe">
-                        <p class="caption">Homepage wireframe exploration</p>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="path-to-wireframe2.png" alt="Inner Pages Wireframe">
-                        <p class="caption">Inner pages layout structure</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Visual Design -->
-            <div class="process-item">
-                <h4>Visual Design</h4>
-                <p>Developed a vibrant and engaging visual design that aligned with the organization's mission of promoting health through movement and community engagement.</p>
-                <!-- Add your final design images here -->
-                <div class="image-gallery">
-                    <div class="gallery-item">
-                        <img src="path-to-final-design1.png" alt="Homepage Design">
-                        <p class="caption">Final homepage design</p>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="path-to-final-design2.png" alt="About Page Design">
-                        <p class="caption">About page final design</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Implementation -->
-        <section class="section">
-            <h3>Implementation</h3>
-            <p>Working within the 48-hour timeframe, we successfully:</p>
-            <ul>
-                <li>Developed a responsive website that works seamlessly across all devices</li>
-                <li>Implemented user-friendly navigation and content structure</li>
-                <li>Created engaging visual elements that reflect the organization's mission</li>
-                <li>Integrated necessary functionality for program information and volunteer sign-up</li>
-            </ul>
-        </section>
-
-        <!-- Results -->
-        <section class="section">
-            <h3>Impact</h3>
-            <p>The new website provides Boogie for Health with:</p>
-            <ul>
-                <li>A professional online presence that effectively communicates their mission</li>
-                <li>Clear pathways for program information and community engagement</li>
-                <li>Enhanced visibility for their initiatives and volunteer opportunities</li>
-                <li>A scalable platform that can grow with their organization</li>
-            </ul>
-        </section>
+    <div class="time-divider">
+        <span class="emoji-timer">⌛</span>
+        Time Remaining: <span class="highlight">35 hours</span>
     </div>
 
-    <!-- JavaScript for animations -->
+    <section class="timeline-section">
+        <div class="container">
+            <h2>Project Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>Initial Phase</h3>
+                    <p>Started with information architecture, focusing on creating an intuitive navigation structure and user flow.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Challenge Phase</h3>
+                    <p>Faced team member departure with only 40 hours remaining in the project timeline.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Design Phase</h3>
+                    <p>Implemented sustainability-focused design with vibrant green color schemes to reflect the market's values.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Information Architecture Section -->
+    <section class="ia-section">
+        <div class="container">
+            <h2>Information Architecture <span class="emoji">🏗️</span></h2>
+            <div class="ia-container">
+                <div class="ia-description">
+                    <p>Our approach to organizing the website's content and structure focused on creating an intuitive user flow that would make it easy for visitors to:</p>
+                    <ul>
+                        <li>Find market schedules and locations</li>
+                        <li>Access volunteer opportunities</li>
+                        <li>Submit vendor applications</li>
+                        <li>Make donations</li>
+                    </ul>
+                </div>
+                <div class="ia-diagram">
+                    <img src="./images/Site Map.jpg" height="100%" width="100%" alt="Information Architecture Diagram" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="wireframes-section">
+        <div class="container">
+            <h2>Low-Fi Wireframes <span class="emoji">✏️</span></h2>
+            <div class="wireframe-showcase">
+                <!-- Main Wireframe Display -->
+                <div class="wireframe-main">
+                    <div class="wireframe-display">
+                        <img src="./images/Home.png" alt="Current Wireframe" id="mainWireframe">
+                        <div class="wireframe-info">
+                            <h3 id="wireframeTitle">Homepage</h3>
+                            <p id="wireframeDescription">Main landing page with key features and navigation.</p>
+                        </div>
+                    </div>
+                    <button class="nav-btn prev">←</button>
+                    <button class="nav-btn next">→</button>
+                </div>
+                
+                <!-- Thumbnail Navigation -->
+                <div class="wireframe-thumbnails">
+                    <div class="thumbnail active" data-index="0">
+                        <img src="./images/Home.png" alt="Homepage">
+                        <span>01</span>
+                    </div>
+                    <div class="thumbnail" data-index="1">
+                        <img src="./images/About Us.png" alt="About Us">
+                        <span>02</span>
+                    </div>
+                    <div class="thumbnail" data-index="1">
+                        <img src="./images/Programs.png" alt="Programs">
+                        <span>03</span>
+                    </div>
+                    <div class="thumbnail" data-index="1">
+                        <img src="./images/CSA.png" alt="CSA">
+                        <span>04</span>
+                    </div>
+                    <div class="thumbnail" data-index="1">
+                        <img src="./images/Pop Kids Club.png" alt="Pop Kids Club">
+                        <span>05</span>
+                    </div>
+                    <div class="thumbnail" data-index="1">
+                        <img src="./images/Vendor Application.png" alt="Vendor Application">
+                        <span>07</span>
+                    </div>
+                    <div class="thumbnail" data-index="1">
+                        <img src="./images/Composting.png" alt="Composting">
+                        <span>08</span>
+                    </div>
+                    <div class="thumbnail" data-index="1">
+                        <img src="./images/Textile Recycling.png" alt="Textile Recycling">
+                        <span>09</span>
+                    </div>
+                    <div class="thumbnail" data-index="1">
+                        <img src="./images/Vendor Application.png" alt="Vendor Application">
+                        <span>10</span>
+                    </div>
+                    <div class="thumbnail" data-index="1">
+                        <img src="./images/Contact.png" alt="Contact">
+                        <span>11</span>
+                    </div>
+        
+    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+                <!-- HTML for Design Approach Section -->
+                 <!-- Challenge Alert Section HTML -->
+
+    <!-- Challenge Alert Section HTML -->
+<section class="challenge-alert">
+    <div class="alert-container">
+        <div class="alert-icon">
+            <span class="emoji-alert">🚨</span>
+            <span class="stop-sign">🛑</span>
+        </div>
+        
+        <div class="alert-content">
+            <h2 class="alert-title">OH NO! <span class="emoji">😱</span></h2>
+            <div class="alert-message">
+                <p class="blink-text">CRITICAL SITUATION!</p>
+                
+                <h3>Team Member Left with Only 24 Hours Remaining!</h3>
+            </div>
+            <div class="challenge-image-container">
+                <div class="challenge-image">
+                    <img src="./images/mindyou.svg" alt="Challenge Visualization" />
+                </div>
+            </div>
+            
+           
+
+            <div class="timer">
+                <span class="emoji">⏰</span>
+                <span class="time-left">24 Hours Left</span>
+            </div>
+        </div>
+        <div class="action-needed">
+            <h4>Quick Action Needed:</h4>
+            <ul class="action-list">
+                <li>Redistribute tasks</li>
+                <li>Adjust timeline</li>
+                <li>Maintain project quality</li>
+            </ul>
+        </div>
+    </div>
+</section>
+</section>
+<section class="design-system">
+    <div class="container">
+        <h2 class="section-title">Design System</h2>
+        <p class="section-intro">We developed a comprehensive design system to ensure consistency and accessibility throughout the website. Here's a detailed breakdown of our design elements:</p>
+        <div class="design-principles">
+            <h3>Design Principles</h3>
+            <div class="principles-grid">
+                <div class="principle-card">
+                    <span class="principle-icon">🌱</span>
+                    <h4>Sustainability</h4>
+                    <p>Earth-toned colors and organic shapes reflect environmental consciousness</p>
+                </div>
+                <div class="principle-card">
+                    <span class="principle-icon">🎯</span>
+                    <h4>Accessibility</h4>
+                    <p>High contrast ratios and clear hierarchy ensure readable content</p>
+                </div>
+                <div class="principle-card">
+                    <span class="principle-icon">💡</span>
+                    <h4>Simplicity</h4>
+                    <p>Clean layouts and intuitive navigation for easy user flow</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="design-grid">
+            <!-- Typography -->
+            <div class="design-item">
+                <h3>Typography System</h3>
+                <div class="image-container">
+                    <img src="./images/Fonts.png" alt="Typography system showing various fonts and sizes including LEXEND and ZILLA SLAB" class="design-image">
+                </div>
+            </div>
+
+            <!-- Colors -->
+            <div class="design-item">
+                <h3>Color Palette</h3>
+                <div class="image-container">
+                    <img src="./images/colors.png" alt="Color palette showing primary, secondary, and neutral colors" class="design-image">
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="design-item">
+                <h3>Button Components</h3>
+                <div class="image-container">
+                    <img src="./images/buttons.png" alt="Button variations showing different states and sizes" class="design-image">
+                </div>
+            </div>
+
+            <!-- Icons -->
+            <div class="design-item">
+                <h3>Icon System</h3>
+                <div class="image-container">
+                    <img src="./images/icons.png" alt="Icon system showing directional arrows and interface icons" class="design-image">
+                </div>
+            </div>
+
+            <!-- Effects -->
+            <div class="design-item">
+                <h3>Shadow Effects</h3>
+                <div class="image-container">
+                    <img src="./images/effects.png" alt="Shadow effects showing different elevations" class="design-image">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="hifi-wireframes">
+    <div class="container">
+        <h2 class="section-title">Hi-Fi Wireframes</h2>
+        <p class="section-intro">After establishing our design system, we created high-fidelity wireframes that brought together our visual language with the client's needs. These designs focused on creating an intuitive and engaging user experience.</p>
+
+        <div class="wireframe-showcase">
+            <div class="wireframe-main">
+                <img src="./images/Landing page.png" alt="Homepage Hi-Fi Wireframe" class="main-wireframe">
+                <div class="wireframe-description">
+                    <h3>Homepage Design</h3>
+                    <p>The homepage was designed to immediately communicate the organization's mission while providing clear pathways to key features:</p>
+                    <ul class="feature-list">
+                        <li>Bold, welcoming hero section with clear call-to-action</li>
+                        <li>Prominent navigation for essential sections</li>
+                        <li>Easy access to programs and volunteer opportunities</li>
+                        <li>Direct path to vendor applications</li>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Pages Grid -->
+            <div class="key-pages">
+                <h3>Key Pages</h3>
+                <div class="pages-grid">
+                    
+
+                    <div class="page-card">
+                        <img src="./images/Donation HiFi.png" alt="Vendor Application" class="page-preview">
+                        <div class="page-info">
+                            <h4>Donation Page</h4>
+                            <p>Easy way to donate to the organization.</p>
+                        </div>
+                    </div>
+                    <div class="page-card">
+                        <img src="./images/Join our team.png" alt="join our team" class="page-preview">
+                        <div class="page-info">
+                            <h4>Join Our Team Page</h4>
+                            <p>Different ways for volunteers to sign up and what opportunities there are</p>
+                        </div>
+                    </div>
+
+                    <div class="page-card">
+                        <img src="./images/About us HiFi.png" alt="About Page" class="page-preview">
+                        <div class="page-info">
+                            <h4>About</h4>
+                            <p>Telling the story of the organization and its impact.</p>
+                        </div>
+                    </div>
+                    <div class="page-card">
+                        <img src="./images/Programs HiFi.png" alt="Programs Page" class="page-preview">
+                        <div class="page-info">
+                            <h4>Programs</h4>
+                            <p>Showcasing various community initiatives and educational programs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="time-divider">
+    <span class="emoji-timer">⌛</span>
+    Time Remaining: <span class="highlight">10 hours</span>
+</div>
+<section class="hifi-wireframes">
+    <h1>Website Building and Final Results</h1>
+</section>
+
+
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Set up intersection observer for projects
-            const projectObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate');
-                        // Animate info blocks within the project
-                        entry.target.querySelectorAll('.info-block').forEach((block, index) => {
-                            setTimeout(() => {
-                                block.classList.add('animate');
-                            }, index * 200); // Stagger the animations
-                        });
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
-
-            // Observe all projects
-            document.querySelectorAll('.project').forEach(project => {
-                projectObserver.observe(project);
-            });
-
-            // Smooth scrolling for navigation links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const section = document.querySelector(this.getAttribute('href'));
-                    section.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                });
+        // Add click event listeners for card flipping
+        document.querySelectorAll('.need-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('flipped');
             });
         });
+
+        // Navigation smooth scroll
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', event => {
+                const targetId = event.target.textContent.toLowerCase();
+                const targetElement = document.querySelector(`[id="${targetId}"]`);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // JavaScript for Design Approach Section
+document.addEventListener('DOMContentLoaded', () => {
+    // Set color preview backgrounds
+    document.querySelectorAll('.color-item').forEach(item => {
+        const color = item.getAttribute('data-color');
+        item.querySelector('.color-preview').style.backgroundColor = color;
+        
+        // Add click to copy functionality
+        item.addEventListener('click', () => {
+            const hexCode = item.querySelector('.color-hex').textContent;
+            navigator.clipboard.writeText(hexCode).then(() => {
+                // Show feedback
+                const feedback = document.createElement('div');
+                feedback.className = 'copy-feedback';
+                feedback.textContent = 'Color code copied!';
+                feedback.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: #232323;
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 4px;
+                    z-index: 1000;
+                `;
+                document.body.appendChild(feedback);
+                
+                // Remove feedback after 2 seconds
+                setTimeout(() => {
+                    feedback.remove();
+                }, 2000);
+            });
+        });
+    });
+
+    // Add intersection observer for animation
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    // Observe principles cards
+    document.querySelectorAll('.principle-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(card);
+    });
+});
+// Challenge Alert Section JavaScript
+document.addEventListener('DOMContentLoaded', () => {
+    // Add dramatic entrance animation
+    const alertContainer = document.querySelector('.alert-container');
+    alertContainer.style.opacity = '0';
+    alertContainer.style.transform = 'scale(0.9)';
+
+    setTimeout(() => {
+        alertContainer.style.transition = 'all 0.5s ease';
+        alertContainer.style.opacity = '1';
+        alertContainer.style.transform = 'scale(1)';
+    }, 100);
+
+    // Add hover effect sound for action items
+    const actionItems = document.querySelectorAll('.action-list li');
+    actionItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            // You can add a subtle sound effect here if desired
+            item.style.backgroundColor = '#f0f0f0';
+        });
+        item.addEventListener('mouseleave', () => {
+            item.style.backgroundColor = 'white';
+        });
+    });
+});
+
+// Wireframe data structure to store titles and descriptions
+const wireframes = [
+    {
+        image: './images/Home.png',
+        title: 'Homepage',
+        description: 'Main landing page with key features and navigation.'
+    },
+    {
+        image: './images/About Us.png',
+        title: 'About Us',
+        description: 'Information about the organization and its mission.'
+    },
+    {
+        image: './images/Programs.png',
+        title: 'Programs',
+        description: 'Overview of available programs and initiatives.'
+    },
+    {
+        image: './images/CSA.png',
+        title: 'CSA',
+        description: 'Community Supported Agriculture program details.'
+    },
+    {
+        image: './images/Pop Kids Club.png',
+        title: 'Pop Kids Club',
+        description: 'Youth engagement and educational programs.'
+    }
+    
+];
+
+// Get DOM elements
+const mainWireframe = document.getElementById('mainWireframe');
+const wireframeTitle = document.getElementById('wireframeTitle');
+const wireframeDescription = document.getElementById('wireframeDescription');
+const thumbnails = document.querySelectorAll('.thumbnail');
+const prevBtn = document.querySelector('.nav-btn.prev');
+const nextBtn = document.querySelector('.nav-btn.next');
+
+let currentIndex = 0;
+
+// Function to update the main display
+function updateDisplay(index) {
+    // Update active state of thumbnails
+    thumbnails.forEach(thumb => thumb.classList.remove('active'));
+    thumbnails[index].classList.add('active');
+    
+    // Update main image and info with fade effect
+    mainWireframe.style.opacity = '0';
+    setTimeout(() => {
+        mainWireframe.src = wireframes[index].image;
+        wireframeTitle.textContent = wireframes[index].title;
+        wireframeDescription.textContent = wireframes[index].description;
+        mainWireframe.style.opacity = '1';
+    }, 300);
+    
+    // Update current index
+    currentIndex = index;
+}
+
+// Add click handlers for thumbnails
+thumbnails.forEach((thumbnail, index) => {
+    thumbnail.addEventListener('click', () => {
+        updateDisplay(index);
+    });
+});
+
+// Previous button click handler
+prevBtn.addEventListener('click', () => {
+    const newIndex = (currentIndex - 1 + wireframes.length) % wireframes.length;
+    updateDisplay(newIndex);
+});
+
+// Next button click handler
+nextBtn.addEventListener('click', () => {
+    const newIndex = (currentIndex + 1) % wireframes.length;
+    updateDisplay(newIndex);
+});
+
+// Add keyboard navigation
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+        prevBtn.click();
+    } else if (e.key === 'ArrowRight') {
+        nextBtn.click();
+    }
+});
+
+// Add swipe support for mobile
+let touchStartX = 0;
+const wireframeDisplay = document.querySelector('.wireframe-display');
+
+wireframeDisplay.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+}, false);
+
+wireframeDisplay.addEventListener('touchend', (e) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) > 50) { // Minimum swipe distance
+        if (diff > 0) {
+            nextBtn.click(); // Swipe left = next
+        } else {
+            prevBtn.click(); // Swipe right = previous
+        }
+    }
+}, false);
+
+// Add CSS transition for smooth image changes
+mainWireframe.style.transition = 'opacity 0.3s ease-in-out';
+
+// Initialize first display
+updateDisplay(0);
     </script>
 </body>
 </html>
