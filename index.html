@@ -442,191 +442,7 @@
             background: rgba(212, 193, 125, 0.1);
         }
 
-        /* Projects Section Styles */
-        .projects-section {
-            padding: 6rem 5% 4rem;
-            background-color: rgba(45, 74, 62, 0.97);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-header h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
-            color: #d4c17d;
-            margin-bottom: 1rem;
-        }
-
-        .ornate-divider {
-            width: 200px;
-            height: 2px;
-            background-color: #d4c17d;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .ornate-divider::before,
-        .ornate-divider::after {
-            content: '';
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #2d4a3e;
-            border: 2px solid #d4c17d;
-            top: 50%;
-            transform: translateY(-50%) rotate(45deg);
-        }
-
-        .ornate-divider::before {
-            left: -5px;
-        }
-
-        .ornate-divider::after {
-            right: -5px;
-        }
-
-        .filter-container {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .filter-btn {
-            background: transparent;
-            border: 1px solid #d4c17d;
-            color: #d4c17d;
-            padding: 0.8rem 1.5rem;
-            font-family: 'Cinzel', serif;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .filter-btn::before,
-        .filter-btn::after {
-            content: '';
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            border: 1px solid #d4c17d;
-            transition: all 0.3s ease;
-        }
-
-        .filter-btn::before {
-            top: -3px;
-            left: -3px;
-            border-right: none;
-            border-bottom: none;
-        }
-
-        .filter-btn::after {
-            bottom: -3px;
-            right: -3px;
-            border-left: none;
-            border-top: none;
-        }
-
-        .filter-btn:hover,
-        .filter-btn.active {
-            background: #d4c17d;
-            color: #2d4a3e;
-        }
-
-        .filter-btn:hover::before,
-        .filter-btn:hover::after,
-        .filter-btn.active::before,
-        .filter-btn.active::after {
-            border-color: #2d4a3e;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 1rem;
-        }
-
-        .project-item {
-            transition: all 0.3s ease;
-        }
-
-        .project-content {
-            position: relative;
-            border: 2px solid #d4c17d;
-            padding: 1rem;
-            background: rgba(45, 74, 62, 0.9);
-            transition: all 0.3s ease;
-        }
-
-        .project-content::before,
-        .project-content::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #d4c17d;
-        }
-
-        .project-content::before {
-            top: -5px;
-            left: -5px;
-            border-right: none;
-            border-bottom: none;
-        }
-
-        .project-content::after {
-            bottom: -5px;
-            right: -5px;
-            border-left: none;
-            border-top: none;
-        }
-
-        .project-content img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            margin-bottom: 1rem;
-            border: 1px solid #d4c17d;
-        }
-
-        .project-info {
-            text-align: center;
-        }
-
-        .project-info h3 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            color: #d4c17d;
-            margin-bottom: 0.5rem;
-        }
-
-        .project-info p {
-            font-size: 0.9rem;
-            color: #d4c17d;
-            opacity: 0.8;
-            margin-bottom: 1rem;
-        }
-
-        .project-link {
-            display: inline-block;
-            color: #d4c17d;
-            text-decoration: none;
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            border-bottom: 1px solid #d4c17d;
-            padding-bottom: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .project-link:hover {
-            color: #fff;
-            border-color: #fff;
-        }
-
+       
         /* About Section Styles */
         .about-section {
             padding: 6rem 5% 4rem;
@@ -1018,334 +834,704 @@
         }
 
 
-        projects-section {
+      /* Letterboxd-Style Projects Section */
+.projects-section {
     padding: 6rem 5% 4rem;
     background-color: rgba(45, 74, 62, 0.97);
     position: relative;
+    color: #d4c17d;
+    font-family: 'Playfair Display', serif;
 }
 
-.filter-container {
+/* Project Categories */
+.project-categories {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
     gap: 1.5rem;
     margin-bottom: 3rem;
+    border-bottom: 1px solid rgba(212,, 193, 125, 0.3);
+    padding-bottom: 1rem;
 }
 
-.filter-btn {
-    background: transparent;
-    border: 1px solid #d4c17d;
-    color: #d4c17d;
+.category-item {
     padding: 0.8rem 1.5rem;
     font-family: 'Cinzel', serif;
     cursor: pointer;
-    transition: all 0.3s ease;
     position: relative;
-    overflow: hidden;
-    z-index: 1;
+    color: #d4c17d;
+    transition: all 0.3s ease;
 }
 
-.filter-btn::before {
+.category-item::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: -1px;
     left: 0;
-    width: 100%;
-    height: 0;
-    background: rgba(212, 193, 125, 0.2);
-    transition: height 0.3s ease;
-    z-index: -1;
-}
-
-.filter-btn:hover::before,
-.filter-btn.active::before {
-    height: 100%;
-}
-
-.filter-btn::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
     width: 0;
     height: 2px;
     background-color: #d4c17d;
-    transition: all 0.3s ease;
-    transform: translateX(-50%);
+    transition: width 0.3s ease;
 }
 
-.filter-btn:hover::after,
-.filter-btn.active::after {
-    width: 80%;
+.category-item:hover::after,
+.category-item.active::after {
+    width: 100%;
 }
 
-.filter-btn.active {
+.category-item.active {
     font-weight: bold;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2.5rem;
-    padding: 1rem;
-    perspective: 1000px;
+/* Projects Container */
+.projects-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: none; /* Initially hidden, shown when a grid item is clicked */
 }
 
-.project-item {
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    opacity: 0;
-    transform: translateY(30px);
-}
-
-.project-item.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
+/* Project Card - Expanded View */
 .project-card {
-    height: 350px;
-    perspective: 1500px;
-    cursor: pointer;
-}
-
-.project-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-    transform-style: preserve-3d;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.project-card:hover .project-card-inner {
-    transform: rotateY(180deg);
-}
-
-.project-card-front,
-.project-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border: 2px solid #d4c17d;
+    background-color: rgba(35, 57, 48, 0.8);
+    border-radius: 12px;
     overflow: hidden;
+    margin-bottom: 3rem;
+    border: 1px solid rgba(212, 193, 125, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: none; /* Initially hidden */
 }
 
-.project-card-front {
-    background-color: rgba(45, 74, 62, 0.9);
+.project-card.active {
+    display: block;
 }
 
-.project-card-front::before,
-.project-card-front::after,
-.project-card-back::before,
-.project-card-back::after {
-    content: '';
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border: 2px solid #d4c17d;
-    z-index: 2;
-    transition: all 0.3s ease;
-}
-
-.project-card-front::before,
-.project-card-back::before {
-    top: -5px;
-    left: -5px;
-    border-right: none;
-    border-bottom: none;
-}
-
-.project-card-front::after,
-.project-card-back::after {
-    bottom: -5px;
-    right: -5px;
-    border-left: none;
-    border-top: none;
-}
-
-.project-card:hover .project-card-front::before,
-.project-card:hover .project-card-back::before,
-.project-card:hover .project-card-front::after,
-.project-card:hover .project-card-back::after {
-    width: 50px;
-    height: 50px;
-}
-
-.project-card-front img {
-    width: 100%;
-    height: 65%;
-    object-fit: cover;
-    transition: all 0.5s ease;
-}
-
-.project-card:hover .project-card-front img {
-    transform: scale(1.05);
-}
-
-.project-info {
+/* Project Header */
+.project-header {
     padding: 1.5rem;
-    text-align: center;
+    display: flex;
+    align-items: flex-start;
+    position: relative;
 }
 
-.project-info h3 {
-    font-family: 'Cinzel', serif;
-    font-size: 1.2rem;
-    color: #d4c17d;
-    margin-bottom: 0.5rem;
+.back-button {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    color: #0a84ff;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: opacity 0.3s ease;
 }
 
-.project-info p {
-    font-size: 0.9rem;
-    color: #d4c17d;
+.back-button:hover {
     opacity: 0.8;
 }
 
-.project-card-back {
-    background-color: rgba(45, 74, 62, 0.95);
-    transform: rotateY(180deg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-}
-
-.project-details {
-    text-align: center;
-}
-
-.project-details h3 {
-    font-family: 'Cinzel', serif;
-    font-size: 1.5rem;
-    color: #d4c17d;
-    margin-bottom: 1rem;
-    position: relative;
-    display: inline-block;
-}
-
-.project-details h3::after {
-    content: '';
-    position: absolute;
-    width: 60%;
-    height: 2px;
-    background-color: #d4c17d;
-    bottom: -10px;
-    left: 20%;
-}
-
-.project-description {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #d4c17d;
-    margin-bottom: 1.5rem;
-}
-
-.project-tech {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.8rem;
-    margin-bottom: 1.5rem;
-}
-
-.project-tech span {
-    font-size: 0.8rem;
-    padding: 0.4rem 0.8rem;
-    border: 1px solid #d4c17d;
-    color: #d4c17d;
-    border-radius: 20px;
-    transition: all 0.3s ease;
-}
-
-.project-tech span:hover {
-    background-color: rgba(212, 193, 125, 0.2);
-    transform: translateY(-3px);
-}
-
-.project-link {
-    display: inline-block;
-    padding: 0.8rem 1.5rem;
-    border: 2px solid #d4c17d;
-    color: #d4c17d;
-    font-family: 'Cinzel', serif;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    position: relative;
+.project-icon {
+    width: 120px;
+    height: 120px;
+    border-radius: 22px;
     overflow: hidden;
-    z-index: 1;
+    margin-left: 6rem;
 }
 
-.project-link::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
+.project-icon img {
     width: 100%;
     height: 100%;
-    background: #d4c17d;
-    transition: all 0.3s ease;
-    z-index: -1;
+    object-fit: cover;
 }
 
-.project-link:hover {
-    color: #2d4a3e;
+.project-main-info {
+    margin-left: 1.5rem;
+    flex-grow: 1;
 }
 
-.project-link:hover::before {
-    left: 0;
-}
-
-/* Pagination styles */
-.projects-pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 3rem;
-    gap: 2rem;
-}
-
-.pagination-arrow {
-    background: transparent;
-    border: 1px solid #d4c17d;
+.project-main-info h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    margin: 0;
     color: #d4c17d;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+}
+
+.project-subtitle {
+    color: rgba(212, 193, 125, 0.8);
+    margin: 0.3rem 0 1rem;
+}
+
+.project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.project-rating {
     display: flex;
     align-items: center;
-    justify-content: center;
-    cursor: pointer;
+    gap: 0.5rem;
+}
+
+.rating-number {
+    font-weight: bold;
+    color: #d4c17d;
+}
+
+.stars {
+    color: #d4c17d;
+    display: flex;
+    gap: 0.2rem;
+}
+
+.rating-count {
+    font-size: 0.9rem;
+    color: rgba(212, 193, 125, 0.7);
+}
+
+.project-award,
+.project-year,
+.project-category {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: rgba(212, 193, 125, 0.8);
+}
+
+.project-award i {
+    color: #d4af37;
+}
+
+.view-btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background: #d4c17d;
+    color: #2d4a3e;
+    border-radius: 8px;
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
+    text-decoration: none;
     transition: all 0.3s ease;
 }
 
-.pagination-arrow:hover {
-    background: rgba(212, 193, 125, 0.2);
+.view-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background: #e5d28f;
+}
+
+.project-share {
+    color: #d4c17d;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-left: 1rem;
+    transition: all 0.3s ease;
+}
+
+.project-share:hover {
     transform: scale(1.1);
 }
 
-.pagination-dots {
+/* Project Screenshots */
+.project-screenshots {
     display: flex;
-    gap: 0.8rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 2rem;
+    gap: 2rem;
+    scrollbar-width: thin;
+    scrollbar-color: #d4c17d rgba(45, 74, 62, 0.2);
 }
 
-.pagination-dot {
-    width: 10px;
-    height: 10px;
-    border: 1px solid #d4c17d;
+.project-screenshots::-webkit-scrollbar {
+    height: 8px;
+}
+
+.project-screenshots::-webkit-scrollbar-track {
+    background: rgba(45, 74, 62, 0.2);
+    border-radius: 4px;
+}
+
+.project-screenshots::-webkit-scrollbar-thumb {
+    background-color: #d4c17d;
+    border-radius: 4px;
+}
+
+.screenshot-container {
+    min-width: 600px;
+    background: rgba(25, 40, 35, 0.7);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    gap: 2rem;
+}
+
+.screenshot-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.screenshot-heading {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: #d4c17d;
+    margin: 0;
+}
+
+.screenshot-phone {
+    width: 280px;
+    height: 560px;
+    border-radius: 36px;
+    overflow: hidden;
+    border: 8px solid #111;
+    background: #000;
+    position: relative;
+}
+
+.screenshot-phone::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 24px;
+    background: #111;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    z-index: 1;
+}
+
+.screenshot-phone img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Project Details */
+.project-details {
+    padding: 2rem;
+    border-top: 1px solid rgba(212, 193, 125, 0.3);
+}
+
+.project-description h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    margin: 1.5rem 0 1rem;
+    color: #d4c17d;
+}
+
+.project-description p {
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: rgba(212, 193, 125, 0.9);
+}
+
+/* Key Features */
+.key-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.feature {
+    display: flex;
+    gap: 1rem;
+}
+
+.feature-icon {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
+    background: rgba(212, 193, 125, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #d4c17d;
+    flex-shrink: 0;
+}
+
+.feature-text h5 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem;
+    color: #d4c17d;
+}
+
+.feature-text p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.info-label {
+    font-size: 0.9rem;
+    color: rgba(212, 193, 125, 0.7);
+}
+
+.info-value {
+    font-size: 1rem;
+    color: #d4c17d;
+}
+
+/* Ratings & Reviews */
+.ratings-summary {
+    display: flex;
+    gap: 2rem;
+    margin: 1.5rem 0;
+}
+
+.rating-chart {
+    flex-grow: 1;
+}
+
+.rating-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.rating-level {
+    width: 1rem;
+    text-align: center;
+    color: #d4c17d;
+}
+
+.bar-container {
+    flex-grow: 1;
+    height: 8px;
+    background: rgba(212, 193, 125, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: #d4c17d;
+    border-radius: 4px;
+}
+
+.rating-number {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.big-rating {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #d4c17d;
+}
+
+/* User Reviews */
+.user-reviews {
+    margin-top: 2rem;
+}
+
+.review {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(212, 193, 125, 0.2);
+}
+
+.review:last-child {
+    border-bottom: none;
+}
+
+.reviewer-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.reviewer-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.review-content {
+    flex-grow: 1;
+}
+
+.reviewer-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.reviewer-name {
+    font-weight: bold;
+    color: #d4c17d;
+}
+
+.review-rating {
+    font-size: 0.8rem;
+    color: #d4c17d;
+}
+
+.review-text {
+    margin: 0;
+    font-style: italic;
+    color: rgba(212, 193, 125, 0.9);
+}
+
+/* Project Grid - Collapsed View */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.grid-card {
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.pagination-dot.active {
-    background-color: #d4c17d;
-    transform: scale(1.2);
+.grid-card:hover {
+    transform: translateY(-10px);
 }
 
-/* Hover Effect - 3D tilt */
-.project-card {
-    transition: transform 0.1s ease;
+.grid-poster {
+    position: relative;
+    height: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.grid-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.grid-rating {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #d4c17d;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+}
+
+.grid-info {
+    padding: 1rem 0.5rem;
+    text-align: center;
+}
+
+.grid-info h4 {
+    font-family: 'Cinzel', serif;
+    margin: 0 0 0.3rem;
+    font-size: 1.1rem;
+    color: #d4c17d;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.grid-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgba(212, 193, 125, 0.8);
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .project-header {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .project-icon {
+        margin-left: 0;
+        margin-top: 3rem;
+    }
+    
+    .project-main-info {
+        margin-left: 0;
+        text-align: center;
+        margin-top: 1rem;
+    }
+    
+    .project-meta {
+        justify-content: center;
+    }
+    
+    .back-button {
+        top: 1rem;
+        left: 1rem;
+    }
+    
+    .project-share {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        margin-left: 0;
+    }
+    
+    .screenshot-container {
+        min-width: 100%;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .screenshot-text {
+        text-align: center;
+    }
+    
+    .ratings-summary {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .project-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .grid-poster {
+        height: 225px;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .project-categories {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 1rem;
+    }
+    
+    .category-item {
+        padding: 0.8rem 1rem;
+        white-space: nowrap;
+    }
+    
+    .screenshot-phone {
+        width: 240px;
+        height: 480px;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .grid-poster {
+        height: 200px;
+    }
+    
+    .screenshot-phone {
+        width: 200px;
+        height: 400px;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* Laptop display for the third project */
+.project-card[data-id="boogie-health"] .screenshot-phone {
+    width: 500px;
+    height: 320px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 8px solid #111;
+    background: #000;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.project-card[data-id="boogie-health"] .screenshot-phone::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 8px;
+    background: #111;
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.project-card[data-id="boogie-health"] .screenshot-phone::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    background: #111;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Adjust screenshot container for the laptop */
+.project-card[data-id="boogie-health"] .screenshot-container {
+    min-width: 700px;
+    background: rgba(25, 40, 35, 0.7);
+    padding: 2rem;
+    align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .project-card[data-id="boogie-health"] .screenshot-phone {
+        width: 400px;
+        height: 260px;
+    }
+    
+    .project-card[data-id="boogie-health"] .screenshot-container {
+        min-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .project-card[data-id="boogie-health"] .screenshot-phone {
+        width: 300px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-card[data-id="boogie-health"] .screenshot-phone {
+        width: 250px;
+        height: 170px;
+    }
 }
     </style>
 </head>
@@ -1386,171 +1572,429 @@
             <div class="ornate-divider"></div>
         </div>
     
-        <div class="filter-container">
-            <button class="filter-btn active" data-filter="all">All Works</button>
-            <button class="filter-btn" data-filter="ux-design">UX Design</button>
-            <button class="filter-btn" data-filter="web-dev">Web Development</button>
-            <button class="filter-btn" data-filter="data-science">Data Science</button>
+        <!-- Project Categories Navigation -->
+        <div class="project-categories">
+            <div class="category-item active" data-category="all">All Works</div>
+            <div class="category-item" data-category="ux-design">UX Design</div>
+            <div class="category-item" data-category="web-dev">Web Development</div>
+            <div class="category-item" data-category="data-science">Data Science</div>
         </div>
     
-        <div class="projects-grid">
-            <!-- Project 1 -->
-            <div class="project-item ux-design">
-                <div class="project-card">
-                    <div class="project-card-inner">
-                        <div class="project-card-front">
-                            <img src="./images/Project Title.png" alt="Visual Pathways">
-                            <div class="project-info">
-                                <h3>Visual Pathways</h3>
-                                <p>UX Design / User Research</p>
+        <!-- Projects Container -->
+        <div class="projects-container">
+            <!-- Project 1: Visual Pathways -->
+            <div class="project-card ux-design" data-id="visual-pathways">
+                <div class="project-header">
+                    <div class="back-button">
+                        <i class="fas fa-chevron-left"></i> Back
+                    </div>
+                    <div class="project-icon">
+                        <img src="./images/Project Title.png" alt="Visual Pathways">
+                    </div>
+                    <div class="project-main-info">
+                        <h3>Visual Pathways</h3>
+                        <p class="project-subtitle">UX Design / User Research</p>
+                        <div class="project-meta">
+                            <div class="project-rating">
+                                <span class="rating-number">4.8</span>
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="rating-count">24 Ratings</span>
+                            </div>
+                            <div class="project-award">
+                                <i class="fas fa-award"></i>
+                                <span>Design Excellence</span>
+                            </div>
+                            <div class="project-year">
+                                <span>2023</span>
+                            </div>
+                            <div class="project-category">
+                                <span>UX Research</span>
                             </div>
                         </div>
-                        <div class="project-card-back">
-                            <div class="project-details">
-                                <h3>Visual Pathways</h3>
-                                <p class="project-description">An extensive research project exploring how users process visual information across digital interfaces, resulting in a framework for more intuitive designs.</p>
-                                <div class="project-tech">
-                                    <span>User Testing</span>
-                                    <span>Eye Tracking</span>
-                                    <span>Heat Maps</span>
-                                    <span>UX Research</span>
+                        <a href="VP_project.html" class="view-btn">View Case Study</a>
+                    </div>
+                    <div class="project-share">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                </div>
+    
+                <div class="project-screenshots">
+                    <div class="screenshot-container">
+                        <div class="screenshot-text">
+                            <p class="screenshot-heading">Use Visual Pathways to track user interactions and improve your interface designs</p>
+                        </div>
+                        <div class="screenshot-phone">
+                            <img src="/api/placeholder/400/800" alt="Visual Pathways Screenshot">
+                        </div>
+                    </div>
+                    <div class="screenshot-container">
+                        <div class="screenshot-text">
+                            <p class="screenshot-heading">Analyze heatmaps and interaction patterns to optimize your UX</p>
+                        </div>
+                        <div class="screenshot-phone">
+                            <img src="/api/placeholder/400/800" alt="Visual Pathways Screenshot">
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="project-details">
+                    <div class="project-description">
+                        <h4>About this project</h4>
+                        <p>Visual Pathways is a comprehensive research project exploring how users process visual information across digital interfaces, resulting in a framework for more intuitive designs.</p>
+                        
+                        <div class="key-features">
+                            <div class="feature">
+                                <div class="feature-icon">
+                                    <i class="fas fa-eye"></i>
                                 </div>
-                                <a href="VP_project.html" class="project-link">View Case Study</a>
+                                <div class="feature-text">
+                                    <h5>Eye-Tracking Research</h5>
+                                    <p>Advanced analysis of user visual behavior across interfaces</p>
+                                </div>
+                            </div>
+                            <div class="feature">
+                                <div class="feature-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <h5>Interactive Analytics</h5>
+                                    <p>Real-time data visualization of user patterns</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h4>Information</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Client</span>
+                                <span class="info-value">Research Institute</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Duration</span>
+                                <span class="info-value">6 months</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Role</span>
+                                <span class="info-value">Lead UX Researcher</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Deliverables</span>
+                                <span class="info-value">Framework, Documentation</span>
+                            </div>
+                        </div>
+                        
+                        <h4>Ratings & Reviews</h4>
+                        <div class="ratings-summary">
+                            <div class="rating-chart">
+                                <div class="rating-bar">
+                                    <span class="rating-level">5</span>
+                                    <div class="bar-container">
+                                        <div class="bar-fill" style="width: 80%;"></div>
+                                    </div>
+                                </div>
+                                <div class="rating-bar">
+                                    <span class="rating-level">4</span>
+                                    <div class="bar-container">
+                                        <div class="bar-fill" style="width: 15%;"></div>
+                                    </div>
+                                </div>
+                                <div class="rating-bar">
+                                    <span class="rating-level">3</span>
+                                    <div class="bar-container">
+                                        <div class="bar-fill" style="width: 5%;"></div>
+                                    </div>
+                                </div>
+                                <div class="rating-bar">
+                                    <span class="rating-level">2</span>
+                                    <div class="bar-container">
+                                        <div class="bar-fill" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                                <div class="rating-bar">
+                                    <span class="rating-level">1</span>
+                                    <div class="bar-container">
+                                        <div class="bar-fill" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rating-number">
+                                <span class="big-rating">4.8</span>
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="rating-count">out of 5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="user-reviews">
+                            <div class="review">
+                                <div class="reviewer-avatar">
+                                    <img src="/api/placeholder/40/40" alt="Reviewer">
+                                </div>
+                                <div class="review-content">
+                                    <div class="reviewer-info">
+                                        <span class="reviewer-name">Sarah Johnson</span>
+                                        <div class="review-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <p class="review-text">"The Visual Pathways framework transformed how we approach interface design. Our user engagement metrics improved significantly after implementation."</p>
+                                </div>
+                            </div>
+                            <div class="review">
+                                <div class="reviewer-avatar">
+                                    <img src="/api/placeholder/40/40" alt="Reviewer">
+                                </div>
+                                <div class="review-content">
+                                    <div class="reviewer-info">
+                                        <span class="reviewer-name">Michael Chen</span>
+                                        <div class="review-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <p class="review-text">"Incredibly thorough research with practical applications. The framework is detailed yet accessible enough for our entire team to implement."</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
     
-            <!-- Project 2 -->
-            <div class="project-item web-dev">
-                <div class="project-card">
-                    <div class="project-card-inner">
-                        <div class="project-card-front">
-                            <img src="./images/Project Title2.png" alt="Prompt Engineering">
-                            <div class="project-info">
-                                <h3>Prompt Engineering</h3>
-                                <p>UX Design/User Research</p>
+            <!-- Project 2: Prompt Engineering -->
+            <div class="project-card web-dev" data-id="prompt-engineering">
+                <div class="project-header">
+                    <div class="back-button">
+                        <i class="fas fa-chevron-left"></i> Back
+                    </div>
+                    <div class="project-icon">
+                        <img src="./images/Project Title2.png" alt="Prompt Engineering">
+                    </div>
+                    <div class="project-main-info">
+                        <h3>Prompt Engineering</h3>
+                        <p class="project-subtitle">UX Design / User Research</p>
+                        <div class="project-meta">
+                            <div class="project-rating">
+                                <span class="rating-number">4.9</span>
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-count">18 Ratings</span>
+                            </div>
+                            <div class="project-award">
+                                <i class="fas fa-award"></i>
+                                <span>Innovation Award</span>
+                            </div>
+                            <div class="project-year">
+                                <span>2023</span>
+                            </div>
+                            <div class="project-category">
+                                <span>AI UX</span>
                             </div>
                         </div>
-                        <div class="project-card-back">
-                            <div class="project-details">
-                                <h3>Prompt Engineering</h3>
-                                <p class="project-description">Developing frameworks and methodologies for creating effective AI prompts that enhance user experiences and produce consistent results.</p>
-                                <div class="project-tech">
-                                    <span>AI/ML</span>
-                                    <span>Prompt Design</span>
-                                    <span>Pattern Library</span>
-                                    <span>User Testing</span>
-                                </div>
-                                <a href="#" class="project-link">View Case Study</a>
-                            </div>
+                        <a href="#" class="view-btn">View Case Study</a>
+                    </div>
+                    <div class="project-share">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                </div>
+    
+                <div class="project-screenshots">
+                    <div class="screenshot-container">
+                        <div class="screenshot-text">
+                            <p class="screenshot-heading">Create effective AI prompts to enhance user experiences</p>
+                        </div>
+                        <div class="screenshot-phone">
+                            <img src="/api/placeholder/400/800" alt="Prompt Engineering Screenshot">
+                        </div>
+                    </div>
+                    <div class="screenshot-container">
+                        <div class="screenshot-text">
+                            <p class="screenshot-heading">Analyze prompt effectiveness and improve response quality</p>
+                        </div>
+                        <div class="screenshot-phone">
+                            <img src="/api/placeholder/400/800" alt="Prompt Engineering Screenshot">
                         </div>
                     </div>
                 </div>
-            </div>
     
-            <!-- Project 3 -->
-            <div class="project-item data-science">
-                <div class="project-card">
-                    <div class="project-card-inner">
-                        <div class="project-card-front">
-                            <img src="./images/Project 3 Title.png" alt="Boogie with Health">
-                            <div class="project-info">
-                                <h3>Boogie with Health</h3>
-                                <p>Web Development/Web Design/UX Design</p>
-                            </div>
-                        </div>
-                        <div class="project-card-back">
-                            <div class="project-details">
-                                <h3>Uptown and Boogie Health Projects</h3>
-                                <p class="project-description">A website created for 48 in 48.</p>
-                                <div class="project-tech">
-                                    <span>WordPress Developer</span>
-                                    <span>UX Designer</span>
-                                    <span>Content Designer</span>
-                                </div>
-                                <a href="#" class="project-link">View Case Study</a>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Project details similar to above -->
+                <div class="project-details">
+                    <!-- Content similar to Project 1 -->
                 </div>
             </div>
     
-            <!-- Project 4 -->
-            <div class="project-item ux-design">
-                <div class="project-card">
-                    <div class="project-card-inner">
-                        <div class="project-card-front">
-                            <img src="./images/ProjectTitle4.png" alt="Piazza Redesign">
-                            <div class="project-info">
-                                <h3>Piazza Redesign</h3>
-                                <p>UX Design / Mobile App</p>
+            <!-- Project 3: Boogie with Health -->
+            <div class="project-card data-science" data-id="boogie-health">
+                <div class="project-header">
+                    <div class="back-button">
+                        <i class="fas fa-chevron-left"></i> Back
+                    </div>
+                    <div class="project-icon">
+                        <img src="./images/Project 3 Title.png" alt="Boogie with Health">
+                    </div>
+                    <div class="project-main-info">
+                        <h3>Boogie with Health</h3>
+                        <p class="project-subtitle">Web Development / UX Design</p>
+                        <div class="project-meta">
+                            <div class="project-rating">
+                                <span class="rating-number">4.7</span>
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="rating-count">31 Ratings</span>
+                            </div>
+                            <div class="project-award">
+                                <i class="fas fa-award"></i>
+                                <span>Community Impact</span>
+                            </div>
+                            <div class="project-year">
+                                <span>2022</span>
+                            </div>
+                            <div class="project-category">
+                                <span>Health Tech</span>
                             </div>
                         </div>
-                        <div class="project-card-back">
-                            <div class="project-details">
-                                <h3>Heritage Museum App</h3>
-                                <p class="project-description">An immersive mobile experience that brings museum artifacts to life through interactive storytelling and augmented reality.</p>
-                                <div class="project-tech">
-                                    <span>Mobile UX</span>
-                                    <span>AR/VR</span>
-                                    <span>Storytelling</span>
-                                    <span>Cultural Heritage</span>
-                                </div>
-                                <a href="#" class="project-link">View Case Study</a>
-                            </div>
+                        <a href="#" class="view-btn">View Case Study</a>
+                    </div>
+                    <div class="project-share">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                </div>
+    
+                <div class="project-screenshots">
+                    <div class="screenshot-container">
+                        <div class="screenshot-text">
+                            <p class="screenshot-heading">Transform health metrics into engaging dance-based activities</p>
+                        </div>
+                        <div class="screenshot-phone">
+                            <img src="./images/UB screen1.png" alt="Boogie with Health Screenshot">
+                        </div>
+                    </div>
+
+                    
+                    
+                    
+                    <div class="screenshot-container">
+                        <div class="screenshot-text">
+                            <p class="screenshot-heading">Track your health progress through fun interactive activities</p>
+                        </div>
+                        <div class="screenshot-phone">
+                            <img src="./images/UB screen 2.png" alt="Boogie with Health Screenshot">
+                        </div>
+                    </div>
+
+                    <div class="screenshot-container">
+                        <div class="screenshot-text">
+                            <p class="screenshot-heading">Stay motivated with personalized challenges and rewards</p>
+                        </div>
+                        <div class="screenshot-phone">
+                            <img src="./images/UB screen3.png" alt="Boogie with Health Screenshot">
                         </div>
                     </div>
                 </div>
-            </div>
+                </div>
+                
     
-            <!-- Project 5 -->
-            <div class="project-item web-dev">
-                <div class="project-card">
-                    <div class="project-card-inner">
-                        <div class="project-card-front">
-                            <img src="/api/placeholder/400/300" alt="Classic Portfolio Theme">
-                            <div class="project-info">
-                                <h3>Classic Portfolio Theme</h3>
-                                <p>Web Development / CSS</p>
-                            </div>
-                        </div>
-                        <div class="project-card-back">
-                            <div class="project-details">
-                                <h3>Classic Portfolio Theme</h3>
-                                <p class="project-description">A customizable portfolio theme that blends Victorian design elements with modern web technologies for a unique visual experience.</p>
-                                <div class="project-tech">
-                                    <span>HTML5/CSS3</span>
-                                    <span>JavaScript</span>
-                                    <span>Responsive Design</span>
-                                    <span>Animation</span>
-                                </div>
-                                <a href="#" class="project-link">View Case Study</a>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Project details similar to above -->
+                <div class="project-details">
+                    <!-- Content similar to Project 1 -->
                 </div>
             </div>
     
-            <!-- More projects with the same structure -->
+            <!-- Add more projects following the same structure -->
         </div>
     
-        <div class="projects-pagination">
-            <button class="pagination-arrow prev-projects">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <div class="pagination-dots">
-                <span class="pagination-dot active" data-page="1"></span>
-                <span class="pagination-dot" data-page="2"></span>
-                <span class="pagination-dot" data-page="3"></span>
+        <!-- Project Grid (Collapsed View) -->
+        <div class="project-grid">
+            <!-- Project 1 Card -->
+            <div class="grid-card ux-design" data-id="visual-pathways">
+                <div class="grid-poster">
+                    <img src="./images/Project Title.png" alt="Visual Pathways">
+                    <div class="grid-rating">
+                        <i class="fas fa-star"></i>
+                        <span>4.8</span>
+                    </div>
+                </div>
+                <div class="grid-info">
+                    <h4>Visual Pathways</h4>
+                    <p>UX Research</p>
+                </div>
             </div>
-            <button class="pagination-arrow next-projects">
-                <i class="fas fa-chevron-right"></i>
-            </button>
+    
+            <!-- Project 2 Card -->
+            <div class="grid-card web-dev" data-id="prompt-engineering">
+                <div class="grid-poster">
+                    <img src="./images/Project Title2.png" alt="Prompt Engineering">
+                    <div class="grid-rating">
+                        <i class="fas fa-star"></i>
+                        <span>4.9</span>
+                    </div>
+                </div>
+                <div class="grid-info">
+                    <h4>Prompt Engineering</h4>
+                    <p>AI UX Design</p>
+                </div>
+            </div>
+    
+            <!-- Project 3 Card -->
+            <div class="grid-card data-science" data-id="boogie-health">
+                <div class="grid-poster">
+                    <img src="./images/Project 3 Title.png" alt="Boogie with Health">
+                    <div class="grid-rating">
+                        <i class="fas fa-star"></i>
+                        <span>4.7</span>
+                    </div>
+                </div>
+                <div class="grid-info">
+                    <h4>Boogie with Health</h4>
+                    <p>Health Tech</p>
+                </div>
+            </div>
+    
+            <!-- Project 4 Card -->
+            <div class="grid-card ux-design" data-id="heritage-museum">
+                <div class="grid-poster">
+                    <img src="/api/placeholder/300/450" alt="Heritage Museum App">
+                    <div class="grid-rating">
+                        <i class="fas fa-star"></i>
+                        <span>4.8</span>
+                    </div>
+                </div>
+                <div class="grid-info">
+                    <h4>Heritage Museum App</h4>
+                    <p>Mobile UX</p>
+                </div>
+            </div>
+    
+            <!-- Add more project cards as needed -->
         </div>
     </section>
-
     <section id="about" class="about-section">
         <div class="section-header">
             <h2>About the Artist</h2>
@@ -1574,7 +2018,7 @@
                     <p>As a Syrian-American designer, my journey spans multiple cultures and perspectives, enriching my approach to design and problem-solving. From my roots in Syria to growing up in California's Central Valley and now calling San Diego home, each experience has shaped my understanding of diverse communities and their unique needs.
 
 
-                        My passion for creativity extends beyond design - I'm a nationally recognized flutist who brings joy to senior centers, and a dedicated STEM mentor for high school girls. These experiences fuel my mission to create meaningful impact through thoughtful design solutions</p>
+                        My passion for creativity extends beyond design - I'm a nationally recognized flutist who brings joy to senior centers, and a dedicated STEM mentor for high school girls. These experiences fuel my mission to create meaningful impact through thoughtful design solutions</
                     <div class="skills-container">
                         <div class="skill-category">
                             <h4>Expertise</h4>
@@ -1871,36 +2315,109 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     
-    // Project filtering functionality
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const projectItems = document.querySelectorAll('.project-item');
-
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Remove active class from all buttons
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            // Add active class to clicked button
-            button.classList.add('active');
-
-            const filterValue = button.getAttribute('data-filter');
-
-            projectItems.forEach(item => {
-                if (filterValue === 'all' || item.classList.contains(filterValue)) {
-                    item.style.display = 'block';
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.transform = 'scale(1)';
-                    }, 100);
+   // Letterboxd-Style Projects JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    // DOM Elements
+    const gridCards = document.querySelectorAll('.grid-card');
+    const projectCards = document.querySelectorAll('.project-card');
+    const backButtons = document.querySelectorAll('.back-button');
+    const projectContainer = document.querySelector('.projects-container');
+    const projectGrid = document.querySelector('.project-grid');
+    const categoryItems = document.querySelectorAll('.category-item');
+    
+    // Initialize
+    if (projectCards.length > 0) {
+        // Make first project active by default (uncomment to activate)
+        // projectCards[0].classList.add('active');
+    }
+    
+    // Filter functionality
+    categoryItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Update active category
+            categoryItems.forEach(cat => cat.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Filter grid cards
+            const category = this.getAttribute('data-category');
+            
+            gridCards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.style.display = '';
                 } else {
-                    item.style.opacity = '0';
-                    item.style.transform = 'scale(0.8)';
-                    setTimeout(() => {
-                        item.style.display = 'none';
-                    }, 300);
+                    card.style.display = 'none';
                 }
             });
         });
     });
+    
+    // Grid card click to show detailed view
+    gridCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const projectId = this.getAttribute('data-id');
+            const targetProject = document.querySelector(`.project-card[data-id="${projectId}"]`);
+            
+            if (targetProject) {
+                // Hide grid, show container
+                projectGrid.style.display = 'none';
+                projectContainer.style.display = 'block';
+                
+                // Hide all projects, show target
+                projectCards.forEach(project => project.classList.remove('active'));
+                targetProject.classList.add('active');
+                
+                // Scroll to top of projects container
+                projectContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+    
+    // Back button click
+    backButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Hide container, show grid
+            projectContainer.style.display = 'none';
+            projectGrid.style.display = 'grid';
+            
+            // Hide all projects
+            projectCards.forEach(project => project.classList.remove('active'));
+            
+            // Scroll to top of grid
+            projectGrid.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+    
+    // Horizontal scroll for screenshots with mouse wheel
+    const screenshotContainers = document.querySelectorAll('.project-screenshots');
+    
+    screenshotContainers.forEach(container => {
+        container.addEventListener('wheel', function(e) {
+            if (e.deltaY !== 0) {
+                e.preventDefault();
+                this.scrollLeft += e.deltaY;
+            }
+        });
+    });
+    
+    // Optional: Add animation effects
+    function animateGridCards() {
+        gridCards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100);
+            }, index * 100);
+        });
+    }
+    
+    // Run animations on page load
+    animateGridCards();
+});
 </script>
 </body>
 </html>
