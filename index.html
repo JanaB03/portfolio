@@ -2045,6 +2045,7 @@
     </footer>
 
     <script>
+        
     document.addEventListener('DOMContentLoaded', function() {
         // Custom cursor
         const cursor = document.querySelector('.cursor-dot');
@@ -2285,7 +2286,474 @@
         setTimeout(() => {
             animateGridCards();
         }, 500);
+
+        
     });
+
+    
     </script>
+
+ </body> 
+
+<!-- Chatbox HTML Structure -->
+<div class="chatbox-container">
+    <div class="chatbox-button">
+        <i class="fas fa-comment"></i>
+    </div>
+    <div class="chatbox-panel">
+        <div class="chatbox-header">
+            <div class="chatbox-title">
+                <div class="chatbox-avatar">JB</div>
+                <div>
+                    <h4>Jana's Assistant</h4>
+                    <p>Typically replies instantly</p>
+                </div>
+            </div>
+            <button class="chatbox-close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chatbox-messages">
+            <div class="message-item incoming">
+                <div class="message-bubble">
+                    <p>Hi there! 👋 I'm Jana's portfolio assistant. How can I help you today?</p>
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+            <div class="message-item incoming">
+                <div class="message-bubble">
+                    <p>You can ask me about Jana's projects, experience, or navigate to different sections of the portfolio!</p>
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+        </div>
+        <div class="chatbox-suggestions">
+            <button class="suggestion-btn">View Projects</button>
+            <button class="suggestion-btn">About Jana</button>
+            <button class="suggestion-btn">Contact Info</button>
+        </div>
+        <div class="chatbox-input">
+            <input type="text" placeholder="Type your message..." id="chat-input">
+            <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+
+<!-- Add this CSS to your existing <style> tag in the head section -->
+<style>
+    /* Chatbox Styles */
+    .chatbox-container {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 1000;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+    .chatbox-button {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.3s var(--cubic-bounce), background-color 0.3s ease;
+        position: relative;
+        z-index: 10;
+    }
+
+    .chatbox-button:hover {
+        transform: translateY(-5px) scale(1.05);
+        background: var(--dark);
+    }
+
+    .chatbox-button::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: var(--gradient-accent);
+        z-index: -1;
+        opacity: 0.8;
+        transition: transform 0.5s ease;
+        transform: scale(0);
+    }
+
+    .chatbox-button:hover::before {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+
+    .chatbox-button.active {
+        transform: scale(0);
+    }
+
+    .chatbox-panel {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 350px;
+        height: 500px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        transform-origin: bottom right;
+        transform: scale(0);
+        opacity: 0;
+        transition: transform 0.3s var(--cubic-bounce), opacity 0.3s ease;
+    }
+
+    .chatbox-panel.active {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    .chatbox-header {
+        padding: 1.2rem;
+        background: var(--light);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .chatbox-title {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .chatbox-avatar {
+        width: 40px;
+        height: 40px;
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Sora', sans-serif;
+        font-weight: 600;
+    }
+
+    .chatbox-title h4 {
+        margin: 0;
+        font-family: 'Sora', sans-serif;
+        font-size: 1rem;
+    }
+
+    .chatbox-title p {
+        margin: 0;
+        font-size: 0.8rem;
+        color: #4f5d75;
+    }
+
+    .chatbox-close {
+        background: transparent;
+        border: none;
+        color: #4f5d75;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .chatbox-close:hover {
+        color: var(--primary);
+    }
+
+    .chatbox-messages {
+        flex: 1;
+        padding: 1.2rem;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .message-item {
+        display: flex;
+        flex-direction: column;
+        max-width: 80%;
+    }
+
+    .message-item.outgoing {
+        align-self: flex-end;
+    }
+
+    .message-item.incoming {
+        align-self: flex-start;
+    }
+
+    .message-bubble {
+        padding: 0.8rem 1.2rem;
+        border-radius: 18px;
+        font-size: 0.95rem;
+        line-height: 1.4;
+    }
+
+    .message-item.incoming .message-bubble {
+        background: var(--light);
+        color: var(--dark);
+        border-bottom-left-radius: 5px;
+    }
+
+    .message-item.outgoing .message-bubble {
+        background: var(--primary);
+        color: white;
+        border-bottom-right-radius: 5px;
+    }
+
+    .message-time {
+        font-size: 0.75rem;
+        color: #9ba0b3;
+        margin-top: 0.3rem;
+        margin-left: 0.5rem;
+    }
+
+    .message-item.outgoing .message-time {
+        text-align: right;
+        margin-right: 0.5rem;
+    }
+
+    .chatbox-suggestions {
+        padding: 0 1.2rem;
+        display: flex;
+        gap: 0.5rem;
+        overflow-x: auto;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+    }
+    
+    .chatbox-suggestions::-webkit-scrollbar {
+        height: 3px;
+    }
+    
+    .chatbox-suggestions::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+    }
+
+    .suggestion-btn {
+        white-space: nowrap;
+        padding: 0.5rem 1rem;
+        background: var(--light);
+        border: none;
+        border-radius: 18px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.85rem;
+        color: var(--dark);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .suggestion-btn:hover {
+        background: rgba(255, 107, 53, 0.1);
+        color: var(--primary);
+    }
+
+    .chatbox-input {
+        padding: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .chatbox-input input {
+        flex: 1;
+        padding: 0.8rem 1.2rem;
+        border: none;
+        background: var(--light);
+        border-radius: 30px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.95rem;
+        color: var(--dark);
+    }
+
+    .chatbox-input input:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.3);
+    }
+
+    .send-btn {
+        width: 40px;
+        height: 40px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .send-btn:hover {
+        background: var(--dark);
+        transform: translateY(-3px);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 576px) {
+        .chatbox-panel {
+            width: 300px;
+            height: 450px;
+            bottom: 5rem;
+            right: 0;
+        }
+    }
+</style>
+
+<!-- Add this JavaScript code to the end of your existing script tag -->
+<script>
+    // Chatbox Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatboxButton = document.querySelector('.chatbox-button');
+        const chatboxPanel = document.querySelector('.chatbox-panel');
+        const chatboxClose = document.querySelector('.chatbox-close');
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.querySelector('.send-btn');
+        const messagesContainer = document.querySelector('.chatbox-messages');
+        const suggestionBtns = document.querySelectorAll('.suggestion-btn');
+        
+        // Toggle chatbox
+        chatboxButton.addEventListener('click', function() {
+            chatboxButton.classList.add('active');
+            chatboxPanel.classList.add('active');
+        });
+        
+        chatboxClose.addEventListener('click', function() {
+            chatboxPanel.classList.remove('active');
+            setTimeout(() => {
+                chatboxButton.classList.remove('active');
+            }, 300);
+        });
+        
+        // Send message function
+        function sendMessage(text) {
+            if (!text.trim()) return;
+            
+            // Create outgoing message
+            const messageItem = document.createElement('div');
+            messageItem.classList.add('message-item', 'outgoing');
+            
+            const messageBubble = document.createElement('div');
+            messageBubble.classList.add('message-bubble');
+            messageBubble.innerHTML = `<p>${text}</p>`;
+            
+            const messageTime = document.createElement('div');
+            messageTime.classList.add('message-time');
+            messageTime.textContent = 'Just now';
+            
+            messageItem.appendChild(messageBubble);
+            messageItem.appendChild(messageTime);
+            messagesContainer.appendChild(messageItem);
+            
+            // Clear input
+            chatInput.value = '';
+            
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Simulate reply after delay
+            setTimeout(() => {
+                generateReply(text);
+            }, 800);
+        }
+        
+        // Generate automated reply based on user message
+        function generateReply(userMessage) {
+            let replyText = '';
+            const lowerMsg = userMessage.toLowerCase();
+            
+            if (lowerMsg.includes('project') || lowerMsg.includes('portfolio') || lowerMsg.includes('work')) {
+                replyText = "I've worked on several projects including Visual Pathways, Prompt Engineering, and Boogie with Health. Would you like to know more about a specific project?";
+            } else if (lowerMsg.includes('about') || lowerMsg.includes('who') || lowerMsg.includes('background')) {
+                replyText = "I'm Jana Bridi, a Syrian-American UX Designer passionate about bridging cultures through design. I'm also a flutist and STEM mentor for high school girls!";
+            } else if (lowerMsg.includes('contact') || lowerMsg.includes('email') || lowerMsg.includes('reach')) {
+                replyText = "You can reach me at bridijana@gmail.com or through the contact form on this website. I'm based in San Diego, CA.";
+            } else if (lowerMsg.includes('snapchat') || lowerMsg.includes('snap')) {
+                replyText = "I'm interested in applying my UX skills at Snapchat! I love creating interactive experiences that build community, which aligns perfectly with Snapchat's mission.";
+            } else if (lowerMsg.includes('skill') || lowerMsg.includes('tool') || lowerMsg.includes('design')) {
+                replyText = "My skills include user research, interface design, and information architecture. I'm proficient with Figma, Adobe Suite, and have front-end development knowledge.";
+            } else if (lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {
+                replyText = "Hello! Thanks for visiting my portfolio. What would you like to know about my work or experience?";
+            } else {
+                replyText = "Thanks for your message! Would you like to know more about my projects, background, or how to contact me?";
+            }
+            
+            // Create incoming message
+            const messageItem = document.createElement('div');
+            messageItem.classList.add('message-item', 'incoming');
+            
+            const messageBubble = document.createElement('div');
+            messageBubble.classList.add('message-bubble');
+            messageBubble.innerHTML = `<p>${replyText}</p>`;
+            
+            const messageTime = document.createElement('div');
+            messageTime.classList.add('message-time');
+            messageTime.textContent = 'Just now';
+            
+            messageItem.appendChild(messageBubble);
+            messageItem.appendChild(messageTime);
+            messagesContainer.appendChild(messageItem);
+            
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        // Send message on button click
+        sendBtn.addEventListener('click', function() {
+            sendMessage(chatInput.value);
+        });
+        
+        // Send message on Enter key
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage(chatInput.value);
+            }
+        });
+        
+        // Handle suggestion buttons
+        suggestionBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                sendMessage(this.textContent);
+            });
+        });
+        
+        // Generate additional suggestion buttons based on context
+        function addSuggestion(text) {
+            const suggestionsContainer = document.querySelector('.chatbox-suggestions');
+            const suggestionBtn = document.createElement('button');
+            suggestionBtn.classList.add('suggestion-btn');
+            suggestionBtn.textContent = text;
+            
+            suggestionBtn.addEventListener('click', function() {
+                sendMessage(this.textContent);
+            });
+            
+            suggestionsContainer.appendChild(suggestionBtn);
+        }
+        
+        // Add some more dynamic suggestions
+        setTimeout(() => {
+            addSuggestion("Snapchat Experience");
+            addSuggestion("Design Process");
+            addSuggestion("Skills & Tools");
+        }, 2000);
+    });
+</script>
+
+
 </body>
+
 </html>
