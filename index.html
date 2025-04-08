@@ -1713,6 +1713,202 @@
                 height: 160px;
             }
         }
+
+
+ /* Floating Button Styles */
+ .flute-player {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Sora', sans-serif;
+        }
+        
+        .flute-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary, #FF6B35) 0%, var(--accent, #FDCA40) 100%);
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .flute-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+        }
+        
+        .flute-button:active {
+            transform: translateY(0) scale(0.95);
+        }
+        
+        .flute-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(0);
+            border-radius: 50%;
+            transition: transform 0.4s ease-out;
+        }
+        
+        .flute-button:hover::before {
+            transform: scale(1.5);
+        }
+        
+        .flute-label {
+            background-color: white;
+            color: var(--primary, #FF6B35);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            max-width: 200px;
+            text-align: center;
+        }
+        
+        .flute-player:hover .flute-label {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Playing Animation */
+        @keyframes playing {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        .playing .flute-button {
+            animation: playing 2s infinite;
+            background: linear-gradient(135deg, var(--secondary, #2EC4B6) 0%, var(--primary, #FF6B35) 100%);
+        }
+        
+        /* Sound wave animation */
+        .sound-wave {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .sound-wave::before, 
+        .sound-wave::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation-duration: 2s;
+            animation-timing-function: ease-out;
+            animation-iteration-count: infinite;
+        }
+        
+        .playing .sound-wave {
+            opacity: 1;
+        }
+        
+        .playing .sound-wave::before {
+            animation-name: ripple;
+        }
+        
+        .playing .sound-wave::after {
+            animation-name: ripple;
+            animation-delay: 0.5s;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+        
+        /* Volume Control Styles */
+        .volume-control {
+            position: absolute;
+            bottom: 70px;
+            width: 120px;
+            background: white;
+            border-radius: 20px;
+            padding: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .playing .volume-control {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 4px;
+            -webkit-appearance: none;
+            background: #ddd;
+            border-radius: 2px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: var(--primary, #FF6B35);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .flute-player {
+                bottom: 20px;
+                left: 20px;
+            }
+            
+            .flute-button {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1739,6 +1935,16 @@
             </div>
         </nav>
     </div>
+    <div class="flute-player" id="flutePlayer">
+        <div class="volume-control">
+            <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="0.7">
+        </div>
+        <button class="flute-button" id="fluteButton">
+            <i class="fas fa-music" id="buttonIcon"></i>
+            <div class="sound-wave"></div>
+        </button>
+        <div class="flute-label">Would you like some background music? Click to hear my flute music</div>
+    </div>
 
     <section class="hero">
         <div class="hero-bg">
@@ -1748,7 +1954,7 @@
         </div>
         <div class="hero-content">
             <div class="hero-tag">UX Designer & Community Builder</div>
-            <h1>Crafting Digital Experiences with a focus for the community</h1>
+            <h1>Bridging People Through Purposeful Design</h1>
             <p class="hero-description">Where thoughtful design meets human connection. Creating intuitive and beautiful digital solutions that empower communities and bring people together.</p>
             <div class="cta-group">
                 <a href="#projects" class="cta-button">View My Work</a>
@@ -2287,6 +2493,71 @@
         
     });
 
+
+    document.addEventListener('DOMContentLoaded', function() {
+            const flutePlayer = document.getElementById('flutePlayer');
+            const fluteButton = document.getElementById('fluteButton');
+            const buttonIcon = document.getElementById('buttonIcon');
+            const volumeControl = document.getElementById('volumeControl');
+            const fluteLabel = document.querySelector('.flute-label');
+            
+            // Create audio element
+            const audio = new Audio();
+            audio.src = "flute.mp3.mp3"; 
+            audio.volume = volumeControl.value;
+            
+            // Audio control functions
+            let isPlaying = false;
+            
+            fluteButton.addEventListener('click', function() {
+                if (isPlaying) {
+                    // Stop playing
+                    audio.pause();
+                    audio.currentTime = 0;
+                    flutePlayer.classList.remove('playing');
+                    buttonIcon.className = 'fas fa-music';
+                    fluteLabel.textContent = 'Click to hear me play';
+                    isPlaying = false;
+                } else {
+                    // Start playing
+                    audio.play().catch(e => {
+                        console.error('Error playing audio:', e);
+                        // Show error notification if needed
+                    });
+                    flutePlayer.classList.add('playing');
+                    buttonIcon.className = 'fas fa-pause';
+                    fluteLabel.textContent = 'Click to pause';
+                    isPlaying = true;
+                }
+            });
+            
+            // Volume control
+            volumeControl.addEventListener('input', function() {
+                audio.volume = this.value;
+            });
+            
+            // End of audio handling
+            audio.addEventListener('ended', function() {
+                flutePlayer.classList.remove('playing');
+                buttonIcon.className = 'fas fa-music';
+                fluteLabel.textContent = 'Click to hear me play';
+                isPlaying = false;
+            });
+            
+            // Hover effect on mobile
+            fluteButton.addEventListener('touchstart', function() {
+                fluteLabel.style.opacity = '1';
+                fluteLabel.style.transform = 'translateY(0)';
+            });
+            
+            document.addEventListener('touchstart', function(e) {
+                if (!flutePlayer.contains(e.target)) {
+                    fluteLabel.style.opacity = '0';
+                    fluteLabel.style.transform = 'translateY(10px)';
+                }
+            });
+        });
+
     
     </script>
 
@@ -2608,146 +2879,584 @@
             right: 0;
         }
     }
+
+
+    
 </style>
 
-<!-- Add this JavaScript code to the end of your existing script tag -->
+<
 <script>
-    // Chatbox Functionality
-    document.addEventListener('DOMContentLoaded', function() {
-        const chatboxButton = document.querySelector('.chatbox-button');
-        const chatboxPanel = document.querySelector('.chatbox-panel');
-        const chatboxClose = document.querySelector('.chatbox-close');
-        const chatInput = document.getElementById('chat-input');
-        const sendBtn = document.querySelector('.send-btn');
-        const messagesContainer = document.querySelector('.chatbox-messages');
-        const suggestionBtns = document.querySelectorAll('.suggestion-btn');
-        
-        // Toggle chatbox
-        chatboxButton.addEventListener('click', function() {
-            chatboxButton.classList.add('active');
-            chatboxPanel.classList.add('active');
-        });
-        
-        chatboxClose.addEventListener('click', function() {
-            chatboxPanel.classList.remove('active');
-            setTimeout(() => {
-                chatboxButton.classList.remove('active');
-            }, 300);
-        });
-        
-        // Send message function
-        function sendMessage(text) {
-            if (!text.trim()) return;
-            
-            // Create outgoing message
-            const messageItem = document.createElement('div');
-            messageItem.classList.add('message-item', 'outgoing');
-            
-            const messageBubble = document.createElement('div');
-            messageBubble.classList.add('message-bubble');
-            messageBubble.innerHTML = `<p>${text}</p>`;
-            
-            const messageTime = document.createElement('div');
-            messageTime.classList.add('message-time');
-            messageTime.textContent = 'Just now';
-            
-            messageItem.appendChild(messageBubble);
-            messageItem.appendChild(messageTime);
-            messagesContainer.appendChild(messageItem);
-            
-            // Clear input
-            chatInput.value = '';
-            
-            // Scroll to bottom
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            
-            // Simulate reply after delay
-            setTimeout(() => {
-                generateReply(text);
-            }, 800);
-        }
-        
-        // Generate automated reply based on user message
-        function generateReply(userMessage) {
-            let replyText = '';
-            const lowerMsg = userMessage.toLowerCase();
-            
-            if (lowerMsg.includes('project') || lowerMsg.includes('portfolio') || lowerMsg.includes('work')) {
-                replyText = "I've worked on several projects including Visual Pathways, Prompt Engineering, and Boogie with Health. Would you like to know more about a specific project?";
-            } else if (lowerMsg.includes('about') || lowerMsg.includes('who') || lowerMsg.includes('background')) {
-                replyText = "I'm Jana Bridi, a Syrian-American UX Designer passionate about bridging cultures through design. I'm also a flutist and STEM mentor for high school girls!";
-            } else if (lowerMsg.includes('contact') || lowerMsg.includes('email') || lowerMsg.includes('reach')) {
-                replyText = "You can reach me at bridijana@gmail.com or through the contact form on this website. I'm based in San Diego, CA.";
-            } else if (lowerMsg.includes('snapchat') || lowerMsg.includes('snap')) {
-                replyText = "I'm interested in applying my UX skills at Snapchat! I love creating interactive experiences that build community, which aligns perfectly with Snapchat's mission.";
-            } else if (lowerMsg.includes('skill') || lowerMsg.includes('tool') || lowerMsg.includes('design')) {
-                replyText = "My skills include user research, interface design, and information architecture. I'm proficient with Figma, Adobe Suite, and have front-end development knowledge.";
-            } else if (lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {
-                replyText = "Hello! Thanks for visiting my portfolio. What would you like to know about my work or experience?";
-            } else {
-                replyText = "Thanks for your message! Would you like to know more about my projects, background, or how to contact me?";
-            }
-            
-            // Create incoming message
-            const messageItem = document.createElement('div');
-            messageItem.classList.add('message-item', 'incoming');
-            
-            const messageBubble = document.createElement('div');
-            messageBubble.classList.add('message-bubble');
-            messageBubble.innerHTML = `<p>${replyText}</p>`;
-            
-            const messageTime = document.createElement('div');
-            messageTime.classList.add('message-time');
-            messageTime.textContent = 'Just now';
-            
-            messageItem.appendChild(messageBubble);
-            messageItem.appendChild(messageTime);
-            messagesContainer.appendChild(messageItem);
-            
-            // Scroll to bottom
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-        
-        // Send message on button click
-        sendBtn.addEventListener('click', function() {
-            sendMessage(chatInput.value);
-        });
-        
-        // Send message on Enter key
-        chatInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage(chatInput.value);
-            }
-        });
-        
-        // Handle suggestion buttons
-        suggestionBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                sendMessage(this.textContent);
+     (function() {
+            // Chat Widget Implementation
+            document.addEventListener('DOMContentLoaded', function() {
+                // DOM Elements
+                const chatButton = document.getElementById('chatButton');
+                const chatContainer = document.getElementById('chatContainer');
+                const chatClose = document.getElementById('chatClose');
+                const chatMessages = document.getElementById('chatMessages');
+                const chatInput = document.getElementById('chatInput');
+                const sendButton = document.getElementById('sendButton');
+                const welcomeScreen = document.getElementById('welcomeScreen');
+                const startChatBtn = document.getElementById('startChatBtn');
+                const quickResponseBtns = document.querySelectorAll('.quick-response-btn');
+                const trainingPanelToggle = document.getElementById('trainingPanelToggle');
+                const trainingPanel = document.getElementById('trainingPanel');
+                const trainingPanelClose = document.getElementById('trainingPanelClose');
+                const trainingInput = document.getElementById('trainingInput');
+                const addTrainingBtn = document.getElementById('addTrainingBtn');
+                const trainingItems = document.getElementById('trainingItems');
+                const memoryToggle = document.getElementById('memoryToggle');
+                const clearMemoryBtn = document.getElementById('clearMemoryBtn');
+                
+                    // Default training data (will be overridden if data exists in localStorage)
+                const defaultTrainingData = [
+                    "Jana is a Syrian-American designer with expertise in UX Design.",
+                    "Jana's portfolio includes Visual Pathways (UX research, 4.8/5 rating), Prompt Engineering (AI UX, 4.9/5 rating), and Boogie with Health (web design, 4.7/5 rating).",
+                    "Boogie with Health was a web design project for a program called 48 in 48 that helps non-profits by bringing in volunteers to create websites within 48 hours. The team worked with a non-profit that made farmers markets accessible to underserved communities.",
+                    "Jana is also a nationally recognized flutist and STEM mentor for high school girls.",
+                    "Jana's skills include UX Design, Interface Architecture, User Research, and Visual Design Systems.",
+                    "Contact Jana through the contact form, email at victoria.grace@email.com, or call +1 (555) 123-4567."
+                ];
+                
+                // Initialize the chatbot with debug information
+                document.addEventListener('DOMContentLoaded', function() {
+                    console.log("Jana's AI Chatbot initialized!");
+                    
+                    // Initialize localStorage if it doesn't exist
+                    if (!localStorage.getItem('janaAIChatData')) {
+                        console.log("Setting up initial training data");
+                        localStorage.setItem('janaAIChatData', JSON.stringify(defaultTrainingData));
+                    } else {
+                        console.log("Found existing training data");
+                    }
+                    
+                    if (!localStorage.getItem('janaAIChatHistory')) {
+                        localStorage.setItem('janaAIChatHistory', JSON.stringify([]));
+                    }
+                    
+                    // Load training data into UI
+                    loadTrainingItems();
+                });
+                
+                // Initial bot responses
+                const initialMessages = [
+                    "Hi there! I'm Jana's AI assistant. How can I help you today?",
+                    "Feel free to ask me about Jana's work, experience, or how to get in touch with her."
+                ];
+                
+                // Fallback responses by keyword
+                const keywordResponses = [
+                    {
+                        keywords: ['hello', 'hi', 'hey', 'greetings'],
+                        responses: [
+                            "Hello! How can I assist you with Jana's portfolio today?",
+                            "Hi there! What would you like to know about Jana's work?"
+                        ]
+                    },
+                    {
+                        keywords: ['visual pathways', 'visual', 'pathways'],
+                        responses: [
+                            "Visual Pathways is a research project exploring how users process visual information across digital interfaces. It received a Design Excellence award and has a 4.8/5 rating from 24 reviewers.",
+                            "The Visual Pathways project demonstrates Jana's expertise in eye-tracking research and interactive analytics. It was completed in 2023 and received excellent feedback for its innovative approach to understanding user behavior."
+                        ]
+                    },
+                    {
+                        keywords: ['prompt engineering', 'prompt', 'engineering'],
+                        responses: [
+                            "Prompt Engineering is Jana's AI UX project focused on creating effective AI prompts to enhance user experiences. It won an Innovation Award with a 4.9/5 rating!",
+                            "Jana's Prompt Engineering project demonstrates her ability to bridge AI technology with user experience design. The project helps designers create more effective prompts for AI tools, improving response quality and user satisfaction."
+                        ]
+                    },
+                    {
+                        keywords: ['boogie', 'health', 'farmers', 'market', '48'],
+                        responses: [
+                            "Boogie with Health was a web design project created during the 48 in 48 program, which brings volunteers together to build websites for non-profits in just 48 hours. Jana worked with a non-profit that makes farmers markets accessible to underserved communities.",
+                            "The Boogie with Health project was part of the 48 in 48 initiative where Jana helped design and develop a website for a non-profit that connects farmers markets with underserved communities. The entire website was completed within a 48-hour timeframe, showcasing Jana's ability to work efficiently under pressure."
+                        ]
+                    },
+                    {
+                        keywords: ['portfolio', 'projects', 'work'],
+                        responses: [
+                            "Jana's portfolio showcases her expertise in UX design, AI, and health tech. Her three main projects are Visual Pathways, Prompt Engineering, and Boogie with Health. Which would you like to know more about?",
+                            "Jana has worked on several impressive projects including Visual Pathways (UX research), Prompt Engineering (AI UX design), and Boogie with Health (health tech). Each project demonstrates her ability to blend innovation with user-centered design."
+                        ]
+                    },
+                    {
+                        keywords: ['about', 'background', 'bio'],
+                        responses: [
+                            "Jana is a Syrian-American designer whose journey spans multiple cultures. Her background enriches her approach to design and problem-solving. She's also a nationally recognized flutist and STEM mentor for high school girls!",
+                            "Jana's multicultural background as a Syrian-American designer informs her unique approach to design. From her roots in Syria to growing up in California's Central Valley and now living in San Diego, these experiences have shaped her understanding of diverse communities."
+                        ]
+                    },
+                    {
+                        keywords: ['skills', 'expertise', 'tools'],
+                        responses: [
+                            "Jana's expertise includes User Experience Design, Interface Architecture, User Research & Testing, and Visual Design Systems. She's proficient with tools like Figma, Adobe Suite, HTML/CSS/JavaScript, and React.",
+                            "Jana has mastered several design tools and technologies including Figma, the Adobe Creative Suite, and front-end development languages. Her skills span from user research methodologies to creating comprehensive design systems."
+                        ]
+                    },
+                    {
+                        keywords: ['contact', 'email', 'phone', 'reach'],
+                        responses: [
+                            "You can contact Jana through the form in the Contact section. She's also available via email at victoria.grace@email.com or by phone at +1 (555) 123-4567.",
+                            "To get in touch with Jana, you can use the contact form on her website, send an email to victoria.grace@email.com, or call +1 (555) 123-4567. She typically responds within 1-2 business days."
+                        ]
+                    },
+                    {
+                        keywords: ['thank', 'thanks', 'appreciate'],
+                        responses: [
+                            "You're welcome! I'm glad I could help. Feel free to ask if you have any other questions about Jana's work.",
+                            "My pleasure! Let me know if there's anything else you'd like to know about Jana's portfolio or background."
+                        ]
+                    }
+                ];
+                
+                // Default responses when no keywords match
+                const defaultResponses = [
+                    "I'm not sure I understand. Could you tell me more about what aspect of Jana's work you're interested in?",
+                    "That's an interesting question. Could you provide more details about what you'd like to know about Jana's portfolio?",
+                    "I'd be happy to help with that. To give you the most relevant information about Jana's work, could you be a bit more specific?"
+                ];
+                
+                // Toggle chat container
+                chatButton.addEventListener('click', function() {
+                    chatContainer.classList.toggle('active');
+                });
+                
+                // Close chat
+                chatClose.addEventListener('click', function() {
+                    chatContainer.classList.remove('active');
+                });
+                
+                // Start chat button
+                startChatBtn.addEventListener('click', function() {
+                    welcomeScreen.style.display = 'none';
+                    
+                    // Add initial messages
+                    setTimeout(() => {
+                        addBotMessage(initialMessages[0]);
+                        
+                        setTimeout(() => {
+                            addBotMessage(initialMessages[1]);
+                        }, 1000);
+                    }, 500);
+                    
+                    // Load conversation history if enabled
+                    if (memoryToggle.checked) {
+                        loadConversationHistory();
+                    }
+                });
+                
+                // Quick response buttons
+                quickResponseBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const responseText = this.textContent;
+                        addUserMessage(responseText);
+                        processUserMessage(responseText);
+                    });
+                });
+                
+                // Training panel toggle
+                trainingPanelToggle.addEventListener('click', function() {
+                    trainingPanel.classList.add('active');
+                });
+                
+                // Training panel close
+                trainingPanelClose.addEventListener('click', function() {
+                    trainingPanel.classList.remove('active');
+                });
+                
+                // Add training item
+                addTrainingBtn.addEventListener('click', function() {
+                    const trainingText = trainingInput.value.trim();
+                    if (trainingText) {
+                        // Fix: Explicitly retrieve current data first
+                        let currentData = [];
+                        try {
+                            currentData = JSON.parse(localStorage.getItem('janaAIChatData')) || [];
+                        } catch(e) {
+                            console.error("Error parsing training data:", e);
+                            currentData = [];
+                        }
+                        
+                        // Add new item
+                        currentData.push(trainingText);
+                        
+                        // Save back to localStorage
+                        localStorage.setItem('janaAIChatData', JSON.stringify(currentData));
+                        
+                        // Add to UI
+                        addTrainingItemToUI(trainingText);
+                        
+                        // Clear input
+                        trainingInput.value = '';
+                        
+                        // Show confirmation
+                        alert('Knowledge added successfully!');
+                    } else {
+                        alert('Please enter some knowledge before adding.');
+                    }
+                });
+                
+                // Clear conversation memory
+                clearMemoryBtn.addEventListener('click', function() {
+                    localStorage.setItem('janaAIChatHistory', JSON.stringify([]));
+                    alert('Conversation memory cleared!');
+                });
+                
+                // Send message on button click
+                sendButton.addEventListener('click', sendMessage);
+                
+                // Send message on Enter key (but allow shift+enter for new line)
+                chatInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendMessage();
+                    }
+                });
+                
+                // Auto-resize textarea
+                chatInput.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+                
+                // Send message function
+                function sendMessage() {
+                    const message = chatInput.value.trim();
+                    if (message) {
+                        addUserMessage(message);
+                        chatInput.value = '';
+                        chatInput.style.height = 'auto';
+                        
+                        processUserMessage(message);
+                    }
+                }
+                
+                // Add user message to chat
+                function addUserMessage(message) {
+                    const messageElement = document.createElement('div');
+                    messageElement.classList.add('message', 'message-user');
+                    messageElement.textContent = message;
+                    
+                    // Add timestamp
+                    const timeElement = document.createElement('span');
+                    timeElement.classList.add('message-time');
+                    timeElement.textContent = getCurrentTime();
+                    messageElement.appendChild(timeElement);
+                    
+                    chatMessages.appendChild(messageElement);
+                    scrollToBottom();
+                    
+                    // Save to conversation history if memory is enabled
+                    if (memoryToggle.checked) {
+                        saveToConversationHistory('user', message);
+                    }
+                }
+                
+                // Add bot message to chat
+                function addBotMessage(message) {
+                    // Show typing indicator
+                    const typingIndicator = document.createElement('div');
+                    typingIndicator.classList.add('typing-indicator');
+                    for (let i = 0; i < 3; i++) {
+                        const dot = document.createElement('div');
+                        dot.classList.add('typing-dot');
+                        typingIndicator.appendChild(dot);
+                    }
+                    chatMessages.appendChild(typingIndicator);
+                    scrollToBottom();
+                    
+                    // Calculate a realistic typing delay based on message length
+                    // Assume avg typing speed of ~30 chars per second, but with some randomness
+                    const minDelay = 800; // Minimum delay in ms
+                    const charDelay = 30; // Milliseconds per character
+                    const messageLength = message.length;
+                    const randomFactor = 0.7 + Math.random() * 0.6; // Random factor between 0.7 and 1.3
+                    
+                    // Calculate delay with constraints
+                    let typingDelay = Math.min(2500, Math.max(minDelay, messageLength * charDelay * randomFactor));
+                    
+                    // Remove typing indicator and add message after calculated delay
+                    setTimeout(() => {
+                        if (chatMessages.contains(typingIndicator)) {
+                            chatMessages.removeChild(typingIndicator);
+                        }
+                        
+                        const messageElement = document.createElement('div');
+                        messageElement.classList.add('message', 'message-bot');
+                        messageElement.textContent = message;
+                        
+                        // Add timestamp
+                        const timeElement = document.createElement('span');
+                        timeElement.classList.add('message-time');
+                        timeElement.textContent = getCurrentTime();
+                        messageElement.appendChild(timeElement);
+                        
+                        chatMessages.appendChild(messageElement);
+                        scrollToBottom();
+                        
+                        // Save to conversation history if memory is enabled
+                        if (memoryToggle.checked) {
+                            saveToConversationHistory('bot', message);
+                        }
+                    }, typingDelay);
+                }
+                
+                // Process user message and generate AI-like response
+                function processUserMessage(message) {
+                    // Try to generate an AI-like response based on training data
+                    const response = generateAIResponse(message);
+                    addBotMessage(response);
+                }
+                
+                // Generate AI-like response based on training data and user message
+                function generateAIResponse(userMessage) {
+                    // Convert to lowercase for matching
+                    const lowerMessage = userMessage.toLowerCase();
+                    
+                    // Get training data from localStorage
+                    const trainingData = JSON.parse(localStorage.getItem('janaAIChatData')) || [];
+                    
+                    // Get conversation history if memory is enabled (for context)
+                    let conversationContext = [];
+                    if (memoryToggle.checked) {
+                        const history = JSON.parse(localStorage.getItem('janaAIChatHistory')) || [];
+                        // Only use the last 6 messages for context
+                        conversationContext = history.slice(-6);
+                    }
+                    
+                    // 1. First, look for direct matches in training data
+                    for (const data of trainingData) {
+                        const lowerData = data.toLowerCase();
+                        
+                        // Check if user message is asking about something in this training item
+                        const userWords = lowerMessage.split(/\s+/).filter(word => word.length > 3);
+                        let relevantWords = 0;
+                        
+                        for (const word of userWords) {
+                            if (lowerData.includes(word)) {
+                                relevantWords++;
+                            }
+                        }
+                        
+                        // If we have significant word overlap in a meaningful question
+                        if (relevantWords >= 2 && userWords.length >= 3) {
+                            // Transform the training data into a response
+                            return data + " Is there anything specific about this you'd like to know more about?";
+                        }
+                    }
+                    
+                    // 2. Check for project-specific questions using a more targeted approach
+                    if (lowerMessage.includes('visual pathways') || 
+                        (lowerMessage.includes('visual') && lowerMessage.includes('project'))) {
+                        return "Visual Pathways is one of Jana's most acclaimed projects. It's a research-focused initiative that explores how users visually process information across digital interfaces. The project received a Design Excellence award and maintains an impressive 4.8/5 rating from reviewers. Would you like to know more about the methodology behind this project?";
+                    }
+                    
+                    if (lowerMessage.includes('prompt engineering') || 
+                        (lowerMessage.includes('prompt') && lowerMessage.includes('project'))) {
+                        return "Prompt Engineering is Jana's innovative AI UX project that helps designers and developers create more effective AI prompts to enhance user experiences. This project won an Innovation Award and has a near-perfect 4.9/5 rating from 18 reviewers! The techniques developed in this project help bridge the gap between human intent and AI understanding.";
+                    }
+                    
+                    if (lowerMessage.includes('boogie') || 
+                        (lowerMessage.includes('health') && lowerMessage.includes('project')) ||
+                        (lowerMessage.includes('farmers') && lowerMessage.includes('market'))) {
+                        return "Boogie with Health was a web design project Jana completed for a program called 48 in 48, which brings together volunteers to create websites for non-profits within just 48 hours. The team worked with a non-profit organization that makes farmers markets accessible to underserved communities. This project showcases Jana's web design and development skills in a high-pressure, time-constrained environment while creating meaningful social impact.";
+                    }
+                    
+                    // 3. Look for keyword matches in our fallback responses
+                    for (const item of keywordResponses) {
+                        for (const keyword of item.keywords) {
+                            if (lowerMessage.includes(keyword)) {
+                                // Randomly select a response from the options
+                                const randomIndex = Math.floor(Math.random() * item.responses.length);
+                                return item.responses[randomIndex];
+                            }
+                        }
+                    }
+                    
+                    // 4. Check conversation context and try to provide a contextually relevant response
+                    if (conversationContext.length > 0) {
+                        const lastBotMessage = conversationContext.filter(msg => msg.role === 'bot').pop();
+                        const lastUserMessage = conversationContext.filter(msg => msg.role === 'user').pop();
+                        
+                        if (lastBotMessage) {
+                            // If the bot just mentioned a project and user asks for more info
+                            if ((lastBotMessage.message.includes('Visual Pathways') && 
+                                 lowerMessage.includes('more')) || 
+                                lowerMessage.includes('tell me more')) {
+                                return "Visual Pathways uses advanced eye-tracking research to analyze how users process information visually. Jana conducted studies with over 50 participants to map out visual patterns and used this data to develop a framework for more intuitive interface designs. The project has been cited in several UX research papers for its innovative methodology.";
+                            }
+                            
+                            if ((lastBotMessage.message.includes('Prompt Engineering') && 
+                                 lowerMessage.includes('more')) || 
+                                lowerMessage.includes('more info')) {
+                                return "The Prompt Engineering project analyzed thousands of AI prompts and their outcomes to develop patterns for more effective human-AI interactions. Jana created a scoring system that helps predict how well an AI will understand and respond to different prompt structures. The framework has been implemented by several design teams, resulting in significant improvements in AI response quality.";
+                            }
+                            
+                            if ((lastBotMessage.message.includes('Boogie with Health') && 
+                                 lowerMessage.includes('more')) || 
+                                lowerMessage.includes('details')) {
+                                return "The Boogie with Health project was completed during a 48-hour hackathon-style event called 48 in 48. This program brings together teams of designers, developers, and digital professionals to create websites for non-profit organizations in just 48 hours. Jana's team worked specifically with a non-profit that helps make farmers markets accessible to underserved communities. The website included features like donation capabilities, volunteer sign-up forms, and information about farmers market locations and schedules. The project received excellent feedback for its user-friendly design and social impact.";
+                            }
+                        }
+                    }
+                    
+                    // 5. If all else fails, use a default response
+                    const randomIndex = Math.floor(Math.random() * defaultResponses.length);
+                    return defaultResponses[randomIndex];
+                }
+                
+                // Save message to conversation history
+                function saveToConversationHistory(role, message) {
+                    const history = JSON.parse(localStorage.getItem('janaAIChatHistory')) || [];
+                    
+                    history.push({
+                        role: role,
+                        message: message,
+                        timestamp: new Date().toISOString()
+                    });
+                    
+                    // Limit history to last 50 messages to prevent localStorage overflow
+                    if (history.length > 50) {
+                        history.shift();
+                    }
+                    
+                    localStorage.setItem('janaAIChatHistory', JSON.stringify(history));
+                }
+                
+                // Load conversation history
+                function loadConversationHistory() {
+                    const history = JSON.parse(localStorage.getItem('janaAIChatHistory')) || [];
+                    
+                    // Only load if there's history and the messages container is empty
+                    if (history.length > 0 && chatMessages.children.length === 0) {
+                        // Add a separator
+                        const separator = document.createElement('div');
+                        separator.style.textAlign = 'center';
+                        separator.style.margin = '10px 0';
+                        separator.style.color = 'rgba(212, 193, 125, 0.6)';
+                        separator.style.fontSize = '12px';
+                        separator.textContent = '— Previous Conversation —';
+                        chatMessages.appendChild(separator);
+                        
+                        // Add the last 8 messages (or fewer if history is shorter)
+                        const recentHistory = history.slice(-8);
+                        
+                        recentHistory.forEach(item => {
+                            const messageElement = document.createElement('div');
+                            messageElement.classList.add('message', item.role === 'user' ? 'message-user' : 'message-bot');
+                            messageElement.textContent = item.message;
+                            
+                            // Add timestamp
+                            const timeElement = document.createElement('span');
+                            timeElement.classList.add('message-time');
+                            
+                            if (item.timestamp) {
+                                const date = new Date(item.timestamp);
+                                const formattedTime = formatTime(date);
+                                timeElement.textContent = formattedTime;
+                            } else {
+                                timeElement.textContent = getCurrentTime();
+                            }
+                            
+                            messageElement.appendChild(timeElement);
+                            chatMessages.appendChild(messageElement);
+                        });
+                        
+                        // Add another separator
+                        const endSeparator = document.createElement('div');
+                        endSeparator.style.textAlign = 'center';
+                        endSeparator.style.margin = '10px 0';
+                        endSeparator.style.color = 'rgba(212, 193, 125, 0.6)';
+                        endSeparator.style.fontSize = '12px';
+                        endSeparator.textContent = '— New Conversation —';
+                        chatMessages.appendChild(endSeparator);
+                        
+                        scrollToBottom();
+                    }
+                }
+                
+                // Add training item to UI
+                function addTrainingItemToUI(text) {
+                    const itemElement = document.createElement('div');
+                    itemElement.classList.add('training-item');
+                    
+                    const textSpan = document.createElement('span');
+                    textSpan.textContent = text.length > 50 ? text.substring(0, 50) + '...' : text;
+                    textSpan.title = text; // Show full text on hover
+                    
+                    const deleteButton = document.createElement('span');
+                    deleteButton.classList.add('delete-training');
+                    deleteButton.innerHTML = '<i class="fas fa-times"></i>';
+                    deleteButton.addEventListener('click', function() {
+                        // Remove from localStorage
+                        let trainingData = [];
+                        try {
+                            trainingData = JSON.parse(localStorage.getItem('janaAIChatData')) || [];
+                            const updatedData = trainingData.filter(item => item !== text);
+                            localStorage.setItem('janaAIChatData', JSON.stringify(updatedData));
+                        } catch(e) {
+                            console.error("Error removing training item:", e);
+                        }
+                        
+                        // Remove from UI
+                        itemElement.remove();
+                    });
+                    
+                    itemElement.appendChild(textSpan);
+                    itemElement.appendChild(deleteButton);
+                    trainingItems.appendChild(itemElement);
+                }
+                
+                // Load training items from localStorage to UI
+                function loadTrainingItems() {
+                    let trainingData = [];
+                    try {
+                        trainingData = JSON.parse(localStorage.getItem('janaAIChatData')) || [];
+                    } catch(e) {
+                        console.error("Error loading training data:", e);
+                        // If error, reset to default
+                        trainingData = defaultTrainingData;
+                        localStorage.setItem('janaAIChatData', JSON.stringify(defaultTrainingData));
+                    }
+                    
+                    // Clear existing items
+                    trainingItems.innerHTML = '';
+                    
+                    // Add each item to UI
+                    trainingData.forEach(text => {
+                        addTrainingItemToUI(text);
+                    });
+                    
+                    console.log("Loaded training items:", trainingData.length);
+                }
+                
+                // Get current time in HH:MM format
+                function getCurrentTime() {
+                    const now = new Date();
+                    return formatTime(now);
+                }
+                
+                // Format time from date object
+                function formatTime(date) {
+                    let hours = date.getHours();
+                    let minutes = date.getMinutes();
+                    const ampm = hours >= 12 ? 'PM' : 'AM';
+                    
+                    hours = hours % 12;
+                    hours = hours ? hours : 12; // the hour '0' should be '12'
+                    minutes = minutes < 10 ? '0' + minutes : minutes;
+                    
+                    return hours + ':' + minutes + ' ' + ampm;
+                }
+                
+                // Scroll chat to bottom
+                function scrollToBottom() {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
             });
-        });
-        
-        // Generate additional suggestion buttons based on context
-        function addSuggestion(text) {
-            const suggestionsContainer = document.querySelector('.chatbox-suggestions');
-            const suggestionBtn = document.createElement('button');
-            suggestionBtn.classList.add('suggestion-btn');
-            suggestionBtn.textContent = text;
-            
-            suggestionBtn.addEventListener('click', function() {
-                sendMessage(this.textContent);
-            });
-            
-            suggestionsContainer.appendChild(suggestionBtn);
-        }
-        
-        // Add some more dynamic suggestions
-        setTimeout(() => {
-            addSuggestion("Snapchat Experience");
-            addSuggestion("Design Process");
-            addSuggestion("Skills & Tools");
-        }, 2000);
-    });
+        })();
 </script>
 
 
