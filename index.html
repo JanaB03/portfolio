@@ -1,3465 +1,381 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jana Bridi | UX Designer</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap');
-
-        :root {
-            --primary: #FF6B35;
-            --secondary: #2EC4B6;
-            --accent: #FDCA40;
-            --dark: #011627;
-            --light: #F9F9F9;
-            --neutral: #E5E5E5;
-            --gradient-bg: linear-gradient(135deg, #F9F9F9 0%, #f0f0f0 100%);
-            --gradient-accent: linear-gradient(135deg, #FF6B35 0%, #FF8C61 100%);
-            --gradient-secondary: linear-gradient(135deg, #2EC4B6 0%, #5BD7CB 100%);
-            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-medium: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            --cubic-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background-color: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Custom Cursor Styles */
-        .cursor-dot,
-        .cursor-outline {
-            pointer-events: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 9999;
-            mix-blend-mode: difference;
-            transform: translate(-50%, -50%);
-        }
-
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: white;
-            border-radius: 50%;
-            transition: transform 0.2s ease-out;
-        }
-
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 2px solid rgba(255, 255, 255, 0.7);
-            border-radius: 50%;
-            transition: transform 0.3s ease-out, width 0.3s ease-out, height 0.3s ease-out;
-        }
-
-        .hover .cursor-dot {
-            transform: translate(-50%, -50%) scale(1.5);
-        }
-
-        .hover .cursor-outline {
-            transform: translate(-50%, -50%) scale(1.2);
-            border-color: var(--primary);
-        }
-
-        /* Typography */
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Sora', sans-serif;
-            font-weight: 600;
-            color: var(--dark);
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-        }
-
-        a {
-            text-decoration: none;
-            color: var(--primary);
-            transition: var(--transition-medium);
-            position: relative;
-        }
-
-        a:hover {
-            color: var(--secondary);
-        }
-
-        /* Navbar Styles */
-        .nav-container {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            padding: 1.5rem 0;
-            transition: var(--transition-medium);
-            mix-blend-mode: difference;
-        }
-
-        .nav-container.scrolled {
-            padding: 1rem 0;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            mix-blend-mode: normal;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 5%;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-family: 'Sora', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            z-index: 2;
-            mix-blend-mode: difference;
-        }
-
-        .nav-container.scrolled .logo {
-            color: var(--dark);
-            mix-blend-mode: normal;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--primary);
-            color: white;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            font-weight: 500;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .logo-icon::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-accent);
-            transform: translateY(100%);
-            transition: var(--transition-medium);
-        }
-
-        .logo:hover .logo-icon::before {
-            transform: translateY(0);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-        }
-
-        .nav-links a {
-            color: white;
-            font-weight: 500;
-            position: relative;
-            padding: 0.5rem 0;
-            font-family: 'Sora', sans-serif;
-            mix-blend-mode: difference;
-        }
-
-        .nav-container.scrolled .nav-links a {
-            color: var(--dark);
-            mix-blend-mode: normal;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            transform: scaleX(0);
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--primary);
-            transform-origin: bottom right;
-            transition: transform 0.3s var(--cubic-bounce);
-        }
-
-        .nav-links a:hover::after {
-            transform-origin: bottom left;
-            transform: scaleX(1);
-        }
-
-        /* Menu Toggle Button */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 30px;
-            height: 20px;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        .menu-toggle span {
-            width: 100%;
-            height: 2px;
-            background-color: white;
-            transition: var(--transition-medium);
-        }
-
-        .nav-container.scrolled .menu-toggle span {
-            background-color: var(--dark);
-        }
-
-        .menu-toggle.active span:nth-child(1) {
-            transform: translateY(9px) rotate(45deg);
-        }
-
-        .menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .menu-toggle.active span:nth-child(3) {
-            transform: translateY(-9px) rotate(-45deg);
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            position: relative;
-            display: flex;
-            align-items: center;
-            padding: 0 5%;
-            overflow: hidden;
-        }
-
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        .hero-bg-shape {
-            position: absolute;
-            background: var(--accent);
-            opacity: 0.05;
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            animation: morphing 15s ease-in-out infinite;
-        }
-
-        .hero-bg-shape:nth-child(1) {
-            top: -15%;
-            right: -10%;
-            width: 500px;
-            height: 500px;
-            background: var(--primary);
-            opacity: 0.05;
-        }
-
-        .hero-bg-shape:nth-child(2) {
-            bottom: -15%;
-            left: -10%;
-            width: 600px;
-            height: 600px;
-            background: var(--secondary);
-            opacity: 0.05;
-            animation-delay: -5s;
-        }
-
-        @keyframes morphing {
-            0% {
-                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            }
-            25% {
-                border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
-            }
-            50% {
-                border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
-            }
-            75% {
-                border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
-            }
-            100% {
-                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            }
-        }
-
-        .hero-pattern {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image: radial-gradient(#00000008 1px, transparent 1px);
-            background-size: 30px 30px;
-            opacity: 0.5;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-tag {
-            display: inline-block;
-            padding: 0.5rem 1.5rem;
-            background: rgba(46, 196, 182, 0.1);
-            color: var(--secondary);
-            border-radius: 30px;
-            font-weight: 500;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-            transform: translateY(30px);
-            opacity: 0;
-            animation: fadeUp 0.7s forwards 0.2s;
-        }
-
-        h1 {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--dark) 0%, #3a3a3a 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transform: translateY(30px);
-            opacity: 0;
-            animation: fadeUp 0.7s forwards 0.4s;
-        }
-
-        .hero-description {
-            font-size: 1.2rem;
-            margin-bottom: 2.5rem;
-            color: #4f5d75;
-            max-width: 90%;
-            transform: translateY(30px);
-            opacity: 0;
-            animation: fadeUp 0.7s forwards 0.6s;
-        }
-
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .cta-group {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-            transform: translateY(30px);
-            opacity: 0;
-            animation: fadeUp 0.7s forwards 0.8s;
-        }
-
-        .cta-button {
-            position: relative;
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: var(--primary);
-            color: white;
-            border-radius: 30px;
-            font-family: 'Sora', sans-serif;
-            font-weight: 500;
-            font-size: 1rem;
-            overflow: hidden;
-            z-index: 1;
-            transition: transform 0.3s var(--cubic-bounce);
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-accent);
-            z-index: -1;
-            transition: var(--transition-medium);
-        }
-
-        .cta-button::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--dark);
-            z-index: -2;
-            opacity: 0;
-            transition: var(--transition-medium);
-        }
-
-        .cta-button:hover {
-            color: white;
-            transform: translateY(-5px);
-        }
-
-        .cta-button:hover::before {
-            opacity: 0;
-        }
-
-        .cta-button:hover::after {
-            opacity: 1;
-        }
-
-        .cta-secondary {
-            color: var(--dark);
-            font-weight: 500;
-            font-family: 'Sora', sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .cta-secondary i {
-            transition: var(--transition-medium);
-        }
-
-        .cta-secondary:hover i {
-            transform: translateX(5px);
-        }
-
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            opacity: 0;
-            animation: fadeIn 1s forwards 1.2s;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        .scroll-indicator span {
-            font-family: 'Sora', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--dark);
-            opacity: 0.7;
-        }
-
-        .scroll-line {
-            width: 2px;
-            height: 60px;
-            background-color: rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .scroll-line::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--primary);
-            animation: scrollDown 2s infinite;
-        }
-
-        @keyframes scrollDown {
-            0% {
-                transform: translateY(-100%);
-            }
-            100% {
-                transform: translateY(100%);
-            }
-        }
-
-        /* Social Links */
-        .social-links {
-            position: fixed;
-            right: 3rem;
-            bottom: 3rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            z-index: 100;
-        }
-
-        .social-links a {
-            position: relative;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--dark);
-            font-size: 1.2rem;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: var(--transition-medium);
-            transform: translateY(0);
-        }
-
-        .social-links a::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            background: var(--gradient-accent);
-            opacity: 0;
-            transition: var(--transition-medium);
-        }
-
-        .social-links a i {
-            position: relative;
-            z-index: 1;
-        }
-
-        .social-links a:hover {
-            color: white;
-            transform: translateY(-5px);
-        }
-
-        .social-links a:hover::before {
-            opacity: 1;
-        }
-
-        /* Projects Section */
-        .projects-section {
-            padding: 10rem 5%;
-            background-color: white;
-            position: relative;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 5rem;
-            position: relative;
-        }
-
-        .section-title {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            width: 40%;
-            height: 4px;
-            background: var(--primary);
-            bottom: -0.5rem;
-            left: 30%;
-            border-radius: 2px;
-        }
-
-        .section-subtitle {
-            font-size: 1.2rem;
-            color: #4f5d75;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Project Categories */
-        .project-categories {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 4rem;
-            flex-wrap: wrap;
-        }
-
-        .category-item {
-            padding: 0.7rem 1.8rem;
-            border-radius: 30px;
-            font-family: 'Sora', sans-serif;
-            font-weight: 500;
-            font-size: 0.95rem;
-            cursor: pointer;
-            color: var(--dark);
-            background-color: var(--neutral);
-            transition: var(--transition-medium);
-            border: 2px solid transparent;
-        }
-
-        .category-item:hover, .category-item.active {
-            background-color: white;
-            color: var(--primary);
-            border-color: var(--primary);
-        }
-
-        /* Project Grid */
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 3rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .grid-card {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
-            cursor: pointer;
-            transition: var(--transition-medium);
-            background: white;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-
-        .grid-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-        }
-
-        .grid-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%);
-            opacity: 0;
-            transition: var(--transition-medium);
-            z-index: 1;
-        }
-
-        .grid-card:hover::before {
-            opacity: 1;
-        }
-
-        .grid-poster {
-            position: relative;
-            height: 350px;
-            overflow: hidden;
-        }
-
-        .grid-poster img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.7s ease;
-        }
-
-        .grid-card:hover .grid-poster img {
-            transform: scale(1.1);
-        }
-
-        .grid-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 2rem;
-            z-index: 2;
-            transform: translateY(20px);
-            opacity: 0;
-            transition: var(--transition-medium);
-        }
-
-        .grid-card:hover .grid-overlay {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .grid-tags {
-            display: flex;
-            gap: 0.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .grid-tag {
-            padding: 0.4rem 1rem;
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--dark);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .grid-info {
-            padding: 1.5rem;
-            transition: var(--transition-medium);
-        }
-
-        .grid-card:hover .grid-info {
-            transform: translateY(-80px);
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .grid-info h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--dark);
-            transition: var(--transition-medium);
-        }
-
-        .grid-card:hover .grid-info h3 {
-            color: var(--primary);
-        }
-
-        .grid-info p {
-            color: #4f5d75;
-            font-size: 1rem;
-            transition: var(--transition-medium);
-        }
-
-        .grid-rating {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--primary);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-weight: 600;
-            z-index: 2;
-            font-size: 0.9rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: var(--transition-medium);
-        }
-
-        .grid-card:hover .grid-rating {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* Projects Container (Expanded View) */
-        .projects-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: none;
-        }
-
-        /* About Section */
-        .about-section {
-            padding: 10rem 5%;
-            background-color: var(--light);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .about-bg-shape {
-            position: absolute;
-            z-index: -1;
-        }
-
-        .about-bg-shape:nth-child(1) {
-            top: -10%;
-            right: -5%;
-            width: 400px;
-            height: 400px;
-            background: rgba(46, 196, 182, 0.05);
-            border-radius: 50%;
-        }
-
-        .about-bg-shape:nth-child(2) {
-            bottom: -15%;
-            left: -10%;
-            width: 600px;
-            height: 600px;
-            background: rgba(255, 107, 53, 0.05);
-            border-radius: 47% 53% 70% 30% / 30% 43% 57% 70%;
-        }
-
-        .about-container {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            align-items: center;
-        }
-
-        .about-image-container {
-            position: relative;
-        }
-
-        .about-image {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-            transform: rotate(-3deg);
-            transition: var(--transition-medium);
-        }
-
-        .about-image:hover {
-            transform: rotate(0deg);
-        }
-
-        .about-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: var(--transition-medium);
-        }
-
-        .about-image:hover img {
-            transform: scale(1.05);
-        }
-
-        .about-frame {
-            position: absolute;
-            width: 80%;
-            height: 80%;
-            border: 3px solid var(--primary);
-            border-radius: 20px;
-            top: 10%;
-            left: -5%;
-            z-index: -1;
-            transition: var(--transition-medium);
-        }
-
-        .about-image:hover + .about-frame {
-            transform: translate(20px, 20px);
-        }
-
-        .about-content {
-            padding: 2rem 0;
-        }
-
-        .about-tag {
-            display: inline-block;
-            padding: 0.5rem 1.5rem;
-            background: rgba(255, 107, 53, 0.1);
-            color: var(--primary);
-            border-radius: 30px;
-            font-weight: 500;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .about-title {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
-        }
-
-        .about-text p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-            color: #4f5d75;
-        }
-
-        .skill-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .skill-category h4 {
-            font-family: 'Sora', sans-serif;
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
-            position: relative;
-            display: inline-block;
-        }
-
-        .skill-category h4::after {
-            content: '';
-            position: absolute;
-            width: 30%;
-            height: 3px;
-            background: var(--primary);
-            bottom: -0.5rem;
-            left: 0;
-            border-radius: 2px;
-        }
-
-        .skill-list {
-            list-style: none;
-        }
-
-        .skill-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .skill-icon {
-            width: 40px;
-            height: 40px;
-            background: white;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 1.2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .skill-info {
-            flex: 1;
-        }
-
-        .skill-name {
-            font-weight: 500;
-            color: var(--dark);
-            margin-bottom: 0.2rem;
-        }
-
-        .skill-bar {
-            height: 6px;
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .skill-progress {
-            height: 100%;
-            background: var(--gradient-accent);
-            border-radius: 3px;
-            transition: width 1s ease-out;
-        }
-
-        /* Contact Section */
-        .contact-section {
-            padding: 10rem 5% 6rem;
-            background-color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .contact-bg-shape {
-            position: absolute;
-            z-index: -1;
-        }
-
-        .contact-bg-shape:nth-child(1) {
-            top: -15%;
-            right: -10%;
-            width: 500px;
-            height: 500px;
-            background: rgba(255, 107, 53, 0.05);
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-        }
-
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .contact-info {
-            padding: 3rem;
-            background: var(--light);
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .contact-info-bg {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 107, 53, 0.05);
-            border-radius: 50%;
-            top: -150px;
-            right: -150px;
-            z-index: -1;
-        }
-
-        .contact-title {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
-        }
-
-        .contact-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 2.5rem;
-            color: #4f5d75;
-        }
-
-        .contact-details {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 1.2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: var(--transition-medium);
-        }
-
-        .contact-item:hover .contact-icon {
-            background: var(--primary);
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .contact-info-text {
-            font-weight: 500;
-            color: var(--dark);
-        }
-
-        .contact-form {
-            padding: 3rem;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
-        }
-
-        .form-group {
-            margin-bottom: 2rem;
-            position: relative;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem 0;
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-            color: var(--dark);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 1rem;
-            transition: var(--transition-medium);
-        }
-
-        .form-group label {
-            position: absolute;
-            top: 1rem;
-            left: 0;
-            color: #9ba0b3;
-            transition: var(--transition-medium);
-            pointer-events: none;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group input:valid,
-        .form-group textarea:valid {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .form-group input:focus ~ label,
-        .form-group textarea:focus ~ label,
-        .form-group input:valid ~ label,
-        .form-group textarea:valid ~ label {
-            top: -0.5rem;
-            font-size: 0.85rem;
-            color: var(--primary);
-        }
-
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        .submit-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 1rem 2.5rem;
-            font-family: 'Sora', sans-serif;
-            font-size: 1rem;
-            font-weight: 500;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: var(--transition-medium);
-            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.2);
-        }
-
-        .submit-btn:hover {
-            background: var(--dark);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Footer */
-        .footer {
-            padding: 4rem 5% 2rem;
-            background-color: var(--light);
-            position: relative;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .footer-logo {
-            font-family: 'Sora', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .footer-logo-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            color: white;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .footer-nav {
-            display: flex;
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .footer-nav a {
-            color: var(--dark);
-            font-weight: 500;
-            font-family: 'Sora', sans-serif;
-            transition: var(--transition-medium);
-        }
-
-        .footer-nav a:hover {
-            color: var(--primary);
-        }
-
-        .footer-social {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-social a {
-            width: 45px;
-            height: 45px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--dark);
-            font-size: 1.2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: var(--transition-medium);
-        }
-
-        .footer-social a:hover {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-5px);
-        }
-
-        .footer-text {
-            color: #4f5d75;
-            text-align: center;
-            font-size: 0.95rem;
-        }
-
-        /* Responsive Adaptations */
-        @media (max-width: 1200px) {
-            h1 {
-                font-size: 3.5rem;
-            }
-
-            .project-grid {
-                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            }
-        }
-
-        @media (max-width: 992px) {
-            h1 {
-                font-size: 3rem;
-            }
-
-            .about-container, .contact-container {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .about-image-container {
-                max-width: 500px;
-                margin: 0 auto;
-            }
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero-description {
-                font-size: 1.1rem;
-            }
-
-            .cta-group {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .section-title {
-                font-size: 2.5rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .menu-toggle {
-                display: flex;
-            }
-
-            .project-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-
-            .skill-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .social-links {
-                position: static;
-                flex-direction: row;
-                justify-content: center;
-                margin-top: 2rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .project-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-info, .contact-form {
-                padding: 2rem;
-            }
-        }
-
-        /* Animations & Special Effects */
-        /* Reveal animation for skills */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Parallax effect */
-        .parallax {
-            transition: transform 0.3s ease-out;
-        }
-
-        /* Project Card Extended */
-        .project-card {
-            background-color: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-            display: none;
-        }
-
-        .project-card.active {
-            display: block;
-            animation: fadeUp 0.7s ease forwards;
-        }
-
-        .project-header {
-            padding: 3rem;
-            display: flex;
-            align-items: flex-start;
-            position: relative;
-            background-color: var(--light);
-        }
-
-        .back-button {
-            position: absolute;
-            top: 3rem;
-            left: 3rem;
-            color: var(--dark);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-weight: 500;
-            font-family: 'Sora', sans-serif;
-            transition: var(--transition-medium);
-        }
-
-        .back-button:hover {
-            color: var(--primary);
-        }
-
-        .back-button i {
-            transition: var(--transition-medium);
-        }
-
-        .back-button:hover i {
-            transform: translateX(-5px);
-        }
-
-        .project-icon {
-            width: 150px;
-            height: 150px;
-            border-radius: 20px;
-            overflow: hidden;
-            margin-left: 6rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: var(--transition-medium);
-        }
-
-        .project-icon:hover {
-            transform: scale(1.05);
-        }
-
-        .project-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .project-main-info {
-            margin-left: 3rem;
-            flex-grow: 1;
-        }
-
-        .project-main-info h3 {
-            font-size: 2.5rem;
-            margin: 0 0 0.8rem;
-            color: var(--dark);
-        }
-
-        .project-subtitle {
-            color: #4f5d75;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        .project-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .project-rating, .project-award, .project-year, .project-category {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            color: #4f5d75;
-            font-size: 1rem;
-        }
-
-        .rating-number, .project-award i {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .view-btn {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: var(--primary);
-            color: white;
-            border-radius: 30px;
-            font-family: 'Sora', sans-serif;
-            font-weight: 500;
-            transition: var(--transition-medium);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .view-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--dark);
-            z-index: -1;
-            transform: translateX(-100%);
-            transition: var(--transition-medium);
-        }
-
-        .view-btn:hover {
-            color: white;
-        }
-
-        .view-btn:hover::before {
-            transform: translateX(0);
-        }
-
-        /* Screenshots section */
-        .project-screenshots {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            padding: 3rem;
-            gap: 3rem;
-            background-color: var(--light);
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary) var(--light);
-        }
-
-        .project-screenshots::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .project-screenshots::-webkit-scrollbar-track {
-            background: var(--light);
-            border-radius: 4px;
-        }
-
-        .project-screenshots::-webkit-scrollbar-thumb {
-            background-color: var(--primary);
-            border-radius: 4px;
-        }
-
-        .screenshot-container {
-            min-width: 700px;
-            background: white;
-            border-radius: 20px;
-            padding: 3rem;
-            display: flex;
-            gap: 3rem;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
-            transition: var(--transition-medium);
-        }
-
-        .screenshot-container:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-        }
-
-        .screenshot-text {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .screenshot-heading {
-            font-size: 1.5rem;
-            line-height: 1.6;
-            color: var(--dark);
-            margin-bottom: 1.5rem;
-        }
-
-        .screenshot-description {
-            color: #4f5d75;
-            line-height: 1.8;
-        }
-
-        /* Mobile device mockup */
-        .screenshot-phone {
-            width: 280px;
-            height: 560px;
-            border-radius: 40px;
-            overflow: hidden;
-            border: 10px solid #333;
-            background: #333;
-            position: relative;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            transition: var(--transition-medium);
-        }
-
-        .screenshot-phone::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40%;
-            height: 20px;
-            background: #333;
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-            z-index: 2;
-        }
-
-        .screenshot-phone::after {
-            content: '';
-            position: absolute;
-            bottom: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40%;
-            height: 5px;
-            background: #444;
-            border-radius: 3px;
-        }
-
-        .screenshot-phone img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition-medium);
-        }
-
-        .screenshot-container:hover .screenshot-phone {
-            transform: rotate(3deg);
-        }
-
-        .screenshot-container:hover .screenshot-phone img {
-            transform: scale(1.05);
-        }
-
-        /* Laptop device mockup */
-        .project-card[data-id="boogie-health"] .screenshot-phone {
-            width: 500px;
-            height: 320px;
-            border-radius: 15px;
-            background: #333;
-            position: relative;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border: none;
-            overflow: visible;
-        }
-
-        .project-card[data-id="boogie-health"] .screenshot-phone::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            border-radius: 15px;
-            background: #333;
-            z-index: -1;
-            transform: translateY(15px) scale(0.95);
-            filter: blur(20px);
-            opacity: 0.3;
-        }
-
-        .project-card[data-id="boogie-health"] .screenshot-phone::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 7px;
-            background: #333;
-            border-radius: 3px;
-        }
-
-        .project-card[data-id="boogie-health"] .screenshot-display {
-            position: absolute;
-            inset: 0;
-            background: #fff;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .project-card[data-id="boogie-health"] .screenshot-phone img {
-            position: relative;
-            z-index: 1;
-        }
-
-        .project-card[data-id="boogie-health"] .screenshot-container {
-            min-width: 800px;
-            padding: 3rem;
-        }
-
-        /* Responsive adaptations for project details */
-        @media (max-width: 992px) {
-            .project-header {
-                flex-direction: column;
-                align-items: center;
-                padding-top: 5rem;
-            }
-            
-            .project-icon {
-                margin-left: 0;
-                margin-top: 1rem;
-            }
-            
-            .project-main-info {
-                margin-left: 0;
-                text-align: center;
-                margin-top: 2rem;
-            }
-            
-            .project-meta {
-                justify-content: center;
-            }
-            
-            .project-card[data-id="boogie-health"] .screenshot-phone {
-                width: 400px;
-                height: 250px;
-            }
-            
-            .project-card[data-id="boogie-health"] .screenshot-container {
-                min-width: 100%;
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .project-header {
-                padding: 2rem;
-                padding-top: 4rem;
-            }
-            
-            .screenshot-container {
-                min-width: 90vw;
-                flex-direction: column;
-                align-items: center;
-                padding: 2rem;
-            }
-            
-            .screenshot-text {
-                text-align: center;
-                margin-bottom: 2rem;
-            }
-
-            .screenshot-phone {
-                width: 240px;
-                height: 480px;
-            }
-            
-            .project-card[data-id="boogie-health"] .screenshot-phone {
-                width: 300px;
-                height: 200px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .project-icon {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .project-main-info h3 {
-                font-size: 2rem;
-            }
-            
-            .project-meta {
-                gap: 1rem;
-            }
-            
-            .screenshot-phone {
-                width: 220px;
-                height: 440px;
-            }
-            
-            .project-card[data-id="boogie-health"] .screenshot-phone {
-                width: 250px;
-                height: 160px;
-            }
-        }
-
-
- /* Floating Button Styles */
- .flute-player {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: 'Sora', sans-serif;
-        }
-        
-        .flute-button {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary, #FF6B35) 0%, var(--accent, #FDCA40) 100%);
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .flute-button:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
-        }
-        
-        .flute-button:active {
-            transform: translateY(0) scale(0.95);
-        }
-        
-        .flute-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            transform: scale(0);
-            border-radius: 50%;
-            transition: transform 0.4s ease-out;
-        }
-        
-        .flute-button:hover::before {
-            transform: scale(1.5);
-        }
-        
-        .flute-label {
-            background-color: white;
-            color: var(--primary, #FF6B35);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-            margin-top: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            max-width: 200px;
-            text-align: center;
-        }
-        
-        .flute-player:hover .flute-label {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Playing Animation */
-        @keyframes playing {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
-            }
-        }
-        
-        .playing .flute-button {
-            animation: playing 2s infinite;
-            background: linear-gradient(135deg, var(--secondary, #2EC4B6) 0%, var(--primary, #FF6B35) 100%);
-        }
-        
-        /* Sound wave animation */
-        .sound-wave {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .sound-wave::before, 
-        .sound-wave::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            animation-duration: 2s;
-            animation-timing-function: ease-out;
-            animation-iteration-count: infinite;
-        }
-        
-        .playing .sound-wave {
-            opacity: 1;
-        }
-        
-        .playing .sound-wave::before {
-            animation-name: ripple;
-        }
-        
-        .playing .sound-wave::after {
-            animation-name: ripple;
-            animation-delay: 0.5s;
-        }
-        
-        @keyframes ripple {
-            0% {
-                transform: scale(1);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(2);
-                opacity: 0;
-            }
-        }
-        
-        /* Volume Control Styles */
-        .volume-control {
-            position: absolute;
-            bottom: 70px;
-            width: 120px;
-            background: white;
-            border-radius: 20px;
-            padding: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            visibility: hidden;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
-        }
-        
-        .playing .volume-control {
-            visibility: visible;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        input[type="range"] {
-            width: 100%;
-            height: 4px;
-            -webkit-appearance: none;
-            background: #ddd;
-            border-radius: 2px;
-            outline: none;
-        }
-        
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 12px;
-            height: 12px;
-            background: var(--primary, #FF6B35);
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .flute-player {
-                bottom: 20px;
-                left: 20px;
-            }
-            
-            .flute-button {
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jana Bridi – Product Designer</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0a;         /* hero background */
+      --text: #fafafa;       /* light text */
+      --accent: #ff4c3b;     /* highlight */
+      --card-bg: #161616;    /* dark card */
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;   /* site background – keep projects section white */
+      color: #333;
+      overflow-x: hidden;
+    }
+     /* PRELOADER */
+    #preloader{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;z-index:3000;transition:.6s}
+    #preloader.fade{opacity:0;visibility:hidden}
+    .go-live-btn{display:flex;align-items:center;gap:10px;padding:10px 22px;background:var(--blue);color:#fff;font-weight:600;border-radius:6px;font-size:.95rem;letter-spacing:.4px;box-shadow:0 6px 18px rgba(0,0,0,.25);animation:pulse 2s infinite}
+    .go-live-icon{width:18px;height:18px;fill:#fff}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+    .preloader-msg{color:var(--text);font-size:.9rem;opacity:.8}
+
+    /* ───────── HEADER ───────── */
+    header {
+      position: fixed; inset: 0 0 auto 0;
+      padding: 24px 48px;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(10,10,10,0.6);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      transition: padding .3s ease, background .3s ease;
+    }
+    header.scrolled { padding: 12px 48px; background: rgba(10,10,10,0.9); }
+    .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.25rem; letter-spacing: -0.03em; color: var(--text); text-decoration: none; }
+    nav ul { list-style: none; display: flex; gap: 32px; }
+    nav a { text-decoration: none; color: var(--text); font-weight: 500; transition: color .25s ease; }
+    nav a:hover { color: var(--accent); }
+
+    /* ───────── HERO ───────── */
+    .hero {
+      width: 100%;
+      height: 100vh; /* viewport height */
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      align-items: center;
+      gap: 4rem;
+      padding: 96px 8vw 48px; /* header + bottom cushion */
+      background: var(--bg);
+      color: var(--text);
+    }
+    .hero-left { display: flex; flex-direction: column; gap: 2rem; }
+    .illustration { width: 220px; aspect-ratio: 1/1; border: 3px solid var(--text); padding: 12px; border-radius: 8px; background: var(--card-bg); filter: grayscale(1); transition: transform .5s ease; }
+    .illustration:hover { transform: rotate(-3deg) scale(1.03); }
+    h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; font-weight: 700; }
+    h1 span { color: var(--accent); }
+    .tagline { font-size: 1.1rem; max-width: 420px; line-height: 1.5; }
+
+    /* hero project card – TV style */
+    .tv-card { width: 100%; max-width: 600px; cursor: pointer; }
+    .tv-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      border: 12px solid #fafafa;
+      border-radius: 28px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+      overflow: hidden;
+      background: #000;
+    }
+    .tv-frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .tv-knob {
+      position: absolute;
+      bottom: 14px;
+      right: 20px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: radial-gradient(#555 0%, #222 60%);
+      box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
+    }
+    .tv-info { margin-top: 1.25rem; }
+    .tv-title { font-size: 1.25rem; font-weight: 600; text-transform: uppercase; margin-bottom: .3rem; }
+    .tv-link { font-size: 1rem; text-decoration: none; color: var(--text); position: relative; }
+    .tv-link::after { content: ""; position: absolute; left: 0; bottom: -2px; width: 100%; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .3s ease; }
+    .tv-link:hover::after { transform: scaleX(1); }
+
+    @media(max-width:640px){ header{padding:16px 24px;} nav ul{gap:20px;} .hero{padding:80px 6vw 32px; gap:2rem;} }
+
+    /* ───────── PROJECTS SECTION ───────── */
+    .projects-section { min-height: 100vh; padding: 100px 50px; background: #ffffff; border-top: 1px solid #f5f5f5; }
+    .projects-title { text-align: center; font-size: 3rem; font-weight: 300; color: #333; margin-bottom: 80px; }
+    .projects-grid { display: flex; flex-direction: column; gap: 120px; max-width: 1400px; margin: 0 auto; }
+
+    .project-showcase { display: grid; grid-template-columns: 400px 1fr; gap: 80px; align-items: center; min-height: 600px; position: relative; }
+    .project-showcase:nth-child(even){grid-template-columns:1fr 400px;} .project-showcase:nth-child(even) .project-info{order:2;} .project-showcase:nth-child(even) .project-visual{order:1;}
+    .project-info { padding: 40px 0; }
+    .project-year { font-size: 14px; font-weight: 500; color: #999; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+    .project-timeline { font-size: 14px; color: #666; margin-bottom: 40px; position: relative; padding-left: 20px; }
+    .project-timeline::before { content: "●"; position: absolute; left: 0; color: #ff6b35; font-size: 12px; }
+    .project-main-title { font-size: 3.5rem; font-weight: 300; color: #333; margin-bottom: 30px; line-height: 1.1; }
+    .project-main-title a { color: inherit; text-decoration: none; transition: color .3s ease; }
+    .project-main-title a:hover { color: #4A90E2; }
+    .project-description { font-size: 18px; color: #666; line-height: 1.6; margin-bottom: 40px; max-width: 350px; }
+    .project-tags { display: flex; flex-direction: column; gap: 15px; }
+    .project-tag { background: #f8f9fa; color: #495057; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; width: fit-content; border: 1px solid #e9ecef; }
+
+    .project-visual { position: relative; background: linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%); border-radius: 20px; overflow: hidden; height: 600px; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 60px rgba(0,0,0,.1); }
+    .video-container { position: relative; width: 100%; height: 100%; }
+    .project-video { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; }
+    .video-controls { position: absolute; bottom: 20px; right: 20px; background: rgba(0,0,0,0.7); border: none; color: #fff; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; opacity: 0; transition: all .3s ease; }
+    .video-container:hover .video-controls { opacity: 1; }
+    .video-controls:hover { background: rgba(0,0,0,0.9); transform: scale(1.1); }
+    .project-caption { position: absolute; bottom: 20px; left: 20px; background: rgba(255,255,255,0.95); padding: 10px 20px; border-radius: 25px; font-size: 12px; font-weight: 500; color: #333; text-transform: uppercase; letter-spacing: 1px; }
+
+    .site-frame { position: relative; width: 100%; padding-top: 66%; overflow: hidden; border-radius: 20px; }
+    .site-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+    /* responsive */
+    @media(max-width:1200px){ .project-showcase{grid-template-columns:350px 1fr; gap:60px;} .project-showcase:nth-child(even){grid-template-columns:1fr 350px;} .project-main-title{font-size:3rem;} }
+    @media(max-width:1024px){ .projects-section{padding:100px 50px;} .project-showcase{grid-template-columns:1fr; gap:40px; text-align:center;} .project-visual{height:400px;} }
+    @media(max-width:768px){ .projects-section{padding:60px 30px;} .projects-title{font-size:2rem; margin-bottom:50px;} .project-main-title{font-size:2.5rem;} .project-description{max-width:none;} }
+    @media(max-width:480px){ .project-main-title{font-size:2rem;} .project-visual{height:300px;} }
+
+    /* ───────── CONTACT ───────── */
+    .contact-section{padding:100px 50px; background:#ffffff; text-align:center; border-top:1px solid #f5f5f5;}
+    .contact-title{font-size:2.5rem; font-weight:300; color:#333; margin-bottom:20px;}
+    .contact-subtitle{font-size:1.1rem; color:#666; margin-bottom:30px;}
+    .contact-email{font-size:1.2rem; color:#333; text-decoration:none; font-weight:400; transition:opacity .3s ease;}
+    .contact-email:hover{opacity:.6;}
+
+    /* ——— MATCHA CHAT WIDGET ——— */
+.matcha-trigger{position:fixed;bottom:24px;right:24px;width:64px;height:64px;border:none;background:#fff;border-radius:50%;box-shadow:0 6px 18px rgba(0,0,0,.18);padding:8px;cursor:pointer;z-index:1200;transition:transform .25s}
+.matcha-trigger:hover{transform:scale(1.08)}
+
+.matcha-chat{position:fixed;bottom:100px;right:24px;width:320px;max-height:480px;background:#fff;border-radius:14px;box-shadow:0 20px 48px rgba(0,0,0,.25);display:flex;flex-direction:column;overflow:hidden;opacity:0;transform:translateY(40px) scale(.8);pointer-events:none;transition:.3s;z-index:1200}
+.matcha-chat.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+
+.matcha-header{background:#90c979;color:#0a0a0a;padding:12px 16px;font-weight:600;font-family:'Space Grotesk',sans-serif;display:flex;justify-content:space-between;align-items:center}
+.matcha-header button{background:none;border:none;font-size:20px;cursor:pointer;line-height:1}
+
+.matcha-messages{flex:1;padding:16px;overflow-y:auto;font-size:.9rem}
+.msg{margin-bottom:12px;line-height:1.4}
+.msg.me{text-align:right}
+.msg.me span{display:inline-block;background:#eceff1;color:#333;border-radius:12px 12px 0 12px;padding:8px 12px;max-width:80%}
+.msg.bot span{display:inline-block;background:#90c979;color:#0a0a0a;border-radius:12px 12px 12px 0;padding:8px 12px;max-width:80%}
+
+.matcha-input{display:flex;border-top:1px solid #e0e0e0}
+.matcha-input input{flex:1;border:none;padding:12px;font-size:.92rem;font-family:inherit;outline:none}
+.matcha-input button{border:none;background:#90c979;color:#0a0a0a;padding:0 18px;font-weight:600;cursor:pointer}
+
+  </style>
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
+    <!-- Matcha Chat Trigger -->
+<button class="matcha-trigger" id="matchaTrigger" aria-label="Open chat">
+  <img src="matcha 1.svg" alt="Chat with Matcha Bot" style="width:100%;height:100%;object-fit:contain"/>
+</button>
 
-    <div class="nav-container">
-        <nav>
-            <a href="#" class="logo">
-                <div class="logo-icon">JB</div>
-                Jana Bridi
-            </a>
-            <div class="nav-links">
-                <a href="#projects" class="nav-link">Portfolio</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#process" class="nav-link">Process</a>
-                <a href="#contact" class="nav-link">Contact</a>
-            </div>
-            <div class="menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </nav>
-    </div>
-    <div class="flute-player" id="flutePlayer">
-        <div class="volume-control">
-            <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="0.7">
-        </div>
-        <button class="flute-button" id="fluteButton">
-            <i class="fas fa-music" id="buttonIcon"></i>
-            <div class="sound-wave"></div>
-        </button>
-        <div class="flute-label">Would you like some background music? Click to hear my flute music</div>
-    </div>
+<!-- Matcha Chat Box -->
+<div class="matcha-chat" id="matchaChat" aria-live="polite">
+  <div class="matcha-header">
+    Matcha&nbsp;Bot
+    <button id="matchaClose" aria-label="Close chat">×</button>
+  </div>
 
-    <section class="hero">
-        <div class="hero-bg">
-            <div class="hero-bg-shape"></div>
-            <div class="hero-bg-shape"></div>
-            <div class="hero-pattern"></div>
-        </div>
-        <div class="hero-content">
-            <div class="hero-tag">UX Designer & Community Builder</div>
-            <h1>Bridging People Through Purposeful Design</h1>
-            <p class="hero-description">Where thoughtful design meets human connection. Creating intuitive and beautiful digital solutions that empower communities and bring people together.</p>
-            <div class="cta-group">
-                <a href="#projects" class="cta-button">View My Work</a>
-                <a href="#about" class="cta-secondary">Learn more about me <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </div>
+  <div class="matcha-messages" id="matchaMsgs">
+    <div class="msg bot"><span>Hi 👋. Grab a cup of match and ask me anything about my work!</span></div>
+  </div>
 
-        <div class="scroll-indicator">
-            <span>Scroll Down</span>
-            <div class="scroll-line"></div>
-        </div>
-
-        <div class="social-links">
-            <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-            <a href="#" title="Email"><i class="fas fa-envelope"></i></a>
-        </div>
-    </section>
-
-    <section id="projects" class="projects-section">
-        <div class="section-header">
-            <h2 class="section-title">Featured Works</h2>
-            <p class="section-subtitle">A collection of projects that reflect my passion for human-centered design and building meaningful digital experiences</p>
-        </div>
-    
-        <!-- Project Categories Navigation -->
-        <div class="project-categories">
-            <div class="category-item active" data-category="all">All Works</div>
-            <div class="category-item" data-category="case-study">Case Study</div>
-            <div class="category-item" data-category="web-dev">Web Development</div>
-            <div class="category-item" data-category="data-science">Data Science</div>
-        </div>
-        
-        <!-- Project Grid (Collapsed View) -->
-        <div class="project-grid">
-            <!-- Project 1 Card (COGS127 - Smarter Scheduling) -->
-            <a href="COGS127.html">
-                <div class="grid-card case-study" data-id="heritage-museum">
-                    <div class="grid-poster">
-                        <img src="Group 1 (1).png" alt="Cogs127">
-                        <div class="grid-rating">
-                          <!-- <i class="fas fa-star"></i>
-                            <span>4.8</span>-->
-                        </div>
-                    </div>
-                    <div class="grid-overlay">
-                        <div class="grid-tags">
-                            <span class="grid-tag">Mobile UX</span>
-                            <span class="grid-tag">UX Research</span>
-                        </div>
-                    </div>
-                    <div class="grid-info">
-                        <h3>Smarter Scheduling Redesign</h3>
-                        <p>Improved scheduling through user research, AI integration, and intuitive design</p>
-                    </div>
-                </div>
-            </a>
-        
-            <!-- Project 2 Card (48in48 - Boogie with Health) -->
-            <a href="48in48.html">
-                <div class="grid-card case-study" data-id="boogie-health">
-                    <div class="grid-poster">
-                        <img src="./images/Project 3 Title.png" width="100%" alt="Boogie with Health">
-                      <div class="grid-rating">
-                           <!--- <i class="fas fa-star"></i>
-                            <span>4.7</span>-->
-                        </div>
-                    </div>
-                    <div class="grid-overlay">
-                        <div class="grid-tags">
-                            <span class="grid-tag">Non-Profit</span>
-                            <span class="grid-tag">Community</span>
-                        </div>
-                    </div>
-                    <div class="grid-info">
-                        <h3>Boogie with Health</h3>
-                        <p>Design and development of a website for a non-profit bringing farmers markets to underserved communities</p>
-                    </div>
-                </div>
-            </a>
-        
-            <!-- Project 3 Card (Prompt Engineering) -->
-            <a href="AI_img_gen.html">
-                <div class="grid-card web-dev" data-id="prompt-engineering">
-                    <div class="grid-poster">
-                        <img src="./images/Project Title2.png" alt="Prompt Engineering">
-                        <div class="grid-rating">
-                          <!---  <i class="fas fa-star"></i>
-                            <span>4.9</span>-->
-                        </div>
-                    </div>
-                    <div class="grid-overlay">
-                        <div class="grid-tags">
-                            <span class="grid-tag">AI UX</span>
-                            <span class="grid-tag">User Research</span>
-                        </div>
-                    </div>
-                    <div class="grid-info">
-                        <h3>Prompt Engineering</h3>
-                        <p>Creating effective AI prompts to enhance user experiences</p>
-                    </div>
-                </div>
-            </a>
-        
-            <!-- Project 4 Card (Visual Pathways) -->
-            <a href="VP_project.html">
-                <div class="grid-card case-study" data-id="visual-pathways">
-                    <div class="grid-poster">
-                        <img src="./images/Project Title.png" alt="Visual Pathways">
-                        <div class="grid-rating">
-                           <!-- <i class="fas fa-star"></i>
-                            <span>4.8</span>-->
-                        </div>
-                    </div>
-                    <div class="grid-overlay">
-                        <div class="grid-tags">
-                            <span class="grid-tag">UX Research</span>
-                            <span class="grid-tag">VR Integration</span>
-                        </div>
-                    </div>
-                    <div class="grid-info">
-                        <h3>Visual Pathways</h3>
-                        <p>A career fair app combining VR job experiences with professional community connections</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-    <section id="about" class="about-section">
-        <div class="about-bg-shape"></div>
-        <div class="about-bg-shape"></div>
-        
-        <div class="about-container">
-            <div class="about-image-container">
-                <div class="about-image">
-                    <img src="portfolio bw.jpg" alt="Portrait">
-                </div>
-                <div class="about-frame"></div>
-            </div>
-            
-            <div class="about-content">
-                <div class="about-tag">My Story</div>
-                <h2 class="about-title">Bridging Cultures Through Design</h2>
-                <div class="about-text">
-                    <p>As a Syrian-American designer, my journey spans multiple cultures and perspectives, enriching my approach to design and problem-solving. From my roots in Syria to growing up in California's Central Valley and now calling San Diego home, each experience has shaped my understanding of diverse communities and their unique needs.</p>
-                    <p>My passion for creativity extends beyond design - I'm a nationally recognized flutist who brings joy to senior centers, and a dedicated STEM mentor for high school girls. These experiences fuel my mission to create meaningful impact through thoughtful design solutions that build and strengthen communities.</p>
-                </div>
-                
-                <div class="skill-grid">
-                    <div class="skill-category reveal">
-                        <h4>Design Expertise</h4>
-                        <ul class="skill-list">
-                            <li class="skill-item">
-                                <div class="skill-icon"><i class="fas fa-users"></i></div>
-                                <div class="skill-info">
-                                    <div class="skill-name">User Research</div>
-                                    <div class="skill-bar">
-                                        <div class="skill-progress" style="width: 95%;"></div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="skill-item">
-                                <div class="skill-icon"><i class="fas fa-layer-group"></i></div>
-                                <div class="skill-info">
-                                    <div class="skill-name">Interface Design</div>
-                                    <div class="skill-bar">
-                                        <div class="skill-progress" style="width: 90%;"></div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="skill-item">
-                                <div class="skill-icon"><i class="fas fa-sitemap"></i></div>
-                                <div class="skill-info">
-                                    <div class="skill-name">Information Architecture</div>
-                                    <div class="skill-bar">
-                                        <div class="skill-progress" style="width: 85%;"></div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="skill-category reveal">
-                        <h4>Tools & Technologies</h4>
-                        <ul class="skill-list">
-                            <li class="skill-item">
-                                <div class="skill-icon"><i class="fab fa-figma"></i></div>
-                                <div class="skill-info">
-                                    <div class="skill-name">Figma & Adobe Suite</div>
-                                    <div class="skill-bar">
-                                        <div class="skill-progress" style="width: 95%;"></div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="skill-item">
-                                <div class="skill-icon"><i class="fas fa-code"></i></div>
-                                <div class="skill-info">
-                                    <div class="skill-name">Frontend Development</div>
-                                    <div class="skill-bar">
-                                        <div class="skill-progress" style="width: 80%;"></div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="skill-item">
-                                <div class="skill-icon"><i class="fas fa-cube"></i></div>
-                                <div class="skill-info">
-                                    <div class="skill-name">3D Prototyping</div>
-                                    <div class="skill-bar">
-                                        <div class="skill-progress" style="width: 75%;"></div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="contact" class="contact-section">
-        <div class="contact-bg-shape"></div>
-        
-        <div class="section-header">
-            <h2 class="section-title">Let's Connect</h2>
-            <p class="section-subtitle">Have a project in mind or just want to say hello? I'd love to hear from you!</p>
-        </div>
-
-        <div class="contact-container">
-            <div class="contact-info">
-                <div class="contact-info-bg"></div>
-                <h3 class="contact-title">Get in Touch</h3>
-                <p class="contact-text">Let's work together to create meaningful experiences that make a difference in people's lives.</p>
-                
-                <div class="contact-details">
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <p class="contact-info-text">bridijana@gmail.com</p>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <p class="contact-info-text">San Diego, CA</p>
-                    </div>
-                </div>
-            </div>
-
-            <form class="contact-form" action="https://formspree.io/f/mpwqvlzl" method="POST">
-                <div class="form-group">
-                    <input type="text" name="name" id="name" required>
-                    <label for="name">Your Name</label>
-                </div>
-                <div class="form-group">
-                    <input type="email" name="email" id="email" required>
-                    <label for="email">Your Email</label>
-                </div>
-                <div class="form-group">
-                    <input type="text" name="subject" id="subject" required>
-                    <label for="subject">Subject</label>
-                </div>
-                <div class="form-group">
-                    <textarea name="message" id="message" required></textarea>
-                    <label for="message">Your Message</label>
-                </div>
-                <button type="submit" class="submit-btn">Send Message</button>
-            </form>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-logo">
-                <div class="footer-logo-icon">JB</div>
-                Jana Bridi
-            </div>
-            <div class="footer-nav">
-                <a href="#projects">Portfolio</a>
-                <a href="#about">About</a>
-                <a href="#process">Process</a>
-                <a href="#contact">Contact</a>
-            </div>
-            <div class="footer-social">
-                <a href="www.linkedin.com/in/janabridi" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                <a href="bridijana@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
-               
-            </div>
-            <p class="footer-text">Designed and Developed with ❤️ by Jana Bridi &copy; 2025</p>
-        </div>
-    </footer>
-
-    <script>
-        
-    document.addEventListener('DOMContentLoaded', function() {
-        // Custom cursor
-        const cursor = document.querySelector('.cursor-dot');
-        const cursorOutline = document.querySelector('.cursor-outline');
-        
-        document.addEventListener('mousemove', function(e) {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            
-            // Delayed follow for the outline for a nicer effect
-            setTimeout(() => {
-                cursorOutline.style.left = e.clientX + 'px';
-                cursorOutline.style.top = e.clientY + 'px';
-            }, 80);
-        });
-        
-        // Add hover class for interactive elements
-        const hoverElements = document.querySelectorAll('a, button, .category-item, .grid-card, .submit-btn');
-        hoverElements.forEach(element => {
-            element.addEventListener('mouseenter', function() {
-                document.body.classList.add('hover');
-            });
-            
-            element.addEventListener('mouseleave', function() {
-                document.body.classList.remove('hover');
-            });
-        });
-
-        // Navbar scroll effect
-        const navbar = document.querySelector('.nav-container');
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-        
-        // Mobile menu toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        
-        menuToggle.addEventListener('click', function() {
-            this.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-        
-        // Reveal animations on scroll
-        const revealElements = document.querySelectorAll('.reveal');
-        
-        function revealOnScroll() {
-            revealElements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                const windowHeight = window.innerHeight;
-                
-                if (elementTop < windowHeight - 100) {
-                    element.classList.add('active');
-                }
-            });
-        }
-        
-        window.addEventListener('scroll', revealOnScroll);
-        revealOnScroll(); // Initial check
-        
-        // Parallax effect for some elements
-        const parallaxElements = document.querySelectorAll('.parallax');
-        
-        window.addEventListener('mousemove', function(e) {
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            parallaxElements.forEach(element => {
-                const speed = element.getAttribute('data-speed') || 0.05;
-                const xOffset = (x - 0.5) * speed * 100;
-                const yOffset = (y - 0.5) * speed * 100;
-                
-                element.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
-            });
-        });
-        
-        // Project filtering
-        const categoryItems = document.querySelectorAll('.category-item');
-        const gridCards = document.querySelectorAll('.grid-card');
-        
-        categoryItems.forEach(item => {
-            item.addEventListener('click', function() {
-                // Update active category
-                categoryItems.forEach(cat => cat.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Filter grid cards
-                const category = this.getAttribute('data-category');
-                
-                gridCards.forEach(card => {
-                    if (category === 'all' || card.classList.contains(category)) {
-                        card.style.display = '';
-                        setTimeout(() => {
-                            card.style.opacity = '1';
-                            card.style.transform = 'translateY(0)';
-                        }, 100);
-                    } else {
-                        card.style.opacity = '0';
-                        card.style.transform = 'translateY(20px)';
-                        setTimeout(() => {
-                            card.style.display = 'none';
-                        }, 500);
-                    }
-                });
-            });
-        });
-        
-        // Project details view
-        const projectCards = document.querySelectorAll('.project-card');
-        const backButtons = document.querySelectorAll('.back-button');
-        const projectContainer = document.querySelector('.projects-container');
-        const projectGrid = document.querySelector('.project-grid');
-        
-        gridCards.forEach(card => {
-            card.addEventListener('click', function() {
-                const projectId = this.getAttribute('data-id');
-                const targetProject = document.querySelector(`.project-card[data-id="${projectId}"]`);
-                
-                if (targetProject) {
-                    // Hide grid, show container
-                    projectGrid.style.opacity = '0';
-                    projectGrid.style.transform = 'translateY(20px)';
-                    
-                    setTimeout(() => {
-                        projectGrid.style.display = 'none';
-                        projectContainer.style.display = 'block';
-                        
-                        // Hide all projects, show target
-                        projectCards.forEach(project => project.classList.remove('active'));
-                        targetProject.classList.add('active');
-                        
-                        // Scroll to top of projects container
-                        projectContainer.scrollIntoView({ behavior: 'smooth' });
-                    }, 500);
-                }
-            });
-        });
-        
-        // Back button click
-        backButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                // Hide container, show grid
-                projectContainer.style.opacity = '0';
-                
-                setTimeout(() => {
-                    projectContainer.style.display = 'none';
-                    projectGrid.style.display = 'grid';
-                    
-                    setTimeout(() => {
-                        projectGrid.style.opacity = '1';
-                        projectGrid.style.transform = 'translateY(0)';
-                    }, 100);
-                    
-                    // Hide all projects
-                    projectCards.forEach(project => project.classList.remove('active'));
-                    
-                    // Scroll to top of grid
-                    document.querySelector('#projects').scrollIntoView({ behavior: 'smooth' });
-                }, 500);
-            });
-        });
-        
-        // Smooth scroll for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile menu if open
-                    if (menuToggle.classList.contains('active')) {
-                        menuToggle.classList.remove('active');
-                        navLinks.classList.remove('active');
-                    }
-                }
-            });
-        });
-        
-        // Horizontal scroll for screenshots with mouse wheel
-        const screenshotContainers = document.querySelectorAll('.project-screenshots');
-        
-        screenshotContainers.forEach(container => {
-            container.addEventListener('wheel', function(e) {
-                if (e.deltaY !== 0) {
-                    e.preventDefault();
-                    this.scrollLeft += e.deltaY;
-                }
-            });
-        });
-        
-        // 3D tilt effect for project cards
-        gridCards.forEach(card => {
-            card.addEventListener('mousemove', function(e) {
-                const rect = this.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const tiltX = (y - centerY) / 10;
-                const tiltY = (centerX - x) / 10;
-                
-                this.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-10px)`;
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-            });
-        });
-        
-        // Initialize animations
-        function animateGridCards() {
-            gridCards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                
-                setTimeout(() => {
-                    card.style.transition = 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, 200 + index * 100);
-            });
-        }
-        
-        // Run animations on page load
-        setTimeout(() => {
-            animateGridCards();
-        }, 500);
-
-        
-    });
-
-
-    document.addEventListener('DOMContentLoaded', function() {
-            const flutePlayer = document.getElementById('flutePlayer');
-            const fluteButton = document.getElementById('fluteButton');
-            const buttonIcon = document.getElementById('buttonIcon');
-            const volumeControl = document.getElementById('volumeControl');
-            const fluteLabel = document.querySelector('.flute-label');
-            
-            // Create audio element
-            const audio = new Audio();
-            audio.src = "flute.mp3.mp3"; 
-            audio.volume = volumeControl.value;
-            
-            // Audio control functions
-            let isPlaying = false;
-            
-            fluteButton.addEventListener('click', function() {
-                if (isPlaying) {
-                    // Stop playing
-                    audio.pause();
-                    audio.currentTime = 0;
-                    flutePlayer.classList.remove('playing');
-                    buttonIcon.className = 'fas fa-music';
-                    fluteLabel.textContent = 'Click to hear me play';
-                    isPlaying = false;
-                } else {
-                    // Start playing
-                    audio.play().catch(e => {
-                        console.error('Error playing audio:', e);
-                        // Show error notification if needed
-                    });
-                    flutePlayer.classList.add('playing');
-                    buttonIcon.className = 'fas fa-pause';
-                    fluteLabel.textContent = 'Click to pause';
-                    isPlaying = true;
-                }
-            });
-            
-            // Volume control
-            volumeControl.addEventListener('input', function() {
-                audio.volume = this.value;
-            });
-            
-            // End of audio handling
-            audio.addEventListener('ended', function() {
-                flutePlayer.classList.remove('playing');
-                buttonIcon.className = 'fas fa-music';
-                fluteLabel.textContent = 'Click to hear me play';
-                isPlaying = false;
-            });
-            
-            // Hover effect on mobile
-            fluteButton.addEventListener('touchstart', function() {
-                fluteLabel.style.opacity = '1';
-                fluteLabel.style.transform = 'translateY(0)';
-            });
-            
-            document.addEventListener('touchstart', function(e) {
-                if (!flutePlayer.contains(e.target)) {
-                    fluteLabel.style.opacity = '0';
-                    fluteLabel.style.transform = 'translateY(10px)';
-                }
-            });
-        });
-
-    
-    </script>
-
- </body> 
-
-<!-- Chatbox HTML Structure -->
-<div class="chatbox-container">
-    <div class="chatbox-button">
-        <i class="fas fa-comment"></i>
-    </div>
-    <div class="chatbox-panel">
-        <div class="chatbox-header">
-            <div class="chatbox-title">
-                <div class="chatbox-avatar">JB</div>
-                <div>
-                    <h4>Jana's Assistant</h4>
-                    <p>Typically replies instantly</p>
-                </div>
-            </div>
-            <button class="chatbox-close"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="chatbox-messages">
-            <div class="message-item incoming">
-                <div class="message-bubble">
-                    <p>Hi there! 👋 I'm Jana's portfolio assistant. How can I help you today?</p>
-                </div>
-                <div class="message-time">Just now</div>
-            </div>
-            <div class="message-item incoming">
-                <div class="message-bubble">
-                    <p>You can ask me about Jana's projects, experience, or navigate to different sections of the portfolio!</p>
-                </div>
-                <div class="message-time">Just now</div>
-            </div>
-        </div>
-        <div class="chatbox-suggestions">
-            <button class="suggestion-btn">View Projects</button>
-            <button class="suggestion-btn">About Jana</button>
-            <button class="suggestion-btn">Contact Info</button>
-        </div>
-        <div class="chatbox-input">
-            <input type="text" placeholder="Type your message..." id="chat-input">
-            <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
-        </div>
-    </div>
+  <form class="matcha-input" id="matchaForm">
+    <input type="text" id="matchaField" placeholder="Type a message…" autocomplete="off"/>
+    <button type="submit">Send</button>
+  </form>
 </div>
 
-<!-- Add this CSS to your existing <style> tag in the head section -->
-<style>
-    /* Chatbox Styles */
-    .chatbox-container {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        z-index: 1000;
-        font-family: 'DM Sans', sans-serif;
-    }
+  <!-- HEADER -->
+    <div id="preloader"><button class="go-live-btn" disabled><svg class="go-live-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7" fill="none" stroke="#fff" stroke-width="2"/></svg>Go Live</button><p class="preloader-msg">Serving at http://localhost:5500 …</p></div>
+ 
+  <header id="header">
+    <a href="#" class="logo">JANA&nbsp;BRIDI</a>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Work</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    .chatbox-button {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        background: var(--primary);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.5rem;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-        transition: transform 0.3s var(--cubic-bounce), background-color 0.3s ease;
-        position: relative;
-        z-index: 10;
-    }
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left"><img src="portrait.png" alt="Illustrated portrait of Jana" class="illustration"/><h1>Hi, I'm <span>Jana</span>.<br/>I design AI integrated products that empower <span>underserved communities</span>.</h1><p class="tagline">Product designer & researcher exploring how generative AI can improve access to essential services.</p></div>
+    <div class="hero-right">
+      <div class="tv-card" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'});">
+        <div class="tv-frame">
+          <video autoplay loop muted playsinline>
+            <source src="abc10.mp4" type="video/mp4" />
+          </video>
+          <div class="tv-knob"></div>
+        </div>
+        <div class="tv-info">
+          <div class="tv-title">Our project on the news</div>
+          <a href="#projects" class="tv-link">View more projects ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    .chatbox-button:hover {
-        transform: translateY(-5px) scale(1.05);
-        background: var(--dark);
-    }
+  <!-- PROJECTS -->
+  <section id="projects" class="projects-section">
+    <h2 class="projects-title">Selected Work</h2>
+    <div class="projects-grid">
+      <!-- CommuniCare -->
+      <div class="project-showcase">
+        <div class="project-info">
+          <div class="project-year">2025</div>
+          <div class="project-timeline">Jan 2025 – May 2025</div>
+          <h2 class="project-main-title"><a href="cc.html" target="_blank" rel="noopener">CommuniCare</a></h2>
+          <p class="project-description">A comprehensive redesign focusing on user experience and accessibility for San Diego's most vulnerable populations.</p>
+          <div class="project-tags"><span class="project-tag">UI/UX Design</span><span class="project-tag">Web Development</span><span class="project-tag">AI ChatBot</span><span class="project-tag">End‑to‑end</span></div>
+        </div>
+        <div class="project-visual">
+          <div class="video-container"><a href="cc.html" target="_blank" rel="noopener"><video class="project-video" muted autoplay loop playsinline><source src="abc10.mp4" type="video/mp4" /><source src="father-joes-video.webm" type="video/webm" /></video></a><button class="video-controls" onclick="toggleVideoSound(this)">🔇</button><div class="project-caption">Our project on ABC 10 News</div></div>
+        </div>
+      </div>
 
-    .chatbox-button::before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        background: var(--gradient-accent);
-        z-index: -1;
-        opacity: 0.8;
-        transition: transform 0.5s ease;
-        transform: scale(0);
-    }
+      <!-- Natural Language Input -->
+      <div class="project-showcase">
+        <div class="project-info"><div class="project-year">2023</div><div class="project-timeline">Sep 2023 – Nov 2023</div><h2 class="project-main-title">
+  <a href="AI_img_gen.html" target="_blank" rel="noopener">
+    AI Text to Image generator&nbsp;Prompt Engineering Redesign
+  </a>
+</h2><p class="project-description">Bridging the gap between user intent and AI system output</p><div class="project-tags"><span class="project-tag">UX Design</span><span class="project-tag">Figma</span><span class="project-tag">NLI</span></div></div>
+        <div class="project-visual"><div class="video-container"><video class="project-video" muted autoplay loop playsinline><source src="images/Prototype Final.mp4" type="video/mp4" /><source src="images/Prototype Final.webm" type="video/webm" /></video><div class="project-caption">Prototype Walkthrough</div></div></div>
+      </div>
+      <!-- 127 -->
+      <div class="project-showcase">
+        <div class="project-info"><div class="project-year">2024</div><div class="project-timeline">Nov 2024 – Dec 2024</div><h2 class="project-main-title">
+  <a href="COGS127.html" target="_blank" rel="noopener">
+    AI Calendar Assistant
+  </a>
+</h2><p class="project-description">A UX journey exploring how AI can simplify scheduling management and resolve conflicts efficiently for busy professionals</p><div class="project-tags"><span class="project-tag">UX Design</span><span class="project-tag">AI</span><span class="project-tag">UX Research</span><span class="project-tag">End‑to‑end</span></div></div>
+        <div class="project-visual"><div class="site-frame"><iframe src="Group 1 (1).png" title="AI Calendar Assistant" loading="lazy" allowfullscreen></iframe></div></div>
+      </div>
+      
+       <!-- Uptown Boogie Health -->
+      <div class="project-showcase">
+        <div class="project-info"><div class="project-year">2024</div><div class="project-timeline">Dec 2023 – Mar 2024</div><h2 class="project-main-title"><a href="48in48.html" target="_blank" rel="noopener">Uptown & Boogie Healthy Project</a></h2><p class="project-description">An app that helps users eat healthily on a budget.</p><div class="project-tags"><span class="project-tag">UX Design</span><span class="project-tag">B2B</span><span class="project-tag">Web Development</span><span class="project-tag">End‑to‑end</span></div></div>
+        <div class="project-visual"><div class="site-frame"><iframe src="https://ubhealthyproject.org/" title="Uptown Boogie Health – live preview" loading="lazy" allowfullscreen></iframe></div></div>
+      </div>
+     
+  </section>
 
-    .chatbox-button:hover::before {
-        transform: scale(1.2);
-        opacity: 0;
-    }
+  <!-- CONTACT -->
+  <footer id="contact" class="contact-section"><h2 class="contact-title">Let's Work Together</h2><p class="contact-subtitle">Ready to create something amazing? I'd love to hear from you.</p><a href="mailto:bridijana@gmail.com" class="contact-email">bridijana@gmail.com</a></footer>
 
-    .chatbox-button.active {
-        transform: scale(0);
-    }
+  <script>
+    // header shrink
+    window.addEventListener('scroll',()=>{document.getElementById('header').classList.toggle('scrolled',window.scrollY>48)});
+    // toggle video sound
+    function toggleVideoSound(btn){const vid=btn.parentNode.querySelector('video');vid.muted=!vid.muted;btn.textContent=vid.muted?'🔇':'🔊';}
+     window.addEventListener('scroll',()=>document.getElementById('header').classList.toggle('scrolled',window.scrollY>48));
+    window.addEventListener('DOMContentLoaded',()=>setTimeout(()=>document.getElementById('preloader').classList.add('fade'),2000));
+  /* —— Matcha Chat: functional version —— */
+const trig     = document.getElementById('matchaTrigger');
+const box      = document.getElementById('matchaChat');
+const closeBtn = document.getElementById('matchaClose');
+const form     = document.getElementById('matchaForm');
+const field    = document.getElementById('matchaField');
+const msgs     = document.getElementById('matchaMsgs');
 
-    .chatbox-panel {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 350px;
-        height: 500px;
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        transform-origin: bottom right;
-        transform: scale(0);
-        opacity: 0;
-        transition: transform 0.3s var(--cubic-bounce), opacity 0.3s ease;
-    }
+trig.onclick  = () => box.classList.add('open');
+closeBtn.onclick = () => box.classList.remove('open');
 
-    .chatbox-panel.active {
-        transform: scale(1);
-        opacity: 1;
-    }
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  const userText = field.value.trim();
+  if (!userText) return;
+  addMsg('me', userText);
+  field.value = '';
 
-    .chatbox-header {
-        padding: 1.2rem;
-        background: var(--light);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    }
+  // live reply
+  addMsg('bot', '…');                // placeholder typing bubble
+  const bubble = msgs.lastElementChild.querySelector('span');
 
-    .chatbox-title {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
+  try {
+    const reply = await getBotReply(userText, bubble);
+    bubble.textContent = reply;
+  } catch (err) {
+    bubble.textContent = '⚠️ Sorry, something went wrong.';
+    console.error(err);
+  }
+});
 
-    .chatbox-avatar {
-        width: 40px;
-        height: 40px;
-        background: var(--primary);
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Sora', sans-serif;
-        font-weight: 600;
-    }
+/* ------- helper utilities ------- */
+function addMsg(who, txt) {
+  const wrap = document.createElement('div');
+  wrap.className = `msg ${who}`;
+  wrap.innerHTML = `<span>${txt}</span>`;
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+}
 
-    .chatbox-title h4 {
-        margin: 0;
-        font-family: 'Sora', sans-serif;
-        font-size: 1rem;
-    }
+/* ------- call OpenAI or fallback ------- */
+async function getBotReply(prompt, bubbleEl) {
+  const OPENAI_KEY = '';      // ⚠️ empty in production builds
+  // --- if key present, stream completion ---
+  if (OPENAI_KEY) {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OPENAI_KEY}`
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        stream: true,
+        messages: [
+          {role: 'system', content: 'You are Matcha Bot, a friendly portfolio guide. Keep answers short and reference Jana’s projects when relevant.'},
+          {role: 'user',   content: prompt}
+        ]
+      })
+    });
 
-    .chatbox-title p {
-        margin: 0;
-        font-size: 0.8rem;
-        color: #4f5d75;
-    }
+    if (!res.ok) throw new Error('OpenAI error');
 
-    .chatbox-close {
-        background: transparent;
-        border: none;
-        color: #4f5d75;
-        font-size: 1.2rem;
-        cursor: pointer;
-        transition: color 0.3s ease;
-    }
-
-    .chatbox-close:hover {
-        color: var(--primary);
-    }
-
-    .chatbox-messages {
-        flex: 1;
-        padding: 1.2rem;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .message-item {
-        display: flex;
-        flex-direction: column;
-        max-width: 80%;
-    }
-
-    .message-item.outgoing {
-        align-self: flex-end;
-    }
-
-    .message-item.incoming {
-        align-self: flex-start;
-    }
-
-    .message-bubble {
-        padding: 0.8rem 1.2rem;
-        border-radius: 18px;
-        font-size: 0.95rem;
-        line-height: 1.4;
-    }
-
-    .message-item.incoming .message-bubble {
-        background: var(--light);
-        color: var(--dark);
-        border-bottom-left-radius: 5px;
-    }
-
-    .message-item.outgoing .message-bubble {
-        background: var(--primary);
-        color: white;
-        border-bottom-right-radius: 5px;
-    }
-
-    .message-time {
-        font-size: 0.75rem;
-        color: #9ba0b3;
-        margin-top: 0.3rem;
-        margin-left: 0.5rem;
-    }
-
-    .message-item.outgoing .message-time {
-        text-align: right;
-        margin-right: 0.5rem;
-    }
-
-    .chatbox-suggestions {
-        padding: 0 1.2rem;
-        display: flex;
-        gap: 0.5rem;
-        overflow-x: auto;
-        margin-bottom: 1rem;
-        padding-bottom: 0.5rem;
-    }
-    
-    .chatbox-suggestions::-webkit-scrollbar {
-        height: 3px;
-    }
-    
-    .chatbox-suggestions::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.1);
-        border-radius: 3px;
-    }
-
-    .suggestion-btn {
-        white-space: nowrap;
-        padding: 0.5rem 1rem;
-        background: var(--light);
-        border: none;
-        border-radius: 18px;
-        font-family: 'DM Sans', sans-serif;
-        font-size: 0.85rem;
-        color: var(--dark);
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .suggestion-btn:hover {
-        background: rgba(255, 107, 53, 0.1);
-        color: var(--primary);
-    }
-
-    .chatbox-input {
-        padding: 1.2rem;
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
-        border-top: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .chatbox-input input {
-        flex: 1;
-        padding: 0.8rem 1.2rem;
-        border: none;
-        background: var(--light);
-        border-radius: 30px;
-        font-family: 'DM Sans', sans-serif;
-        font-size: 0.95rem;
-        color: var(--dark);
-    }
-
-    .chatbox-input input:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.3);
-    }
-
-    .send-btn {
-        width: 40px;
-        height: 40px;
-        background: var(--primary);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .send-btn:hover {
-        background: var(--dark);
-        transform: translateY(-3px);
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 576px) {
-        .chatbox-panel {
-            width: 300px;
-            height: 450px;
-            bottom: 5rem;
-            right: 0;
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder('utf-8');
+    let done, aggregated = '';
+    while (!done) {
+      ({ value, done } = await reader.read());
+      if (value) {
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split('\n').filter(l => l.trim());
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const payload = line.replace('data: ', '');
+            if (payload === '[DONE]') { done = true; break; }
+            const token = JSON.parse(payload).choices[0]?.delta?.content || '';
+            aggregated += token;
+            bubbleEl.textContent = aggregated;
+          }
         }
+      }
     }
+    return aggregated.trim();
+  }
+
+  // --- no key → simple FAQ fallback ---
+  const faqs = [
+    { q: /calendar|schedule|assistant/i,
+      a: 'Check out the **AI Calendar Assistant** project—it shows how Jana simplifies scheduling conflicts using generative AI.' },
+    { q: /prompt|image|generator/i,
+      a: 'See Jana’s *AI Text-to-Image Prompt Engineering Redesign*—she streamlined the prompt workflow for creators.' },
+    { q: /communicare|homeless|accessibility/i,
+      a: 'CommuniCare improves UX for case managers and unhoused users. Jana led research and end-to-end design.' },
+    { q: /contact|email|hire/i,
+      a: 'You can email Jana at **bridijana@gmail.com** or use the contact link at the bottom of the page.' },
+  ];
+  const hit = faqs.find(f => f.q.test(prompt));
+  return hit ? hit.a : 'I’m still learning—try asking about one of the projects on this page!';
+}
 
 
-    
-</style>
-
-<
-<script>
-     (function() {
-            // Chat Widget Implementation
-            document.addEventListener('DOMContentLoaded', function() {
-                // DOM Elements
-                const chatButton = document.getElementById('chatButton');
-                const chatContainer = document.getElementById('chatContainer');
-                const chatClose = document.getElementById('chatClose');
-                const chatMessages = document.getElementById('chatMessages');
-                const chatInput = document.getElementById('chatInput');
-                const sendButton = document.getElementById('sendButton');
-                const welcomeScreen = document.getElementById('welcomeScreen');
-                const startChatBtn = document.getElementById('startChatBtn');
-                const quickResponseBtns = document.querySelectorAll('.quick-response-btn');
-                const trainingPanelToggle = document.getElementById('trainingPanelToggle');
-                const trainingPanel = document.getElementById('trainingPanel');
-                const trainingPanelClose = document.getElementById('trainingPanelClose');
-                const trainingInput = document.getElementById('trainingInput');
-                const addTrainingBtn = document.getElementById('addTrainingBtn');
-                const trainingItems = document.getElementById('trainingItems');
-                const memoryToggle = document.getElementById('memoryToggle');
-                const clearMemoryBtn = document.getElementById('clearMemoryBtn');
-                
-                    // Default training data (will be overridden if data exists in localStorage)
-                const defaultTrainingData = [
-                    "Jana is a Syrian-American designer with expertise in UX Design.",
-                    "Jana's portfolio includes Visual Pathways (UX research, 4.8/5 rating), Prompt Engineering (AI UX, 4.9/5 rating), and Boogie with Health (web design, 4.7/5 rating).",
-                    "Boogie with Health was a web design project for a program called 48 in 48 that helps non-profits by bringing in volunteers to create websites within 48 hours. The team worked with a non-profit that made farmers markets accessible to underserved communities.",
-                    "Jana is also a nationally recognized flutist and STEM mentor for high school girls.",
-                    "Jana's skills include UX Design, Interface Architecture, User Research, and Visual Design Systems.",
-                    "Contact Jana through the contact form, email at victoria.grace@email.com, or call +1 (555) 123-4567."
-                ];
-                
-                // Initialize the chatbot with debug information
-                document.addEventListener('DOMContentLoaded', function() {
-                    console.log("Jana's AI Chatbot initialized!");
-                    
-                    // Initialize localStorage if it doesn't exist
-                    if (!localStorage.getItem('janaAIChatData')) {
-                        console.log("Setting up initial training data");
-                        localStorage.setItem('janaAIChatData', JSON.stringify(defaultTrainingData));
-                    } else {
-                        console.log("Found existing training data");
-                    }
-                    
-                    if (!localStorage.getItem('janaAIChatHistory')) {
-                        localStorage.setItem('janaAIChatHistory', JSON.stringify([]));
-                    }
-                    
-                    // Load training data into UI
-                    loadTrainingItems();
-                });
-                
-                // Initial bot responses
-                const initialMessages = [
-                    "Hi there! I'm Jana's AI assistant. How can I help you today?",
-                    "Feel free to ask me about Jana's work, experience, or how to get in touch with her."
-                ];
-                
-                // Fallback responses by keyword
-                const keywordResponses = [
-                    {
-                        keywords: ['hello', 'hi', 'hey', 'greetings'],
-                        responses: [
-                            "Hello! How can I assist you with Jana's portfolio today?",
-                            "Hi there! What would you like to know about Jana's work?"
-                        ]
-                    },
-                    {
-                        keywords: ['visual pathways', 'visual', 'pathways'],
-                        responses: [
-                            "Visual Pathways is a research project exploring how users process visual information across digital interfaces. It received a Design Excellence award and has a 4.8/5 rating from 24 reviewers.",
-                            "The Visual Pathways project demonstrates Jana's expertise in eye-tracking research and interactive analytics. It was completed in 2023 and received excellent feedback for its innovative approach to understanding user behavior."
-                        ]
-                    },
-                    {
-                        keywords: ['prompt engineering', 'prompt', 'engineering'],
-                        responses: [
-                            "Prompt Engineering is Jana's AI UX project focused on creating effective AI prompts to enhance user experiences. It won an Innovation Award with a 4.9/5 rating!",
-                            "Jana's Prompt Engineering project demonstrates her ability to bridge AI technology with user experience design. The project helps designers create more effective prompts for AI tools, improving response quality and user satisfaction."
-                        ]
-                    },
-                    {
-                        keywords: ['boogie', 'health', 'farmers', 'market', '48'],
-                        responses: [
-                            "Boogie with Health was a web design project created during the 48 in 48 program, which brings volunteers together to build websites for non-profits in just 48 hours. Jana worked with a non-profit that makes farmers markets accessible to underserved communities.",
-                            "The Boogie with Health project was part of the 48 in 48 initiative where Jana helped design and develop a website for a non-profit that connects farmers markets with underserved communities. The entire website was completed within a 48-hour timeframe, showcasing Jana's ability to work efficiently under pressure."
-                        ]
-                    },
-                    {
-                        keywords: ['portfolio', 'projects', 'work'],
-                        responses: [
-                            "Jana's portfolio showcases her expertise in UX design, AI, and health tech. Her three main projects are Visual Pathways, Prompt Engineering, and Boogie with Health. Which would you like to know more about?",
-                            "Jana has worked on several impressive projects including Visual Pathways (UX research), Prompt Engineering (AI UX design), and Boogie with Health (health tech). Each project demonstrates her ability to blend innovation with user-centered design."
-                        ]
-                    },
-                    {
-                        keywords: ['about', 'background', 'bio'],
-                        responses: [
-                            "Jana is a Syrian-American designer whose journey spans multiple cultures. Her background enriches her approach to design and problem-solving. She's also a nationally recognized flutist and STEM mentor for high school girls!",
-                            "Jana's multicultural background as a Syrian-American designer informs her unique approach to design. From her roots in Syria to growing up in California's Central Valley and now living in San Diego, these experiences have shaped her understanding of diverse communities."
-                        ]
-                    },
-                    {
-                        keywords: ['skills', 'expertise', 'tools'],
-                        responses: [
-                            "Jana's expertise includes User Experience Design, Interface Architecture, User Research & Testing, and Visual Design Systems. She's proficient with tools like Figma, Adobe Suite, HTML/CSS/JavaScript, and React.",
-                            "Jana has mastered several design tools and technologies including Figma, the Adobe Creative Suite, and front-end development languages. Her skills span from user research methodologies to creating comprehensive design systems."
-                        ]
-                    },
-                    {
-                        keywords: ['contact', 'email', 'phone', 'reach'],
-                        responses: [
-                            "You can contact Jana through the form in the Contact section. She's also available via email at victoria.grace@email.com or by phone at +1 (555) 123-4567.",
-                            "To get in touch with Jana, you can use the contact form on her website, send an email to victoria.grace@email.com, or call +1 (555) 123-4567. She typically responds within 1-2 business days."
-                        ]
-                    },
-                    {
-                        keywords: ['thank', 'thanks', 'appreciate'],
-                        responses: [
-                            "You're welcome! I'm glad I could help. Feel free to ask if you have any other questions about Jana's work.",
-                            "My pleasure! Let me know if there's anything else you'd like to know about Jana's portfolio or background."
-                        ]
-                    }
-                ];
-                
-                // Default responses when no keywords match
-                const defaultResponses = [
-                    "I'm not sure I understand. Could you tell me more about what aspect of Jana's work you're interested in?",
-                    "That's an interesting question. Could you provide more details about what you'd like to know about Jana's portfolio?",
-                    "I'd be happy to help with that. To give you the most relevant information about Jana's work, could you be a bit more specific?"
-                ];
-                
-                // Toggle chat container
-                chatButton.addEventListener('click', function() {
-                    chatContainer.classList.toggle('active');
-                });
-                
-                // Close chat
-                chatClose.addEventListener('click', function() {
-                    chatContainer.classList.remove('active');
-                });
-                
-                // Start chat button
-                startChatBtn.addEventListener('click', function() {
-                    welcomeScreen.style.display = 'none';
-                    
-                    // Add initial messages
-                    setTimeout(() => {
-                        addBotMessage(initialMessages[0]);
-                        
-                        setTimeout(() => {
-                            addBotMessage(initialMessages[1]);
-                        }, 1000);
-                    }, 500);
-                    
-                    // Load conversation history if enabled
-                    if (memoryToggle.checked) {
-                        loadConversationHistory();
-                    }
-                });
-                
-                // Quick response buttons
-                quickResponseBtns.forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const responseText = this.textContent;
-                        addUserMessage(responseText);
-                        processUserMessage(responseText);
-                    });
-                });
-                
-                // Training panel toggle
-                trainingPanelToggle.addEventListener('click', function() {
-                    trainingPanel.classList.add('active');
-                });
-                
-                // Training panel close
-                trainingPanelClose.addEventListener('click', function() {
-                    trainingPanel.classList.remove('active');
-                });
-                
-                // Add training item
-                addTrainingBtn.addEventListener('click', function() {
-                    const trainingText = trainingInput.value.trim();
-                    if (trainingText) {
-                        // Fix: Explicitly retrieve current data first
-                        let currentData = [];
-                        try {
-                            currentData = JSON.parse(localStorage.getItem('janaAIChatData')) || [];
-                        } catch(e) {
-                            console.error("Error parsing training data:", e);
-                            currentData = [];
-                        }
-                        
-                        // Add new item
-                        currentData.push(trainingText);
-                        
-                        // Save back to localStorage
-                        localStorage.setItem('janaAIChatData', JSON.stringify(currentData));
-                        
-                        // Add to UI
-                        addTrainingItemToUI(trainingText);
-                        
-                        // Clear input
-                        trainingInput.value = '';
-                        
-                        // Show confirmation
-                        alert('Knowledge added successfully!');
-                    } else {
-                        alert('Please enter some knowledge before adding.');
-                    }
-                });
-                
-                // Clear conversation memory
-                clearMemoryBtn.addEventListener('click', function() {
-                    localStorage.setItem('janaAIChatHistory', JSON.stringify([]));
-                    alert('Conversation memory cleared!');
-                });
-                
-                // Send message on button click
-                sendButton.addEventListener('click', sendMessage);
-                
-                // Send message on Enter key (but allow shift+enter for new line)
-                chatInput.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        sendMessage();
-                    }
-                });
-                
-                // Auto-resize textarea
-                chatInput.addEventListener('input', function() {
-                    this.style.height = 'auto';
-                    this.style.height = (this.scrollHeight) + 'px';
-                });
-                
-                // Send message function
-                function sendMessage() {
-                    const message = chatInput.value.trim();
-                    if (message) {
-                        addUserMessage(message);
-                        chatInput.value = '';
-                        chatInput.style.height = 'auto';
-                        
-                        processUserMessage(message);
-                    }
-                }
-                
-                // Add user message to chat
-                function addUserMessage(message) {
-                    const messageElement = document.createElement('div');
-                    messageElement.classList.add('message', 'message-user');
-                    messageElement.textContent = message;
-                    
-                    // Add timestamp
-                    const timeElement = document.createElement('span');
-                    timeElement.classList.add('message-time');
-                    timeElement.textContent = getCurrentTime();
-                    messageElement.appendChild(timeElement);
-                    
-                    chatMessages.appendChild(messageElement);
-                    scrollToBottom();
-                    
-                    // Save to conversation history if memory is enabled
-                    if (memoryToggle.checked) {
-                        saveToConversationHistory('user', message);
-                    }
-                }
-                
-                // Add bot message to chat
-                function addBotMessage(message) {
-                    // Show typing indicator
-                    const typingIndicator = document.createElement('div');
-                    typingIndicator.classList.add('typing-indicator');
-                    for (let i = 0; i < 3; i++) {
-                        const dot = document.createElement('div');
-                        dot.classList.add('typing-dot');
-                        typingIndicator.appendChild(dot);
-                    }
-                    chatMessages.appendChild(typingIndicator);
-                    scrollToBottom();
-                    
-                    // Calculate a realistic typing delay based on message length
-                    // Assume avg typing speed of ~30 chars per second, but with some randomness
-                    const minDelay = 800; // Minimum delay in ms
-                    const charDelay = 30; // Milliseconds per character
-                    const messageLength = message.length;
-                    const randomFactor = 0.7 + Math.random() * 0.6; // Random factor between 0.7 and 1.3
-                    
-                    // Calculate delay with constraints
-                    let typingDelay = Math.min(2500, Math.max(minDelay, messageLength * charDelay * randomFactor));
-                    
-                    // Remove typing indicator and add message after calculated delay
-                    setTimeout(() => {
-                        if (chatMessages.contains(typingIndicator)) {
-                            chatMessages.removeChild(typingIndicator);
-                        }
-                        
-                        const messageElement = document.createElement('div');
-                        messageElement.classList.add('message', 'message-bot');
-                        messageElement.textContent = message;
-                        
-                        // Add timestamp
-                        const timeElement = document.createElement('span');
-                        timeElement.classList.add('message-time');
-                        timeElement.textContent = getCurrentTime();
-                        messageElement.appendChild(timeElement);
-                        
-                        chatMessages.appendChild(messageElement);
-                        scrollToBottom();
-                        
-                        // Save to conversation history if memory is enabled
-                        if (memoryToggle.checked) {
-                            saveToConversationHistory('bot', message);
-                        }
-                    }, typingDelay);
-                }
-                
-                // Process user message and generate AI-like response
-                function processUserMessage(message) {
-                    // Try to generate an AI-like response based on training data
-                    const response = generateAIResponse(message);
-                    addBotMessage(response);
-                }
-                
-                // Generate AI-like response based on training data and user message
-                function generateAIResponse(userMessage) {
-                    // Convert to lowercase for matching
-                    const lowerMessage = userMessage.toLowerCase();
-                    
-                    // Get training data from localStorage
-                    const trainingData = JSON.parse(localStorage.getItem('janaAIChatData')) || [];
-                    
-                    // Get conversation history if memory is enabled (for context)
-                    let conversationContext = [];
-                    if (memoryToggle.checked) {
-                        const history = JSON.parse(localStorage.getItem('janaAIChatHistory')) || [];
-                        // Only use the last 6 messages for context
-                        conversationContext = history.slice(-6);
-                    }
-                    
-                    // 1. First, look for direct matches in training data
-                    for (const data of trainingData) {
-                        const lowerData = data.toLowerCase();
-                        
-                        // Check if user message is asking about something in this training item
-                        const userWords = lowerMessage.split(/\s+/).filter(word => word.length > 3);
-                        let relevantWords = 0;
-                        
-                        for (const word of userWords) {
-                            if (lowerData.includes(word)) {
-                                relevantWords++;
-                            }
-                        }
-                        
-                        // If we have significant word overlap in a meaningful question
-                        if (relevantWords >= 2 && userWords.length >= 3) {
-                            // Transform the training data into a response
-                            return data + " Is there anything specific about this you'd like to know more about?";
-                        }
-                    }
-                    
-                    // 2. Check for project-specific questions using a more targeted approach
-                    if (lowerMessage.includes('visual pathways') || 
-                        (lowerMessage.includes('visual') && lowerMessage.includes('project'))) {
-                        return "Visual Pathways is one of Jana's most acclaimed projects. It's a research-focused initiative that explores how users visually process information across digital interfaces. The project received a Design Excellence award and maintains an impressive 4.8/5 rating from reviewers. Would you like to know more about the methodology behind this project?";
-                    }
-                    
-                    if (lowerMessage.includes('prompt engineering') || 
-                        (lowerMessage.includes('prompt') && lowerMessage.includes('project'))) {
-                        return "Prompt Engineering is Jana's innovative AI UX project that helps designers and developers create more effective AI prompts to enhance user experiences. This project won an Innovation Award and has a near-perfect 4.9/5 rating from 18 reviewers! The techniques developed in this project help bridge the gap between human intent and AI understanding.";
-                    }
-                    
-                    if (lowerMessage.includes('boogie') || 
-                        (lowerMessage.includes('health') && lowerMessage.includes('project')) ||
-                        (lowerMessage.includes('farmers') && lowerMessage.includes('market'))) {
-                        return "Boogie with Health was a web design project Jana completed for a program called 48 in 48, which brings together volunteers to create websites for non-profits within just 48 hours. The team worked with a non-profit organization that makes farmers markets accessible to underserved communities. This project showcases Jana's web design and development skills in a high-pressure, time-constrained environment while creating meaningful social impact.";
-                    }
-                    
-                    // 3. Look for keyword matches in our fallback responses
-                    for (const item of keywordResponses) {
-                        for (const keyword of item.keywords) {
-                            if (lowerMessage.includes(keyword)) {
-                                // Randomly select a response from the options
-                                const randomIndex = Math.floor(Math.random() * item.responses.length);
-                                return item.responses[randomIndex];
-                            }
-                        }
-                    }
-                    
-                    // 4. Check conversation context and try to provide a contextually relevant response
-                    if (conversationContext.length > 0) {
-                        const lastBotMessage = conversationContext.filter(msg => msg.role === 'bot').pop();
-                        const lastUserMessage = conversationContext.filter(msg => msg.role === 'user').pop();
-                        
-                        if (lastBotMessage) {
-                            // If the bot just mentioned a project and user asks for more info
-                            if ((lastBotMessage.message.includes('Visual Pathways') && 
-                                 lowerMessage.includes('more')) || 
-                                lowerMessage.includes('tell me more')) {
-                                return "Visual Pathways uses advanced eye-tracking research to analyze how users process information visually. Jana conducted studies with over 50 participants to map out visual patterns and used this data to develop a framework for more intuitive interface designs. The project has been cited in several UX research papers for its innovative methodology.";
-                            }
-                            
-                            if ((lastBotMessage.message.includes('Prompt Engineering') && 
-                                 lowerMessage.includes('more')) || 
-                                lowerMessage.includes('more info')) {
-                                return "The Prompt Engineering project analyzed thousands of AI prompts and their outcomes to develop patterns for more effective human-AI interactions. Jana created a scoring system that helps predict how well an AI will understand and respond to different prompt structures. The framework has been implemented by several design teams, resulting in significant improvements in AI response quality.";
-                            }
-                            
-                            if ((lastBotMessage.message.includes('Boogie with Health') && 
-                                 lowerMessage.includes('more')) || 
-                                lowerMessage.includes('details')) {
-                                return "The Boogie with Health project was completed during a 48-hour hackathon-style event called 48 in 48. This program brings together teams of designers, developers, and digital professionals to create websites for non-profit organizations in just 48 hours. Jana's team worked specifically with a non-profit that helps make farmers markets accessible to underserved communities. The website included features like donation capabilities, volunteer sign-up forms, and information about farmers market locations and schedules. The project received excellent feedback for its user-friendly design and social impact.";
-                            }
-                        }
-                    }
-                    
-                    // 5. If all else fails, use a default response
-                    const randomIndex = Math.floor(Math.random() * defaultResponses.length);
-                    return defaultResponses[randomIndex];
-                }
-                
-                // Save message to conversation history
-                function saveToConversationHistory(role, message) {
-                    const history = JSON.parse(localStorage.getItem('janaAIChatHistory')) || [];
-                    
-                    history.push({
-                        role: role,
-                        message: message,
-                        timestamp: new Date().toISOString()
-                    });
-                    
-                    // Limit history to last 50 messages to prevent localStorage overflow
-                    if (history.length > 50) {
-                        history.shift();
-                    }
-                    
-                    localStorage.setItem('janaAIChatHistory', JSON.stringify(history));
-                }
-                
-                // Load conversation history
-                function loadConversationHistory() {
-                    const history = JSON.parse(localStorage.getItem('janaAIChatHistory')) || [];
-                    
-                    // Only load if there's history and the messages container is empty
-                    if (history.length > 0 && chatMessages.children.length === 0) {
-                        // Add a separator
-                        const separator = document.createElement('div');
-                        separator.style.textAlign = 'center';
-                        separator.style.margin = '10px 0';
-                        separator.style.color = 'rgba(212, 193, 125, 0.6)';
-                        separator.style.fontSize = '12px';
-                        separator.textContent = '— Previous Conversation —';
-                        chatMessages.appendChild(separator);
-                        
-                        // Add the last 8 messages (or fewer if history is shorter)
-                        const recentHistory = history.slice(-8);
-                        
-                        recentHistory.forEach(item => {
-                            const messageElement = document.createElement('div');
-                            messageElement.classList.add('message', item.role === 'user' ? 'message-user' : 'message-bot');
-                            messageElement.textContent = item.message;
-                            
-                            // Add timestamp
-                            const timeElement = document.createElement('span');
-                            timeElement.classList.add('message-time');
-                            
-                            if (item.timestamp) {
-                                const date = new Date(item.timestamp);
-                                const formattedTime = formatTime(date);
-                                timeElement.textContent = formattedTime;
-                            } else {
-                                timeElement.textContent = getCurrentTime();
-                            }
-                            
-                            messageElement.appendChild(timeElement);
-                            chatMessages.appendChild(messageElement);
-                        });
-                        
-                        // Add another separator
-                        const endSeparator = document.createElement('div');
-                        endSeparator.style.textAlign = 'center';
-                        endSeparator.style.margin = '10px 0';
-                        endSeparator.style.color = 'rgba(212, 193, 125, 0.6)';
-                        endSeparator.style.fontSize = '12px';
-                        endSeparator.textContent = '— New Conversation —';
-                        chatMessages.appendChild(endSeparator);
-                        
-                        scrollToBottom();
-                    }
-                }
-                
-                // Add training item to UI
-                function addTrainingItemToUI(text) {
-                    const itemElement = document.createElement('div');
-                    itemElement.classList.add('training-item');
-                    
-                    const textSpan = document.createElement('span');
-                    textSpan.textContent = text.length > 50 ? text.substring(0, 50) + '...' : text;
-                    textSpan.title = text; // Show full text on hover
-                    
-                    const deleteButton = document.createElement('span');
-                    deleteButton.classList.add('delete-training');
-                    deleteButton.innerHTML = '<i class="fas fa-times"></i>';
-                    deleteButton.addEventListener('click', function() {
-                        // Remove from localStorage
-                        let trainingData = [];
-                        try {
-                            trainingData = JSON.parse(localStorage.getItem('janaAIChatData')) || [];
-                            const updatedData = trainingData.filter(item => item !== text);
-                            localStorage.setItem('janaAIChatData', JSON.stringify(updatedData));
-                        } catch(e) {
-                            console.error("Error removing training item:", e);
-                        }
-                        
-                        // Remove from UI
-                        itemElement.remove();
-                    });
-                    
-                    itemElement.appendChild(textSpan);
-                    itemElement.appendChild(deleteButton);
-                    trainingItems.appendChild(itemElement);
-                }
-                
-                // Load training items from localStorage to UI
-                function loadTrainingItems() {
-                    let trainingData = [];
-                    try {
-                        trainingData = JSON.parse(localStorage.getItem('janaAIChatData')) || [];
-                    } catch(e) {
-                        console.error("Error loading training data:", e);
-                        // If error, reset to default
-                        trainingData = defaultTrainingData;
-                        localStorage.setItem('janaAIChatData', JSON.stringify(defaultTrainingData));
-                    }
-                    
-                    // Clear existing items
-                    trainingItems.innerHTML = '';
-                    
-                    // Add each item to UI
-                    trainingData.forEach(text => {
-                        addTrainingItemToUI(text);
-                    });
-                    
-                    console.log("Loaded training items:", trainingData.length);
-                }
-                
-                // Get current time in HH:MM format
-                function getCurrentTime() {
-                    const now = new Date();
-                    return formatTime(now);
-                }
-                
-                // Format time from date object
-                function formatTime(date) {
-                    let hours = date.getHours();
-                    let minutes = date.getMinutes();
-                    const ampm = hours >= 12 ? 'PM' : 'AM';
-                    
-                    hours = hours % 12;
-                    hours = hours ? hours : 12; // the hour '0' should be '12'
-                    minutes = minutes < 10 ? '0' + minutes : minutes;
-                    
-                    return hours + ':' + minutes + ' ' + ampm;
-                }
-                
-                // Scroll chat to bottom
-                function scrollToBottom() {
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                }
-            });
-        })();
-</script>
-
-
+  </script>
 </body>
-
 </html>
+
+ 
