@@ -263,6 +263,249 @@
      
   </section>
 
+  <!-- ================== ABOUT SECTION ================== -->
+<!-- Paste this right before your contact/footer block  -->
+<section id="about" class="about-wrapper">
+  <!-- Dark hero banner -->
+  <div class="about-hero">
+    <h1>Designing <span>with</span> Community in Mind</h1>
+    <p>
+      I’m Jana Bridi, a product designer who cares less about vanity
+      metrics and more about whether people right next door can actually
+      use the app. AI helps me move fast, empathy keeps me pointed in the
+      right direction.
+    </p>
+  </div>
+
+  <!-- Philosophy cards -->
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">🤲</div>
+      <h3 class="card-title">Community-First</h3>
+      <p>
+        Every pixel is vetted against a single question:
+        <em>does this uplift the people around us?</em>
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🪶</div>
+      <h3 class="card-title">Radical Simplicity</h3>
+      <p>
+        Complex problems → simple, actionable flows. Fluff gets the boot.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <h3 class="card-title">AI-Assisted</h3>
+      <p>
+        ChatGPT drafts, I craft. Together we iterate at lightspeed (and
+        keep my inbox tame).
+      </p>
+    </div>
+  </div>
+
+  <!-- Non-profit timeline -->
+  <div class="timeline-wrap">
+    <h2 class="timeline-title">Hands-On Impact</h2>
+    <div class="timeline">
+      <div class="t-item">
+        <span class="dot"></span><span class="t-year">2024</span>
+        <h3 class="t-head">ZAKKI – Accessible E-Learning</h3>
+        <p>Designed course UX for communities lacking traditional education access.</p>
+      </div>
+      <div class="t-item">
+        <span class="dot"></span><span class="t-year">2024</span>
+        <h3 class="t-head">WOCOTM – Women Empowerment</h3>
+        <p>Rebuilt the nonprofit website to expand mentorship reach in Sacramento.</p>
+      </div>
+      <div class="t-item">
+        <span class="dot"></span><span class="t-year">2025</span>
+        <h3 class="t-head">UNA OC – Global Goals, Local Site</h3>
+        <p>Story-driven redesign for the United Nations Association (OC chapter).</p>
+      </div>
+      <div class="t-item">
+        <span class="dot"></span><span class="t-year">2025</span>
+        <h3 class="t-head">i4x – Outreach Dashboard</h3>
+        <p>Mobile tool connecting unhoused neighbors to outreach workers in real time.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why hire me -->
+  <div class="why">
+    <h2>Why (Hire) Me? 👀</h2>
+    <ul>
+      <li><i class="fas fa-bolt"></i><strong>Rapid Learner:</strong> Gen-Z reflexes meet AI shortcuts – ramp time measured in coffees, not quarters.</li>
+      <li><i class="fas fa-users"></i><strong>Team Synergy:</strong> From agile stand-ups to late-night Figma-thons, collaboration is my jam.</li>
+      <li><i class="fas fa-heart"></i><strong>Mission-Aligned:</strong> I pick projects that make grandma proud and stakeholders happy.</li>
+      <li><i class="fas fa-flask"></i><strong>Fail-Forward:</strong> Prototype, test, break, learn – repeat.</li>
+    </ul>
+  </div>
+
+  <!-- Fun fact -->
+  <div class="fun">
+    <div class="fun-box">
+      <div class="fun-emoji">🎶</div>
+      <div>
+        <h3>Music Keeps Me in Tune</h3>
+        <p>
+          I’ve played flute with the National Youth Orchestra and nabbed
+          first place at solo comps. Performing under a judge’s laser gaze?
+          Way scarier than any design review – and great training for tight
+          deadlines.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========== LOCAL (SCOPED) STYLES =========== -->
+<style>
+  /* palette pulled from your site */
+  :root {
+    --bg: #0a0a0a;
+    --text: #fafafa;
+    --accent: #ff4c3b;
+    --card-bg: #161616;
+  }
+
+  /* wrapper ensures our styles don’t leak */
+  .about-wrapper * { box-sizing: border-box; }
+
+  /* hero banner */
+  .about-hero {
+    background: var(--bg);
+    color: var(--text);
+    padding: 120px 8vw 100px;
+    text-align: center;
+  }
+  .about-hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.1;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  .about-hero h1 span { color: var(--accent); }
+  .about-hero p {
+    font-size: 1.15rem;
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+
+  /* philosophy cards */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 32px;
+    padding: 100px 8vw;
+    background: #f5f7fa;
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    padding: 32px;
+    transition: transform 0.3s;
+  }
+  .card:hover { transform: translateY(-6px); }
+  .card-icon { font-size: 2rem; margin-bottom: 12px; color: var(--accent); }
+  .card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  /* timeline */
+  .timeline-wrap { padding: 100px 8vw; }
+  .timeline-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 600;
+    font-family: 'Space Grotesk', sans-serif;
+    margin-bottom: 60px;
+  }
+  .timeline { border-left: 3px solid var(--accent); }
+  .t-item {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 40px;
+  }
+  .t-item:last-child { margin-bottom: 0; }
+  .dot {
+    position: absolute;
+    left: -11px;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .t-year {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--text);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .t-head {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  /* why hire me */
+  .why {
+    background: #fff;
+    padding: 100px 8vw;
+    text-align: center;
+  }
+  .why h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 36px;
+  }
+  .why ul {
+    list-style: none;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+    padding-left: 0;
+  }
+  .why li {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  .why li i { color: var(--accent); margin-top: 4px; }
+
+  /* fun fact */
+  .fun { padding: 100px 8vw; }
+  .fun-box {
+    background: var(--card-bg);
+    color: var(--text);
+    border-radius: 14px;
+    padding: 40px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+  .fun-emoji { font-size: 3rem; }
+  .fun-box h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+</style>
+
+
   <!-- CONTACT -->
   <footer id="contact" class="contact-section"><h2 class="contact-title">Let's Work Together</h2><p class="contact-subtitle">Ready to create something amazing? I'd love to hear from you.</p><a href="mailto:bridijana@gmail.com" class="contact-email">bridijana@gmail.com</a></footer>
 
