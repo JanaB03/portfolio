@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jana Bridi – Product Designer</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+  :root {
+  --bg: #0a0a0a;          /* dark background */
+  --text: #fafafa;        /* light text */
+  --accent: #ff4c3b;      /* highlight */
+  --card-bg: #161616;     /* dark card bg */
+  --bg-light: #65b2e8;    /* hero & projects background */
+}
+
+/* GLOBAL RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: 'Inter', sans-serif;
+  background: #fff;
+  color: #333;
+  overflow-x: hidden;
+}
+
+/* PRELOADER */
+#preloader {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  z-index: 3000;
+  transition: .6s;
+}
+#preloader.fade {
+  opacity: 0;
+  visibility: hidden;
+}
+.go-live-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 22px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 6px;
+  font-size: .95rem;
+  letter-spacing: .4px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.25);
+  animation: pulse 2s infinite;
+}
+.go-live-icon {
+  width: 18px; height: 18px;
+  fill: #fff;
+}
+@keyframes pulse {
+  0%,100% { transform: scale(1) }
+  50%     { transform: scale(1.05) }
+}
+.preloader-msg {
+  color: var(--text);
+  font-size: .9rem;
+  opacity: .8;
+}
+
+/* HEADER */
+header {
+  position: fixed;
+  top: 0; width: 100%;
+  padding: 24px 48px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(10,10,10,0.6);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  transition: padding .3s, background .3s;
+}
+header.scrolled {
+  padding: 12px 48px;
+  background: rgba(10,10,10,0.9);
+}
+.logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--text);
+  text-decoration: none;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+}
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color .25s;
+}
+nav a:hover {
+  color: var(--accent);
+}
+
+/* -------------- HERO -------------- */
+/* HERO */
+/* ─── HERO SECTION ─── */
+:root {
+  --bg-light: #65b2e8;   /* hero background */
+  --text: #fafafa;       /* light text */
+  --accent: #ff4c3b;     /* highlight */
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px,1fr));
+  align-items: center;
+  gap: 4rem;
+  padding: 96px 8vw 48px;
+  min-height: 100vh;
+  background: var(--bg-light);
+  color: var(--text);
+  position: relative;
+  overflow: hidden;
+}
+
+.collage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.collage-main {
+  max-width: 400px;
+  width: 100%;
+  
+ 
+}
+
+/* stickers parallax */
+.sticker {
+  position: absolute;
+  width: 80px;
+ 
+ 
+  transform: rotate(var(--init-rot,0deg));
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* initial sticker positions */
+.sticker:nth-child(2) { top: 10%; left: 15%; }
+.sticker:nth-child(3) { bottom: 12%; left: 8%; }
+.sticker:nth-child(4) { top: 25%; right: 12%; }
+.sticker:nth-child(5) { bottom: 18%; right: 5%; }
+
+.hero-content {
+  max-width: 500px;
+}
+.hero-content h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.5rem,6vw,4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: .5rem;
+}
+.hero-content h1 span {
+  color: var(--accent);
+}
+.role {
+  display: block;
+  font-size: 1.1rem;
+  opacity: .8;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+.hero-content p {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  margin-bottom: 2rem;
+  opacity: .9;
+}
+
+/* CTA button */
+.btn-primary {
+  display: inline-block;
+  padding: .75rem 1.5rem;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  transition: transform .2s, box-shadow .2s;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+/* Prototype embed */
+.prototype-embed {
+  margin-top: 2rem;
+}
+.prototype-embed iframe {
+  width: 100%;
+  max-width: 500px;
+  height: 300px;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+}
+
+/* Scroll cue */
+.scroll-cue {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  opacity: .8;
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%,100% { transform: translate(-50%,0) }
+  50%     { transform: translate(-50%,8px) }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 80px 6vw 32px;
+    gap: 2rem;
+  }
+  .hero-content {
+    text-align: center;
+    margin-top: 2rem;
+  }
+}
+
+
+
+
+/* PROJECTS (updated to match hero aesthetic) */
+.projects-section {
+  position: relative;
+  padding: 100px 50px;
+  background: var(--bg-light);
+  overflow: hidden;
+}
+.projects-title {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 300;
+  color: var(--text);
+  margin-bottom: 60px;
+}
+.sticker {
+  position: absolute;
+  width: 100px;
+ 
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  pointer-events: none;
+}
+.projects-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 120px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.project-showcase {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 80px;
+  align-items: center;
+  background: rgba(255,255,255,0.85);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+  position: relative;
+  transition: transform .3s;
+}
+.project-showcase:hover {
+  transform: translateY(-8px);
+}
+.project-info {
+  padding: 0;
+}
+.project-year {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.project-timeline {
+  position: relative;
+  padding-left: 20px;
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.project-timeline::before {
+  content: "●";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+.project-main-title {
+  font-size: 2.75rem;
+  font-weight: 500;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+.project-main-title a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.project-main-title a:hover {
+  text-decoration: underline;
+}
+.project-description {
+  color: #444;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.project-tag {
+  background: rgba(255,255,255,0.9);
+  color: #333;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: .85rem;
+  font-weight: 600;
+}
+.project-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.project-video {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+.video-controls {
+  position: absolute;
+  bottom: 12px; right: 12px;
+  background: rgba(0,0,0,0.7);
+  border: none;
+  color: #fff;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.video-container:hover .video-controls {
+  opacity: 1;
+}
+.project-caption {
+  position: absolute;
+  bottom: 12px; left: 12px;
+  background: rgba(255,255,255,0.9);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: .75rem;
+  font-weight: 600;
+}
+
+/* ABOUT */
+.about-wrapper * { box-sizing: border-box; }
+.about-hero {
+  background: var(--bg);
+  color: var(--text);
+  padding: 120px 8vw 100px;
+  text-align: center;
+}
+.about-hero h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.5rem,6vw,4rem);
+  font-weight: 700;
+  margin-bottom: 24px;
+  line-height: 1.1;
+}
+.about-hero h1 span { color: var(--accent); }
+.about-hero p {
+  max-width: 680px;
+  margin: 0 auto;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  opacity: .9;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+  gap: 32px;
+  padding: 100px 8vw;
+  background: #f5f7fa;
+}
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  padding: 32px;
+  transition: transform .3s;
+}
+.card:hover { transform: translateY(-6px); }
+.card-icon { font-size: 2rem; margin-bottom: 12px; color: var(--accent); }
+.card-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; margin-bottom: 8px; }
+
+/* TIMELINE */
+.timeline-wrap { padding: 100px 8vw; }
+.timeline-title {
+  text-align: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 60px;
+}
+.timeline { border-left: 3px solid var(--accent); }
+.t-item { position: relative; padding-left: 28px; margin-bottom: 40px; }
+.t-item:last-child { margin-bottom: 0; }
+.dot { position: absolute; left: -11px; top: 0; width: 18px; height: 18px; background: var(--accent); border-radius: 50%; }
+.t-year {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--text);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: .8rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.t-head { font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin-bottom: 4px; }
+
+/* WHY */
+.why {
+  background: #fff;
+  padding: 100px 8vw;
+  text-align: center;
+}
+.why h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 36px;
+}
+.why ul {
+  list-style: none;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+  padding-left: 0;
+}
+.why li {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+/* FUN FACT */
+.fun {
+  padding: 100px 8vw;
+}
+.fun-box {
+  background: var(--card-bg);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 40px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+.fun-emoji { font-size: 3rem; }
+.fun-box h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* CONTACT */
+.contact-section {
+  padding: 100px 50px;
+  background: #fff;
+  text-align: center;
+  border-top: 1px solid #f5f5f5;
+}
+.contact-title {
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-bottom: 20px;
+  color: #333;
+}
+.contact-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 30px;
+}
+.contact-email {
+  font-size: 1.2rem;
+  color: #333;
+  text-decoration: none;
+  font-weight: 400;
+  transition: opacity .3s;
+}
+.contact-email:hover {
+  opacity: .6;
+}
+
+/* MATCHA CHAT */
+.matcha-trigger {
+  position: fixed; bottom: 24px; right: 24px;
+  width: 64px; height: 64px;
+  background: #fff; border: none; border-radius: 50%;
+  box-shadow: 0 6px 18px rgba(0,0,0,.18);
+  padding: 8px; cursor: pointer; transition: transform .25s;
+  z-index: 1200;
+}
+.matcha-trigger:hover { transform: scale(1.08); }
+.matcha-chat {
+  position: fixed; bottom: 100px; right: 24px;
+  width: 320px; max-height: 480px;
+  background: #fff; border-radius: 14px;
+  box-shadow: 0 20px 48px rgba(0,0,0,.25);
+  display: flex; flex-direction: column; overflow: hidden;
+  opacity: 0; transform: translateY(40px) scale(.8);
+  pointer-events: none; transition: .3s; z-index: 1200;
+}
+.matcha-chat.open {
+  opacity: 1; transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.matcha-header {
+  background: #90c979; color: #0a0a0a;
+  padding: 12px 16px; font-weight: 600;
+  font-family: 'Space Grotesk', sans-serif;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.matcha-header button {
+  background: none; border: none; font-size: 20px; cursor: pointer;
+}
+.matcha-messages {
+  flex: 1; padding: 16px; overflow-y: auto; font-size: .9rem;
+}
+.msg { margin-bottom: 12px; line-height: 1.4; }
+.msg.me { text-align: right; }
+.msg.me span {
+  background: #eceff1; color: #333;
+  border-radius: 12px 12px 0 12px;
+  padding: 8px 12px; display: inline-block; max-width: 80%;
+}
+.msg.bot span {
+  background: #90c979; color: #0a0a0a;
+  border-radius: 12px 12px 12px 0;
+  padding: 8px 12px; display: inline-block; max-width: 80%;
+}
+</style>
+</head>
+<body>
+  <!-- Matcha Chat Trigger -->
+  <button class="matcha-trigger" id="matchaTrigger" aria-label="Open chat">
+    <img src="matcha 1.svg" alt="Chat with Matcha Bot" style="width:100%;height:100%;object-fit:contain"/>
+  </button>
+
+  <!-- Matcha Chat Box -->
+  <div class="matcha-chat" id="matchaChat" aria-live="polite">
+    <div class="matcha-header">
+      Matcha&nbsp;Bot
+      <button id="matchaClose" aria-label="Close chat">×</button>
+    </div>
+    <div class="matcha-messages" id="matchaMsgs">
+      <div class="msg bot"><span>Hi 👋. Grab a cup of match and ask me anything about my work!</span></div>
+    </div>
+    <form class="matcha-input" id="matchaForm">
+      <input type="text" id="matchaField" placeholder="Type a message…" autocomplete="off"/>
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <button class="go-live-btn" disabled>
+      <svg class="go-live-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7" fill="none" stroke="#fff" stroke-width="2"/></svg>
+      Go Live
+    </button>
+    <p class="preloader-msg">Serving at http://localhost:5500 …</p>
+  </div>
+
+  <!-- HEADER -->
+  <header id="header">
+    <a href="#" class="logo">JANA&nbsp;BRIDI</a>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Work</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- UPDATED COLLAGE HERO -->
+<section class="hero">
+  <!-- Left: Collage + Stickers -->
+  <div class="collage">
+    <!-- Main illustration (placeholder from Unsplash) -->
+    <img
+      src="Untitled (Draft)-1 (1).jpg"
+      alt="Artistic illustration placeholder"
+      class="collage-main"
+    />
+
+    <!-- Floating stickers -->
+    <img
+      src="herosticker1.png"
+      alt="Star icon"
+      class="sticker"
+      data-speed="0.2"
+      style="--init-rot:-10deg"
+    />
+    <img
+      src="https://cdn.pixabay.com/photo/2013/07/13/10/15/hammer-156635_1280.png"
+      alt="Hammer icon"
+      class="sticker"
+      data-speed="0.15"
+      style="--init-rot:6deg"
+    />
+    <img
+      src="https://cdn.pixabay.com/photo/2017/06/26/18/08/yarn-2449802_1280.png"
+      alt="Yarn ball icon"
+      class="sticker"
+      data-speed="0.25"
+      style="--init-rot:8deg"
+    />
+    <img
+      src="https://cdn.pixabay.com/photo/2018/07/19/13/53/marmalade-3547144_1280.png"
+      alt="Jar icon"
+      class="sticker"
+      data-speed="0.18"
+      style="--init-rot:-6deg"
+    />
+  </div>
+
+  <!-- Right: Text + Prototype Embed + CTA -->
+  <div class="hero-content">
+    <h1>
+      Cut onboarding time in half<br/>
+      with an <span>AI‑powered chat</span>
+    </h1>
+    <span class="role">Product Designer & Researcher</span>
+    <p>
+      See how I blend research, UX, and AI to build products that people love.
+    </p>
+    <a href="#projects" class="btn-primary">Explore Case Studies ↗</a>
+
+    <!-- interactive prototype embed (swap in your Figma URL) -->
+    <div class="prototype-embed">
+      <iframe
+        src="https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/file/XXXXXXXXX/Your-Prototype"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+
+  <!-- Scroll cue -->
+  <div class="scroll-cue">⌄</div>
+</section>
+
+
+
+
+
+
+ <section id="projects" class="projects-section">
+  <!-- decorative stickers -->
+  <img src="stickers/idea.png" class="sticker" style="top:5%; left:10%; transform:rotate(-12deg)" alt="">
+  <img src="stickers/lightbulb.png" class="sticker" style="bottom:15%; right:5%; transform:rotate(8deg)" alt="">
+  <img src="stickers/star.png" class="sticker" style="top:25%; right:20%; transform:rotate(5deg)" alt="">
+  <!-- and so on… -->
+
+  <h2 class="projects-title">Selected Work</h2>
+  <div class="projects-grid">
+
+    <!-- CommuniCare -->
+    <div class="project-showcase">
+      <div class="project-info">
+        <div class="project-year">2025</div>
+        <div class="project-timeline">Jan 2025 – May 2025</div>
+        <h2 class="project-main-title">
+          <a href="cc.html" target="_blank">CommuniCare</a>
+        </h2>
+        <p class="project-description">
+          A comprehensive redesign focusing on UX and accessibility for San Diego’s most vulnerable populations.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">UI/UX Design</span>
+          <span class="project-tag">Web Dev</span>
+          <span class="project-tag">AI ChatBot</span>
+          <span class="project-tag">End‑to‑end</span>
+        </div>
+      </div>
+      <div class="project-visual">
+        <div class="video-container">
+          <a href="cc.html" target="_blank">
+            <video class="project-video" muted autoplay loop playsinline>
+              <source src="abc10.mp4" type="video/mp4">
+            </video>
+          </a>
+          <button class="video-controls">🔇</button>
+          <div class="project-caption">Our project on ABC 10 News</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- …repeat each .project-showcase for your other work… -->
+
+  </div>
+</section>
+
+
+
+   <!-- ================== ABOUT SECTION ================== -->
+<!-- Paste this right before your contact/footer block  -->
+<section id="about" class="about-wrapper">
+  <!-- Dark hero banner -->
+  <div class="about-hero">
+    <h1>Designing <span>with</span> Community in Mind</h1>
+    <p>
+      I’m Jana Bridi, a product designer who cares less about vanity
+      metrics and more about whether people right next door can actually
+      use the app. AI helps me move fast, empathy keeps me pointed in the
+      right direction.
+    </p>
+  </div>
+
+  <!-- Philosophy cards -->
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">🤲</div>
+      <h3 class="card-title">Community-First</h3>
+      <p>
+        Every pixel is vetted against a single question:
+        <em>does this uplift the people around us?</em>
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🪶</div>
+      <h3 class="card-title">Radical Simplicity</h3>
+      <p>
+        Complex problems → simple, actionable flows. Fluff gets the boot.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <h3 class="card-title">AI-Assisted</h3>
+      <p>
+        ChatGPT drafts, I craft. Together we iterate at lightspeed (and
+        keep my inbox tame).
+      </p>
+    </div>
+  </div>
+
+  <!-- Non-profit timeline -->
+  <div class="timeline-wrap">
+    <h2 class="timeline-title">Hands-On Impact</h2>
+    <div class="timeline">
+      <div class="t-item">
+        <span class="dot"></span><span class="t-year">2024</span>
+        <h3 class="t-head">ZAKKI – Accessible E-Learning</h3>
+        <p>Designed course UX for communities lacking traditional education access.</p>
+      </div>
+      <div class="t-item">
+        <span class="dot"></span><span class="t-year">2024</span>
+        <h3 class="t-head">WOCOTM – Women Empowerment</h3>
+        <p>Rebuilt the nonprofit website to expand mentorship reach in Sacramento.</p>
+      </div>
+      <div class="t-item">
+        <span class="dot"></span><span class="t-year">2025</span>
+        <h3 class="t-head">UNA OC – Global Goals, Local Site</h3>
+        <p>Story-driven redesign for the United Nations Association (OC chapter).</p>
+      </div>
+      <div class="t-item">
+        <span class="dot"></span><span class="t-year">2025</span>
+        <h3 class="t-head">i4x – Outreach Dashboard</h3>
+        <p>Mobile tool connecting unhoused neighbors to outreach workers in real time.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why hire me -->
+  <div class="why">
+    <h2>Why (Hire) Me? 👀</h2>
+    <ul>
+      <li><i class="fas fa-bolt"></i><strong>Rapid Learner:</strong> Gen-Z reflexes meet AI shortcuts – ramp time measured in coffees, not quarters.</li>
+      <li><i class="fas fa-users"></i><strong>Team Synergy:</strong> From agile stand-ups to late-night Figma-thons, collaboration is my jam.</li>
+      <li><i class="fas fa-heart"></i><strong>Mission-Aligned:</strong> I pick projects that make grandma proud and stakeholders happy.</li>
+      <li><i class="fas fa-flask"></i><strong>Fail-Forward:</strong> Prototype, test, break, learn – repeat.</li>
+    </ul>
+  </div>
+
+  <!-- Fun fact -->
+  <div class="fun">
+    <div class="fun-box">
+      <div class="fun-emoji">🎶</div>
+      <div>
+        <h3>Music Keeps Me in Tune</h3>
+        <p>
+          I’ve played flute with the National Youth Orchestra and nabbed
+          first place at solo comps. Performing under a judge’s laser gaze?
+          Way scarier than any design review – and great training for tight
+          deadlines.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- SCRIPTS -->
+  <script>
+    window.addEventListener('scroll', ()=> document.getElementById('header').classList.toggle('scrolled', window.scrollY > 48));
+    function toggleVideoSound(btn) {
+      const vid = btn.parentNode.querySelector('video');
+      vid.muted = !vid.muted;
+      btn.textContent = vid.muted ? '🔇' : '🔊';
+    }
+    window.addEventListener('DOMContentLoaded', ()=> setTimeout(()=> document.getElementById('preloader').classList.add('fade'), 2000));
+
+document.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  document.querySelectorAll('.sticker').forEach(el => {
+    const speed = parseFloat(el.dataset.speed) || 0.2;
+    // initial rotation preserved via CSS var
+    const baseRot = parseFloat(getComputedStyle(el).getPropertyValue('--init-rot')) || 0;
+    // vertical shift + slight additional rotate on scroll
+    const y = scrolled * speed;
+    el.style.transform = `translateY(${y}px) rotate(${baseRot}deg)`;
+  });
+});
+
+
+    /* Matcha Chat JS unchanged... */
+  </script>
+</body>
+</html>

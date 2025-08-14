@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JANA BRIDI</title>
+    <!-- 
+    Files needed:
+    - profile-illustration.png (your profile image)
+    - flute-music.mp3 (your flute recording for background music)
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --text-primary: #000;
+            --text-secondary: #666;
+            --text-tertiary: #999;
+            --bg: #fff;
+            --hover-bg: #f5f5f5;
+            --border: #e5e5e5;
+            --accent: #90c979;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg);
+            padding: 40px 20px 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 80px;
+            display: flex;
+            align-items: flex-start;
+            gap: 40px;
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            padding: 8px;
+            background: var(--hover-bg);
+            filter: grayscale(1);
+            transition: filter 0.3s ease;
+        }
+
+        .profile-image:hover {
+            filter: grayscale(0);
+        }
+
+        .name {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+
+        .tagline {
+            font-size: 15px;
+            color: var(--text-secondary);
+            max-width: 480px;
+            line-height: 1.5;
+        }
+
+        /* Experience Pills */
+        .experience-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 32px;
+            margin-bottom: 80px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .experience-pill {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--hover-bg);
+            border-radius: 20px;
+            font-size: 13px;
+            transition: all 0.2s ease;
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .experience-pill:hover {
+            background: #e8e8e8;
+        }
+
+        .experience-pill.clickable {
+            cursor: pointer;
+        }
+
+        .experience-pill.clickable::after {
+            content: '→';
+            margin-left: 4px;
+            font-size: 11px;
+            opacity: 0.5;
+            transition: transform 0.2s ease;
+        }
+
+        .experience-pill.clickable:hover::after {
+            transform: translateX(2px);
+            opacity: 0.8;
+        }
+
+        /* Tooltip */
+        .experience-pill[data-tooltip]:not(.clickable):not(#flutistPill) {
+            cursor: help;
+        }
+
+        .experience-pill[data-tooltip]::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-8px);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+            font-weight: 400;
+            letter-spacing: 0;
+        }
+
+        .experience-pill[data-tooltip]::after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-2px);
+            border: 5px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.9);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .experience-pill[data-tooltip]:hover::before,
+        .experience-pill[data-tooltip]:hover::after {
+            opacity: 1;
+        }
+
+        #flutistPill {
+            background: linear-gradient(135deg, var(--hover-bg) 0%, #f0f0f0 100%);
+            position: relative;
+            overflow: visible;
+            padding-right: 32px;
+        }
+
+        #flutistPill .music-note {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 10px;
+            opacity: 0.4;
+        }
+
+        #flutistPill:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        #flutistPill:hover .experience-company,
+        #flutistPill:hover .experience-role {
+            color: white;
+        }
+
+        #flutistPill:hover .music-note {
+            color: white;
+            opacity: 0.7;
+        }
+
+        .experience-company {
+            font-weight: 500;
+        }
+
+        .experience-role {
+            color: var(--text-secondary);
+        }
+
+        /* Section Headers */
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-tertiary);
+            margin-bottom: 40px;
+        }
+
+        /* Featured Case Studies */
+        .case-studies {
+            margin-bottom: 80px;
+        }
+
+        .case-studies-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .case-study {
+            text-decoration: none;
+            color: inherit;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 40px;
+            align-items: center;
+            transition: transform 0.2s ease;
+            padding: 20px;
+            margin: -20px;
+            border-radius: 12px;
+        }
+
+        .case-study:nth-child(even) {
+            grid-template-columns: 1fr 1.2fr;
+        }
+
+        .case-study:nth-child(even) .case-study-visual {
+            order: 2;
+        }
+
+        .case-study:nth-child(even) .case-study-content {
+            order: 1;
+        }
+
+        .case-study:hover {
+            transform: translateX(8px);
+        }
+
+        .case-study-visual {
+            aspect-ratio: 16/10;
+            background: #f8f8f8;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .case-study-visual video,
+        .case-study-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .case-study-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .case-study-content {
+            padding: 20px 0;
+        }
+
+        .case-study-year {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .case-study-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .case-study-description {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .case-study-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .case-study-tag {
+            font-size: 12px;
+            color: var(--text-secondary);
+            background: var(--hover-bg);
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+
+        /* Other Projects */
+        .projects {
+            margin-bottom: 80px;
+            padding: 20px;
+            margin-left: -20px;
+            margin-right: -20px;
+            border-radius: 12px;
+        }
+
+        .project {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: baseline;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .project:first-child {
+            border-top: 1px solid var(--border);
+        }
+
+        .project:hover {
+            background: var(--hover-bg);
+            margin: 0 -20px;
+            padding: 20px;
+        }
+
+        .project-left {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .project-title {
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .project-type {
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .project-tag {
+            font-size: 12px;
+            color: var(--text-secondary);
+            padding: 4px 10px;
+            background: var(--hover-bg);
+            border-radius: 4px;
+        }
+
+        /* Contact */
+        .contact {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .contact a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .contact a:hover {
+            opacity: 0.6;
+        }
+
+        /* Featured badge */
+        .featured-badge {
+            display: inline-block;
+            font-size: 11px;
+            color: var(--text-secondary);
+            background: #f0f0f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-top: 12px;
+            font-weight: 500;
+        }
+
+        /* Music Player */
+        .music-player {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover {
+            box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+        }
+
+        .music-hint {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            font-size: 11px;
+            color: var(--text-tertiary);
+            background: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            white-space: nowrap;
+            opacity: 0;
+            animation: hintFade 5s ease-out;
+        }
+
+        @keyframes hintFade {
+            0%, 20% { opacity: 0; }
+            30%, 70% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .music-toggle {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--accent);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .music-toggle:hover {
+            transform: scale(1.1);
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><text y="20" font-size="20">♪</text></svg>'), auto;
+        }
+
+        .music-toggle svg {
+            width: 16px;
+            height: 16px;
+            fill: white;
+        }
+
+        .music-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .music-label {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .music-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* Music visualizer bars */
+        .music-visualizer {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 20px;
+            margin-left: 12px;
+        }
+
+        .music-bar {
+            width: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            animation: musicPulse 1s ease-in-out infinite;
+            transform-origin: bottom;
+        }
+
+        .music-bar:nth-child(1) { animation-delay: 0s; height: 40%; }
+        .music-bar:nth-child(2) { animation-delay: 0.1s; height: 60%; }
+        .music-bar:nth-child(3) { animation-delay: 0.2s; height: 80%; }
+        .music-bar:nth-child(4) { animation-delay: 0.3s; height: 50%; }
+
+        @keyframes musicPulse {
+            0%, 100% { transform: scaleY(0.5); opacity: 0.5; }
+            50% { transform: scaleY(1); opacity: 1; }
+        }
+
+        .music-visualizer.paused .music-bar {
+            animation-play-state: paused;
+            opacity: 0.3;
+        }
+
+        /* Flute icon animation */
+        .flute-note {
+            position: absolute;
+            font-size: 12px;
+            animation: floatNote 3s ease-out forwards;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        @keyframes floatNote {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-30px) translateX(10px);
+                opacity: 0;
+            }
+        }
+
+        /* Highlight animation */
+        @keyframes highlight {
+            0% { background: rgba(144, 201, 121, 0.1); }
+            100% { background: transparent; }
+        }
+
+        .highlight-target {
+            animation: highlight 2s ease-out;
+        }
+
+        /* Chat Widget */
+        .chat-trigger {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border: none;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-trigger:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-trigger svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .chat-widget {
+            position: fixed;
+            bottom: 90px;
+            right: 24px;
+            width: 350px;
+            max-height: 500px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .chat-widget.open {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .chat-header {
+            background: var(--accent);
+            color: white;
+            padding: 16px 20px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .chat-header button:hover {
+            opacity: 1;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #fafafa;
+        }
+
+        .chat-message {
+            margin-bottom: 16px;
+        }
+
+        .chat-message.user {
+            text-align: right;
+        }
+
+        .chat-message span {
+            display: inline-block;
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .chat-message.bot span {
+            background: white;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .chat-message.user span {
+            background: var(--accent);
+            color: white;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid var(--border);
+            background: white;
+        }
+
+        .chat-input input {
+            flex: 1;
+            border: none;
+            padding: 16px 20px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .chat-input button {
+            border: none;
+            background: var(--accent);
+            color: white;
+            padding: 0 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .chat-input button:hover {
+            opacity: 0.9;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 900px) {
+            .case-study {
+                grid-template-columns: 1fr !important;
+                gap: 24px;
+            }
+
+            .case-study:nth-child(even) .case-study-visual {
+                order: 0;
+            }
+
+            .case-study:nth-child(even) .case-study-content {
+                order: 1;
+            }
+
+            .music-player {
+                top: auto;
+                bottom: 80px;
+                right: 16px;
+                padding: 10px 16px;
+            }
+
+            .music-visualizer {
+                display: none;
+            }
+
+            .music-hint {
+                top: auto;
+                bottom: 100%;
+                margin-bottom: 8px;
+                margin-top: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 30px 16px 60px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .profile-image {
+                width: 80px;
+                height: 80px;
+            }
+
+            .case-studies-grid {
+                gap: 40px;
+            }
+
+            .project {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .project-tags {
+                margin-top: 8px;
+            }
+
+            .experience-row {
+                gap: 8px;
+            }
+
+            .experience-pill {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            .experience-pill[data-tooltip]::before {
+                font-size: 11px;
+                padding: 6px 10px;
+                white-space: normal;
+                max-width: 200px;
+                text-align: center;
+                left: 0;
+                transform: translateY(-8px);
+            }
+
+            .chat-widget {
+                width: calc(100vw - 32px);
+                right: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Music Player -->
+    <div class="music-player" title="Press spacebar to toggle music">
+        <button class="music-toggle" id="musicToggle" aria-label="Play background music">
+            <svg viewBox="0 0 24 24" id="playIcon">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+            <svg viewBox="0 0 24 24" id="pauseIcon" style="display: none;">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+            </svg>
+        </button>
+        <div class="music-info">
+            <span class="music-label">Background Music</span>
+            <span class="music-title">Flute Improvisation</span>
+        </div>
+        <div class="music-visualizer paused" id="musicVisualizer">
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+        </div>
+        <div class="music-hint">🎵 Listen to my flute playing</div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-text">
+            <h1 class="name">JANA BRIDI</h1>
+            <p class="tagline">Product designer exploring how generative AI can improve access to essential services for underserved communities. Flutist weaving creativity into every design.</p>
+            <div class="featured-badge">Featured on ABC 10 News</div>
+            
+            <!-- Experience -->
+            <div class="experience-row">
+                <div class="experience-pill" data-tooltip="Graduated from UCSD with Cognitive Science specialization in HCI">
+                    <span class="experience-company">UCSD</span>
+                    <span class="experience-role">Cognitive Science, '25</span>
+                </div>
+                <a href="#communicare-case" class="experience-pill clickable">
+                    <span class="experience-company">CommuniCare</span>
+                    <span class="experience-role">UX Lead, '25</span>
+                </a>
+                <a href="#uptown-boogie" class="experience-pill clickable">
+                    <span class="experience-company">48in48</span>
+                    <span class="experience-role">Design, '24</span>
+                </a>
+                <div class="experience-pill" id="flutistPill" data-tooltip="Click to play background music" style="cursor: pointer;">
+                    <span class="experience-company">Flutist</span>
+                    <span class="experience-role">15+ years</span>
+                    <span class="music-note">♪</span>
+                </div>
+            </div>
+        </div>
+        <img src="profile-illustration.png" alt="Jana Bridi" class="profile-image">
+    </header>
+
+    <!-- Featured Case Studies -->
+    <section class="case-studies">
+        <h2 class="section-label">Case Studies</h2>
+        <div class="case-studies-grid">
+            <a href="cc.html" class="case-study" id="communicare-case">
+                <div class="case-study-visual">
+                    <video autoplay loop muted playsinline>
+                        <source src="abc10.mp4" type="video/mp4">
+                    </video>
+                    <span class="case-study-badge">ABC 10 News</span>
+                </div>
+                <div class="case-study-content">
+                    <div class="case-study-year">2025</div>
+                    <h3 class="case-study-title">CommuniCare Healthcare Platform</h3>
+                    <p class="case-study-description">Redesigning healthcare access for San Diego's most vulnerable populations through AI-powered case management tools and accessible interfaces.</p>
+                    <div class="case-study-tags">
+                        <span class="case-study-tag">UI/UX Design</span>
+                        <span class="case-study-tag">AI ChatBot</span>
+                        <span class="case-study-tag">Web Development</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="AI_img_gen.html" class="case-study">
+                <div class="case-study-visual">
+                    <video autoplay loop muted playsinline>
+                        <source src="images/Prototype Final.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="case-study-content">
+                    <div class="case-study-year">2023</div>
+                    <h3 class="case-study-title">AI Image Generator Redesign</h3>
+                    <p class="case-study-description">Bridging the gap between user intent and AI output through improved prompt engineering interfaces and natural language processing.</p>
+                    <div class="case-study-tags">
+                        <span class="case-study-tag">Natural Language Interface</span>
+                        <span class="case-study-tag">Figma</span>
+                        <span class="case-study-tag">UX Research</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="COGS127.html" class="case-study">
+                <div class="case-study-visual" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <img src="Group 1 (1).png" alt="AI Calendar Assistant" style="object-fit: contain; padding: 20px;">
+                </div>
+                <div class="case-study-content">
+                    <div class="case-study-year">2024</div>
+                    <h3 class="case-study-title">AI Calendar Assistant</h3>
+                    <p class="case-study-description">Simplifying scheduling management and conflict resolution for busy professionals using conversational AI and intelligent automation.</p>
+                    <div class="case-study-tags">
+                        <span class="case-study-tag">UX Research</span>
+                        <span class="case-study-tag">AI Assistant</span>
+                        <span class="case-study-tag">End-to-end</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Other Projects -->
+    <section class="projects" id="uptown-boogie">
+        <h2 class="section-label">Other Work</h2>
+        <a href="48in48.html" class="project">
+            <div class="project-left">
+                <span class="project-title">Uptown & Boogie, Health Platform</span>
+                <span class="project-type">Food Accessibility</span>
+            </div>
+            <div class="project-tags">
+                <span class="project-tag">B2B</span>
+                <span class="project-tag">Web Dev</span>
+            </div>
+        </a>
+    </section>
+
+    <!-- Contact -->
+    <footer class="contact">
+        <a href="mailto:bridijana@gmail.com">bridijana@gmail.com</a> // 
+        <a href="https://linkedin.com/in/janabridi" target="_blank">LinkedIn</a>
+    </footer>
+
+    <!-- Chat Widget -->
+    <button class="chat-trigger" id="chatTrigger" aria-label="Open chat">
+        <svg viewBox="0 0 24 24">
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+        </svg>
+    </button>
+
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-header">
+            <span>Chat with Jana Bot</span>
+            <button id="chatClose">&times;</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-message bot">
+                <span>Hi! I'm Jana's portfolio assistant. Ask me about her projects, experience, or even her flute playing! 🎵</span>
+            </div>
+        </div>
+        <form class="chat-input" id="chatForm">
+            <input type="text" id="chatInput" placeholder="Type a message..." />
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+            <script>
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 40; // Add some padding from top
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Add highlight effect
+                    target.classList.add('highlight-target');
+                    setTimeout(() => {
+                        target.classList.remove('highlight-target');
+                    }, 2000);
+                }
+            });
+        });
+
+        // Chat Widget
+        const chatTrigger = document.getElementById('chatTrigger');
+        const chatWidget = document.getElementById('chatWidget');
+        const chatClose = document.getElementById('chatClose');
+        const chatForm = document.getElementById('chatForm');
+        const chatInput = document.getElementById('chatInput');
+        const chatMessages = document.getElementById('chatMessages');
+
+        chatTrigger.onclick = () => chatWidget.classList.add('open');
+        chatClose.onclick = () => chatWidget.classList.remove('open');
+
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage('user', message);
+            chatInput.value = '';
+
+            // Simple bot responses
+            setTimeout(() => {
+                const response = getBotResponse(message.toLowerCase());
+                addMessage('bot', response);
+            }, 500);
+        });
+
+        function addMessage(sender, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${sender}`;
+            messageDiv.innerHTML = `<span>${text}</span>`;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function getBotResponse(message) {
+            if (message.includes('communicare')) {
+                return "CommuniCare is Jana's flagship project - a healthcare platform redesign that improves access for vulnerable populations. It features an AI chatbot and was featured on ABC 10 News!";
+            } else if (message.includes('ai') && message.includes('image')) {
+                return "The AI Image Generator project focused on improving prompt engineering interfaces to help users better communicate with AI systems. Jana redesigned the natural language interface.";
+            } else if (message.includes('calendar')) {
+                return "The AI Calendar Assistant helps busy professionals manage scheduling conflicts using conversational AI. It was a complete UX research and design project.";
+            } else if (message.includes('contact') || message.includes('email')) {
+                return "You can reach Jana at bridijana@gmail.com or connect on LinkedIn!";
+            } else if (message.includes('experience') || message.includes('background')) {
+                return "Jana is studying Cognitive Science at UCSD (graduating 2025) and has worked as UX Lead at CommuniCare and designer at 48in48. She's also been playing flute for over 15 years!";
+            } else if (message.includes('music') || message.includes('flute')) {
+                return "Jana has been playing flute for 15+ years! She believes creativity in music translates to her design work. You can listen to her playing using the music player at the top of the page.";
+            } else {
+                return "I can tell you about Jana's projects like CommuniCare, the AI Image Generator, or Calendar Assistant. What would you like to know more about?";
+            }
+        }
+
+        // Music Player
+        const musicToggle = document.getElementById('musicToggle');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        const musicVisualizer = document.getElementById('musicVisualizer');
+        
+        // Create audio element
+        const audio = new Audio('flute.mp3.mp3'); // Replace with your flute recording file
+        audio.loop = true;
+        audio.volume = 0.5;
+        
+        let isPlaying = false;
+        
+        musicToggle.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+                musicVisualizer.classList.add('paused');
+                isPlaying = false;
+            } else {
+                audio.play();
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+                musicVisualizer.classList.remove('paused');
+                isPlaying = true;
+                
+                // Create floating note animation
+                createFloatingNote();
+            }
+        });
+        
+        function createFloatingNote() {
+            const note = document.createElement('div');
+            note.className = 'flute-note';
+            note.textContent = '♪';
+            note.style.left = `${musicToggle.offsetLeft + 18}px`;
+            note.style.top = `${musicToggle.offsetTop}px`;
+            musicToggle.appendChild(note);
+            
+            setTimeout(() => note.remove(), 3000);
+        }
+        
+        // Add note periodically while playing
+        setInterval(() => {
+            if (isPlaying && Math.random() > 0.7) {
+                createFloatingNote();
+            }
+        }, 2000);
+
+        // Keyboard shortcut for music (spacebar)
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && e.target.tagName !== 'INPUT') {
+                e.preventDefault();
+                musicToggle.click();
+            }
+        });
+
+        // Click flutist pill to play music
+        const flutistPill = document.getElementById('flutistPill');
+        flutistPill.addEventListener('click', () => {
+            if (!isPlaying) {
+                musicToggle.click();
+            }
+        });
+    </script>
+</body>
+</html>

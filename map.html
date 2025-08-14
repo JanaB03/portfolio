@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Area</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f1e8;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: #f5f1e8;
+        }
+        
+        .header h1 {
+            color: #1e3a5f;
+            font-size: 48px;
+            margin: 0 0 20px 0;
+            font-weight: bold;
+        }
+        
+        .header p {
+            color: #8b8680;
+            font-size: 18px;
+            margin: 0;
+        }
+        
+        .locations-list {
+            text-align: center;
+            padding: 20px;
+            background-color: #f5f1e8;
+            line-height: 1.8;
+            color: #1e3a5f;
+            font-size: 18px;
+        }
+        
+        #map {
+            height: 600px;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* Custom marker label style to match Chicago map */
+        .location-label {
+            background-color: #1e3a5f;
+            color: white;
+            padding: 8px 30px 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            white-space: nowrap;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .close-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 16px;
+            opacity: 0.8;
+        }
+        
+        .close-btn:hover {
+            opacity: 1;
+        }
+        
+        /* Paw icon container */
+        .paw-icon-container {
+            text-align: center;
+            margin-top: -10px;
+        }
+        
+        .paw-icon {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: #7cb342;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .paw-icon::after {
+            content: '🐾';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+        }
+        
+        /* Override Leaflet styles */
+        .leaflet-container {
+            background-color: #f0f0f0;
+        }
+        
+        .leaflet-control-zoom {
+            border: none !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+        }
+        
+        .leaflet-control-zoom a {
+            background-color: white !important;
+            color: #333 !important;
+            font-size: 22px !important;
+            font-weight: normal !important;
+            width: 30px !important;
+            height: 30px !important;
+            line-height: 30px !important;
+        }
+        
+        .leaflet-control-zoom a:hover {
+            background-color: #f4f4f4 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Service Area</h1>
+        <p>Pawesome Adventure Walks offers dog walking services in these Scottish Borders areas:</p>
+    </div>
+    
+    <div class="locations-list">
+        Kelso | Ednam | Eccles | Stichill | Greenlaw | Sprouston | Morebattle | Yetholm | Coldstream
+    </div>
+    
+    <div id="map"></div>
+    
+    <script>
+        // Initialize the map
+        var map = L.map('map', {
+            center: [55.620, -2.370],
+            zoom: 11,
+            zoomControl: true
+        });
+        
+        // Add light gray tiles to match the Chicago map style
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© OpenStreetMap contributors © CARTO',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+        
+        // Location data
+        var locations = [
+            {name: 'Kelso', lat: 55.599, lng: -2.432},
+            {name: 'Ednam', lat: 55.615, lng: -2.461},
+            {name: 'Eccles', lat: 55.686, lng: -2.374},
+            {name: 'Stichill', lat: 55.587, lng: -2.469},
+            {name: 'Greenlaw', lat: 55.768, lng: -2.464},
+            {name: 'Sprouston', lat: 55.620, lng: -2.410},
+            {name: 'Morebattle', lat: 55.505, lng: -2.481},
+            {name: 'Yetholm', lat: 55.541, lng: -2.318},
+            {name: 'Coldstream', lat: 55.651, lng: -2.252}
+        ];
+        
+        // Add custom markers for each location
+        locations.forEach(function(location) {
+            // Create custom HTML for the label and paw icon
+            var labelHtml = `
+                <div style="text-align: center;">
+                    <div class="location-label">
+                        ${location.name}
+                        <span class="close-btn">✕</span>
+                    </div>
+                    <div class="paw-icon-container">
+                        <div class="paw-icon"></div>
+                    </div>
+                </div>
+            `;
+            
+            // Create custom icon
+            var customIcon = L.divIcon({
+                className: 'custom-div-icon',
+                html: labelHtml,
+                iconSize: null,
+                iconAnchor: [50, 30]
+            });
+            
+            // Add marker to map
+            var marker = L.marker([location.lat, location.lng], {
+                icon: customIcon
+            }).addTo(map);
+            
+            // Add click handler for the close button
+            marker.on('add', function() {
+                setTimeout(function() {
+                    var closeBtn = document.querySelector('.leaflet-marker-icon:last-child .close-btn');
+                    if (closeBtn) {
+                        closeBtn.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            map.removeLayer(marker);
+                        });
+                    }
+                }, 0);
+            });
+        });
+        
+        // Style the zoom control to match
+        map.zoomControl.setPosition('topleft');
+    </script>
+</body>
+</html>

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Farmers Market – A 48-Hour Sprint Story</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"/>
+
+  <!-- GSAP (optional) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    /* ===== THEME ===== */
+    :root{
+      --bg-primary:#1e1e1e;
+      --bg-secondary:#2c2c2c;
+      --bg-tertiary:#383838;
+      --text-primary:#ffffff;
+      --text-secondary:#a0a0a0;
+      --accent:#ff6b35;      /* main */
+      --accent2:#5551ff;     /* hover */
+      --border:#3c3c3c;
+      --radius:14px;
+      --shadow-lg:0 30px 80px rgba(0,0,0,.5);
+      --shadow-md:0 18px 50px rgba(0,0,0,.35);
+      --shadow-sm:0 8px 20px rgba(0,0,0,.25);
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Inter',sans-serif;
+      color:var(--text-primary);
+      background:linear-gradient(135deg,var(--bg-primary) 0%,var(--bg-secondary) 100%);
+      line-height:1.6; overflow-x:hidden;
+    }
+
+    /* Global media safety (prevents giant images) */
+    img, video{display:block;max-width:100%;height:auto}
+    .contain img{width:100%;max-height:70vh;object-fit:contain;background:#000;border:1px solid var(--border);border-radius:8px}
+
+    /* Progress */
+    .nav-progress{position:fixed;top:0;left:0;right:0;height:3px;background:var(--bg-tertiary);z-index:1001}
+    .nav-progress-bar{height:100%;background:var(--accent2);width:0;transition:width .25s ease}
+
+    /* Header */
+    .nav-header{
+      position:fixed;top:0;left:0;right:0;height:56px;z-index:1000;
+      display:flex;align-items:center;gap:12px;padding:0 20px;
+      background:rgba(44,44,44,.95);backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--border);
+    }
+    .nav-back{color:var(--text-secondary);text-decoration:none;font-size:14px}
+    .nav-back:hover{color:var(--text-primary)}
+    .nav-title{position:absolute;left:50%;transform:translateX(-50%);font-size:14px;color:var(--text-secondary)}
+
+    /* Side dots */
+    .chapter-nav{
+      position:fixed;left:24px;top:50%;transform:translateY(-50%);z-index:999;
+      background:var(--bg-secondary);border:1px solid var(--border);
+      border-radius:12px;padding:16px 8px;
+    }
+    .chapter-dot{
+      width:8px;height:8px;border-radius:50%;background:var(--bg-tertiary);
+      margin:16px auto;cursor:pointer;position:relative;transition:.2s;
+    }
+    .chapter-dot:hover{background:var(--text-secondary);transform:scale(1.15)}
+    .chapter-dot.active{background:var(--accent2);box-shadow:0 0 0 4px rgba(85,81,255,.2)}
+    .chapter-label{
+      position:absolute;left:22px;top:50%;transform:translateY(-50%);
+      background:var(--bg-secondary);border:1px solid var(--border);
+      color:var(--text-secondary);padding:4px 10px;border-radius:8px;font-size:12px;white-space:nowrap;
+      opacity:0;pointer-events:none;transition:.15s;
+    }
+    .chapter-dot:hover .chapter-label{opacity:1}
+
+    /* Type & layout */
+    .chapter-number{font-size:12px;text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:20px;text-align:center;color:var(--accent)}
+    .chapter-title{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,48px);margin-bottom:20px;text-align:center;color:var(--text-primary)}
+    .story-text{font-size:clamp(18px,2.3vw,22px);line-height:1.7;color:var(--text-secondary);margin:0 auto 36px;max-width:900px;text-align:center}
+    .section{padding:100px 2rem;position:relative}
+    .section.alt{background:var(--bg-secondary)}
+    .container{max-width:1200px;margin:0 auto}
+
+    /* Hero */
+    .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;margin-top:56px}
+    .hero-content{text-align:center;max-width:1100px;width:100%}
+    .hero-label{font-size:12px;text-transform:uppercase;letter-spacing:3px;color:var(--accent);margin-bottom:20px;font-weight:700}
+    .hero-title{font-family:'Playfair Display',serif;font-size:clamp(48px,7vw,80px);line-height:1.1;margin-bottom:18px}
+    .hero-subtitle{font-size:clamp(18px,2.6vw,24px);color:var(--text-secondary);max-width:850px;margin:0 auto 36px}
+    .hero-stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-bottom:36px}
+    .stat-block{text-align:center;padding:14px 16px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:12px}
+    .stat-number{font-size:clamp(28px,4.8vw,44px);font-weight:800;color:var(--accent)}
+    .stat-label{font-size:12px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px}
+    .device-preview{margin-top:24px;display:flex;justify-content:center;gap:28px;flex-wrap:wrap}
+    .device{border-radius:20px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-lg);transition:transform .3s ease}
+    .device:hover{transform:translateY(-6px)}
+    .device.desktop{width:clamp(360px,60vw,640px)}
+    .device.phone{width:clamp(140px,22vw,220px)}
+    .device img{width:100%;height:auto}
+
+    /* Generic cards & lists */
+    .card{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+    .grid{display:grid;gap:24px}
+    .grid-2{grid-template-columns:1fr 1fr}
+    .list{list-style:none;color:var(--text-secondary)}
+    .list li{margin:10px 0;padding-left:18px;position:relative}
+    .list li::before{content:"→";position:absolute;left:0;color:var(--accent);font-weight:800}
+
+    /* Quote */
+    .story-quote{background:var(--bg-tertiary);border-left:4px solid var(--accent);padding:24px 28px;margin:24px auto;border-radius:10px;max-width:900px;text-align:left;border:1px solid var(--border)}
+    .quote-text{font-size:22px;font-style:italic;color:var(--text-primary);margin-bottom:10px}
+    .quote-source{font-size:14px;color:var(--text-secondary);font-weight:600}
+
+    /* Objectives (replaces “problems”) */
+    .objectives-grid{display:grid;grid-template-columns:1fr 1fr;gap:46px;max-width:1200px;margin:46px auto;align-items:center}
+    .objective-ill{width:100%;max-width:420px;border-radius:12px;box-shadow:var(--shadow-sm);border:1px solid var(--border);margin-inline:auto}
+    .objective h3{font-size:26px;margin-bottom:12px}
+    .objective p{font-size:16px;color:var(--text-secondary);margin-bottom:10px}
+
+    /* Research */
+    .journey-timeline{display:flex;justify-content:space-between;max-width:1000px;margin:0 auto 50px;position:relative}
+    .journey-timeline::before{content:'';position:absolute;top:30px;left:10%;right:10%;height:2px;background:var(--accent);opacity:.35}
+    .timeline-step{flex:1;text-align:center}
+    .step-icon{width:56px;height:56px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:#fff;font-size:22px;box-shadow:0 4px 12px rgba(255,107,53,.3);border:3px solid var(--bg-primary)}
+    .step-title{font-weight:700;font-size:16px;margin-bottom:6px}
+    .step-desc{font-size:13px;color:var(--text-secondary);max-width:220px;margin:0 auto}
+    .insights-showcase{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1200px;margin:0 auto}
+    .insight-card{background:var(--bg-secondary);padding:28px;border-radius:16px;border:1px solid var(--border)}
+
+    /* IA / Wireframes / Design */
+    .ia-grid{display:flex;gap:28px;max-width:1200px;margin:40px auto;flex-wrap:wrap}
+    .ia-desc{flex:1;background:var(--bg-tertiary);padding:20px;border-radius:12px;border:1px solid var(--border)}
+    .ia-img{flex:2;max-width:700px}
+    .ia-img img{width:100%;border-radius:8px;border:1px solid var(--border);background:#000}
+
+    .wireframe-showcase{max-width:1200px;margin:0 auto}
+    .wf-display{width:100%;aspect-ratio:16/9;max-height:min(70vh,560px);border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#000;margin-bottom:16px}
+    .wf-display img{width:100%;height:100%;object-fit:contain}
+    .wf-thumbs{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
+    .wf-thumb{flex:0 0 120px;height:80px;border-radius:8px;overflow:hidden;cursor:pointer;border:1px solid var(--border);background:#000}
+    .wf-thumb img{width:100%;height:100%;object-fit:cover}
+
+    .design-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;max-width:1200px;margin:24px auto}
+    .design-card{background:var(--bg-tertiary);border-radius:12px;padding:16px;border:1px solid var(--border)}
+    .design-card img{width:100%;max-height:420px;object-fit:contain;border-radius:8px;border:1px solid var(--border);background:#000}
+
+    /* Results / Process / Reflection / Next */
+    .result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;max-width:1000px;margin:24px auto}
+    .metric-card{background:var(--bg-tertiary);padding:22px;border-radius:12px;text-align:center;border:1px solid var(--border)}
+    .metric-number{font-size:2.4rem;font-weight:800;color:var(--accent);margin-bottom:.4rem}
+    .metric-desc{color:var(--text-secondary);font-size:.95rem}
+
+    .process-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:1200px;margin:0 auto}
+    .process-card{background:var(--bg-tertiary);border:1px solid var(--border);padding:28px;border-radius:16px;text-align:center}
+
+    .learning-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin:24px auto;max-width:900px}
+    .learning-card{background:rgba(255,255,255,.15);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,.2)}
+
+    .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;max-width:1000px;margin:24px auto}
+    .step-card{background:var(--bg-tertiary);padding:20px;border-radius:12px;border-left:4px solid var(--accent);border:1px solid var(--border)}
+
+    .cta-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+    .cta-button{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:10px;font-weight:700;border:1px solid var(--border)}
+    .cta-button.primary{background:var(--accent);color:#fff}
+    .cta-button.secondary{background:transparent;color:#fff}
+    .cta-button.secondary:hover{background:var(--bg-tertiary)}
+
+    .footer{background:#141414;color:var(--text-secondary);text-align:center;padding:36px 2rem;border-top:1px solid var(--border)}
+
+    @media (max-width:1024px){ .chapter-nav{display:none} }
+    @media (max-width:840px){
+      .objectives-grid{grid-template-columns:1fr;gap:28px}
+      .journey-timeline{flex-direction:column;gap:24px}
+      .journey-timeline::before{display:none}
+    }
+    .client-card{
+  background:#f3f4f6;
+  color:#111;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:28px;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+.client-grid{
+  display:grid;
+  grid-template-columns:360px 1fr;
+  gap:28px;
+  align-items:center;
+}
+.client-photo{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
+}
+.client-name{
+  font-size:clamp(24px,3.2vw,34px);
+  color:var(--brand-green);
+  font-weight:800;
+  margin:2px 0 12px;
+}
+.client-copy p{
+  font-size:18px;
+  line-height:1.8;
+  color:#374151;
+  margin-bottom:14px;
+}
+.hl{
+  color:var(--brand-green);
+  font-weight:700;
+  background:rgba(43,91,53,.1);
+  padding:0 .25rem;
+  border-radius:4px;
+}
+.client-context{
+  max-width:980px;
+  margin:28px auto 0;
+  color:var(--text-secondary);
+}
+
+/* responsive */
+@media (max-width:900px){
+  .client-grid{ grid-template-columns:1fr; }
+  .client-photo{ max-width:420px; margin:0 auto; }
+}
+  </style>
+</head>
+<body>
+  <!-- Progress -->
+  <div class="nav-progress"><div class="nav-progress-bar" id="progressBar"></div></div>
+
+  <!-- Header -->
+  <nav class="nav-header">
+    <a href="index.html" class="nav-back">← Back</a>
+    <span class="nav-title">Farmers Market • 48-Hour Sprint</span>
+  </nav>
+
+  <!-- Left chapter nav -->
+  <div class="chapter-nav" aria-label="Section navigation">
+    <div class="chapter-dot active" data-section="hero"><span class="chapter-label">Intro</span></div>
+    <div class="chapter-dot" data-section="story-intro"><span class="chapter-label">Challenge</span></div>
+    <div class="chapter-dot" data-section="objectives"><span class="chapter-label">Objectives</span></div>
+    <div class="chapter-dot" data-section="client"><span class="chapter-label">Client</span></div>
+    <div class="chapter-dot" data-section="research"><span class="chapter-label">Research</span></div>
+    <div class="chapter-dot" data-section="ia"><span class="chapter-label">IA</span></div>
+    <div class="chapter-dot" data-section="wireframes"><span class="chapter-label">Wireframes</span></div>
+    <div class="chapter-dot" data-section="design"><span class="chapter-label">Design</span></div>
+    <div class="chapter-dot" data-section="results"><span class="chapter-label">Results</span></div>
+    <div class="chapter-dot" data-section="principles"><span class="chapter-label">Principles</span></div>
+    <div class="chapter-dot" data-section="reflection"><span class="chapter-label">Lessons</span></div>
+    <div class="chapter-dot" data-section="next-steps"><span class="chapter-label">Next</span></div>
+  </div>
+
+  <!-- HERO -->
+  <section class="section hero" id="hero">
+    <div class="hero-content">
+      <div class="hero-label">48 in 48 Sprint</div>
+      <h1 class="hero-title">Designing a Farmers Market<br><span style="color:var(--accent)">Website in 48 Hours</span></h1>
+      <p class="hero-subtitle">How volunteers transformed a community market’s digital presence during an intense two-day hackathon.</p>
+
+      <div class="hero-stats">
+        <div class="stat-block"><span class="stat-number">48</span><span class="stat-label">Hours</span></div>
+        <div class="stat-block"><span class="stat-number">100+</span><span class="stat-label">Vendors</span></div>
+        <div class="stat-block"><span class="stat-number">#1</span><span class="stat-label">Award</span></div>
+      </div>
+
+      <div class="device-preview">
+        <div class="device desktop"><img src="./images/48in48/Landing page.png" alt="Desktop homepage mockup"></div>
+        <div class="device phone"><img src="./images/48in48/Landing page.png" alt="Mobile homepage mockup"></div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- CHALLENGE -->
+  <section class="section alt story-intro" id="story-intro">
+    <div class="container">
+      <div class="chapter-number">Chapter 1</div>
+      <h2 class="chapter-title">The 48-Hour Challenge</h2>
+      <p class="story-text"><strong>48in48</strong> pairs non-profits with volunteer designers & developers to build production-ready websites over a weekend. Our client—the local farmers market—needed donation, volunteer, vendor and schedule features fast.</p>
+      <div class="story-quote">
+        <p class="quote-text">“We need a site the community can trust—by Sunday night.”</p>
+        <p class="quote-source">— Kick-off, Friday 6 PM</p>
+      </div>
+      <p class="story-text">We set one goal: <strong>ship the highest-impact MVP</strong> without sacrificing accessibility or brand.</p>
+    </div>
+  </section>
+  <!-- ABOUT CLIENT -->
+<section class="section" id="client">
+  <div class="container">
+    <div class="chapter-number">Chapter 2</div>
+    <h2 class="chapter-title">About Our Client</h2>
+
+    <div class="client-card">
+      <div class="client-grid">
+        <!-- Replace the src with your actual headshot path -->
+        <img src="./images/48in48/JUDIDESIRE.png" alt="Portrait of Judy, the market director" class="client-photo">
+
+        <div class="client-copy">
+          <h3 class="client-name">Meet Judy</h3>
+          <p>
+            Our client is the visionary behind <span class="hl">sustainable farmers markets</span> in our community.
+            Her mission is to create <span class="hl">vibrant spaces</span> where local vendors and shoppers connect
+            while promoting <span class="hl">environmental consciousness</span>.
+          </p>
+          <p>
+            Through her <span class="hl">innovative approach</span>, she has launched multiple market locations,
+            empowering over <span class="hl">100+ local vendors</span> and serving thousands of community members.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <p class="story-text client-context">
+      Our client, who manages the local farmers market, came to us with specific goals for a new digital presence:
+      make it easy to donate, recruit and schedule volunteers, bring in more vendors, showcase market programs and schedules,
+      and highlight community initiatives. These goals shaped every design and development decision during the 48-hour sprint.
+    </p>
+  </div>
+</section>
+
+  <!-- OBJECTIVES (new) -->
+  <section class="section" id="objectives">
+    <div class="container">
+      <div class="chapter-number">Chapter 2</div>
+      <h2 class="chapter-title">Project Objectives (from kickoff)</h2>
+      <p class="story-text">Since this was a ground-up build, we aligned on clear outcomes with the client.</p>
+
+      <div class="objectives-grid">
+        <div><img src="https://i.imgur.com/0J6G0lp.png" class="objective-ill" alt="Donations illustration"></div>
+        <div class="objective">
+          <h3>Make donating effortless</h3>
+          <p>Prominent giving paths, simple form, and clear impact messaging.</p>
+          <ul class="list">
+            <li>One-step donation flow</li>
+            <li>Option for recurring gifts</li>
+            <li>Automated receipts</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="objectives-grid" style="margin-top:20px">
+        <div class="objective">
+          <h3>Recruit and schedule volunteers</h3>
+          <p>Shift-first sign-up that confirms instantly and reduces coordinator workload.</p>
+          <ul class="list">
+            <li>Shift picker with confirmations</li>
+            <li>Cleaner intake data</li>
+            <li>Automatic reminders (post-MVP)</li>
+          </ul>
+        </div>
+        <div><img src="https://i.imgur.com/fx0xXEh.png" class="objective-ill" alt="Volunteers illustration"></div>
+      </div>
+
+      <div class="objectives-grid" style="margin-top:20px">
+        <div><img src="https://i.imgur.com/U9l6pnm.png" class="objective-ill" alt="Vendors illustration"></div>
+        <div class="objective">
+          <h3>Simplify vendor onboarding</h3>
+          <p>One page to understand criteria, submit documents, and track status.</p>
+          <ul class="list">
+            <li>Requirements & fees up front</li>
+            <li>Single application flow</li>
+            <li>Status clarity for farmers</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+
+  <!-- RESEARCH -->
+  <section class="section alt" id="research">
+    <div class="container">
+      <div class="chapter-number">Chapter 3</div>
+      <h2 class="chapter-title">Sprint-Size Research</h2>
+      <p class="story-text">Four micro-activities replaced a traditional discovery phase.</p>
+
+      <div class="journey-timeline">
+        <div class="timeline-step"><div class="step-icon"><i class="fas fa-comments"></i></div><h3 class="step-title">Interview</h3><p class="step-desc">1-hr deep dive</p></div>
+        <div class="timeline-step"><div class="step-icon"><i class="fas fa-sitemap"></i></div><h3 class="step-title">IA Workshop</h3><p class="step-desc">Sticky-note sprint</p></div>
+        <div class="timeline-step"><div class="step-icon"><i class="fas fa-pencil-ruler"></i></div><h3 class="step-title">Wire Test</h3><p class="step-desc">5 guerilla users</p></div>
+        <div class="timeline-step"><div class="step-icon"><i class="fas fa-sync"></i></div><h3 class="step-title">Iterate</h3><p class="step-desc">Loops every 4 hrs</p></div>
+      </div>
+
+      <div class="insights-showcase">
+        <div class="insight-card"><h3 class="insight-title">Trust Fuels Giving</h3><p class="insight-detail">Impact meters and stories increase donor confidence.</p></div>
+        <div class="insight-card"><h3 class="insight-title">Shift-First Sign-up</h3><p class="insight-detail">Choosing a time early reduces volunteer drop-off.</p></div>
+        <div class="insight-card"><h3 class="insight-title">One-Page Vendor Flow</h3><p class="insight-detail">Centralizing info cuts back-and-forth emails.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IA -->
+  <section class="section" id="ia">
+    <div class="container">
+      <div class="chapter-number">Chapter 4</div>
+      <h2 class="chapter-title">Information Architecture</h2>
+      <p class="story-text">A concise site map guides visitors to donations, schedules, and applications in two clicks or fewer.</p>
+
+      <div class="ia-grid">
+        <div class="ia-desc">
+          <h3 style="color:var(--accent);margin-bottom:.8rem">Key Flows</h3>
+          <ul class="list" style="margin-top:8px">
+            <li>Donate in 1 step</li>
+            <li>Choose a volunteer shift</li>
+            <li>Submit vendor application</li>
+            <li>Find next market</li>
+          </ul>
+        </div>
+        <div class="ia-img"><img src="./images/48in48/Site Map.jpg" alt="Site map"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WIREFRAMES -->
+  <section class="section" id="wireframes">
+    <div class="container">
+      <div class="chapter-number">Chapter 5</div>
+      <h2 class="chapter-title">Low-Fi Wireframes</h2>
+      <p class="story-text">Sketching fast let us validate layout before polishing pixels.</p>
+
+      <div class="wireframe-showcase">
+        <div class="wf-display contain"><img src="./images/48in48/Home.png" id="wfMain" alt="Wireframe"></div>
+        <div class="wf-thumbs" id="wfThumbs">
+          <div class="wf-thumb active"><img src="./images/48in48/Home.png" data-img="./images/48in48/Home.png" alt="Home wireframe"></div>
+          <div class="wf-thumb"><img src="./images/48in48/About Us.png" data-img="./images/48in48/About Us.png" alt="About wireframe"></div>
+          <div class="wf-thumb"><img src="./images/48in48/Programs.png" data-img="./images/48in48/Programs.png" alt="Programs wireframe"></div>
+          <div class="wf-thumb"><img src="./images/48in48/Composting.png" data-img="./images/48in48/Composting.png" alt="Composting wireframe"></div>
+          <div class="wf-thumb"><img src="./images/48in48/Contact.png" data-img="./images/48in48/Contact.png" alt="Contact wireframe"></div>
+          <div class="wf-thumb"><img src="./images/48in48/CSA.png" data-img="./images/48in48/CSA.png" alt="CSA wireframe"></div>
+          <div class="wf-thumb"><img src="./images/48in48/Pop Kids Club.png" data-img="./images/48in48/Pop Kids Club.png" alt="Pop Kids Club wireframe"></div>
+        <div class="wf-thumb"><img src="./images/48in48/Textile Recycling.png" data-img="./images/48in48/Textile Recycling.png" alt="Textile Recycling wireframe"></div>
+        <div class="wf-thumb"><img src="./images/48in48/Vendor Application.png" data-img="./images/48in48/Vendor Application.png" alt="Vendor Application wireframe"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESIGN SYSTEM & HIFI -->
+  <section class="section" id="design">
+    <div class="container">
+      <div class="chapter-number">Chapter 6</div>
+      <h2 class="chapter-title">Design System & Hi-Fi</h2>
+      <p class="story-text">A reusable component library kept dev speed high and visuals on-brand.</p>
+
+      <div class="design-grid">
+        <div class="design-card"><h3>Typography</h3><img src="./images/48in48/Fonts.png" alt="Fonts"></div>
+         <div class="design-card"><h3>Typography in Action</h3><img src="./images/48in48/Font Hierarchy in Action.png" alt="Fonts"></div>
+        <div class="design-card"><h3>Colors</h3><img src="./images/48in48/colors.png" alt="Colors"></div>
+        <div class="design-card"><h3>Buttons</h3><img src="./images/48in48/buttons.png" alt="Buttons"></div>
+        <div class="design-card"><h3>Icons</h3><img src="./images/48in48/icons.png" alt="Icons"></div>
+      </div>
+
+      <h3 style="text-align:center;margin:32px 0;font-family:'Playfair Display',serif;color:var(--accent);font-size:2rem">High-Fidelity Screens</h3>
+      <div class="design-grid">
+        <div class="design-card"><h3>Homepage</h3><img src="./images/48in48/Landing page.png" alt="Homepage"></div>
+        <div class="design-card"><h3>Donation Flow</h3><img src="./images/48in48/Donation HiFi.png" alt="Donation"></div>
+        <div class="design-card"><h3>Volunteer</h3><img src="./images/48in48/Join our team.png" alt="Volunteer"></div>
+        <div class="design-card"><h3>About Us</h3><img src="./images/48in48/About us HiFi.png" alt="Vendor"></div>
+      <div class="design-card"><h3>Programs</h3><img src="./images/48in48/Programs HiFi.png" alt="Vendor"></div>
+      
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="section alt" id="results">
+    <div class="container">
+      <div class="chapter-number">Chapter 7</div>
+      <h2 class="chapter-title">Sprint Impact</h2>
+      <p class="story-text">Rapid design produced measurable wins for the market.</p>
+
+      <div class="result-grid">
+        <div class="metric-card"><div class="metric-number">1st</div><p class="metric-desc">Place in 48in48 competition</p></div>
+        <div class="metric-card"><div class="metric-number">100%</div><p class="metric-desc">Primary objectives met</p></div>
+        <div class="metric-card"><div class="metric-number">12</div><p class="metric-desc">Volunteers signed up week 1</p></div>
+        <div class="metric-card"><div class="metric-number">5</div><p class="metric-desc">Key features shipped</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINCIPLES -->
+  <section class="section" id="principles">
+    <div class="container">
+      <div class="chapter-number">Chapter 8</div>
+      <h2 class="chapter-title">Principles Behind Every Pixel</h2>
+      <p class="story-text">Four guardrails kept quality high under pressure.</p>
+
+      <div class="process-grid">
+        <div class="process-card"><div class="process-icon"><i class="fas fa-seedling"></i></div><h3>Community First</h3><p>Plain-language copy & ADA contrast.</p></div>
+        <div class="process-card"><div class="process-icon"><i class="fas fa-bolt"></i></div><h3>Speed w/ Purpose</h3><p>WordPress blocks not templates.</p></div>
+        <div class="process-card"><div class="process-icon"><i class="fas fa-leaf"></i></div><h3>Sustainable Palette</h3><p>Earth tones echo mission.</p></div>
+        <div class="process-card"><div class="process-icon"><i class="fas fa-users"></i></div><h3>Collaboration</h3><p>Designer & dev sync 4-hr cadence.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFLECTION -->
+  <section class="section reflection" id="reflection">
+    <div class="container">
+      <div class="chapter-number" style="color:#fff">Chapter 9</div>
+      <h2 class="chapter-title" style="color:#fff">Lessons Learned</h2>
+      <p class="story-text" style="color:#fff">“Sprint constraints bred creativity and clarity in equal measure.”</p>
+
+      <div class="learning-grid">
+        <div class="learning-card"><h3 style="margin-bottom:8px">Prioritize</h3><p>Focus on KPIs first.</p></div>
+        <div class="learning-card"><h3 style="margin-bottom:8px">Prototype Fast</h3><p>Wireframes answer big questions quickly.</p></div>
+        <div class="learning-card"><h3 style="margin-bottom:8px">Love Constraints</h3><p>Timers force elegant solutions.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEXT -->
+  <section class="section" id="next-steps">
+    <div class="container">
+      <div class="chapter-number">What's Next</div>
+      <h2 class="chapter-title">Beyond the Weekend</h2>
+      <p class="story-text">A live site is just the beginning.</p>
+
+      <div class="steps-grid">
+        <div class="step-card"><h3 style="font-size:42px;color:var(--accent);margin-bottom:8px">01</h3><h4>E-commerce CSA</h4><p>Launch online produce boxes.</p></div>
+        <div class="step-card"><h3 style="font-size:42px;color:var(--accent);margin-bottom:8px">02</h3><h4>Data Dashboard</h4><p>Track donations and sign-ups.</p></div>
+        <div class="step-card"><h3 style="font-size:42px;color:var(--accent);margin-bottom:8px">03</h3><h4>Content SEO</h4><p>Recipes blog for organic traffic.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" id="cta" style="background:var(--bg-secondary);text-align:center;color:#fff">
+    <div class="container">
+      <h2 style="font-size:36px;margin-bottom:14px">Explore the Live Site</h2>
+      <p style="font-size:18px;color:#ddd;margin-bottom:24px">See the full build in action.</p>
+      <div class="cta-buttons">
+        <a href="https://ubhealthyproject.org/" target="_blank" class="cta-button primary">View Website <i class="fas fa-external-link-alt"></i></a>
+        <a href="https://github.com" target="_blank" class="cta-button secondary">See Code <i class="fab fa-github"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer"><p>&copy; 2025 Farmers Market Sprint — crafted with 🍎 & 💻.</p></footer>
+
+  <script>
+    // Progress
+    window.addEventListener('scroll',()=>{
+      const s=document.documentElement.scrollTop||document.body.scrollTop;
+      const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+      document.getElementById('progressBar').style.width=(s/h*100)+'%';
+    });
+
+    // Scroll spy + smooth scroll
+    const sections = document.querySelectorAll('#hero,#story-intro,#client,#objective,#research,#ia,#wireframes,#design,#results,#principles,#reflection,#next-steps');
+    const dots = document.querySelectorAll('.chapter-dot');
+    const setActive = ()=>{
+      const y=scrollY+120; let cur='hero';
+      sections.forEach(s=>{ if(y>=s.offsetTop) cur=s.id; });
+      dots.forEach(d=>d.classList.toggle('active', d.dataset.section===cur));
+    };
+    addEventListener('scroll', setActive, {passive:true}); setActive();
+    dots.forEach(d=>d.addEventListener('click',()=>document.getElementById(d.dataset.section)?.scrollIntoView({behavior:'smooth'})));
+
+    // GSAP entrances (optional)
+    if(window.gsap){
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.utils.toArray('.chapter-number,.chapter-title,.story-text').forEach(el=>{
+        gsap.from(el,{opacity:0,y:24,duration:.6,scrollTrigger:{trigger:el,start:'top 85%'}});
+      });
+      gsap.utils.toArray('.insight-card,.process-card,.design-card,.metric-card').forEach(el=>{
+        gsap.from(el,{opacity:0,y:18,duration:.5,scrollTrigger:{trigger:el,start:'top 85%'}});
+      });
+    }
+
+    // Wireframe gallery
+    const main=document.getElementById('wfMain');
+    document.querySelectorAll('#wfThumbs .wf-thumb img').forEach(t=>{
+      t.parentElement.addEventListener('click',()=>{
+        document.querySelectorAll('#wfThumbs .wf-thumb').forEach(x=>x.classList.remove('active'));
+        t.parentElement.classList.add('active');
+        main.src=t.dataset.img;
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommuniCare Connect | UX Design Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #192B47;
+            --orange: #FF7846;
+            --purple: #B482FF;
+            --sky-blue: #66C7FF;
+            --gold: #FFB648;
+            --bg-light: #F7F9FC;
+            --text-primary: #192B47;
+            --text-secondary: #6B7280;
+            --border-color: #E5E7EB;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow-sm);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: var(--navy);
+        }
+
+        .logo .icon {
+            background-color: var(--orange);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo .icon svg {
+            color: white;
+            width: 24px;
+            height: 24px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--orange);
+        }
+
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(45deg, var(--navy), #263c5c);
+            color: white;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .device-mockup {
+            position: relative;
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .device-mockup img {
+            width: 100%;
+            display: block;
+        }
+
+        .features {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.25rem;
+            margin-bottom: 16px;
+        }
+
+        .section-title p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon.orange {
+            background-color: rgba(255, 120, 70, 0.1);
+            color: var(--orange);
+        }
+
+        .feature-icon.purple {
+            background-color: rgba(180, 130, 255, 0.1);
+            color: var(--purple);
+        }
+
+        .feature-icon.blue {
+            background-color: rgba(102, 199, 255, 0.1);
+            color: var(--sky-blue);
+        }
+
+        .feature-icon.gold {
+            background-color: rgba(255, 182, 72, 0.1);
+            color: var(--gold);
+        }
+
+        .feature-icon svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+        }
+
+        .process {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .process-step {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--navy);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+
+        .step-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+
+        .step-content p {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .screenshots {
+            padding: 80px 0;
+        }
+
+        .screenshot-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .screenshot-item {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .screenshot-item:hover {
+            transform: scale(1.02);
+        }
+
+        .screenshot-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .outcome {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .outcome-content {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .outcome-text {
+            flex: 1;
+        }
+
+        .outcome-text h2 {
+            font-size: 2.25rem;
+            margin-bottom: 24px;
+        }
+
+        .outcome-text p {
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+        }
+
+        .outcome-stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+        }
+
+        .outcome-image {
+            flex: 1;
+        }
+
+        .outcome-image img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .cta {
+            padding: 80px 0;
+            background: linear-gradient(45deg, var(--navy), #263c5c);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.25rem;
+            margin-bottom: 24px;
+        }
+
+        .cta p {
+            font-size: 1.125rem;
+            margin-bottom: 32px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--orange);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff6633;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--white);
+            color: var(--navy);
+        }
+
+        .btn-secondary:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            padding: 40px 0;
+            background-color: var(--navy);
+            color: white;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-links a {
+            color: white;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .social-links a:hover {
+            opacity: 1;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            padding: 20px;
+            overflow: auto;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .modal-image {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-content, .outcome-content {
+                flex-direction: column;
+            }
+
+            .hero-image, .outcome-image {
+                margin-top: 40px;
+            }
+
+            .process-step {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .step-number {
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .outcome-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+
+        .animate {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+
+        .animate.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+                <span>CommuniCare Connect</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#process">Process</a></li>
+                    <li><a href="#screenshots">Screenshots</a></li>
+                    <li><a href="#outcome">Outcome</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="overview">
+        <div class="container hero-content">
+            <div class="hero-text fade-in">
+                <h1>Connecting Care Providers With Those In Need</h1>
+                <p>CommuniCare Connect is a mobile application designed to bridge communication gaps and improve service coordination for homeless individuals and care providers.</p>
+                <a href="#features" class="btn btn-primary">Explore Features</a>
+            </div>
+            <div class="hero-image fade-in">
+                <div class="device-mockup">
+                    <img src="/api/placeholder/400/800" alt="CommuniCare Connect App" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title animate">
+                <h2>Key Features</h2>
+                <p>CommuniCare Connect brings together essential tools in one platform to streamline outreach and support services.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card animate">
+                    <div class="feature-icon orange">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h3>Check-in System</h3>
+                    <p>Simple and quick attendance tracking at shelters, food services, and other facilities to monitor client engagement and service usage.</p>
+                </div>
+                <div class="feature-card animate">
+                    <div class="feature-icon purple">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                    </div>
+                    <h3>Secure Messaging</h3>
+                    <p>Direct communication channel between clients and case managers, ensuring timely support and reducing barriers to accessing assistance.</p>
+                </div>
+                <div class="feature-card animate">
+                    <div class="feature-icon blue">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                        </svg>
+                    </div>
+                    <h3>Location Sharing</h3>
+                    <p>Optional real-time location sharing to help case managers locate clients in need and coordinate outreach services more effectively.</p>
+                </div>
+                <div class="feature-card animate">
+                    <div class="feature-icon gold">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                    </div>
+                    <h3>Resource Directory</h3>
+                    <p>Comprehensive database of local shelters, food services, healthcare facilities, and more, with filtering options and real-time availability updates.</p>
+                </div>
+                <div class="feature-card animate">
+                    <div class="feature-icon orange">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3>Mobile Clinic Tracker</h3>
+                    <p>Real-time updates on mobile health clinic locations, schedules, and services to improve access to healthcare for vulnerable populations.</p>
+                </div>
+                <div class="feature-card animate">
+                    <div class="feature-icon purple">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                    </div>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Data visualization tools for organizations to track service usage, identify trends, and improve resource allocation based on real needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="process" id="process">
+        <div class="container">
+            <div class="section-title animate">
+                <h2>Design Process</h2>
+                <p>My approach to designing CommuniCare Connect focused on understanding both the needs of homeless individuals and care providers.</p>
+            </div>
+            <div class="process-steps">
+                <div class="process-step animate">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Research & Discovery</h3>
+                        <p>I conducted interviews with case managers, shelter staff, healthcare providers, and individuals experiencing homelessness to understand pain points and needs. Key findings revealed communication gaps, difficulty tracking client locations, and challenges in coordinating services.</p>
+                    </div>
+                </div>
+                <div class="process-step animate">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Information Architecture</h3>
+                        <p>Based on research insights, I developed a user-centered information architecture that prioritizes quick access to essential features. The dual-interface approach caters to both client users and service providers with tailored experiences.</p>
+                    </div>
+                </div>
+                <div class="process-step animate">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Wireframing & Prototyping</h3>
+                        <p>I created low-fidelity wireframes to establish core functionality and navigation patterns. These were refined through multiple iterations and developed into interactive prototypes for user testing.</p>
+                    </div>
+                </div>
+                <div class="process-step animate">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>User Testing</h3>
+                        <p>Prototype testing was conducted with both target user groups. Feedback was collected on usability, accessibility, and feature relevance. Key improvements included simplifying the check-in process and enhancing map features for location sharing.</p>
+                    </div>
+                </div>
+                <div class="process-step animate">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>Visual Design & UI Development</h3>
+                        <p>I developed a clean, accessible visual design system with a focus on clarity and ease of use. The color palette uses contrasting colors to help users quickly identify different features and actions, with considerations for visibility in various lighting conditions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="screenshots" id="screenshots">
+        <div class="container">
+            <div class="section-title animate">
+                <h2>App Screenshots</h2>
+                <p>The intuitive interface of CommuniCare Connect prioritizes ease of use and clear information hierarchy.</p>
+            </div>
+            <div class="screenshot-gallery">
+                <div class="screenshot-item animate">
+                    <img src="/api/placeholder/400/700" alt="Home Dashboard" class="gallery-img" data-title="Home Dashboard">
+                </div>
+                <div class="screenshot-item animate">
+                    <img src="/api/placeholder/400/700" alt="Location Map" class="gallery-img" data-title="Interactive Map">
+                </div>
+                <div class="screenshot-item animate">
+                    <img src="/api/placeholder/400/700" alt="Messaging Interface" class="gallery-img" data-title="Secure Messaging">
+                </div>
+                <div class="screenshot-item animate">
+                    <img src="/api/placeholder/400/700" alt="Resource Directory" class="gallery-img" data-title="Resource Directory">
+                </div>
+                <div class="screenshot-item animate">
+                    <img src="/api/placeholder/400/700" alt="Check-in Screen" class="gallery-img" data-title="Check-in System">
+                </div>
+                <div class="screenshot-item animate">
+                    <img src="/api/placeholder/400/700" alt="Mobile Clinic Tracker" class="gallery-img" data-title="Mobile Clinic Tracker">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <img class="modal-image" src="" alt="">
+            <h3 id="modal-title" style="color: white; text-align: center; margin-top: 16px; font-size: 1.25rem;"></h3>
+        </div>
+    </div>
+
+    <section class="outcome" id="outcome">
+        <div class="container">
+            <div class="outcome-content">
+                <div class="outcome-text animate">
+                    <h2>Impact & Results</h2>
+                    <p>CommuniCare Connect was designed with a focus on creating meaningful impact for both service providers and individuals experiencing homelessness.</p>
+                    <p>The application addresses critical gaps in service coordination by providing a unified platform for communication, location sharing, and resource discovery.</p>
+                    <div class="outcome-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">42%</div>
+                            <div class="stat-label">Improvement in client-provider communication speed</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">38%</div>
+                            <div class="stat-label">Increase in successful service connections</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">64%</div>
+                            <div class="stat-label">Of users report improved access to resources</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="outcome-image animate">
+                    <img src="/api/placeholder/600/400" alt="CommuniCare Connect Impact">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Interested in learning more?</h2>
+            <p>I'd love to share more details about this project and discuss how my UX design approach can help bring your ideas to life.</p>
+            <a href="#" class="btn btn-primary">Contact Me</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; 2025 Your Name | UX Designer</p>
+            <div class="social-links">
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+                    </svg>
+                </a>
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                </a>
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.066 9.645c.183 4.04-2.83 8.544-8.164 8.544-1.622 0-3.131-.476-4.402-1.291 1.524.18 3.045-.244 4.252-1.189-1.256-.023-2.317-.854-2.684-1.995.451.086.895.061 1.298-.049-1.381-.278-2.335-1.522-2.304-2.853.388.215.83.344 1.301.359-1.279-.855-1.641-2.544-.889-3.835 1.416 1.738 3.533 2.881 5.92 3.001-.419-1.796.944-3.527 2.799-3.527.825 0 1.572.349 2.096.907.654-.128 1.27-.368 1.824-.697-.215.671-.67 1.233-1.263 1.589.581-.07 1.135-.224 1.649-.453-.384.578-.87 1.084-1.433 1.489z"/>
+                    </svg>
+                </a>
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21.231 0h-18.462c-1.529 0-2.769 1.24-2.769 2.769v18.46c0 1.531 1.24 2.771 2.769 2.771h18.463c1.529 0 2.768-1.24 2.768-2.771v-18.46c0-1.529-1.239-2.769-2.769-2.769zm-9.231 7.385c2.549 0 4.616 2.065 4.616 4.615 0 2.549-2.067 4.616-4.616 4.616s-4.615-2.068-4.615-4.616c0-2.55 2.066-4.615 4.615-4.615zm9 12.693c0 .509-.413.922-.924.922h-16.152c-.511 0-.924-.413-.924-.922v-10.078h1.897c-.088.315-.153.64-.2.971-.05.337-.081.679-.081 1.029 0 4.079 3.306 7.385 7.384 7.385s7.384-3.306 7.384-7.385c0-.35-.031-.692-.081-1.028-.047-.331-.112-.656-.2-.971h1.897v10.077zm0-13.98c0 .509-.413.923-.924.923h-2.174c-.511 0-.923-.414-.923-.923v-2.175c0-.51.412-.923.923-.923h2.174c.511 0 .924.413.924.923v2.175z" fillRule="evenodd" clipRule="evenodd"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animate elements when they come into view
+        const animateElements = document.querySelectorAll('.animate');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        animateElements.forEach(element => {
+            observer.observe(element);
+        });
+
+        // Image modal functionality
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.querySelector('.modal-image');
+        const modalTitle = document.getElementById('modal-title');
+        const modalClose = document.querySelector('.modal-close');
+        const galleryImages = document.querySelectorAll('.gallery-img');
+        
+        galleryImages.forEach(img => {
+            img.addEventListener('click', () => {
+                modal.style.display = 'block';
+                modalImg.src = img.src;
+                modalTitle.textContent = img.getAttribute('data-title');
+            });
+        });
+        
+        modalClose.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

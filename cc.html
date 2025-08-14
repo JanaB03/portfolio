@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communicare - A Story of Human Connection</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"/>
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* ===== Base Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #1e1e1e;
+            --bg-secondary: #2c2c2c;
+            --bg-tertiary: #383838;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent: #5551ff;
+            --accent-hover: #7470ff;
+            --accent-orange: #ff6b35;
+            --border: #3c3c3c;
+            --success: #0fa968;
+            --warning: #ffb800;
+            --error: #f24822;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== Progress Bar ===== */
+        .nav-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--bg-tertiary);
+            z-index: 1001;
+        }
+
+        .nav-progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* ===== Navigation Header ===== */
+        .nav-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: rgba(44, 44, 44, 0.95);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .nav-back:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* ===== Chapter Navigation Sidebar ===== */
+        .chapter-nav {
+            position: fixed;
+            top: 50%;
+            left: 24px;
+            transform: translateY(-50%);
+            z-index: 999;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 8px;
+        }
+
+        .chapter-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            margin: 16px auto;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .chapter-dot:hover {
+            background: var(--text-secondary);
+            transform: scale(1.2);
+        }
+
+        .chapter-dot.active {
+            background: var(--accent);
+            box-shadow: 0 0 0 4px rgba(85, 81, 255, 0.2);
+        }
+
+        .chapter-label {
+            position: absolute;
+            left: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--bg-secondary);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            border: 1px solid var(--border);
+        }
+
+        .chapter-dot:hover .chapter-label {
+            opacity: 1;
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            position: relative;
+            padding: 80px 2rem;
+            margin-top: 56px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(85, 81, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(85, 81, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-orange);
+            margin-bottom: 32px;
+            font-weight: 600;
+        }
+
+        .hero-title {
+            font-size: clamp(48px, 8vw, 80px);
+            line-height: 1.1;
+            margin-bottom: 30px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, #666 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-title span {
+            color: var(--accent-orange);
+            -webkit-text-fill-color: var(--accent-orange);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(18px, 2.5vw, 24px);
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 50px;
+            line-height: 1.6;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+
+        .stat-block {
+            text-align: center;
+            padding: 20px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .stat-block:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .stat-number {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 700;
+            color: var(--accent-orange);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-visual {
+            margin-top: 60px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .device-preview {
+            position: relative;
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .device {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .device:hover {
+            transform: translateY(-10px);
+        }
+
+        .device.desktop {
+            width: 600px;
+        }
+
+        .device.phone {
+            width: 200px;
+        }
+
+        .device img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ===== Section Base Styles ===== */
+        .section {
+            padding: 100px 2rem;
+            position: relative;
+        }
+
+        .section-dark {
+            background: var(--bg-secondary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .story-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .chapter-number {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-orange);
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--bg-tertiary);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .chapter-title {
+            font-size: clamp(36px, 5vw, 48px);
+            margin-bottom: 30px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .story-text {
+            font-size: clamp(16px, 2vw, 20px);
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .story-text strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ===== Quote Styles ===== */
+        .story-quote {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--accent-orange);
+            padding: 30px 40px;
+            margin: 40px 0;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .quote-text {
+            font-size: 24px;
+            font-style: italic;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .quote-source {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* ===== Video Section ===== */
+        .video-section {
+            background: var(--bg-primary);
+            padding: 80px 2rem;
+            text-align: center;
+        }
+
+        .video-section--yt .video-container {
+            width: 100%;
+            max-width: 1000px;
+            aspect-ratio: 16 / 9;
+            margin: 0 auto;
+        }
+
+        .video-section--yt .video-container iframe {
+            width: 100%;
+            height: 100%;
+            display: block;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .video-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 1px solid var(--border);
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-caption {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        /* ===== Problem Section ===== */
+        .problem-section {
+            background: var(--bg-secondary);
+            padding: 100px 2rem;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 60px auto;
+            align-items: center;
+        }
+
+        .problem-visual {
+            position: relative;
+        }
+
+        .problem-illustration {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+        }
+
+        .problem-content h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .problem-content p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .problem-list {
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        .problem-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: var(--text-secondary);
+            padding: 12px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .problem-list li::before {
+            content: "→";
+            color: var(--accent-orange);
+            font-weight: bold;
+            flex-shrink: 0;
+            font-size: 20px;
+        }
+
+        /* ===== Research Journey ===== */
+        .research-journey {
+            background: var(--bg-primary);
+            padding: 100px 2rem;
+        }
+
+        .journey-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 80px;
+        }
+
+        .journey-timeline {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1000px;
+            margin: 0 auto 80px;
+            position: relative;
+        }
+
+        .journey-timeline::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: var(--accent-orange);
+            opacity: 0.3;
+        }
+
+        .timeline-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 24px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+            border: 3px solid var(--bg-primary);
+        }
+
+        .step-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .step-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            max-width: 200px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        /* ===== Insights Grid ===== */
+        .insights-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .insight-card {
+            background: var(--bg-secondary);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .insight-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(85, 81, 255, 0.2);
+        }
+
+        .insight-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent-orange);
+            margin-bottom: 15px;
+        }
+
+        .insight-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .insight-detail {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ===== Concept Development Section ===== */
+        .concept-development {
+            background: var(--bg-secondary);
+            padding: 100px 2rem;
+        }
+
+        .concept-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 80px;
+        }
+
+        .concept-block {
+            margin-bottom: 80px;
+        }
+
+        .concept-subtitle {
+            font-size: 32px;
+            margin-bottom: 25px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .concept-image {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            background: var(--bg-tertiary);
+        }
+
+        .concept-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .concept-image figcaption {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border-top: 1px solid var(--border);
+        }
+
+        .concept-text {
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        /* ===== Figma Embeds ===== */
+        .figma-embed {
+            margin-bottom: 40px;
+        }
+
+        .figma-embed h4 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .figma-embed > div {
+            position: relative;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        /* ===== Solution Showcase ===== */
+        .solution-showcase {
+            background: var(--bg-primary);
+            padding: 100px 2rem;
+        }
+
+        .solution-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 80px;
+        }
+
+        .features-grid {
+            display: grid;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            padding: 40px;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .feature-showcase.reverse {
+            direction: rtl;
+        }
+
+        .feature-showcase.reverse > * {
+            direction: ltr;
+        }
+
+        .feature-visual {
+            position: relative;
+        }
+
+        .feature-device {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            display: block;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--bg-primary);
+        }
+
+        .feature-device video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .feature-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(28, 28, 28, 0.9);
+            color: var(--accent-orange);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid var(--accent-orange);
+        }
+
+        .feature-content {
+            padding: 20px;
+        }
+
+        .feature-title {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .feature-problem {
+            font-size: 16px;
+            color: var(--accent-orange);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .feature-solution {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .feature-points {
+            list-style: none;
+        }
+
+        .feature-points li {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 15px;
+            color: var(--text-secondary);
+            padding: 12px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .feature-points i {
+            color: var(--success);
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        /* ===== Design Process ===== */
+        .design-process {
+            background: var(--bg-secondary);
+            padding: 100px 2rem;
+        }
+
+        .process-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 80px;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .process-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            padding: 40px 30px;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .process-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(85, 81, 255, 0.2);
+        }
+
+        .process-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--accent-orange);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 28px;
+            color: white;
+        }
+
+        .process-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .process-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ===== Reflection Section ===== */
+        .reflection {
+            background: linear-gradient(135deg, var(--accent-orange) 0%, #ff8f5a 100%);
+            color: white;
+            padding: 100px 2rem;
+            text-align: center;
+        }
+
+        .reflection-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .reflection-title {
+            font-size: 48px;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .reflection-quote {
+            font-size: 24px;
+            font-style: italic;
+            line-height: 1.5;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .learning-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .learning-card {
+            background: rgba(255,255,255,0.15);
+            padding: 30px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .learning-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .learning-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .learning-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .learning-desc {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* ===== Next Steps ===== */
+        .next-steps {
+            background: var(--bg-primary);
+            padding: 100px 2rem;
+        }
+
+        .steps-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .step-card {
+            text-align: left;
+            padding: 30px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-orange);
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(85, 81, 255, 0.2);
+        }
+
+        .step-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent-orange);
+            margin-bottom: 15px;
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .step-detail {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ===== CTA Section ===== */
+        .cta-section {
+            background: var(--bg-secondary);
+            padding: 80px 2rem;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .cta-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .cta-button.primary {
+            background: var(--accent-orange);
+            color: white;
+        }
+
+        .cta-button.primary:hover {
+            background: #ff8f5a;
+            transform: translateY(-2px);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .cta-button.secondary:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--accent);
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            padding: 40px 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 1024px) {
+            .chapter-nav {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-stats {
+                gap: 30px;
+            }
+
+            .device-preview {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .device.desktop {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .device.phone {
+                width: 150px;
+            }
+
+            .problem-grid,
+            .feature-showcase {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .journey-timeline {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .journey-timeline::before {
+                display: none;
+            }
+
+            .insights-showcase {
+                grid-template-columns: 1fr;
+            }
+
+            .process-grid,
+            .learning-points,
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .concept-subtitle { 
+                font-size: 26px; 
+            }
+            
+            .concept-text { 
+                font-size: 16px; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="nav-progress">
+        <div class="nav-progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-header">
+        <a href="index.html" class="nav-back">
+            <span>←</span>
+            <span>Back to Projects</span>
+        </a>
+        <span class="nav-title">Communicare • Case Study</span>
+    </nav>
+
+    <!-- Chapter Navigation -->
+    <div class="chapter-nav">
+        <div class="chapter-dot active" data-section="hero">
+            <span class="chapter-label">Introduction</span>
+        </div>
+        <div class="chapter-dot" data-section="story-intro">
+            <span class="chapter-label">Problem Deep Dive</span>
+        </div>
+        <div class="chapter-dot" data-section="research-journey">
+            <span class="chapter-label">Research Journey</span>
+        </div>
+        <div class="chapter-dot" data-section="concept-development">
+            <span class="chapter-label">Solution Design</span>
+        </div>
+        <div class="chapter-dot" data-section="solution-showcase">
+            <span class="chapter-label">Prototype</span>
+        </div>
+        <div class="chapter-dot" data-section="design-process">
+            <span class="chapter-label">Design Principles</span>
+        </div>
+        <div class="chapter-dot" data-section="reflection">
+            <span class="chapter-label">Reflection</span>
+        </div>
+        <div class="chapter-dot" data-section="next-steps">
+            <span class="chapter-label">Next Steps</span>
+        </div>
+    </div>
+
+    <!-- Hero: The Story Begins -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-label">A Product Design Story</div>
+            <h1 class="hero-title">
+                When policies disconnect<br/>
+                <span>the most vulnerable</span>
+            </h1>
+            <p class="hero-subtitle">
+                In 2023, San Diego's new encampment policies created an unexpected crisis. 
+                This is the story of how we designed technology to maintain human connection 
+                when traditional systems failed.
+            </p>
+            
+            <div class="hero-stats">
+                <div class="stat-block">
+                    <span class="stat-number">9,300+</span>
+                    <span class="stat-label">People Displaced</span>
+                </div>
+                <div class="stat-block">
+                    <span class="stat-number">50%</span>
+                    <span class="stat-label">Lost Phone Access</span>
+                </div>
+                <div class="stat-block">
+                    <span class="stat-number">Jan-May 2025</span>
+                    <span class="stat-label">Design Timeline</span>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="device-preview">
+                    <div class="device desktop">
+                        <img src="./images/communicare/mockup desktop.svg" alt="Communicare Desktop Interface">
+                    </div>
+                    <div class="device phone">
+                        <img src="./images/communicare/mobil.png" alt="Communicare Mobile Interface">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Introduction -->
+    <section class="section section-dark" id="story-intro">
+        <div class="story-container">
+            <div class="chapter-number">Chapter 1</div>
+            <h2 class="chapter-title">The Human Cost of Disconnection</h2>
+            
+            <p class="story-text">
+                When the City of San Diego established new regulations prohibiting encampments on public property, 
+                they aimed to address public health concerns. But there was an <strong>unintended consequence</strong> 
+                no one saw coming.
+            </p>
+
+            <div class="story-quote">
+                <p class="quote-text">
+                    "Every crisis happens on Friday at 6pm"
+                </p>
+                <p class="quote-source">— Outreach Worker, Father Joe's Villages</p>
+            </div>
+
+            <p class="story-text">
+                Outreach workers began losing contact with their most vulnerable clients. People who relied on 
+                these connections for <strong>medical care, shelter placement, and basic survival</strong> were suddenly unreachable.
+            </p>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section video-section--yt">
+        <div class="video-container">
+            <iframe
+                id="encampmentYT"
+                src="https://www.youtube.com/embed/SYHHKmc5JPw?enablejsapi=1&modestbranding=1&rel=0&playsinline=1"
+                title="ABC7 News coverage of the encampment sweeps near Petco Park"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+            </iframe>
+        </div>
+        <p class="video-caption">
+            ABC7 News coverage of the encampment sweeps near Petco Park
+        </p>
+    </section>
+
+    <!-- Problem Deep Dive -->
+    <section class="problem-section">
+        <div class="story-container">
+            <div class="chapter-number">Chapter 2</div>
+            <h2 class="chapter-title">Understanding the Real Problem</h2>
+            
+            <p class="story-text" style="margin-bottom: 60px;">
+                It wasn't just about the encampment bans. Through our research, we discovered a 
+                <strong>perfect storm of communication barriers</strong> that made an already vulnerable 
+                population even more isolated.
+            </p>
+        </div>
+
+        <div class="problem-grid">
+            <div class="problem-visual">
+                <img src="https://media.istockphoto.com/vectors/broken-phone-in-hand-thin-line-style-trend-modern-simple-graphic-of-vector-id1127429741?k=6&m=1127429741&s=170667a&w=0&h=hvpYyXu3NB5uz9NapQClswCQyNqreHqltlClkzhYQmE=" 
+                     alt="Broken phone illustration" 
+                     class="problem-illustration">
+            </div>
+            <div class="problem-content">
+                <h3>The Phone Problem</h3>
+                <p>
+                    Individuals experiencing homelessness often lose access to their phones and phone numbers, 
+                    making it difficult to receive urgent alerts—such as weather updates or encampment bans.
+                </p>
+                <ul class="problem-list">
+                    <li>Average person loses 12 phones per year</li>
+                    <li>Can't afford consistent phone service</li>
+                    <li>Phone numbers change constantly</li>
+                    <li>Miss critical appointments with staff</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research Journey -->
+    <section class="research-journey" id="research-journey">
+        <div class="journey-header">
+            <div class="chapter-number">Chapter 3</div>
+            <h2 class="chapter-title">A Journey of Discovery</h2>
+            <p class="story-text">
+                To truly understand the problem, we needed to <strong>immerse ourselves</strong> 
+                in the world of those experiencing homelessness and the staff trying to help them.
+            </p>
+        </div>
+
+        <div class="journey-timeline">
+            <div class="timeline-step">
+                <div class="step-icon">
+                    <i class="fas fa-walking"></i>
+                </div>
+                <h3 class="step-title">Tour Father Joe's Villages</h3>
+                <p class="step-desc">
+                    Toured San Diego's largest homeless shelter provider to understand the ecosystem
+                </p>
+            </div>
+            
+            <div class="timeline-step">
+                <div class="step-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="step-title">Staff Interviews</h3>
+                <p class="step-desc">
+                    15+ interviews with outreach workers, nurses, and case managers
+                </p>
+            </div>
+            
+            <div class="timeline-step">
+                <div class="step-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3 class="step-title">Client Sessions</h3>
+                <p class="step-desc">
+                    Group interviews with currently unsheltered and recently sheltered individuals
+                </p>
+            </div>
+            
+            <div class="timeline-step">
+                <div class="step-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3 class="step-title">Pattern Recognition</h3>
+                <p class="step-desc">
+                    Synthesized findings into actionable design opportunities
+                </p>
+            </div>
+        </div>
+
+        <div class="insights-showcase">
+            <div class="insight-card">
+                <div class="insight-number">#1</div>
+                <h3 class="insight-title">Communication Barriers</h3>
+                <p class="insight-detail">
+                    Clients lose phone numbers constantly due to theft or financial constraints. 
+                    This makes it nearly impossible for staff to maintain consistent contact.
+                </p>
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-number">#2</div>
+                <h3 class="insight-title">Constant Displacement</h3>
+                <p class="insight-detail">
+                    Encampment sweeps and seasonal changes force frequent moves, often losing 
+                    connection with support networks and missing critical services.
+                </p>
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-number">#3</div>
+                <h3 class="insight-title">Resource Awareness</h3>
+                <p class="insight-detail">
+                    Many clients are unaware of available resources. The current system makes it 
+                    difficult to efficiently distribute information about services.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tour Video -->
+    <section class="video-section">
+        <div class="video-container">
+            <video controls>
+                <source src="./images/communicare/onsite.MP4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <p class="video-caption">Video from our tour of Father Joe's Villages</p>
+    </section>
+
+    <!-- Concept Development -->
+    <section class="concept-development" id="concept-development">
+        <div class="concept-header">
+            <div class="chapter-number">Chapter 4</div>
+            <h2 class="chapter-title">From Insights → Concepts</h2>
+            <p class="story-text">
+                Armed with research, we shifted focus to <strong>what this tool should become</strong>.  
+                Josh — our guide at Father Joe's Villages — reminded us that "accessibility is the
+                real emergency," so every design decision had to preserve a reliable line of
+                communication between clients and case managers.
+            </p>
+        </div>
+
+        <!-- Competitive Analysis -->
+        <div class="concept-block">
+            <h3 class="concept-subtitle">Competitive & Adjacent Tools</h3>
+            <figure class="concept-image">
+                <img src="./images/communicare/Comparison.png" alt="Competitive analysis comparison chart">
+                <figcaption>Snapshot of the solutions we benchmarked (scheduling apps, social-care portals, SMS alert platforms).</figcaption>
+            </figure>
+            <p class="concept-text">
+                The audit confirmed no single product solved <em>both</em> sides of our problem —
+                loss of device <u>and</u> after-hours communication. The gaps you see above drove our
+                feature shortlist.
+            </p>
+        </div>
+
+        <!-- Feasibility Map -->
+        <div class="concept-block">
+            <h3 class="concept-subtitle">6-Week Feasibility Map</h3>
+            <figure class="concept-image">
+                <img src="./images/communicare/feasibility map.png" alt="Feasibility versus impact matrix">
+                <figcaption>Plotted every candidate feature by <strong>impact vs. build-time</strong> to
+                    stay honest about our six-week demo deadline.</figcaption>
+            </figure>
+            <p class="concept-text">
+                High-impact, low-effort items (orange quadrant) became the MVP:
+                secure code login, two-way messaging, location share, and smart resource search.
+            </p>
+        </div>
+
+        <!-- Early Wireframes -->
+        <div class="concept-block">
+            <h3 class="concept-subtitle">Early Wireframes → User Testing</h3>
+            <figure class="concept-image">
+                <img src="./images/communicare/Wireframes.png" alt="Low-fidelity wireframes of Communicare">
+                <figcaption>First-pass layouts sketched in one afternoon sprint.</figcaption>
+            </figure>
+            <p class="concept-text">
+                We tested these wireframes with a Father Joe's staff member.
+                <br>His feedback ("<em>This solves my 6 p.m. Friday panic</em>") validated the
+                feature set, so we moved straight into a TypeScript build and visual polish.
+            </p>
+        </div>
+
+        <!-- High-Fidelity Designs -->
+        <div class="concept-block">
+            <h3 class="concept-subtitle">High-Fidelity Prototypes</h3>
+            <p class="concept-text" style="margin-bottom: 30px;">
+                With validated wireframes, we developed comprehensive high-fidelity designs in Figma, 
+                ensuring every interaction was optimized for our users' unique constraints.
+            </p>
+            
+            <!-- Desktop Figma Embed -->
+            <div class="figma-embed" style="margin-bottom: 40px;">
+                <h4>Desktop Interface</h4>
+                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
+                    <iframe
+                        src="https://embed.figma.com/proto/29I5p5wEMeKIrL84V7C3wK/Untitled?node-id=29-1057&p=f&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=29%3A1057&show-proto-sidebar=1&embed-host=share"
+                        allowfullscreen
+                        style="
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            border: 0;
+                        "
+                    ></iframe>
+                </div>
+                <p style="text-align: center; color: var(--text-secondary); font-size: 14px; margin-top: 10px;">
+                    [Desktop Figma Prototype]
+                </p>
+            </div>
+
+            <!-- Mobile Figma Embed -->
+            <div class="figma-embed">
+                <h4>Mobile Interface</h4>
+                <div style="
+                    position: relative;
+                    padding-bottom: 50.78%;
+                    height: 0;
+                    overflow: hidden;
+                    max-width: 360px;
+                    margin: 0 auto;
+                ">
+                    <iframe
+                        src="https://embed.figma.com/proto/29I5p5wEMeKIrL84V7C3wK/Untitled?node-id=44-275&p=f&scaling=scale-down&content-scaling=fixed&page-id=44%3A192&starting-point-node-id=44%3A275&embed-host=share"
+                        allowfullscreen
+                        style="
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            border: 0;
+                        "
+                    ></iframe>
+                </div>
+                <p style="text-align: center; color: var(--text-secondary); font-size: 14px; margin-top: 10px;">
+                    [Mobile Figma Prototype]
+                </p>
+            </div>
+        </div>
+
+        <!-- Accessibility Testing -->
+        <div class="concept-block">
+            <h3 class="concept-subtitle">Accessibility Testing & Improvements</h3>
+            <p class="concept-text" style="margin-bottom: 30px;">
+                Given our users' diverse abilities and challenging environments, accessibility wasn't 
+                just a nice-to-have—it was critical. We conducted comprehensive testing to ensure 
+                Communicare works for everyone.
+            </p>
+
+            <!-- Accessibility Test Results Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px;">
+                <figure class="concept-image" style="margin: 0;">
+                    <img src="./images/communicare/Acess1.jpg" alt="Accessibility test result 1">
+                    <figcaption>Color contrast testing results</figcaption>
+                </figure>
+                
+                <figure class="concept-image" style="margin: 0;">
+                    <img src="./images/communicare/Acess2.jpg" alt="Accessibility test result 2">
+                    <figcaption>Screen reader compatibility audit</figcaption>
+                </figure>
+                
+                <figure class="concept-image" style="margin: 0;">
+                    <img src="./images/communicare/Acess3.jpg" alt="Accessibility test result 3">
+                    <figcaption>Touch target size validation</figcaption>
+                </figure>
+            </div>
+
+            <!-- Before/After Comparison -->
+            <div class="before-after-container">
+                <h4 style="font-size: 20px; margin-bottom: 20px; color: var(--text-primary); text-align: center;">
+                    Key Accessibility Improvements
+                </h4>
+                <figure class="concept-image">
+                    <img src="./images/communicare/Acess4.jpg" alt="Before and after accessibility improvements">
+                    <figcaption>
+                        <strong>Before:</strong> Small touch targets, low contrast text, complex navigation<br>
+                        <strong>After:</strong> 44px minimum touch targets, WCAG AAA contrast, simplified flow
+                    </figcaption>
+                </figure>
+            </div>
+
+            <p class="concept-text" style="margin-top: 30px;">
+                These improvements ensured that users with limited vision, motor difficulties, or 
+                using assistive technologies could reliably access critical communication features—
+                especially important when accessing from shared or public devices.
+            </p>
+        </div>
+    </section>
+
+    <!-- Solution Showcase -->
+    <section class="solution-showcase" id="solution-showcase">
+        <div class="solution-header">
+            <div class="chapter-number">Chapter 5</div>
+            <h2 class="chapter-title">Introducing Communicare</h2>
+            <p class="story-text">
+                A device-agnostic communication platform designed to maintain human connection 
+                despite displacement, device loss, or after-hours emergencies.
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <!-- Feature 1: Login & Dashboard -->
+            <div class="feature-showcase">
+                <div class="feature-visual">
+                    <video class="feature-device" autoplay muted loop playsinline>
+                        <source src="./images/communicare/logincommunicare1.mp4" type="video/mp4">
+                    </video>
+                    <span class="feature-badge">No Phone Required</span>
+                </div>
+                <div class="feature-content">
+                    <h3 class="feature-title">Access from Anywhere</h3>
+                    <p class="feature-problem">Problem: "I've had 12 phones stolen this year"</p>
+                    <p class="feature-solution">
+                        Secure access code login means no phone number needed. Clients can access their 
+                        account from any device—library computers, borrowed phones, or shelter kiosks.
+                    </p>
+                    <ul class="feature-points">
+                        <li><i class="fas fa-check"></i> Works on any device with internet</li>
+                        <li><i class="fas fa-check"></i> No personal information required</li>
+                        <li><i class="fas fa-check"></i> Large, accessible interface design</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 2: Messaging & AI -->
+            <div class="feature-showcase reverse">
+                <div class="feature-visual">
+                    <video class="feature-device" autoplay muted loop playsinline>
+                        <source src="./images/communicare/chatcommunicare1.mp4" type="video/mp4">
+                    </video>
+                    <span class="feature-badge">24/7 Support</span>
+                </div>
+                <div class="feature-content">
+                    <h3 class="feature-title">Always Someone to Help</h3>
+                    <p class="feature-problem">Problem: "Every crisis happens on Friday at 6pm"</p>
+                    <p class="feature-solution">
+                        Private messaging with staff combined with 24/7 AI chatbot ensures help is always 
+                        available. Clients can delete sensitive messages immediately for privacy.
+                    </p>
+                    <ul class="feature-points">
+                        <li><i class="fas fa-check"></i> AI support when staff unavailable</li>
+                        <li><i class="fas fa-check"></i> Delete messages for privacy</li>
+                        <li><i class="fas fa-check"></i> Resource help anytime</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 3: Location Sharing -->
+            <div class="feature-showcase">
+                <div class="feature-visual">
+                    <video class="feature-device" autoplay muted loop playsinline>
+                        <source src="./images/communicare/mapcommunicare1.mp4" type="video/mp4">
+                    </video>
+                    <span class="feature-badge">Privacy First</span>
+                </div>
+                <div class="feature-content">
+                    <h3 class="feature-title">Stay Connected, Stay Safe</h3>
+                    <p class="feature-problem">Problem: "Can't find clients after sweeps"</p>
+                    <p class="feature-solution">
+                        Flexible location sharing lets clients share current location, future meetup spots, 
+                        or general areas. Track mobile health clinic for medical care access.
+                    </p>
+                    <ul class="feature-points">
+                        <li><i class="fas fa-check"></i> Share current or future locations</li>
+                        <li><i class="fas fa-check"></i> Manual entry for privacy</li>
+                        <li><i class="fas fa-check"></i> Mobile clinic tracker</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 4: Resources -->
+            <div class="feature-showcase reverse">
+                <div class="feature-visual">
+                    <video class="feature-device" autoplay muted loop playsinline>
+                        <source src="./images/communicare/resourcescommunicare.mp4" type="video/mp4">
+                    </video>
+                    <span class="feature-badge">Smart Filtering</span>
+                </div>
+                <div class="feature-content">
+                    <h3 class="feature-title">Find Help That Fits</h3>
+                    <p class="feature-problem">Problem: "Don't know what's available"</p>
+                    <p class="feature-solution">
+                        Smart filtering shows only relevant resources based on location, availability, 
+                        and eligibility. No more wasted trips to services you can't access.
+                    </p>
+                    <ul class="feature-points">
+                        <li><i class="fas fa-check"></i> Filter by eligibility</li>
+                        <li><i class="fas fa-check"></i> Real-time availability</li>
+                        <li><i class="fas fa-check"></i> Clear requirements listed</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Design Process -->
+    <section class="design-process" id="design-process">
+        <div class="process-header">
+            <div class="chapter-number">Chapter 6</div>
+            <h2 class="chapter-title">Design Principles That Guide Every Decision</h2>
+            <p class="story-text">
+                Every design choice was rooted in the real needs and constraints 
+                of the people we were designing for.
+            </p>
+        </div>
+
+        <div class="process-grid">
+            <div class="process-card">
+                <div class="process-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="process-title">Privacy First</h3>
+                <p class="process-desc">
+                    Every interaction gives users control over their personal information 
+                    with immediate deletion options
+                </p>
+            </div>
+
+            <div class="process-card">
+                <div class="process-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 class="process-title">Device Agnostic</h3>
+                <p class="process-desc">
+                    Access from any computer or phone—no personal device required, 
+                    works at libraries and shelters
+                </p>
+            </div>
+
+            <div class="process-card">
+                <div class="process-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3 class="process-title">Crisis Ready</h3>
+                <p class="process-desc">
+                    24/7 support pathways ensure help is available when traditional 
+                    services are closed
+                </p>
+            </div>
+
+            <div class="process-card">
+                <div class="process-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3 class="process-title">Human Connection</h3>
+                <p class="process-desc">
+                    Technology facilitates but never replaces human relationships—
+                    every feature strengthens real connections
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reflection -->
+    <section class="reflection" id="reflection">
+        <div class="reflection-content">
+            <div class="chapter-number" style="color: white; background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.3);">Chapter 7</div>
+            <h2 class="reflection-title">What This Journey Taught Me</h2>
+            
+            <p class="reflection-quote">
+                "Working directly with people experiencing homelessness didn't just inform our 
+                design decisions—it fundamentally changed how I approach design as a whole."
+            </p>
+
+            <div class="learning-points">
+                <div class="learning-card">
+                    <div class="learning-icon">💝</div>
+                    <h3 class="learning-title">Passionate Empathy</h3>
+                    <p class="learning-desc">
+                        Real user research means listening deeply and designing 
+                        with genuine care for human dignity
+                    </p>
+                </div>
+
+                <div class="learning-card">
+                    <div class="learning-icon">🤝</div>
+                    <h3 class="learning-title">Community Partnership</h3>
+                    <p class="learning-desc">
+                        Working alongside Father Joe's Villages taught me the importance 
+                        of collaborating with established organizations
+                    </p>
+                </div>
+
+                <div class="learning-card">
+                    <div class="learning-icon">🛡️</div>
+                    <h3 class="learning-title">Trust Through Design</h3>
+                    <p class="learning-desc">
+                        For vulnerable populations, privacy isn't a feature—it's 
+                        fundamental to building trust
+                    </p>
+                </div>
+            </div>
+
+            <p class="reflection-quote" style="font-size: 24px; margin-top: 60px;">
+                This project reinforced my belief that design has the power to bridge gaps—not 
+                just in interfaces, but in human connection.
+            </p>
+        </div>
+    </section>
+
+    <!-- Next Steps -->
+    <section class="next-steps" id="next-steps">
+        <div class="steps-content">
+            <div class="chapter-number">What's Next</div>
+            <h2 class="chapter-title">The Journey Continues</h2>
+            <p class="story-text">
+                While we achieved significant progress, there's still work to be done 
+                to fully realize Communicare's potential impact.
+            </p>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <h3 class="step-title">Complete Staff Interface</h3>
+                    <p class="step-detail">
+                        Design and develop the companion platform for outreach workers and case managers 
+                        with bulk communication and client management tools.
+                    </p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <h3 class="step-title">Backend Development</h3>
+                    <p class="step-detail">
+                        Build robust infrastructure to handle real-time messaging, location services, 
+                        and ensure data security for vulnerable users.
+                    </p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <h3 class="step-title">Pilot Testing</h3>
+                    <p class="step-detail">
+                        Partner with Father Joe's Villages for real-world implementation and iterate 
+                        based on user feedback from both clients and staff.
+                    </p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">04</div>
+                    <h3 class="step-title">Scale Impact</h3>
+                    <p class="step-detail">
+                        Expand to other cities facing similar communication challenges between 
+                        service providers and people experiencing homelessness.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Experience Communicare</h2>
+            <p class="cta-subtitle">
+                See how we're bridging the communication gap for vulnerable populations
+            </p>
+            <div class="cta-buttons">
+                <a href="https://communicare.vercel.app" class="cta-button primary" target="_blank">
+                    <i class="fas fa-external-link-alt"></i>
+                    View Live Prototype
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; JanaBridi. Designed with ❤️ for human connection.</p>
+    </footer>
+
+    <script>
+        // Progress bar on scroll
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Chapter navigation
+        const sections = document.querySelectorAll('.section, .hero, .problem-section, .research-journey, .concept-development, .solution-showcase, .design-process, .reflection, .next-steps');
+        const dots = document.querySelectorAll('.chapter-dot');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+                if (dot.getAttribute('data-section') === current) {
+                    dot.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scroll on dot click
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const section = document.getElementById(dot.getAttribute('data-section'));
+                section.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Fade in elements on scroll
+        gsap.utils.toArray('.chapter-number, .chapter-title, .story-text').forEach(elem => {
+            gsap.fromTo(elem, 
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: 'top 85%',
+                        end: 'bottom 20%',
+                    }
+                }
+            );
+        });
+        
+        // Animate insight cards
+        gsap.fromTo('.insight-card', 
+            { opacity: 0, y: 40 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.2,
+                scrollTrigger: {
+                    trigger: '.insights-showcase',
+                    start: 'top 80%',
+                }
+            }
+        );
+
+        // Animate feature showcases
+        gsap.utils.toArray('.feature-showcase').forEach((elem, i) => {
+            gsap.fromTo(elem,
+                { opacity: 0, x: i % 2 === 0 ? -50 : 50 },
+                {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.8,
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: 'top 80%',
+                    }
+                }
+            );
+        });
+
+        // Animate process cards
+        gsap.fromTo('.process-card',
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.1,
+                scrollTrigger: {
+                    trigger: '.process-grid',
+                    start: 'top 80%',
+                }
+            }
+        );
+    </script>
+</body>
+</html>

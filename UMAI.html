@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page Wireframe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .wireframe-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border: 2px solid #333;
+        }
+        
+        .wireframe-title {
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+        
+        /* Header */
+        .header {
+            border-bottom: 2px solid #333;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-box {
+            width: 120px;
+            height: 40px;
+            border: 2px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-item {
+            border: 1px solid #333;
+            padding: 8px 15px;
+            font-size: 12px;
+        }
+        
+        .nav-item.primary {
+            background: #333;
+            color: white;
+        }
+        
+        /* Hero Section */
+        .hero {
+            border-bottom: 2px solid #333;
+            padding: 40px 20px;
+            text-align: center;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                #f0f0f0 10px,
+                #f0f0f0 20px
+            );
+        }
+        
+        .hero h1 {
+            border: 2px solid #333;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: white;
+        }
+        
+        .hero p {
+            border: 1px solid #333;
+            padding: 10px;
+            background: white;
+            margin-bottom: 15px;
+        }
+        
+        /* Content Sections */
+        .content-section {
+            padding: 30px 20px;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .section-title {
+            border: 2px solid #333;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            background: #f8f8f8;
+        }
+        
+        /* Service Icons Row */
+        .service-icons {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            padding: 20px 0;
+            border-top: 2px solid #333;
+            border-bottom: 2px solid #333;
+        }
+        
+        .service-icon-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .service-icon-large {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #333;
+            margin: 0 auto 10px;
+            background: #f0f0f0;
+        }
+        
+        /* Map */
+        .map-container {
+            border: 2px solid #333;
+            height: 300px;
+            background: repeating-linear-gradient(
+                0deg,
+                #f0f0f0,
+                #f0f0f0 20px,
+                white 20px,
+                white 40px
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 30px 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        
+        .footer-column h4 {
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid white;
+        }
+        
+        .footer-link {
+            display: block;
+            margin: 5px 0;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wireframe-container">
+        <div class="wireframe-title">Home Page - Low-Fi Wireframe</div>
+        
+        <div class="header">
+            <div class="logo-box">LOGO</div>
+            <div class="nav-menu">
+                <div class="nav-item primary">HOME</div>
+                <div class="nav-item">ABOUT</div>
+                <div class="nav-item">SERVICES</div>
+                <div class="nav-item">GALLERY</div>
+                <div class="nav-item">CONTACT</div>
+                <div class="nav-item primary">GET IN TOUCH</div>
+            </div>
+        </div>
+        
+        <div class="hero">
+            <h1>Pawsome Adventure Walks</h1>
+            <p>Your friendly local dog walker and pet services for Kelso and surrounding Borders</p>
+            <div style="margin-top: 20px;">
+                <span style="border: 1px solid #333; padding: 5px 10px; margin: 0 5px; font-size: 12px;">DBS Checked</span>
+                <span style="border: 1px solid #333; padding: 5px 10px; margin: 0 5px; font-size: 12px;">Fully Insured</span>
+                <span style="border: 1px solid #333; padding: 5px 10px; margin: 0 5px; font-size: 12px;">First Aid Trained</span>
+            </div>
+        </div>
+        
+        <div class="service-icons">
+            <div class="service-icon-item">
+                <div class="service-icon-large"></div>
+                <div>Dog Walking</div>
+            </div>
+            <div class="service-icon-item">
+                <div class="service-icon-large"></div>
+                <div>Check-in & Feeding</div>
+            </div>
+            <div class="service-icon-item">
+                <div class="service-icon-large"></div>
+                <div>Wedding Chaperone Services</div>
+            </div>
+            <div class="service-icon-item">
+                <div class="service-icon-large"></div>
+                <div>Pet Sitting</div>
+            </div>
+            <div class="service-icon-item">
+                <div class="service-icon-large"></div>
+                <div>Vet Visits</div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <div class="section-title">WHY US</div>
+            <div style="display: flex; gap: 30px; align-items: center;">
+                <div style="flex: 1;">
+                    <div style="width: 200px; height: 150px; border: 2px solid #333; background: #f0f0f0; margin-bottom: 15px;">[DOG IMAGE]</div>
+                </div>
+                <div style="flex: 2;">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt exercitation.</p>
+                </div>
+                <div style="flex: 1;">
+                    <div style="width: 120px; height: 120px; border: 2px solid #333; background: #f0f0f0; margin: 0 auto;">[LOGO]</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <div class="section-title">Service Area</div>
+            <p style="text-align: center; margin-bottom: 20px;">Areas I cover: Kelso | Floors | Sprouston | Heiton | Roxburgh | Weetwood | Eckford</p>
+            <div class="map-container">
+                [SERVICE AREA MAP]
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <div class="section-title">Happy Tails</div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+                <div style="border: 2px solid #333; padding: 15px; text-align: center;">
+                    <div style="width: 80px; height: 80px; border: 2px solid #333; background: #f0f0f0; margin: 0 auto 10px;">[PET IMAGE]</div>
+                    <div>Happy Pet 1</div>
+                </div>
+                <div style="border: 2px solid #333; padding: 15px; text-align: center;">
+                    <div style="width: 80px; height: 80px; border: 2px solid #333; background: #f0f0f0; margin: 0 auto 10px;">[PET IMAGE]</div>
+                    <div>Happy Pet 2</div>
+                </div>
+                <div style="border: 2px solid #333; padding: 15px; text-align: center;">
+                    <div style="width: 80px; height: 80px; border: 2px solid #333; background: #f0f0f0; margin: 0 auto 10px;">[PET IMAGE]</div>
+                    <div>Happy Pet 3</div>
+                </div>
+                <div style="border: 2px solid #333; padding: 15px; text-align: center;">
+                    <div style="width: 80px; height: 80px; border: 2px solid #333; background: #f0f0f0; margin: 0 auto 10px;">[PET IMAGE]</div>
+                    <div>Happy Pet 4</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <div class="section-title">Get In Touch</div>
+            <p style="text-align: center; margin-bottom: 30px;">Ready to give your pet the exceptional they deserve? Contact us today to learn more and to book your first walk!</p>
+            <div style="display: flex; justify-content: center; gap: 30px;">
+                <div style="border: 2px solid #333; padding: 20px; text-align: center; flex: 1; max-width: 200px;">
+                    <div style="width: 40px; height: 40px; border: 2px solid #333; background: #f0f0f0; margin: 0 auto 10px;"></div>
+                    <div>Call Us</div>
+                    <div style="font-size: 12px;">01573 570 702<br>07793 652 651</div>
+                </div>
+                <div style="border: 2px solid #333; padding: 20px; text-align: center; flex: 1; max-width: 200px;">
+                    <div style="width: 40px; height: 40px; border: 2px solid #333; background: #f0f0f0; margin: 0 auto 10px;"></div>
+                    <div>Follow Us</div>
+                    <div style="font-size: 12px;">FACEBOOK<br>INSTAGRAM</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-column">
+                <h4>Pawsome Adventure Walks</h4>
+                <div class="footer-link">Professional pet care services</div>
+                <div class="footer-link">Personal touch</div>
+            </div>
+            <div class="footer-column">
+                <h4>Services</h4>
+                <div class="footer-link">Dog Walking</div>
+                <div class="footer-link">Pet Sitting</div>
+                <div class="footer-link">Vet Visits</div>
+                <div class="footer-link">Drop-in Visits</div>
+            </div>
+            <div class="footer-column">
+                <h4>Company</h4>
+                <div class="footer-link">About Us</div>
+                <div class="footer-link">Our Story</div>
+                <div class="footer-link">Testimonials</div>
+                <div class="footer-link">Gallery</div>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <div class="footer-link">Contact Us</div>
+                <div class="footer-link">FAQ</div>
+                <div class="footer-link">Booking Help</div>
+                <div class="footer-link">Privacy Policy</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

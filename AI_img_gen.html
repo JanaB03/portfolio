@@ -1,0 +1,2583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Natural Language Input Case Study</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"/>
+  
+  <!-- Lucide Icons (Clean line icons) -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    /* ==== Base fonts ==== */
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #111;
+      background: #fafafa;
+      margin: 0;
+    }
+
+    /* ==== Hero grid ==== */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+      padding: 120px 2rem 60px;
+      margin-top: 60px;
+    }
+
+    /* ---- Left column (label + title + badge) ---- */
+    .hero-content .hero-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #555;
+      margin-bottom: 0.75rem;
+    }
+    .hero-content .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      line-height: 1.1;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #111;
+    }
+    .hero-content .badge {
+      display: inline-block;
+      background: #e0e0e0;
+      color: #555;
+      font-size: 0.875rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      margin-right: 1rem;
+      font-weight: 600;
+    }
+    .hero-content .read-time {
+      font-size: 0.875rem;
+      color: #777;
+      font-weight: 400;
+      vertical-align: middle;
+    }
+
+    /* ---- Center column (devices) ---- */
+    .hero-images {
+      grid-column: 2 / 3;
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .hero-images .main-device {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      background: #ddd;
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      overflow: hidden;
+    }
+    .hero-images .main-device img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .hero-images .secondary-device {
+      position: absolute;
+      width: 40%;
+      bottom: -20px;
+      right: -30px;
+      border-radius: 8px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+      background: #ddd;
+      aspect-ratio: 9/16;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-size: 0.8rem;
+      overflow: hidden;
+    }
+    .hero-images .secondary-device img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    /* ---- Right column (meta + toc) ---- */
+    .hero-details {
+      grid-column: 3 / 4;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    /* Meta inline blocks */
+    .meta-inline {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .meta-inline .meta-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      color: #8B4513;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .meta-inline .meta-detail {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #111;
+      line-height: 1.4;
+      font-weight: 400;
+    }
+
+    /* Table of Contents */
+    .toc-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #8B4513;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .toc-title i {
+      color: #8B4513;
+    }
+    .toc-list {
+      list-style: none;
+      counter-reset: toc;
+      padding-left: 0;
+      margin: 0;
+    }
+    .toc-list li {
+      counter-increment: toc;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .toc-list li::before {
+      content: counter(toc) ".";
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: #8B4513;
+    }
+    .toc-list a {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #111;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .toc-list a:hover {
+      color: #8B4513;
+    }
+
+    /* ===== Smooth Transition Mask ===== */
+    .section-mask {
+      display: block;
+      width: 100%;
+      height: 200px;
+      margin-top: -50px;
+      background: linear-gradient(
+        180deg,
+        rgba(250,250,250,0) 0%,
+        rgba(240,240,240,0.1) 20%,
+        rgba(200,200,200,0.2) 40%,
+        rgba(100,100,100,0.4) 60%,
+        rgba(50,50,50,0.7) 80%,
+        rgba(17,17,17,1) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ===== Introduction Section ===== */
+    #introduction {
+      position: relative;
+      background: #000;
+      color: #fff;
+      text-align: center;
+      padding: 100px 2rem 100px;
+      overflow: hidden;
+      margin-top: -50px;
+    }
+    
+    .intro-illustration {
+      margin: 0 auto 3rem;
+      width: 300px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      background: #222;
+    }
+
+    .intro-illustration:hover {
+      transform: scale(1.02);
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .intro-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .video-controls {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      z-index: 10;
+    }
+
+    .mute-btn {
+      background: rgba(0,0,0,0.7);
+      border: none;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: background 0.3s ease;
+    }
+
+    .mute-btn:hover {
+      background: rgba(0,0,0,0.9);
+    }
+
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      pointer-events: none;
+    }
+
+    .intro-illustration:hover .video-overlay {
+      opacity: 1;
+    }
+
+    .overlay-text {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    
+    #introduction h2 {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.25rem;
+      margin-bottom: 4rem;
+      font-weight: 400;
+      line-height: 1.6;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      color: #ccc;
+    }
+    
+    /* Challenge Section */
+    .challenge-section {
+      margin-top: 4rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .challenge-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #8B4513;
+      margin-bottom: 2rem;
+    }
+    
+    .challenge-question {
+      font-family: 'Inter', sans-serif;
+      font-size: 2rem;
+      font-weight: 400;
+      line-height: 1.4;
+      color: #fff;
+      margin-bottom: 4rem;
+      text-align: left;
+    }
+    
+    .challenge-question .highlight {
+      color: #fff;
+      font-weight: 600;
+    }
+    
+    .challenge-question .muted {
+      color: #888;
+    }
+    
+    .goals-section {
+      text-align: left;
+      margin-top: 4rem;
+    }
+    
+    .goals-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #fff;
+      margin-bottom: 1.5rem;
+    }
+    
+    .goals-list {
+      list-style: none;
+      counter-reset: goals;
+      padding-left: 0;
+      margin: 0;
+    }
+    
+    .goals-list li {
+      counter-increment: goals;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #ccc;
+      margin-bottom: 0.75rem;
+      padding-left: 2rem;
+      position: relative;
+    }
+    
+    .goals-list li::before {
+      content: counter(goals) ".";
+      position: absolute;
+      left: 0;
+      font-weight: 400;
+      color: #ccc;
+    }
+
+    /* Personal Story Section */
+    .personal-story-section {
+      margin: 4rem 0;
+      padding: 0 2rem;
+    }
+
+    .story-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .story-illustration {
+      width: 180px;
+      height: 180px;
+      background: #333;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-style: italic;
+    }
+
+    .story-headline {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.4;
+      margin-bottom: 1.5rem;
+    }
+
+    .story-description {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #ccc;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ===== Curtain Opening Transition ===== */
+    .curtain-mask {
+      display: block;
+      width: 100%;
+      height: 300px;
+      margin-top: -50px;
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,1) 0%,
+        rgba(50,50,50,0.8) 20%,
+        rgba(100,100,100,0.6) 40%,
+        rgba(150,150,150,0.4) 60%,
+        rgba(200,200,200,0.2) 80%,
+        rgba(250,250,250,0) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ===== Solution Section ===== */
+    #solution {
+      background: #fafafa;
+      padding: 150px 2rem 100px;
+      position: relative;
+      margin-top: -50px;
+    }
+
+    .solution-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: center;
+    }
+
+    .solution-content {
+      max-width: 500px;
+    }
+
+    .solution-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+
+    .solution-label .dot {
+      width: 8px;
+      height: 8px;
+      background: #8B4513;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .solution-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #111;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .solution-description {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .solution-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .demo-mockup {
+      width: 400px;
+      height: 300px;
+      background: #ddd;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-family: 'Inter', sans-serif;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+      border: 4px solid #333;
+      overflow: hidden;
+    }
+
+    .demo-mockup video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    /* ===== Feature Sections ===== */
+    .features-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 200px 2rem 0;
+    }
+
+    .feature-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-bottom: 120px;
+    }
+
+    .feature-section.reverse {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .feature-section.reverse .feature-content {
+      order: 2;
+    }
+
+    .feature-section.reverse .feature-visual {
+      order: 1;
+    }
+
+    .feature-content {
+      max-width: 500px;
+    }
+
+    .feature-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #111;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-description {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .feature-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+
+
+    /* Desktop Mockup Styling */
+    .desktop-mockup {
+      position: relative;
+      width: 600px; 
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    .desktop-screen {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      height: 400px;
+    }
+
+    .browser-bar {
+      height: 35px;
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      border-bottom: 1px solid #e0e0e0;
+      justify-content: space-between;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .browser-dots span {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ddd;
+    }
+
+    .browser-dots span:first-child { background: #ff5f57; }
+    .browser-dots span:nth-child(2) { background: #ffbd2e; }
+    .browser-dots span:nth-child(3) { background: #28ca42; }
+
+    .browser-url {
+      font-size: 0.8rem;
+      color: #666;
+      background: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+
+
+
+    /* Feature Video Styling */
+    .desktop-mockup .feature-video {
+      width: 100%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      left: 0;
+    }
+
+    /* Video Controls */
+    .video-controls {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      z-index: 10;
+    }
+
+    .play-pause-btn {
+      background: rgba(0,0,0,0.7);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .play-pause-btn:hover {
+      background: rgba(0,0,0,0.9);
+      transform: scale(1.1);
+    }
+
+    /* ===== Research Section ===== */
+    #research {
+      background: #fafafa;
+      padding: 100px 2rem;
+      position: relative;
+    }
+
+    .research-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .research-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .research-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+      justify-content: center;
+    }
+
+    .research-label .dot {
+      width: 8px;
+      height: 8px;
+      background: #8B4513;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .research-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #111;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .research-description {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.6;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Research Timeline */
+    .research-timeline {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin: 2rem 0 3rem;
+      padding: 0 2rem;
+      position: relative;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .research-timeline::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 3rem;
+      right: 3rem;
+      height: 2px;
+      background: linear-gradient(to right, #8B4513, #8B4513 20%, #ddd 20%, #ddd 40%, #8B4513 40%, #8B4513 60%, #ddd 60%, #ddd 80%, #8B4513 80%);
+      z-index: 1;
+    }
+
+    .timeline-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      flex: 1;
+      z-index: 2;
+    }
+
+    .timeline-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #8B4513;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 8px rgba(139, 69, 19, 0.3);
+      margin-bottom: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .timeline-item:hover .timeline-dot {
+      transform: scale(1.2);
+    }
+
+    .timeline-content {
+      max-width: 120px;
+    }
+
+    .timeline-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.25rem;
+      line-height: 1.3;
+    }
+
+    .timeline-duration {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      color: #666;
+      font-weight: 400;
+    }
+
+    .research-visual {
+      margin: 4rem 0;
+      text-align: center;
+    }
+
+    .research-placeholder {
+      width: 100%;
+      height: 400px;
+      background: #e8e8e8;
+      border: 2px dashed #999;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .research-placeholder img,
+    .research-placeholder video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .visual-caption {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: #777;
+      font-style: italic;
+      margin: 0;
+    }
+
+    .research-insights {
+      margin: 4rem 0;
+    }
+
+    .insights-intro {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.1rem;
+      color: #333;
+      margin-bottom: 2rem;
+      font-weight: 400;
+    }
+
+    .insight-card {
+      background: #f0f0f0;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .insight-number {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .insight-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #111;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+
+    .insight-explanation {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .research-conclusion {
+      margin-top: 4rem;
+      text-align: center;
+    }
+
+    .conclusion-intro {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+
+    .conclusion-statement {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #111;
+      line-height: 1.3;
+      margin-bottom: 3rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 3rem;
+    }
+
+    .hmw-section {
+      margin: 3rem 0;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hmw-intro,
+    .hmw-outro {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+
+    .hmw-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+    }
+
+    .hmw-list li {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 0.75rem;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .hmw-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #8B4513;
+      font-weight: bold;
+    }
+
+    /* ===== Design Process Section ===== */
+    #design {
+      background: #fafafa;
+      padding: 100px 2rem;
+      position: relative;
+    }
+
+    .design-process-section {
+      margin: 4rem 0;
+      border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 3rem;
+    }
+
+    .design-process-section:last-child {
+      border-bottom: none;
+    }
+
+    .process-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #111;
+      margin-bottom: 2rem;
+    }
+
+    .design-visual {
+      margin: 2rem 0;
+    }
+
+    .design-placeholder {
+      width: 100%;
+      background: #f8f9fa;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e9ecef;
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+    }
+
+    .design-placeholder img,
+    .design-placeholder video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .design-insight {
+      margin-top: 2rem;
+    }
+
+    .insight-title-small {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #8B4513;
+      margin-bottom: 0.75rem;
+    }
+
+    .insight-text-small {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ===== Prototype Section ===== */
+    #prototype {
+      background: #fafafa;
+      padding: 100px 2rem;
+      position: relative;
+    }
+
+    .prototype-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .screen-walkthrough-section {
+      margin: 4rem 0;
+    }
+
+    .walkthrough-intro {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 3rem;
+      font-style: italic;
+      text-align: center;
+    }
+
+    .screen-section {
+      background: #f8f9fa;
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .screen-header {
+      margin-bottom: 2rem;
+    }
+
+    .screen-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #111;
+      margin-bottom: 0.75rem;
+    }
+
+    .hmw-connection {
+      margin-bottom: 1rem;
+    }
+
+    .hmw-tag {
+      background: #e3f2fd;
+      color: #1976d2;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .screen-image {
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .screen-placeholder {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e9ecef;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin: 0 auto 1rem;
+      display: inline-block;
+      padding: 8px;
+      max-width: 500px;
+    }
+
+    .screen-placeholder video {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .screen-caption {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: #666;
+      font-style: italic;
+      margin: 0;
+      text-align: center;
+    }
+
+    .screen-content {
+      display: grid;
+      gap: 2rem;
+    }
+
+    .screen-features {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid #e9ecef;
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      background: #8B4513;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feature-icon i {
+      color: white;
+      font-size: 1.1rem;
+    }
+
+    .feature-description h5 {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #111;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .feature-description p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .design-rationale {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid #e9ecef;
+      border-left: 3px solid #1976d2;
+    }
+
+    .design-rationale h5 {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1976d2;
+      margin: 0 0 0.75rem 0;
+    }
+
+    .design-rationale p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: #333;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ===== Conclusion Section ===== */
+    #conclusion {
+      background: #fafafa;
+      padding: 100px 2rem;
+      position: relative;
+    }
+
+    .conclusion-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .learning-insights {
+      max-width: 1000px;
+      margin: 0 auto 4rem;
+    }
+
+    .insight-main {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .insight-title-main {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 2rem;
+    }
+
+    .insight-description-main {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.1rem;
+      color: #555;
+      line-height: 1.7;
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .learning-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .learning-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      border: 1px solid #e9ecef;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .learning-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+    }
+
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      background: #8B4513;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+
+    .card-icon i {
+      color: white;
+      font-size: 1.5rem;
+    }
+
+    .card-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #111;
+      margin-bottom: 1rem;
+    }
+
+    .card-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* Floating Navigation Progress Bar */
+    .nav-progress-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 1000;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .nav-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      min-width: 200px;
+      transform: translateY(10px);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    .nav-card.show {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .nav-header {
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .back-to-top {
+      color: #666;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .back-to-top:hover {
+      color: #333;
+    }
+
+    .nav-sections {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #666;
+      transition: all 0.2s ease;
+    }
+
+    .nav-item:hover {
+      background: #f8f9fa;
+      color: #333;
+    }
+
+    .nav-item.active {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .nav-number {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .nav-item.active .nav-number {
+      background: #1976d2;
+      color: white;
+    }
+
+    .nav-label {
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
+
+    .progress-indicator {
+      background: white;
+      border-radius: 50px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid #f0f0f0;
+    }
+
+    .progress-indicator:hover {
+      box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+      transform: translateY(-1px);
+    }
+
+    .progress-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #1976d2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .progress-number {
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .progress-text {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .progress-label {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .progress-arrow {
+      font-size: 0.8rem;
+      color: #666;
+      transition: transform 0.2s ease;
+    }
+
+    .progress-indicator.expanded .progress-arrow {
+      transform: rotate(180deg);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1000px) {
+      .hero {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 80px 1rem 40px;
+      }
+      .hero-content, .hero-details {
+        width: 100%;
+      }
+      .meta-inline {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-images {
+        margin: 2rem 0;
+        max-width: 80%;
+      }
+      .hero-images .secondary-device {
+        width: 35%;
+        bottom: -15px;
+        right: 5%;
+      }
+      
+      .challenge-question {
+        font-size: 1.5rem;
+        text-align: center;
+      }
+      
+      .goals-section {
+        text-align: center;
+      }
+
+      .solution-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+      }
+
+      .demo-mockup {
+        width: 300px;
+        height: 200px;
+        margin: 0 auto;
+      }
+
+      .solution-title {
+        font-size: 2rem;
+      }
+
+      .feature-section,
+      .feature-section.reverse {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+        margin-bottom: 80px;
+      }
+
+      .feature-section.reverse .feature-content,
+      .feature-section.reverse .feature-visual {
+        order: unset;
+      }
+
+      .desktop-mockup {
+        width: 320px;
+      }
+
+      .feature-title {
+        font-size: 1.75rem;
+      }
+
+      .features-container {
+        padding: 60px 2rem 0;
+      }
+
+      .research-title {
+        font-size: 2rem;
+      }
+
+      .conclusion-statement {
+        font-size: 1.5rem;
+      }
+
+      .hmw-section {
+        text-align: center;
+      }
+
+      .research-placeholder {
+        height: 300px;
+      }
+
+      .research-timeline {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 0;
+      }
+      
+      .research-timeline::before {
+        display: none;
+      }
+      
+      .timeline-item {
+        flex-direction: row;
+        text-align: left;
+        align-items: center;
+        width: 100%;
+      }
+      
+      .timeline-dot {
+        margin-bottom: 0;
+        margin-right: 1rem;
+        flex-shrink: 0;
+      }
+      
+      .timeline-content {
+        max-width: none;
+        flex: 1;
+      }
+
+      .story-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+      }
+
+      .learning-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-progress-container {
+        bottom: 1rem;
+        right: 1rem;
+      }
+      
+      .nav-card {
+        min-width: 180px;
+        padding: 1.25rem;
+      }
+      
+      .progress-indicator {
+        padding: 0.65rem 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav-header">
+    <a href="index.html" class="nav-back">← Back</a>
+    <span class="nav-title"></span>
+  </nav>
+  <section class="hero">
+    
+    <!-- Left -->
+    <div class="hero-content">
+      <div class="hero-label">Natural Language Input</div>
+      <h1 class="hero-title">Bridging the gap between user intent and AI system output</h1>
+      <span class="badge">Case Study</span>
+      <span class="read-time">8 min read</span>
+    </div>
+
+    <!-- Center -->
+    <div class="hero-images">
+      <div class="main-device">
+        <img src="./images/AIgen/Project Title2.png" alt="NLI Interface Desktop" />
+      </div>
+      <div class="secondary-device">
+        <span>Mobile Interface</span>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div class="hero-details">
+      <div class="meta-inline">
+        <div class="meta-block">
+          <div class="meta-title">Role</div>
+          <div class="meta-detail">UX Researcher<br/>Product Designer</div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-title">Timeline</div>
+          <div class="meta-detail">
+            2024 (Jan – May)<br/>
+            Research & Design
+          </div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-title">Skills</div>
+          <div class="meta-detail">
+            User Research<br/>
+            Interaction Design<br/>
+            Prototyping
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="toc-title">
+          <i class="fas fa-brain"></i>
+          Table of Contents
+        </div>
+        <ol class="toc-list">
+          <li><a href="#introduction">Introduction</a></li>
+          <li><a href="#solution">Solution</a></li>
+          <li><a href="#research">Research</a></li>
+          <li><a href="#design">Design Process</a></li>
+          <li><a href="#prototype">Prototype</a></li>
+          <li><a href="#conclusion">Conclusion</a></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Floating Navigation Progress Bar -->
+  <div class="nav-progress-container">
+    <!-- Main Navigation Card -->
+    <div class="nav-card" id="navCard">
+      <div class="nav-header">
+        <span class="back-to-top">← Back to top</span>
+      </div>
+      <nav class="nav-sections">
+        <a href="#introduction" class="nav-item" data-section="1">
+          <span class="nav-number">1</span>
+          <span class="nav-label">Introduction</span>
+        </a>
+        <a href="#solution" class="nav-item" data-section="2">
+          <span class="nav-number">2</span>
+          <span class="nav-label">Solution</span>
+        </a>
+        <a href="#research" class="nav-item" data-section="3">
+          <span class="nav-number">3</span>
+          <span class="nav-label">Research</span>
+        </a>
+        <a href="#design" class="nav-item" data-section="4">
+          <span class="nav-number">4</span>
+          <span class="nav-label">Design Process</span>
+        </a>
+        <a href="#prototype" class="nav-item" data-section="5">
+          <span class="nav-number">5</span>
+          <span class="nav-label">Prototype</span>
+        </a>
+        <a href="#conclusion" class="nav-item" data-section="6">
+          <span class="nav-number">6</span>
+          <span class="nav-label">Conclusion</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Current Progress Indicator -->
+    <div class="progress-indicator" id="progressIndicator">
+      <div class="progress-circle">
+        <span class="progress-number">1</span>
+      </div>
+      <div class="progress-text">
+        <span class="progress-label">Introduction</span>
+        <i class="fas fa-chevron-down progress-arrow"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-mask"></div>
+
+  <section id="introduction">
+    <div class="intro-illustration">
+      <div class="video-container">
+        <div style="width: 100%; height: 100%; background: #333; display: flex; align-items: center; justify-content: center; color: #888; border-radius: 8px;">
+          <span>AI Generation Demo Video</span>
+        </div>
+      </div>
+    </div>
+    
+    <h2>
+      Large Text and Graphics Models (LTGM) have revolutionized content creation, but users struggle to communicate their exact intentions through natural language. <strong>This communication gap leads to frustrating iterations and suboptimal outputs.</strong>
+    </h2>
+    
+    <!-- Personal Story Section -->
+    <div class="personal-story-section">
+      <div class="story-content">
+        <div class="story-illustration">
+          <span>User Frustration</span>
+        </div>
+        <div class="story-text">
+          <p class="story-description">
+            Users without domain-specific knowledge struggle to understand system mechanisms and formulate effective queries, leading to a disconnect between <strong>high-level user goals</strong> and <strong>specific, executable actions</strong> of the AI system.
+          </p>
+        </div>
+      </div>
+    </div>    
+    
+    <!-- Challenge Section -->
+    <div class="challenge-section">
+      <div class="challenge-label">THE CHALLENGE</div>
+      <h3 class="challenge-question">
+        How can we design interactions that help users effectively communicate their intent to AI systems?
+      </h3>
+      
+      <div class="goals-section">
+        <h4 class="goals-title">THE HIGH-LEVEL GOALS THAT DEFINED THE DESIGN</h4>
+        <ol class="goals-list">
+          <li>Bridge the gap between natural language and system understanding</li>
+          <li>Make AI fine-tuning more intuitive and efficient for non-experts</li>
+          <li>Provide clear feedback about how the system interprets user inputs</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Curtain Opening Transition -->
+  <div class="curtain-mask"></div>
+
+  <!-- Solution Section -->
+  <section id="solution">
+    <div class="solution-container">
+      <div class="solution-content">
+        <div class="solution-label">
+          <span class="dot"></span>
+          The solution
+        </div>
+        <h2 class="solution-title">
+          Natural Language Input System
+        </h2>
+        <p class="solution-description">
+          A comprehensive interaction design that combines component selection, vocal input translation, and natural language feedback to create more intuitive and effective ways for users to fine-tune AI system outputs. Our approach focuses on making the complex simple while maintaining precision and control.
+        </p>
+      </div>
+      <div class="solution-visual">
+        <div class="demo-mockup">
+          <video autoplay muted loop playsinline>
+            <source src="./images/Prototype Final.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature Sections with Desktop/Phone Toggle -->
+    <div class="features-container">
+      <div class="feature-section reverse">
+        <div class="feature-content">
+          <h3 class="feature-title">Component Selection</h3>
+          <p class="feature-description">
+            Allows users to select specific parts of generated content they want to keep or modify, making the fine-tuning process more intuitive. Users can click on elements they like and provide natural language feedback about what to change.
+          </p>
+        </div>
+        <div class="feature-visual">
+          <!-- Desktop Demo -->
+          <div class="desktop-mockup">
+            <div class="desktop-screen">
+              <div class="browser-bar">
+                <div class="browser-dots">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <div class="browser-url">nli-app.com/create</div>
+              </div>
+              <div style="width: 100%; height: 365px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #888;">
+                Component Selection Demo
+              </div>
+            </div>
+            <div class="video-controls">
+              <button class="play-pause-btn" onclick="toggleVideo('component-desktop', this)">
+                <i class="fas fa-pause"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vocal Input Translation -->
+      <div class="feature-section">
+        <div class="feature-content">
+          <h3 class="feature-title">Vocal Input Translation</h3>
+          <p class="feature-description">
+            Translates natural language utterances into specific, executable commands that the system can understand and act upon. This feature processes speech input and converts it into structured parameters for image generation and modification.
+          </p>
+        </div>
+        <div class="feature-visual">
+          <!-- Desktop Demo -->
+          <div class="desktop-mockup">
+            <div class="desktop-screen">
+              <div class="browser-bar">
+                <div class="browser-dots">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <div class="browser-url">nli-app.com/voice</div>
+              </div>
+              <div style="width: 100%; height: 365px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #888;">
+                Voice Input Demo
+              </div>
+            </div>
+            <div class="video-controls">
+              <button class="play-pause-btn" onclick="toggleVideo('vocal-desktop', this)">
+                <i class="fas fa-pause"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Natural Language Feedback -->
+      <div class="feature-section reverse">
+        <div class="feature-content">
+          <h3 class="feature-title">Natural Language Feedback</h3>
+          <p class="feature-description">
+            Provides clear feedback about how the system interprets user inputs, helping users build a better mental model of the system. The interface explains what changes will be made before executing them, creating transparency in the AI process.
+          </p>
+        </div>
+        <div class="feature-visual">
+          <!-- Desktop Demo -->
+          <div class="desktop-mockup">
+            <div class="desktop-screen">
+              <div class="browser-bar">
+                <div class="browser-dots">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <div class="browser-url">nli-app.com/feedback</div>
+              </div>
+              <div style="width: 100%; height: 365px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #888;">
+                Feedback System Demo
+              </div>
+            </div>
+            <div class="video-controls">
+              <button class="play-pause-btn" onclick="toggleVideo('feedback-desktop', this)">
+                <i class="fas fa-pause"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research Section -->
+  <section id="research">
+    <div class="research-container">
+      <div class="research-header">
+        <div class="research-label">
+          <span class="dot"></span>
+          Research
+        </div>
+
+        <h2 class="research-title">Understanding the problem</h2>
+        <p class="research-description">
+          Our research combined analysis of existing solutions like VoiceCuts [CHI '19], Stylette [CHI '22], and Grounded Abstraction Matching [CHI '23] with our own user studies and prototyping to understand how users interact with AI generation systems.
+        </p>
+
+        <!-- Research Timeline -->
+        <div class="research-timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Literature Review</h4>
+              <span class="timeline-duration">Analyzed existing HCI research on natural language interaction</span>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">User Studies</h4>
+              <span class="timeline-duration">Conducted interviews and observation sessions with AI users</span>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Competitive Analysis</h4>
+              <span class="timeline-duration">Evaluated existing AI interfaces and interaction patterns</span>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Prototyping</h4>
+              <span class="timeline-duration">Built and tested various interaction concepts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Research Visual -->
+      <div class="research-visual">
+        <div class="research-placeholder">
+          <img src="./images/AIgen/researchtimeline.png" alt="Research Timeline" />
+        </div>
+        <p class="visual-caption">
+          Research process timeline showing our comprehensive approach to understanding user needs
+        </p>
+      </div>
+
+      <!-- Research Insights -->
+      <div class="research-insights">
+        <h3 class="insights-intro">Key patterns that emerged from our research:</h3>
+        
+        <div class="insight-card">
+          <div class="insight-number">Insight #1</div>
+          <p class="insight-text">
+            Users benefit from natural language feedback that explains system interpretation
+          </p>
+          <p class="insight-explanation">
+            When users could see how the AI interpreted their requests, they were able to refine their language and achieve better results. This transparency reduced frustration and improved learning outcomes.
+          </p>
+        </div>
+
+        <div class="insight-card">
+          <div class="insight-number">Insight #2</div>
+          <p class="insight-text">
+            Component selection helps users specify intent during fine-tuning
+          </p>
+          <p class="insight-explanation">
+            Rather than describing what to change in abstract terms, users preferred to point to specific elements and then provide natural language modifications. This hybrid approach proved more effective than pure text input.
+          </p>
+        </div>
+
+        <div class="insight-card">
+          <div class="insight-number">Insight #3</div>
+          <p class="insight-text">
+            Vocal input can be effectively translated into specific, executable commands
+          </p>
+          <p class="insight-explanation">
+            Users found voice input more natural for expressing creative intent, but the system needed to translate these utterances into structured parameters. The key was providing clear feedback about this translation process.
+          </p>
+        </div>
+      </div>
+
+      <!-- Research Conclusion -->
+      <div class="research-conclusion">
+        <h3 class="conclusion-intro">From this, we concluded...</h3>
+        <h2 class="conclusion-statement">
+          The gap between user intent and AI output can be bridged through better interaction design that combines multiple input modalities with transparent feedback mechanisms.
+        </h2>
+        
+        <div class="hmw-section">
+          <p class="hmw-intro">This led us to ask:</p>
+          <ul class="hmw-list">
+            <li><strong>How might we make AI system interpretation transparent to users?</strong></li>
+            <li><strong>How might we combine visual selection with natural language input?</strong></li>
+            <li><strong>How might we help users build better mental models of AI capabilities?</strong></li>
+            <li><strong>How might we make fine-tuning feel more like natural conversation?</strong></li>
+          </ul>
+          <p class="hmw-outro">...leading us to the design principles that guided our solution.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Design Process Section -->
+  <section id="design">
+    <div class="research-container">
+      <div class="research-header">
+        <div class="research-label">
+          <span class="dot"></span>
+          Design Process
+        </div>
+        <h2 class="research-title">From insights to interface</h2>
+        <p class="research-description">
+          Armed with clear user needs and research insights, we began translating findings into design solutions. The process focused on creating seamless interactions that make AI generation feel more intuitive and controllable.
+        </p>
+      </div>
+
+      <!-- Initial Sketches -->
+      <div class="design-process-section">
+        <h3 class="process-title">Initial Sketches & Ideation</h3>
+        
+        <div class="design-visual">
+          <div class="design-placeholder">
+            <img src="./images/AIgen/Initial sketches.png" alt="Initial design sketches" />
+          </div>
+          <p class="visual-caption">
+            Early sketches exploring different approaches to natural language input and component selection
+          </p>
+        </div>
+
+        <div class="design-insight">
+          <h4 class="insight-title-small">Key concepts explored:</h4>
+          <p class="insight-text-small">
+            Our initial sketches focused on four main areas: producing low-level keywords from high-level interactions, providing faster and more intuitive ways to generate/modify images, suggesting new considerations for exploring diverse aspects, and incorporating negative prompting for better image styles.
+          </p>
+        </div>
+      </div>
+
+      <!-- Improved Sketches -->
+      <div class="design-process-section">
+        <h3 class="process-title">Refined Concepts</h3>
+        
+        <div class="design-visual">
+          <div class="design-placeholder">
+            <img src="./images/AIgen/Improved sketches 1.png" alt="Improved design sketches" />
+          </div>
+          <p class="visual-caption">
+            Refined sketches showing the evolution of our component selection and feedback systems
+          </p>
+        </div>
+
+        <div class="design-insight">
+          <h4 class="insight-title-small">What we learned:</h4>
+          <p class="insight-text-small">
+            The iterative sketching process revealed that users needed three key capabilities: image component selection for keeping desired elements, natural language feedback for system understanding, and vocal feedback integration for immediate adjustments. These became the pillars of our final design.
+          </p>
+        </div>
+      </div>
+
+      <!-- Final Prototype Development -->
+      <div class="design-process-section">
+        <h3 class="process-title">Final Prototype Development</h3>
+        
+        <div class="design-visual">
+          <div class="design-placeholder">
+            <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/proto/rwVSJCoc8fk876aSTPlzaY/copy-AI-text-to-Image-generator?node-id=75-783&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=75%3A783&show-proto-sidebar=1&embed-host=share" allowfullscreen></iframe>
+          </div>
+          <p class="visual-caption">
+            Interactive Figma prototype showing the complete user flow and interaction design
+          </p>
+        </div>
+
+        <div class="design-insight">
+          <h4 class="insight-title-small">Combined approach featuring:</h4>
+          <p class="insight-text-small">
+            Our final prototype integrated component selection for precise control, vocal input translation for natural expression, and a comprehensive natural language feedback system that explains AI interpretation in real-time. This multi-modal approach addresses the core challenges we identified in our research.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Prototype Section -->
+  <section id="prototype">
+    <div class="research-container">
+      <div class="prototype-header">
+        <div class="research-label">
+          <span class="dot"></span>
+          Prototype
+        </div>
+        <h2 class="research-title">System in Action</h2>
+        <p class="research-description">
+          Each interaction was designed to directly address our core research questions, ensuring that every feature reduces barriers between user intent and AI output.
+        </p>
+      </div>
+
+      <!-- Screen Walkthrough Section -->
+      <div class="screen-walkthrough-section">
+        <p class="walkthrough-intro">
+          The following demonstrations show how our solution addresses the key challenges identified in our research.
+        </p>
+
+        <!-- Natural Language Processing -->
+        <div class="screen-section">
+          <div class="screen-header">
+            <h4 class="screen-title">1. Natural Language Processing</h4>
+            <div class="hmw-connection">
+              <span class="hmw-tag">Addresses: System interpretation transparency</span>
+            </div>
+          </div>
+
+          <div class="screen-image">
+            <div class="screen-placeholder">
+              <video autoplay muted loop playsinline style="width: 500px; height: 300px;">
+                <source src="example-nlp-demo.mp4" type="video/mp4">
+                <div style="width: 500px; height: 300px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #888;">
+                  NLP Processing Demo
+                </div>
+              </video>
+            </div>
+            <p class="screen-caption">
+              Real-time natural language processing showing how user input is interpreted and structured
+            </p>
+          </div>
+          
+          <div class="screen-content">
+            <div class="screen-features">
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-brain"></i>
+                </div>
+                <div class="feature-description">
+                  <h5>Intent Classification</h5>
+                  <p>The system analyzes user input to identify the type of modification requested - creation, modification, or refinement.</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-tags"></i>
+                </div>
+                <div class="feature-description">
+                  <h5>Entity Extraction</h5>
+                  <p>Key elements like objects, styles, colors, and modifiers are identified and categorized for precise control.</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-cogs"></i>
+                </div>
+                <div class="feature-description">
+                  <h5>Action Mapping</h5>
+                  <p>Natural language is translated into specific parameters that the AI generation system can execute.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="design-rationale">
+              <h5>Why this matters:</h5>
+              <p>By making the interpretation process visible, users can understand exactly how their words translate into AI actions. This transparency builds trust and helps users refine their communication style for better results.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Component Selection -->
+        <div class="screen-section">
+          <div class="screen-header">
+            <h4 class="screen-title">2. Component Selection System</h4>
+            <div class="hmw-connection">
+              <span class="hmw-tag">Addresses: Visual selection with natural language</span>
+            </div>
+          </div>
+
+          <div class="screen-image">
+            <div class="screen-placeholder">
+              <div style="width: 500px; height: 300px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #888;">
+                Component Selection Demo
+              </div>
+            </div>
+            <p class="screen-caption">
+              Interactive component selection allowing users to point and modify specific elements
+            </p>
+          </div>
+          
+          <div class="screen-content">
+            <div class="screen-features">
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-mouse-pointer"></i>
+                </div>
+                <div class="feature-description">
+                  <h5>Visual Selection</h5>
+                  <p>Users can click on specific parts of generated images to select them for modification or preservation.</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-comments"></i>
+                </div>
+                <div class="feature-description">
+                  <h5>Contextual Feedback</h5>
+                  <p>Selected components trigger contextual prompts that guide users in providing specific natural language instructions.</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-eye"></i>
+                </div>
+                <div class="feature-description">
+                  <h5>Preview Changes</h5>
+                  <p>Before applying modifications, users can preview how their natural language instructions will affect the selected components.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="design-rationale">
+              <h5>Why this matters:</h5>
+              <p>Combining visual selection with natural language creates a more intuitive interaction model. Users can be specific about what to change without needing to describe location or identify components through text alone.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- System Response -->
+        <div class="screen-section">
+          <div class="screen-header">
+            <h4 class="screen-title">3. Intelligent System Response</h4>
+            <div class="hmw-connection">
+              <span class="hmw-tag">Addresses: Natural conversation with AI</span>
+            </div>
+          </div>
+
+          <div class="screen-image">
+            <div class="screen-placeholder">
+              <div style="width: 500px; height: 300px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #888;">
+                System Response Demo
+              </div>
+            </div>
+            <p class="screen-caption">
+              Conversational feedback system that explains changes and suggests improvements
+            </p>
+          </div>
+          
+          <div class="screen-content">
+            <div class="screen-features">
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="feature-description">
+                  <h5>Explanation Generation</h5>
+                  <p>The system explains what changes will be made and why, helping users understand the AI's reasoning process.</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-magic"></i>
+                </div>
+                <div class="feature-description">
+                  <h5>Suggestion Engine</h5>
+                  <p>Based on the current context, the system suggests additional modifications or alternative approaches users might consider.</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-history"></i>
+                </div>
+                <div class="feature-description">
+                  <h5>Learning Integration</h5>
+                  <p>The system learns from user preferences and adjusts its interpretation and suggestions for more personalized interactions.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="design-rationale">
+              <h5>Why this matters:</h5>
+              <p>By making AI responses more conversational and educational, users develop better mental models of the system's capabilities. This leads to more effective communication and better results over time.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Conclusion Section -->
+  <section id="conclusion">
+    <div class="research-container">
+      <div class="conclusion-header">
+        <div class="research-label">
+          <span class="dot"></span>
+          Reflection
+        </div>
+        <h2 class="research-title">What we learned</h2>
+      </div>
+
+      <!-- Learning Insights -->
+      <div class="learning-insights">
+        <div class="insight-main">
+          <h3 class="insight-title-main">The Power of Multimodal Interaction</h3>
+          <p class="insight-description-main">
+            This project taught me that the future of human-AI interaction lies not in perfecting any single input method, but in thoughtfully combining multiple modalities. <strong>Voice, visual selection, and natural language feedback</strong> each address different aspects of the communication challenge.
+          </p>
+          
+          <p class="insight-description-main">
+            Most importantly, I learned that AI systems shouldn't just execute commands—they should <strong>teach users how to communicate more effectively</strong> through transparent feedback and explanation. This creates a positive learning loop that benefits both the user and the system.
+          </p>
+        </div>
+
+        <div class="learning-cards">
+          <div class="learning-card">
+            <div class="card-icon">
+              <i class="fas fa-lightbulb"></i>
+            </div>
+            <h4 class="card-title">Transparency Builds Trust</h4>
+            <p class="card-text">
+              When users understand how AI interprets their input, they become more confident and effective in their communication.
+            </p>
+          </div>
+
+          <div class="learning-card">
+            <div class="card-icon">
+              <i class="fas fa-hands-helping"></i>
+            </div>
+            <h4 class="card-title">Multimodal is More Natural</h4>
+            <p class="card-text">
+              Combining visual selection with natural language mirrors how humans naturally communicate about visual concepts.
+            </p>
+          </div>
+
+          <div class="learning-card">
+            <div class="card-icon">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h4 class="card-title">AI Should Teach, Not Just Execute</h4>
+            <p class="card-text">
+              The best AI interfaces help users become better at using AI by providing educational feedback and suggestions.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Research Link -->
+      <div style="margin: 4rem 0; text-align: center; background: #f8f9fa; padding: 3rem; border-radius: 16px;">
+        <h3 style="margin-bottom: 1rem; color: #111;">View Full Research Presentation</h3>
+        <p style="margin-bottom: 2rem; color: #555;">Explore the complete research findings, methodology, and detailed analysis that informed this design.</p>
+        <a href="https://drive.google.com/file/d/16e-iHCGBq48kw_uuHBRu3yctgFw--kG5/view?usp=sharing" 
+           style="display: inline-block; background: #8B4513; color: white; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: background 0.3s ease;"
+           onmouseover="this.style.background='#A0522D'" 
+           onmouseout="this.style.background='#8B4513'">
+          View Research Presentation
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // ===== GSAP Animations =====
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Smooth transition mask animation (hero to intro)
+    gsap.fromTo(".section-mask", 
+      { 
+        opacity: 0.8,
+        y: 0 
+      },
+      {
+        opacity: 1,
+        y: -50,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#introduction",
+          start: "top 90%",
+          end: "top 50%",
+          scrub: 1
+        }
+      }
+    );
+
+    // Curtain opening animation (intro to solution)
+    gsap.fromTo(".curtain-mask", 
+      { 
+        opacity: 1,
+        y: 0,
+        scaleY: 1
+      },
+      {
+        opacity: 0.8,
+        y: -100,
+        scaleY: 0.8,
+        transformOrigin: "center top",
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#solution",
+          start: "top 90%",
+          end: "top 30%",
+          scrub: 2
+        }
+      }
+    );
+
+    // Animate feature sections on scroll
+    gsap.fromTo(".feature-section", 
+      { 
+        opacity: 0, 
+        y: 60 
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.3,
+        scrollTrigger: {
+          trigger: ".features-container",
+          start: "top 80%",
+          end: "bottom 20%",
+        }
+      }
+    );
+
+    // Animate research insights
+    gsap.fromTo(".insight-card", 
+      { 
+        opacity: 0, 
+        y: 40 
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: ".research-insights",
+          start: "top 85%",
+          end: "bottom 20%",
+        }
+      }
+    );
+
+    // Animate research conclusion
+    gsap.fromTo(".research-conclusion", 
+      { 
+        opacity: 0, 
+        y: 50 
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: ".research-conclusion",
+          start: "top 85%",
+          end: "bottom 20%",
+        }
+      }
+    );
+
+    // Animate screen sections
+    gsap.fromTo(".screen-section", 
+      { 
+        opacity: 0, 
+        y: 40 
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.3,
+        scrollTrigger: {
+          trigger: ".screen-walkthrough-section",
+          start: "top 85%",
+          end: "bottom 20%",
+        }
+      }
+    );
+
+    // Navigation Progress Bar Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const progressIndicator = document.getElementById('progressIndicator');
+      const navCard = document.getElementById('navCard');
+      const navItems = document.querySelectorAll('.nav-item');
+      const progressNumber = document.querySelector('.progress-number');
+      const progressLabel = document.querySelector('.progress-label');
+
+      // Toggle navigation card
+      progressIndicator.addEventListener('click', function() {
+        navCard.classList.toggle('show');
+        progressIndicator.classList.toggle('expanded');
+      });
+
+      // Close nav when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.nav-progress-container')) {
+          navCard.classList.remove('show');
+          progressIndicator.classList.remove('expanded');
+        }
+      });
+
+      // Update active section on scroll
+      const sections = ['introduction', 'solution', 'research', 'design', 'prototype', 'conclusion'];
+      const sectionLabels = ['Introduction', 'Solution', 'Research', 'Design Process', 'Prototype', 'Conclusion'];
+      
+      function updateActiveSection() {
+        let currentSection = 0;
+        
+        sections.forEach((section, index) => {
+          const element = document.getElementById(section);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            if (rect.top <= 100) {
+              currentSection = index;
+            }
+          }
+        });
+
+        // Update progress indicator
+        progressNumber.textContent = currentSection + 1;
+        progressLabel.textContent = sectionLabels[currentSection];
+
+        // Update active nav item
+        navItems.forEach((item, index) => {
+          item.classList.toggle('active', index === currentSection);
+        });
+      }
+
+      // Smooth scroll for navigation items
+      navItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+          
+          navCard.classList.remove('show');
+          progressIndicator.classList.remove('expanded');
+        });
+      });
+
+      // Back to top functionality
+      document.querySelector('.back-to-top').addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // Listen for scroll events
+      window.addEventListener('scroll', updateActiveSection);
+      updateActiveSection(); // Initial call
+    });
+
+    // Device Toggle Functionality
+    function toggleDevice(sectionName, checkbox) {
+      const desktopDemo = document.getElementById(`${sectionName}-desktop`);
+      const phoneDemo = document.getElementById(`${sectionName}-phone`);
+      const toggleLabels = checkbox.closest('.device-toggle').querySelectorAll('.toggle-label');
+      
+      if (checkbox.checked) {
+        // Switch to mobile
+        desktopDemo.classList.remove('active');
+        phoneDemo.classList.add('active');
+        toggleLabels[0].classList.remove('active');
+        toggleLabels[1].classList.add('active');
+      } else {
+        // Switch to desktop
+        phoneDemo.classList.remove('active');
+        desktopDemo.classList.add('active');
+        toggleLabels[1].classList.remove('active');
+        toggleLabels[0].classList.add('active');
+      }
+
+      

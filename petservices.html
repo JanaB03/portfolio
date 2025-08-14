@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Pawesome Adventure Walks – Pet Services Website • Case Study</title>
+
+  <!-- Font & Icons (tiny) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"/>
+
+  <style>
+    /* ===== Theme (matches the “before” look) ===== */
+    :root{
+      --bg-primary:#1e1e1e;
+      --bg-secondary:#2c2c2c;
+      --bg-tertiary:#383838;
+      --text-primary:#ffffff;
+      --text-secondary:#a0a0a0;
+      --accent:#5551ff;          /* subtle purple for hover/borders */
+      --accent-orange:#ff6b35;   /* primary accent for headings/pills */
+      --border:#3c3c3c;
+      --radius:14px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--text-primary);
+      background:linear-gradient(135deg,var(--bg-primary) 0%,var(--bg-secondary) 100%);
+      line-height:1.6; overflow-x:hidden;
+    }
+    img,video{display:block;max-width:100%;height:auto}
+
+    /* Progress bar */
+    .nav-progress{position:fixed;top:0;left:0;right:0;height:3px;background:var(--bg-tertiary);z-index:1001}
+    .nav-progress-bar{height:100%;width:0;background:var(--accent);transition:width .25s ease}
+
+    /* Top header */
+    .nav-header{
+      position:fixed;top:0;left:0;right:0;height:56px;z-index:1000;
+      display:flex;align-items:center;gap:12px;padding:0 20px;
+      background:rgba(44,44,44,.95);backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--border);
+    }
+    .nav-back{color:var(--text-secondary);text-decoration:none;font-size:14px}
+    .nav-back:hover{color:var(--text-primary)}
+    .nav-title{position:absolute;left:50%;transform:translateX(-50%);font-size:14px;color:var(--text-secondary)}
+
+    /* Side chapter dots */
+    .chapter-nav{
+      position:fixed;left:24px;top:50%;transform:translateY(-50%);z-index:999;
+      background:var(--bg-secondary);border:1px solid var(--border);
+      border-radius:12px;padding:16px 8px;
+    }
+    .chapter-dot{
+      width:8px;height:8px;border-radius:50%;background:var(--bg-tertiary);
+      margin:16px auto;cursor:pointer;position:relative;transition:.2s;
+    }
+    .chapter-dot:hover{background:var(--text-secondary);transform:scale(1.15)}
+    .chapter-dot.active{background:var(--accent);box-shadow:0 0 0 4px rgba(85,81,255,.2)}
+    .chapter-label{
+      position:absolute;left:22px;top:50%;transform:translateY(-50%);
+      background:var(--bg-secondary);border:1px solid var(--border);
+      color:var(--text-secondary);padding:4px 10px;border-radius:8px;font-size:12px;white-space:nowrap;
+      opacity:0;pointer-events:none;transition:.15s;
+    }
+    .chapter-dot:hover .chapter-label{opacity:1}
+
+    /* Sections */
+    .section{padding:100px 2rem;position:relative}
+    .container{max-width:1200px;margin:0 auto}
+    .section.alt{background:var(--bg-secondary)}
+    .pill{
+      display:inline-block;padding:8px 12px;border-radius:999px;border:1px solid var(--border);
+      background:var(--bg-tertiary);color:var(--accent-orange);font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:700;
+    }
+    .h1{font-size:clamp(42px,7vw,72px);line-height:1.1;font-weight:800;margin:18px 0}
+    .h2{font-size:clamp(30px,5vw,44px);font-weight:700;margin:10px 0 16px}
+    .lead{color:var(--text-secondary);font-size:clamp(16px,2.2vw,20px)}
+    .card{
+      background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius);padding:20px;
+    }
+    .grid{display:grid;gap:24px}
+    .grid-2{grid-template-columns:1.05fr .95fr}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .list{color:var(--text-secondary)}
+    .list li{margin:8px 0;padding-left:18px;position:relative}
+    .list li::before{content:"→";position:absolute;left:0;color:var(--accent-orange);font-weight:800}
+
+    /* Hero */
+    .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;margin-top:56px}
+    .hero .wrap{text-align:center;max-width:1000px}
+    .hero .devices{margin-top:36px;display:flex;gap:36px;justify-content:center;flex-wrap:wrap}
+    .device{border-radius:20px;overflow:hidden;border:1px solid var(--border);box-shadow:0 30px 80px rgba(0,0,0,.5)}
+    .device.desktop{width:640px;max-width:90vw}
+    .device.phone{width:210px}
+
+    /* Meta pills */
+    .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:20px}
+    .meta .item{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:12px;padding:14px 16px;color:var(--text-secondary)}
+
+    /* Figure */
+    figure.fig{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg-tertiary)}
+    figure.fig figcaption{font-size:13px;color:var(--text-secondary);padding:10px 12px;border-top:1px solid var(--border);background:var(--bg-secondary)}
+
+    /* Responsive */
+    @media (max-width:1024px){ .chapter-nav{display:none} }
+    @media (max-width:920px){
+      .grid-2{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr}
+    }
+    /* Your figure can keep whatever styles you already use */
+.fig { margin: 1rem 0; }
+
+/* Make the PDF box the same visual size as the old image */
+.media-aspect {
+  width: 100%;
+  aspect-ratio: 16/10;   /* <-- change to your PNG’s ratio */
+  border-radius: 16px;
+  overflow: hidden;      /* tidy rounded corners */
+  box-shadow: 0 6px 24px rgba(0,0,0,.15);
+  background: #f5f5f5;  /* neutral backdrop while loading */
+  min-height: 320px;     /* helpful on narrow screens */
+}
+
+.pdf-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* (Optional) make the caption consistent */
+.fig figcaption {
+  margin-top: .5rem;
+  font-size: .95rem;
+  color: #666;
+}
+/* Make the embed large and centered */
+.proto-hero{
+  /* increase these to go larger */
+  --proto-max: 1400px;     /* try 1600px if you want */
+  width: min(var(--proto-max), 100%);
+  margin: clamp(16px, 2vw, 32px) auto  /* top */
+          clamp(56px, 6vw, 120px);     /* bottom spacing under */
+  /* If your page uses CSS Grid and this sits in a column, span full width: */
+  grid-column: 1 / -1;
+}
+
+/* Keep the frame tall enough (16:9 from your prototype) */
+.embed-aspect{
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+}
+
+/* Fill the wrapper */
+.figma-embed{
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+/* Full-bleed across the viewport */
+.proto-hero.full-bleed .embed-aspect{
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+
+
+  </style>
+</head>
+<body>
+  <!-- Progress -->
+  <div class="nav-progress"><div class="nav-progress-bar" id="progressBar"></div></div>
+
+  <!-- Header -->
+  <nav class="nav-header">
+    <a class="nav-back" href="index.html">← Back to Projects</a>
+    <span class="nav-title">Pawesome Adventure Walks • Pet Services Website • Case Study</span>
+  </nav>
+
+  <!-- Left chapter dots -->
+  <div class="chapter-nav" aria-label="Section navigation">
+    <div class="chapter-dot active" data-section="hero"><span class="chapter-label">Intro</span></div>
+    <div class="chapter-dot" data-section="brief"><span class="chapter-label">Brief</span></div>
+    <div class="chapter-dot" data-section="discovery"><span class="chapter-label">Discovery</span></div>
+    <div class="chapter-dot" data-section="ia"><span class="chapter-label">IA</span></div>
+    <div class="chapter-dot" data-section="design"><span class="chapter-label">Design</span></div>
+    <div class="chapter-dot" data-section="mvp"><span class="chapter-label">MVP</span></div>
+    <div class="chapter-dot" data-section="devplan"><span class="chapter-label">Dev Plan</span></div>
+    <div class="chapter-dot" data-section="timeline"><span class="chapter-label">Timeline</span></div>
+    <div class="chapter-dot" data-section="success"><span class="chapter-label">Success</span></div>
+    <div class="chapter-dot" data-section="next"><span class="chapter-label">Next</span></div>
+  </div>
+
+  <!-- HERO -->
+  <header class="section hero" id="hero">
+    <div class="container wrap">
+      <span class="pill">New Build • Website Design & Development</span>
+      <h1 class="h1">Launching <span style="color:var(--accent-orange)">Pawesome</span> for pet parents</h1>
+      <p class="lead">A ground-up site for a local pet services business (boarding • daycare • grooming • walking • training). Focused on clarity, trust, accessibility, and conversions.</p>
+
+      <div class="meta">
+        <div class="item"><strong>Client</strong><br>Pawesome, Scotland</div>
+        <div class="item"><strong>My Role</strong><br>Product Designer • Front-end Dev</div>
+        <div class="item"><strong>Status</strong><br>In progress — dev starting</div>
+        <div class="item"><strong>Scope</strong><br>Strategy, IA, UX/UI, Front-end, Basic SEO</div>
+      </div>
+
+  <div class="devices">
+  <figure class="device fig proto-hero">
+  <div class="embed-aspect">
+    <iframe
+      class="figma-embed"
+      title="Pawsome homepage prototype"
+      loading="lazy"
+      allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin"
+      src="https://embed.figma.com/proto/hSibBYI5IFspUYbmzbJr13/Untitled?node-id=208-801&page-id=0%3A1&starting-point-node-id=208%3A801&scaling=scale-down-width&content-scaling=responsive&hide-ui=1&embed-host=share"
+    ></iframe>
+  </div>
+</figure>
+
+
+
+
+  <!-- keep this if you want the phone mockup later
+  <figure class="device phone fig">
+    <img src="MOBILE-HOMEPAGE.png" alt="Mobile mockup of homepage" />
+  </figure>
+  -->
+</div>
+
+
+  <!-- BRIEF -->
+  <section class="section alt" id="brief">
+    <div class="container grid grid-2">
+      <div>
+        <span class="pill">Chapter 1</span>
+        <h2 class="h2">Project brief</h2>
+        <p class="lead">Create a modern, mobile-first website that clearly explains services and makes booking effortless.</p>
+        <ul class="list">
+          <li>Clarify services, pricing, and policies</li>
+          <li>Build trust with real photos, staff bios, certifications</li>
+          <li>Fast contact options (form + click-to-call)</li>
+          <li>Simple content system the client can maintain</li>
+        </ul>
+      </div>
+      <div class="card">
+        <strong>Constraints</strong>
+        <ul class="list">
+          <li>Short timeline — target: <strong>8/27</strong></li>
+          <li>Limited photo/video budget</li>
+          <li>Owner-provided copy to start</li>
+        </ul>
+        <div style="height:10px"></div>
+        <strong>Assumptions</strong>
+        <ul class="list">
+          <li>Single location (consistent NAP)</li>
+          <li>Initial booking via form + phone; integrations later</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCOVERY -->
+  <section class="section" id="discovery">
+    <div class="container grid grid-2">
+      <div>
+        <span class="pill">Chapter 2</span>
+        <h2 class="h2">Discovery (lightweight)</h2>
+        <p class="lead">Quick interviews and competitor scans to learn decision drivers for pet parents.</p>
+        <ul class="list">
+          <li>Need clear pricing, availability, and safety policies</li>
+          <li>Facility/staff photos strongly influence trust</li>
+          <li>Phone is common for first bookings → keep prominent</li>
+        </ul>
+      </div>
+     <figure class="fig">
+  <!-- Set the aspect-ratio to match your old PNG (example: 1600×1000 => 16/10) -->
+  <div class="media-aspect">
+    <object
+      data="pawsome response.pdf"
+      type="application/pdf"
+      class="pdf-fill"
+      aria-label="Discovery snapshot — interviews + local competitor teardown (scroll to view pages)"
+    >
+      <!-- Fallback if PDF can't render -->
+      <img src="PLACEHOLDER_DISCOVERY.png"
+           alt="Discovery notes and competitor matrix">
+    </object>
+  </div>
+  <figcaption>Discovery snapshot — interviews + local competitor teardown.</figcaption>
+</figure>
+
+    </div>
+  </section>
+
+  <!-- IA -->
+  <section class="section alt" id="ia">
+    <div class="container grid grid-2">
+      <div>
+        <span class="pill">Chapter 3</span>
+        <h2 class="h2">Information architecture & content</h2>
+        <p class="lead">Keep navigation simple. Dedicated service pages for clarity and local SEO.</p>
+        <ul class="list">
+          <li>Home • Services (Boarding, Daycare, Grooming, Walking, Training) • Pricing • About/Team • Gallery • FAQs • Contact</li>
+          <li>Clear CTAs: <em>Book Now</em>, <em>Call</em>, <em>Request Quote</em></li>
+          <li>Policies surfaced before checkout</li>
+        </ul>
+      </div>
+      <figure class="fig">
+        <img src="pawesome sitemap.jpg" alt="Sitemap diagram">
+        <figcaption>Sitemap with cross-links to trust content.</figcaption>
+      </figure>
+    </div>
+
+    <div class="container" style="margin-top:20px">
+      <div class="grid grid-3">
+        <figure class="fig"><img src="homepage.png" alt="Homepage wireframe"><figcaption>Homepage (lo-fi)</figcaption></figure>
+        <figure class="fig"><img src="services.png" alt="Service detail wireframe"><figcaption>Service detail (lo-fi)</figcaption></figure>
+        <figure class="fig"><img src="contact.png" alt="Contact/booking wireframe"><figcaption>Contact/Booking (lo-fi)</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESIGN -->
+  <section class="section" id="design">
+    <div class="container grid grid-2">
+      <div>
+        <span class="pill">Chapter 4</span>
+        <h2 class="h2">Visual direction</h2>
+        <p class="lead">Warm, friendly, high-contrast. Large touch targets and readable type for on-the-go pet parents.</p>
+        <ul class="list">
+          <li>Primary color: <strong>#ff6b35</strong> (brand warmth)</li>
+          <li>Type: Inter/system — headings 28–44px, body 16–18px</li>
+          <li>Components: cards, service tiles, testimonial blocks, sticky mobile CTA</li>
+        </ul>
+      </div>
+      <figure class="fig">
+        <img src="design system.png" alt="Style tile with colors, type, and components">
+        <figcaption>Style tile & component snapshots.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- MVP -->
+  <section class="section alt" id="mvp">
+    <div class="container">
+      <span class="pill">Chapter 5</span>
+      <h2 class="h2">MVP feature set</h2>
+      <div class="grid grid-2" style="margin-top:12px">
+        <div class="card">
+          <strong>Must-have (Phase 1)</strong>
+          <ul class="list">
+            <li>Service pages with transparent pricing</li>
+            <li>Booking/contact form (email notification)</li>
+            <li>Prominent click-to-call on mobile</li>
+            <li>Gallery & staff bios for trust</li>
+            <li>Basic local SEO (schema, titles/meta, sitemap)</li>
+            <li>Accessibility baseline (WCAG AA targets)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <strong>Nice-to-have (Later)</strong>
+          <ul class="list">
+            <li>Online scheduling integration</li>
+            <li>Client portal (vaccines, forms, payments)</li>
+            <li>Reviews import & UGC gallery</li>
+            <li>Blog for SEO + education</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEV PLAN -->
+  <section class="section" id="devplan">
+    <div class="container grid grid-2">
+      <div>
+        <span class="pill">Chapter 6</span>
+        <h2 class="h2">Development plan</h2>
+        <p class="lead">Lightweight, fast, and maintainable. Tooling chosen for the client’s comfort.</p>
+        <ul class="list">
+          <li>Stack: [Next.js or vanilla HTML/CSS + CMS] — TBD after handoff chat</li>
+          <li>Responsive images, lazy loading, compression</li>
+          <li>Semantic HTML, ARIA only where needed</li>
+          <li>Event tracking for bookings & phone taps</li>
+          <li>Hosting: Vercel/Netlify; custom domain + SSL</li>
+        </ul>
+      </div>
+      <figure class="fig">
+        <img src="code image.jpg" alt="Technical plan diagram">
+        <figcaption>Performance & maintainability considerations.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="section alt" id="timeline">
+    <div class="container card">
+      <span class="pill">Planned timeline</span>
+      <h2 class="h2">~2–3 weeks</h2>
+      <ul class="list">
+        <li>Week 1: Discovery, IA, copy outline, low-fi wireframes</li>
+        <li>Week 2: Visual design & components → dev start</li>
+        <li>Week 3: Build, QA (accessibility + SEO), content load, launch</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SUCCESS CRITERIA -->
+  <section class="section" id="success">
+    <div class="container grid grid-2">
+      <div>
+        <span class="pill">How we’ll measure</span>
+        <h2 class="h2">Success criteria (post-launch)</h2>
+        <ul class="list">
+          <li>Booking form submissions & phone tap rate</li>
+          <li>Homepage → service page click-through</li>
+          <li>Core Web Vitals (LCP ≤ 2.5s, CLS ≤ 0.1)</li>
+          <li>Organic traffic to service pages (local queries)</li>
+        </ul>
+      <  <p class="lead" style="margin-top:6px"><em>Note:</em> Metrics will be added after development & launch.</p>
+      </div>
+      <!--<figure class="fig">
+       <img src="PLACEHOLDER_METRICS.png" alt="Reserved space for analytics charts">
+        <figcaption>Charts will appear here once data is available.</figcaption>
+      </figure>-->
+    </div>
+  </section>
+
+  <!-- NEXT -->
+  <section class="section alt" id="next">
+    <div class="container card">
+      <span class="pill">What’s next</span>
+      <h2 class="h2">Immediate next steps</h2>
+      <ul class="list">
+        <li>Finalize copy & gather photos (facility, staff, pets)</li>
+        <li>Confirm tech stack with client</li>
+        <li>Build MVP pages & forms</li>
+        <li>QA: accessibility, mobile, SEO, performance</li>
+        <li>Launch + begin tracking KPIs</li>
+      </ul>
+      <div style="height:12px"></div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a class="card" style="padding:12px 16px;background:var(--accent-orange);color:#fff;border:none" href="https://www.figma.com/proto/hSibBYI5IFspUYbmzbJr13/Untitled?node-id=208-801&t=3oto2DBfPz9PSQ11-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=208%3A801" target="_blank" rel="noopener">
+          <i class="fas fa-external-link-alt"></i>&nbsp; View Figma
+        </a>
+        <a class="card" style="padding:12px 16px" href="mailto:bridijana@gmail.com">
+          <i class="fas fa-envelope"></i>&nbsp; Contact
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="section" style="padding:40px 2rem;border-top:1px solid var(--border);text-align:center;color:var(--text-secondary)">
+    © Jana. Built for pets & their people.
+  </footer>
+
+  <script>
+    // Progress bar
+    addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const scrolled = ((h.scrollTop || document.body.scrollTop) / (h.scrollHeight - h.clientHeight)) * 100;
+      document.getElementById('progressBar').style.width = scrolled + '%';
+    });
+
+    // Scroll spy for chapter dots
+    const sections = document.querySelectorAll('#hero, #brief, #discovery, #ia, #design, #mvp, #devplan, #timeline, #success, #next');
+    const dots = document.querySelectorAll('.chapter-dot');
+    const byId = id => document.getElementById(id);
+
+    const onScroll = () => {
+      const y = scrollY + 120; // offset below header
+      let currentId = 'hero';
+      sections.forEach(sec => {
+        if (y >= sec.offsetTop) currentId = sec.id;
+      });
+      dots.forEach(d => d.classList.toggle('active', d.dataset.section === currentId));
+    };
+    addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+
+    // Smooth scroll on dot click
+    dots.forEach(d => d.addEventListener('click', () => {
+      const target = byId(d.dataset.section);
+      target?.scrollIntoView({behavior:'smooth', block:'start'});
+    }));
+  </script>
+</body>
+</html>

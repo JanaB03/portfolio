@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawesome Adventure Walks</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background-color: #FFF5E6;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #FFF5E6;
+            padding: 25px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 500;
+        }
+        
+        .logo img {
+            width: 50px;
+            height: 40px;
+        }
+        
+        nav {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #666;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        nav a:first-child {
+            color: #FF6B35;
+            text-decoration: underline;
+            text-underline-offset: 5px;
+        }
+        
+        nav a:hover {
+            color: #FF6B35;
+        }
+        
+        .get-in-touch-btn {
+            background-color: #FF6B35;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .get-in-touch-btn:hover {
+            background-color: #E55A2B;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: #E54B2B;
+            color: white;
+            padding: 60px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            padding: 0 60px 60px;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero h1 .yellow {
+            color: #FFD93D;
+        }
+        
+        .hero .subtitle {
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 1.4;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+        
+        .hero-badges {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
+            font-weight: 500;
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .badge:nth-child(1) {
+            animation-delay: 0.5s;
+        }
+        
+        .badge:nth-child(2) {
+            animation-delay: 1s;
+        }
+        
+        .badge:nth-child(3) {
+            animation-delay: 1.5s;
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .badge input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            position: relative;
+            appearance: none;
+            background-color: transparent;
+            border: 2px solid white;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .badge input[type="checkbox"]:checked {
+            background-color: white;
+        }
+        
+        .badge input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #E54B2B;
+            font-size: 16px;
+            font-weight: bold;
+            animation: checkMark 0.3s ease;
+        }
+        
+        @keyframes checkMark {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+        
+        /* Service Icons */
+        .services {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            padding: 50px 40px 80px;
+            justify-content: space-between;
+        }
+        
+        .service-item {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 15px;
+            padding: 20px;
+            padding-bottom: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            position: relative;
+            overflow: visible;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 140px;
+            aspect-ratio: 1;
+        }
+        
+        .service-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            z-index: -1;
+            border-radius: 15px;
+        }
+        
+        .service-item:hover {
+            background: #FF6B35;
+            border-color: #FF6B35;
+            transform: translateY(-5px);
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.25), 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        
+        .service-item h3 {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.2;
+            margin: 0;
+            padding: 0 5px;
+            flex-shrink: 0;
+        }
+        
+        .service-icon {
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .service-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            transition: all 0.3s ease;
+        }
+        
+        .service-item:hover .service-icon img {
+            filter: brightness(1) invert(0);
+            transform: scale(1.1);
+        }
+        
+        /* Hero Illustration */
+        .hero-illustration {
+            position: absolute;
+            right: 80px;
+            top: 40%;
+            transform: translateY(-50%);
+            width: 450px;
+            height: 450px;
+            z-index: 1;
+        }
+        
+        .hero-illustration img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        /* Why Us Section */
+        .why-us {
+            padding: 80px 60px;
+            background-color: white;
+        }
+        
+        .why-us h2 {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 60px;
+            color: #333;
+            font-weight: 700;
+        }
+        
+        .why-us-content {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .why-us-image {
+            width: 400px;
+            height: 300px;
+            background-color: #ddd;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .why-us-text {
+            flex: 1;
+        }
+        
+        .why-us-text p {
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .dog-illustration {
+            width: 120px;
+            height: 120px;
+            margin-left: auto;
+            margin-top: 30px;
+        }
+        
+        /* Service Area Section */
+        .service-area {
+            padding: 80px 60px;
+            background-color: #FFF5E6;
+        }
+        
+        .service-area h2 {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 700;
+        }
+        
+        .service-area-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        
+        .service-locations {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #666;
+            font-size: 16px;
+        }
+        
+        #map {
+            height: 500px;
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Happy Tails Section */
+        .happy-tails {
+            padding: 80px 60px;
+            background-color: white;
+        }
+        
+        .happy-tails h2 {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 60px;
+            color: #333;
+            font-weight: 700;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-item {
+            background-color: #f0f0f0;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            padding-bottom: 100%;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .gallery-item img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        /* Get In Touch Section */
+        .get-in-touch {
+            padding: 80px 60px;
+            background-color: #FFF5E6;
+        }
+        
+        .get-in-touch h2 {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 700;
+        }
+        
+        .get-in-touch-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 60px;
+            font-size: 16px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .contact-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .contact-box {
+            background: white;
+            border: 3px solid #FF6B35;
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.2);
+        }
+        
+        .contact-box h3 {
+            color: #FF6B35;
+            font-size: 28px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+        
+        .contact-box p {
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .contact-box .highlight {
+            color: #FF6B35;
+            font-size: 14px;
+            font-style: italic;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #2C2C2C;
+            color: white;
+            padding: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-section h3 {
+            color: #FF6B35;
+            margin-bottom: 25px;
+            font-size: 20px;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            line-height: 2;
+            font-size: 14px;
+        }
+        
+        .footer-section a:hover {
+            color: #FF6B35;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background-color: #FF6B35;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: #E55A2B;
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid #444;
+            color: #999;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="image1" alt="Pawesome Logo">
+        </div>
+        <nav>
+            <a href="#home">HOME</a>
+            <a href="#about">ABOUT</a>
+            <a href="#services">SERVICES</a>
+            <a href="#gallery">GALLERY</a>
+            <a href="#contact">CONTACT</a>
+            <button class="get-in-touch-btn">GET IN TOUCH</button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1><span class="yellow">Pawesome</span><br>Adventure Walks</h1>
+                <p class="subtitle">Your friendly local dog walker and pet services for Kelso and surrounding areas</p>
+                
+                <div class="hero-badges">
+                    <div class="badge">
+                        <input type="checkbox" id="bds-check">
+                        <span>BDS Checked</span>
+                    </div>
+                    <div class="badge">
+                        <input type="checkbox" id="insured-check">
+                        <span>Fully Insured</span>
+                    </div>
+                    <div class="badge">
+                        <input type="checkbox" id="first-aid-check">
+                        <span>First Aid Trained</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-illustration">
+                <img src="Group 18.png" alt="Hero illustration with dog">
+            </div>
+        </div>
+        
+        <div class="services">
+            <div class="service-item">
+                <h3>Dog Walking</h3>
+                <div class="service-icon">
+                    <img src="image 22.png" alt="Dog Walking">
+                </div>
+            </div>
+            <div class="service-item">
+                <h3>Check-in & Feeding</h3>
+                <div class="service-icon">
+                    <img src="image3" alt="Check-in & Feeding">
+                </div>
+            </div>
+            <div class="service-item">
+                <h3>Wedding Chaperone</h3>
+                <div class="service-icon">
+                    <img src="image4" alt="Wedding Chaperone">
+                </div>
+            </div>
+            <div class="service-item">
+                <h3>Pet Sitting</h3>
+                <div class="service-icon">
+                    <img src="image5" alt="Pet Sitting">
+                </div>
+            </div>
+            <div class="service-item">
+                <h3>Vet Visits</h3>
+                <div class="service-icon">
+                    <img src="image6" alt="Vet Visits">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Us Section -->
+    <section class="why-us">
+        <h2>WHY US</h2>
+        <div class="why-us-content">
+            <img src="image8" alt="Happy dogs" class="why-us-image">
+            <div class="why-us-text">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <img src="image9" alt="Dog illustration" class="dog-illustration">
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Area Section -->
+    <section class="service-area">
+        <h2>Service Area</h2>
+        <p class="service-area-subtitle">Pawesome Adventure Walks offers dog walking services in these Scottish Borders areas:</p>
+        <p class="service-locations">Kelso | Eildon | Eccles | Birgham | Greenlaw | Sprouston | Morebattle | Heiton | Coldstream</p>
+        <div id="map"></div>
+    </section>
+
+    <!-- Happy Tails Section -->
+    <section class="happy-tails">
+        <h2>Happy tails</h2>
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="image10" alt="Happy Pet 1">
+                <div class="gallery-caption">Happy Pet 1</div>
+            </div>
+            <div class="gallery-item">
+                <img src="image11" alt="Happy Pet 2">
+                <div class="gallery-caption">Happy Pet 2</div>
+            </div>
+            <div class="gallery-item">
+                <img src="image12" alt="Happy Pet 3">
+                <div class="gallery-caption">Happy Pet 3</div>
+            </div>
+            <div class="gallery-item">
+                <img src="image13" alt="Happy Pet 4">
+                <div class="gallery-caption">Happy Pet 4</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get In Touch Section -->
+    <section class="get-in-touch">
+        <h2>Get In Touch</h2>
+        <p class="get-in-touch-subtitle">Ready to give your pet the adventure they deserve? Contact us for more information or to book your first walk!</p>
+        
+        <div class="contact-boxes">
+            <div class="contact-box">
+                <h3>Call Us</h3>
+                <p>Tel 07 123 456 7890</p>
+                <p>Available Mon-Fri 8am-6pm</p>
+                <p class="highlight">Weekend emergencies welcome</p>
+            </div>
+            <div class="contact-box">
+                <h3>Follow Us</h3>
+                <p>Instagram</p>
+                <p>Facebook</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Pawesome Adventure Walks</h3>
+                <p>Professional pet care services with a personal touch. Every adventure is tailored to your pet's unique needs and personality.</p>
+                <div class="social-links">
+                    <a href="#"><img src="image14" alt="Facebook" style="width: 20px; filter: invert(1);"></a>
+                    <a href="#"><img src="image15" alt="Instagram" style="width: 20px; filter: invert(1);"></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Services</h3>
+                <p><a href="#">Dog Walking</a></p>
+                <p><a href="#">Pet Sitting</a></p>
+                <p><a href="#">Vet Visits</a></p>
+                <p><a href="#">Pet 'n' Meal</a></p>
+                <p><a href="#">Wedding Day Chaperone</a></p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Company</h3>
+                <p><a href="#">About Us</a></p>
+                <p><a href="#">Gallery</a></p>
+                <p><a href="#">Testimonials</a></p>
+                <p><a href="#">Blog</a></p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Support</h3>
+                <p><a href="#">Contact Us</a></p>
+                <p><a href="#">FAQ</a></p>
+                <p><a href="#">Booking Help</a></p>
+                <p><a href="#">Privacy Policy</a></p>
+                <p><a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2023 Pawesome Walks. All rights reserved. | Pet License # secured | Pet Care Services</p>
+        </div>
+    </footer>
+
+    <script>
+        // Animate checkboxes one by one
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check the first checkbox after 1 second
+            setTimeout(() => {
+                document.getElementById('bds-check').checked = true;
+            }, 1000);
+            
+            // Check the second checkbox after 1.5 seconds
+            setTimeout(() => {
+                document.getElementById('insured-check').checked = true;
+            }, 1500);
+            
+            // Check the third checkbox after 2 seconds
+            setTimeout(() => {
+                document.getElementById('first-aid-check').checked = true;
+            }, 2000);
+            
+            // Initialize Leaflet Map
+            // Create map centered on Scottish Borders area
+            const map = L.map('map').setView([55.6, -2.7], 10);
+            
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            
+            // Define locations with coordinates
+            const locations = [
+                { name: 'Kelso', coords: [55.5990, -2.4327] },
+                { name: 'Eildon', coords: [55.5333, -2.7000] },
+                { name: 'Eccles', coords: [55.6667, -2.3833] },
+                { name: 'Birgham', coords: [55.6258, -2.3547] },
+                { name: 'Greenlaw', coords: [55.7681, -2.4611] },
+                { name: 'Sprouston', coords: [55.6133, -2.3883] },
+                { name: 'Morebattle', coords: [55.4967, -2.3808] },
+                { name: 'Heiton', coords: [55.5633, -2.4294] },
+                { name: 'Coldstream', coords: [55.6511, -2.2528] }
+            ];
+            
+            // Custom marker style
+            const customIcon = L.divIcon({
+                html: '<div style="background-color: #FF6B35; width: 24px; height: 24px; border-radius: 50%; border: 3px solid white; box-shadow: 0 3px 8px rgba(0,0,0,0.3);"></div>',
+                className: 'custom-marker',
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
+            });
+            
+            // Add markers for each location
+            locations.forEach(location => {
+                L.marker(location.coords, { icon: customIcon })
+                    .addTo(map)
+                    .bindPopup(`<b>${location.name}</b><br>Service available here!`);
+            });
+            
+            // Add labels next to markers
+            locations.forEach(location => {
+                L.marker(location.coords, {
+                    icon: L.divIcon({
+                        html: `<div style="background-color: #1e3a8a; color: white; padding: 5px 10px; border-radius: 5px; font-size: 13px; font-weight: 600; white-space: nowrap; margin-left: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">${location.name}</div>`,
+                        className: 'location-label',
+                        iconSize: [null, null],
+                        iconAnchor: [-5, 15]
+                    })
+                }).addTo(map);
+            });
+        });
+    </script>
+</body>
+</html>

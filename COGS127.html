@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Calendar Assistant - Career Exploration Platform</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --text: #1f2937;
+            --bg: #f8fafc;
+            --accent: #3b82f6;
+            --gray-light: #f3f4f6;
+            --gray-medium: #9ca3af;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Enhanced Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.2;
+        }
+
+        .hero-content {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s 0.2s forwards;
+        }
+
+        .team-members {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s 0.4s forwards;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Improved Navigation */
+        .navigation {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transform: translateY(-100%);
+            animation: slideDown 0.5s forwards;
+        }
+
+        @keyframes slideDown {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Enhanced Sections */
+        section {
+            margin: 6rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Improved Headings */
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+            color: var(--text);
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+
+        h2:hover::after {
+            width: 100%;
+        }
+
+        /* Enhanced Cards */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        /* Problem Statement Box */
+        .problem-statement {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--primary);
+        }
+
+        /* Statistics Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .stat-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-description {
+            color: var(--gray-medium);
+        }
+
+        /* Research Section */
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin: 3rem 0;
+        }
+
+        .research-item {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .research-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        /* Persona Cards */
+        .persona-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin: 3rem 0;
+        }
+
+        .persona-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .persona-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .persona-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+        }
+
+        .persona-name {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .persona-title {
+            text-align: center;
+            color: var(--gray-medium);
+            margin-bottom: 1.5rem;
+        }
+
+        .persona-quote {
+            font-style: italic;
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+            margin: 1rem 0;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        /* Design Process */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin: 3rem 0;
+        }
+
+        .process-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .process-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        /* User Flow */
+        .flow-steps {
+            position: relative;
+            padding-left: 2rem;
+            margin: 2rem 0;
+        }
+
+        .flow-step {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 1rem;
+        }
+
+        .flow-step::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .flow-step::after {
+            content: '';
+            position: absolute;
+            left: -2.25rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        /* Gallery */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .gallery-item h4 {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: rgba(255,255,255,0.9);
+            margin: 0;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover h4 {
+            transform: translateY(0);
+        }
+
+        /* Before-After Comparisons */
+        .before-after-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .before-after-item {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .before-after-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .before-after-heading {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .before-after-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .before-after-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Impact Section */
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .impact-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .impact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        /* Solution Features */
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .solution-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .solution-emoji {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+        }
+
+        /* Lessons Learned Grid */
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .lesson-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .skill-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .skill-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--primary);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-top: 6rem;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Next Project Navigation */
+        .next-project-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5rem;
+            margin-bottom: 3rem;
+        }
+
+        .project-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .project-nav-link:hover {
+            color: var(--primary);
+        }
+
+        .prev-project {
+            padding-right: 1rem;
+        }
+
+        .next-project {
+            padding-left: 1rem;
+        }
+
+        /* Floating Button */
+        .floating-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .floating-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--primary);
+            z-index: 1001;
+            transition: width 0.3s ease;
+        }
+
+        /* Quote styling */
+        .quote {
+            font-style: italic;
+            padding: 1rem 1.5rem;
+            border-left: 4px solid var(--accent);
+            margin: 2rem 0;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .quote-author {
+            font-weight: 600;
+            margin-top: 0.5rem;
+            text-align: right;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .before-after-container {
+                flex-direction: column;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <nav class="navigation">
+        <ul class="nav-links">
+            <li><a href="#problem">Problem</a></li>
+            <li><a href="#research">Research</a></li>
+            <li><a href="#design">Design Process</a></li>
+            <li><a href="#testing">User Testing</a></li>
+            <li><a href="#iterations">Iterations</a></li>
+            <li><a href="#solution">Solution</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero">
+        <img src="./images/127/Group 1 (1).png" alt="Calendar scheduling" class="hero-image">
+        <div class="hero-content">
+            <h1>AI Calendar Assistant</h1>
+            <p>A UX journey exploring how AI can simplify scheduling management and resolve conflicts efficiently for busy professionals</p>
+            <div class="team-members">
+                <div class="team-member">Samantha Kellener</div>
+                <div class="team-member">Kristine Vu</div>
+                <div class="team-member">Jana Bridi</div>
+                <div class="team-member">Junmo Robbins</div>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+        <section id="problem" class="fade-in">
+            <h2>The Problem</h2>
+            
+            <div class="problem-statement">
+                <p>Business owners face challenges managing their schedules efficiently, often juggling multiple appointments and platforms, which leads to wasted time and added stress. While digital tools help with organization, the lack of integration and constant need for adjustments make scheduling frustrating and inefficient.</p>
+            </div>
+
+            <div class="quote">
+                <p>"I spend more time managing my calendar than actually working on my business."</p>
+                <div class="quote-author">— Kristin, Small Marketing Agency Owner</div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-emoji">⏰</div>
+                    <div class="stat-number">7-10</div>
+                    <p class="stat-description">Hours spent weekly on scheduling management</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-emoji">🔄</div>
+                    <div class="stat-number">3+</div>
+                    <p class="stat-description">Different platforms typically used for scheduling</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-emoji">❌</div>
+                    <div class="stat-number">70%</div>
+                    <p class="stat-description">Of business owners report scheduling conflicts monthly</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="research">
+            <h2>Research & Discovery</h2>
+            
+            <div class="research-grid">
+                <div class="research-item">
+                    <h3>Methodology</h3>
+                    <ul>
+                        <li>4 in-depth interviews with stakeholders</li>
+                        <li>Competitive analysis of scheduling tools</li>
+                        <li>User journey mapping</li>
+                        <li>Pain point identification</li>
+                    </ul>
+                </div>
+                
+                <div class="research-item">
+                    <h3>Key Findings</h3>
+                    <ul>
+                        <li>Platform fragmentation causes significant friction</li>
+                        <li>Manual rescheduling is time-consuming and error-prone</li>
+                        <li>Professionals develop complex workarounds for scheduling</li>
+                        <li>Cognitive load of maintaining awareness across systems creates stress</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Personas</h3>
+            <div class="persona-grid">
+                <div class="persona-card">
+                    <img src="./images/127/avatar 2.webp" alt="Kristin Watson" class="persona-img">
+                    <h4 class="persona-name">Kristin Watson</h4>
+                    <p class="persona-title">The Time-Strapped Agency Owner</p>
+                    <p>Kristin represents the overwhelmed small business owner whose growth is stunted by administrative overhead. She manages a team of employees and freelancers, creating complex scheduling needs.</p>
+                    <div class="persona-quote">
+                        "I spend more time managing my calendar than actually working on my business."
+                    </div>
+                </div>
+
+                <div class="persona-card">
+                    <img src="./images/127/avatar 1.webp" alt="Wade Warren" class="persona-img">
+                    <h4 class="persona-name">Wade Warren</h4>
+                    <p class="persona-title">The Growth-Focused Business Owner</p>
+                    <p>Wade owns a coffee shop in Capetown. He embodies the ambitious entrepreneur who views scheduling not as an end in itself but as infrastructure that should support his business vision.</p>
+                    <div class="persona-quote">
+                        "My schedule is the backbone of my business operations."
+                    </div>
+                </div>
+            </div>
+
+            <h3>Competitive Analysis</h3>
+            <div class="research-grid">
+                <div class="research-item">
+                    <h3>Calendly</h3>
+                    <p><strong>Strengths:</strong> User-friendly interface, excellent for team scheduling</p>
+                    <p><strong>Weaknesses:</strong> Limited features in free plan, lacks robust conflict management</p>
+                </div>
+
+                <div class="research-item">
+                    <h3>Microsoft Outlook</h3>
+                    <p><strong>Strengths:</strong> Deep integration within Microsoft ecosystem</p>
+                    <p><strong>Weaknesses:</strong> Complex interface, limited cross-platform flexibility</p>
+                </div>
+
+                <div class="research-item">
+                    <h3>Fantastical</h3>
+                    <p><strong>Strengths:</strong> Elegant interface, natural language input</p>
+                    <p><strong>Weaknesses:</strong> Lacks team-oriented features crucial for businesses</p>
+                </div>
+            </div>
+
+            <div class="quote">
+                <p>I'll create a Google Calendar event, then manually send Zoom links through email, then duplicate important client meetings in our Salesforce system. It's redundant and I'm constantly worried something will fall through the cracks.</p>
+                <div class="quote-author">— Erik, Business Consultant</div>
+            </div>
+        </section>
+
+        <section id="design">
+            <h2>Design Process</h2>
+            
+            <h3>UX Flows</h3>
+            <div class="research-grid">
+                <div class="research-item">
+                    <h3>Flow 1: Basic Scheduling with Sync</h3>
+                    <img src="./images/127/Group 27.png" alt="UX Flow 1" style="width:100%;margin-bottom:1rem;">
+                    <p>This flow begins at the home calendar view, which serves as the central hub. From here, users can create different types of schedules (personal, team, client) and configure sync options with external platforms.</p>
+                </div>
+
+                <div class="research-item">
+                    <h3>Flow 2: Conflict Resolution</h3>
+                    <img src="./images/127/Group 28.png" alt="UX Flow 2" style="width:100%;margin-bottom:1rem;">
+                    <p>This flow starts from the same home view but introduces a conflict detection alert that provides an immediate entry point when scheduling issues arise. The flow splits into manual and AI-assisted resolution paths.</p>
+                </div>
+            </div>
+
+            <section id="ui-sketches" class="case-section">
+                <h2>UI Sketches</h2>
+                
+                <p>After developing our UX flows, we translated our conceptual frameworks into visual designs through detailed UI sketches. This process helped us evaluate different interface approaches and identify potential usability issues before moving to wireframes.</p>
+                
+                <div class="image-gallery">
+                    <div class="gallery-item">
+                        <img src="./images/127/UI Sketch 1.png" alt="Dashboard Sketch">
+                       
+                    </div>
+                    <div class="gallery-item">
+                        <img src="./images/127/UI Sketch 2.png" alt="Calendar View Sketch">
+                        
+                    </div>
+                    <div class="gallery-item">
+                        <img src="./images/127/UI Sketch 3.png" alt="Conflict Resolution Sketch">
+                        
+                    </div>
+                    <div class="gallery-item">
+                        <img src="./images/127/UI Sketch 4.png" alt="AI Suggestions Interface">
+                    
+                    </div>
+                    <div class="gallery-item">
+                        <img src="./images/127/flow 2 Sketch 1.png" alt="AI Suggestions Interface">
+                    
+                    </div>
+                    <div class="gallery-item">
+                        <img src="./images/127/flow 2 Sketch 2.png" alt="AI Suggestions Interface">
+                    
+                    </div>
+                </div>
+                
+                <p>Creating multiple sketches revealed the importance of consistency across different features. While designing both flows, we maintained similar header styles and navigation elements to ensure a cohesive experience throughout the system.</p>
+                
+                <div class="research-grid">
+                    <div class="research-item">
+                        <h3>Insights from Sketching</h3>
+                        <p>The UI sketches directly mapped to our UX flows but provided deeper insights into user interaction points. For example, in the conflict resolution flow, what began as a simple concept evolved into three detailed screens showing calendar view, time selection, and resolution options. This detailed visualization helped identify potential friction points and necessary features that weren't immediately obvious in the flow diagram.</p>
+                    </div>
+                    
+                    <div class="research-item">
+                        <h3>Visual Hierarchy Focus</h3>
+                        <p>A key aspect we focused on during sketching was creating clear visual hierarchy. For critical elements like conflict detection alerts, we needed to ensure they stood out without being alarming. The AI-assisted path required careful consideration of how to display complex information in an accessible way.</p>
+                    </div>
+                </div>
+                
+                <p>The sketching phase was crucial for building a bridge between our conceptual flows and the low-fidelity wireframes that followed. It allowed us to rapidly iterate on multiple design approaches and address potential issues early in the process.</p>
+                
+                <div class="flow-steps">
+                    <h3>Key Design Considerations</h3>
+                    <div class="flow-step">
+                        <h4>Clear Information Architecture</h4>
+                        <p>Ensuring users could easily understand scheduling conflicts and their resolution options</p>
+                    </div>
+                    <div class="flow-step">
+                        <h4>Intuitive Navigation</h4>
+                        <p>Creating consistent patterns for moving between screens and accessing features</p>
+                    </div>
+                    <div class="flow-step">
+                        <h4>Appropriate Feedback</h4>
+                        <p>Designing visual cues and confirmations for user actions</p>
+                    </div>
+                    <div class="flow-step">
+                        <h4>Progressive Disclosure</h4>
+                        <p>Revealing complex options only when needed to reduce cognitive load</p>
+                    </div>
+                </div>
+                
+                <p>Some considerations for future iterations included more detailed error states and edge cases, as well as additional accessibility considerations. However, these sketches provided a solid foundation for developing our low-fidelity prototypes in the next phase.</p>
+            </section>
+
+            <h3>From Flows to Wireframes</h3>
+            <div class="process-grid">
+                <div class="process-card">
+                    <h3>Prototype 1: Better Organization with Sync</h3>
+                    <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="450" src="https://embed.figma.com/proto/1NSpPf3FtQSdrZSGtkrirC/Untitled?node-id=2-3&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=2%3A3&embed-host=share" allowfullscreen></iframe>
+                    <p>Focused on integrating personal, business, and client schedules into a single interface with a global sync feature to connect with external platforms in one step.</p>
+                </div>
+
+                <div class="process-card">
+                    <h3>Prototype 2: Conflict Resolution</h3>
+                    <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="450" src="https://embed.figma.com/proto/Ob6ECaImExrste65uiRgua/COGS-127-Prototype?node-id=30-258&scaling=scale-down&content-scaling=fixed&page-id=30%3A257&starting-point-node-id=30%3A258&embed-host=share" allowfullscreen></iframe>
+                    <p>Explored a structured system for managing overlapping appointments with both manual resolution and AI-assisted options to maintain user control while providing intelligent assistance.</p>
+                </div>
+            </div>
+
+            <div class="flow-steps">
+                <h3>Design Principles</h3>
+                <div class="flow-step">
+                    <h4>User Control with AI Assistance</h4>
+                    <p>Provide intelligent suggestions while ensuring users maintain decision-making power</p>
+                </div>
+                <div class="flow-step">
+                    <h4>Unified Experience</h4>
+                    <p>Create a central hub that connects disparate platforms and reduces context switching</p>
+                </div>
+                <div class="flow-step">
+                    <h4>Visual Clarity</h4>
+                    <p>Present complex scheduling information in an easily digestible format</p>
+                </div>
+                <div class="flow-step">
+                    <h4>Efficiency First</h4>
+                    <p>Optimize for time-saving at every step of the scheduling workflow</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="testing">
+            <h2>User Testing</h2>
+            
+            <div class="quote">
+                <p>This is exactly what I've been looking for. I need something that thinks ahead for me. If I'm juggling 15 client meetings and one needs to move, I don't want to spend an hour figuring out the domino effect.</p>
+                <div class="quote-author">— Erik, Business Consultant</div>
+            </div>
+
+            <div class="research-grid">
+                <div class="research-item">
+                    <h3>Testing Methodology</h3>
+                    <p>We conducted testing sessions with two key stakeholders:</p>
+                    <ul>
+                        <li>Erik, owner of a consulting company</li>
+                        <li>Marcus, a fitness coach who manages client sessions</li>
+                    </ul>
+                    <p>Both participants were given specific tasks to complete with our prototypes while we observed their interactions and gathered feedback.</p>
+                </div>
+                
+                <div class="research-item">
+                    <h3>Key Insights</h3>
+                    <ul>
+                        <li><strong>Prototype preference:</strong> Both participants strongly preferred Prototype B (Conflict Resolution) for its cleaner interface and straightforward navigation</li>
+                        <li><strong>AI trust with options:</strong> Initially skeptical about AI, users became enthusiastic when offered multiple suggestions to choose from</li>
+                        <li><strong>Visual confirmation:</strong> Users wanted to see how changes would affect their schedule before committing</li>
+                        <li><strong>Edge cases:</strong> Unexpected need for inviting participants to personal events was identified</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quote">
+                <p>I don't want just one recommendation from the AI. Show me a few options and let me pick what works best for my situation. Sometimes the technically 'optimal' solution isn't the one that makes the most sense for my relationship with that client.</p>
+                <div class="quote-author">— Marcus, Fitness Coach</div>
+            </div>
+
+            <div class="process-card">
+                <h3>Decision Point</h3>
+                <p>Based on user testing, we decided to proceed with Prototype B (Conflict Resolution) as our primary direction, while incorporating several key enhancement requests:</p>
+                <ul>
+                    <li>Multiple AI-suggested solutions with visual previews</li>
+                    <li>Group calendar consideration for scheduling</li>
+                    <li>Batch conflict resolution capability</li>
+                    <li>Invitation options for personal events</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="iterations">
+            <h2>Design Iterations</h2>
+            
+            <h3>Dashboard Enhancement</h3>
+            <div class="before-after-container">
+                <div class="before-after-item">
+                    <h4 class="before-after-heading">Before</h4>
+                    <img src="./images/127/Alt-Dashboard.png" alt="Dashboard Before" class="before-after-image">
+                    <div style="padding: 1.5rem;">
+                        <p>Original dashboard contained all the right elements but lacked quick search functionality and had a cluttered visual hierarchy.</p>
+                    </div>
+                </div>
+                <div class="before-after-item">
+                    <h4 class="before-after-heading">After</h4>
+                    <img src="./images/127/Dashboard (4).png" alt="Dashboard After" class="before-after-image">
+                    <div style="padding: 1.5rem;">
+                        <p>Added prominent search function and refined visual hierarchy to make important information stand out clearly.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Conflict Resolution Clarity</h3>
+            <div class="before-after-container">
+                <div class="before-after-item">
+                    <h4 class="before-after-heading">Before</h4>
+                    <img src="./images/127/alt -Choose Resolution Method.png" alt="Conflict Resolution Before" class="before-after-image">
+                    <div style="padding: 1.5rem;">
+                        <p>Conflict visualization was not immediately obvious about what the problem was or how serious it was.</p>
+                    </div>
+                </div>
+                <div class="before-after-item">
+                    <h4 class="before-after-heading">After</h4>
+                    <img src="./images/127/Screenshot 2025-03-16 214014.png" alt="Conflict Resolution After" class="before-after-image">
+                    <div style="padding: 1.5rem;">
+                        <p>Implemented clearer information hierarchy, color-coding for events, and highlighted the precise period of overlap.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>AI Solution Preview</h3>
+            <div class="before-after-container">
+                <div class="before-after-item">
+                    <h4 class="before-after-heading">Before</h4>
+                    <img src="./images/127/Alt-AI.png" alt="AI Solution Before" class="before-after-image">
+                    <div style="padding: 1.5rem;">
+                        <p>Text descriptions of scheduling changes didn't provide enough context about the impact of each solution.</p>
+                    </div>
+                </div>
+                <div class="before-after-item">
+                    <h4 class="before-after-heading">After</h4>
+                    <img src="./images/127/Screenshot 2025-03-16 215614.png" alt="AI Solution After" class="before-after-image">
+                    <div style="padding: 1.5rem;">
+                        <p>Added dynamic preview that shows exactly how the calendar would appear after applying each AI-suggested solution.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quote">
+                <p>Now I can see what the AI is thinking, and it makes sense. I feel comfortable making these decisions.</p>
+                <div class="quote-author">— Marcus, Fitness Coach (follow-up testing)</div>
+            </div>
+        </section>
+
+        <section id="solution">
+            <h2>Final Solution</h2>
+            
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <div class="solution-emoji">🔍</div>
+                    <h3>Unified Dashboard</h3>
+                    <p>Centralized view with powerful search functionality for quick access to events, people, and projects</p>
+                </div>
+                
+                <div class="solution-card">
+                    <div class="solution-emoji">🔄</div>
+                    <h3>Global Integration</h3>
+                    <p>Seamless connection with popular platforms like Google Calendar, Outlook, Zoom, and Slack</p>
+                </div>
+                
+                <div class="solution-card">
+                    <div class="solution-emoji">🤖</div>
+                    <h3>AI Resolution</h3>
+                    <p>Multiple AI-generated suggestions for scheduling conflicts with visual calendar previews</p>
+                </div>
+
+                <div class="solution-card">
+                    <div class="solution-emoji">👥</div>
+                    <h3>Team Awareness</h3>
+                    <p>Composite availability view across team members for easier group scheduling</p>
+                </div>
+                
+                <div class="solution-card">
+                    <div class="solution-emoji">⚡</div>
+                    <h3>Batch Processing</h3>
+                    <p>Apply the same resolution method to multiple conflicts simultaneously</p>
+                </div>
+                
+                <div class="solution-card">
+                    <div class="solution-emoji">📱</div>
+                    <h3>Mobile Accessibility</h3>
+                    <p>Full functionality across desktop and mobile devices for on-the-go scheduling</p>
+                </div>
+            </div>
+
+            <div class="image-gallery">
+                <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="450" src="https://embed.figma.com/proto/Ob6ECaImExrste65uiRgua/COGS-127-Prototype?node-id=192-2008&scaling=scale-down&content-scaling=fixed&page-id=192%3A906&starting-point-node-id=192%3A2008&embed-host=share" allowfullscreen></iframe>
+            </div>
+
+            
+
+            <h3>Lessons Learned</h3>
+            <div class="lessons-grid">
+                <div class="lesson-card">
+                    <h4>Balance AI with Human Control</h4>
+                    <p>Users are open to AI assistance but still want final decision-making power. The most successful approach was providing multiple AI suggestions rather than a single automated solution.</p>
+                </div>
+                <div class="lesson-card">
+                    <h4>Visualization is Key</h4>
+                    <p>The ability to preview changes before committing to them dramatically increased user confidence. Visual communication proved more effective than text descriptions, especially for complex scheduling changes.</p>
+                </div>
+                <div class="lesson-card">
+                    <h4>Cross-Platform Integration</h4>
+                    <p>The value of our solution lies not just in its features but in its ability to connect disparate systems. Users prioritized integration with existing tools over entirely new functionality.</p>
+                </div>
+            </div>
+
+            <h3>Skills & Methods Used</h3>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <div class="skill-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="skill-name">User Research</div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-icon">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <div class="skill-name">UX Flow Design</div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-icon">
+                        <i class="fas fa-pencil-alt"></i>
+                    </div>
+                    <div class="skill-name">Wireframing</div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="skill-name">Usability Testing</div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <div class="skill-name">Visual Design</div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="skill-name">AI Integration</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="next-project-nav">
+            <a href="#" class="project-nav-link prev-project">
+                <i class="fas fa-arrow-left"></i>
+                <span>Visual Pathways</span>
+            </a>
+            <a href="#" class="project-nav-link next-project">
+                <span>Prompt Engineering</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <div class="cta-section">
+        <div class="cta-content">
+            <h2>Interested in working together?</h2>
+            <p>Let's collaborate on creating intuitive digital solutions that solve real problems.</p>
+            <a href="index.html#contact" class="cta-button">Get in Touch</a>
+        </div>
+    </div>
+
+    <button class="floating-button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Progress bar implementation
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        };
+
+        // Intersection Observer for section animations
+        const sections = document.querySelectorAll('section');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Animate stat numbers when they come into view
+                    if (entry.target.querySelector('.stat-number')) {
+                        animateStatNumbers(entry.target);
+                    }
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate cards
+        gsap.utils.toArray('.research-item, .persona-card, .process-card, .impact-card, .solution-card, .stat-card, .before-after-item, .gallery-item, .lesson-card, .skill-item').forEach(card => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top bottom-=100px",
+                    toggleActions: "play none none reverse"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8
+            });
+        });
+
+        // Animate flow steps
+        gsap.utils.toArray('.flow-step').forEach((step, i) => {
+            gsap.from(step, {
+                scrollTrigger: {
+                    trigger: step,
+                    start: "top bottom-=50px",
+                    toggleActions: "play none none reverse"
+                },
+                x: -50,
+                opacity: 0,
+                duration: 0.5,
+                delay: i * 0.2
+            });
+        });
+
+        // Function to animate numbers
+        function animateStatNumbers(section) {
+            const numbers = section.querySelectorAll('.stat-number');
+            numbers.forEach(num => {
+                const value = parseInt(num.textContent);
+                let start = 0;
+                const duration = 2000;
+                const step = timestamp => {
+                    if (!start) start = timestamp;
+                    const progress = timestamp - start;
+                    const percentage = Math.min(progress / duration, 1);
+                    
+                    num.textContent = Math.floor(value * percentage);
+                    
+                    if (progress < duration) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            });
+        }
+    </script>
+</body>
+</html>
