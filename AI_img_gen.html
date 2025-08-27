@@ -245,6 +245,13 @@
       transform: scale(1.02);
     }
 
+    .intro-illustration img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
     .video-container {
       position: relative;
       width: 100%;
@@ -623,6 +630,13 @@
       overflow: hidden;
       position: relative;
       height: 400px;
+    }
+
+    .desktop-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: white;
     }
 
     .browser-bar {
@@ -1051,6 +1065,13 @@
     .prototype-header {
       text-align: center;
       margin-bottom: 4rem;
+    }
+
+    .prototype-iframe-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin: 3rem 0;
     }
 
     .screen-walkthrough-section {
@@ -1620,10 +1641,7 @@
       <div class="main-device">
         <img src="./images/AIgen/Project Title2.png" alt="NLI Interface Desktop" />
       </div>
-    <!--  <div class="secondary-device">
-        <span>Mobile Interface</span>
-      </div>
-    </div>-->
+    </div>
 
     <!-- Right -->
     <div class="hero-details">
@@ -1717,11 +1735,7 @@
 
   <section id="introduction">
     <div class="intro-illustration">
-     <!-- <div class="video-container">
-        <div style="width: 100%; height: 100%; background: #333; display: flex; align-items: center; justify-content: center; color: #888; border-radius: 8px;">
-          <span></span>-->
-        </div>
-      </div>
+      <img src="./images/AIgen/component selection.jpg" alt="Component Selection Interface" />
     </div>
     
     <h2>
@@ -1731,9 +1745,6 @@
     <!-- Personal Story Section -->
     <div class="personal-story-section">
       <div class="story-content">
-      <!--- <div class="story-illustration">
-          <span>User Frustration</span>
-        </div>-->
         <div class="story-text">
           <p class="story-description">
             Users without domain-specific knowledge struggle to understand system mechanisms and formulate effective queries, leading to a disconnect between <strong>high-level user goals</strong> and <strong>specific, executable actions</strong> of the AI system.
@@ -1781,7 +1792,7 @@
       <div class="solution-visual">
         <div class="demo-mockup">
           <video autoplay muted loop playsinline>
-            <source src="./images/Prototype Final.mp4" type="video/mp4">
+            <source src="./images/AIgen/Prototype Final.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
         </div>
@@ -1809,14 +1820,7 @@
                 </div>
                 <div class="browser-url">nli-app.com/create</div>
               </div>
-              <div style="width: 100%; height: 365px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #888;">
-                Component Selection Demo
-              </div>
-            </div>
-            <div class="video-controls">
-              <button class="play-pause-btn" onclick="toggleVideo('component-desktop', this)">
-                <i class="fas fa-pause"></i>
-              </button>
+              <img src="./images/AIgen/component selection.jpg" alt="Component Selection Interface" />
             </div>
           </div>
         </div>
@@ -1840,15 +1844,9 @@
                   <span></span>
                   <span></span>
                 </div>
-               
-              <div style="width: 100%; height: 365px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #888;">
-                Voice Input Demo
+                <div class="browser-url">nli-app.com/voice</div>
               </div>
-            </div>
-            <div class="video-controls">
-              <button class="play-pause-btn" onclick="toggleVideo('vocal-desktop', this)">
-                <i class="fas fa-pause"></i>
-              </button>
+              <img src="./images/AIgen/voice input.png" alt="Voice Feedback Interface" />
             </div>
           </div>
         </div>
@@ -1857,10 +1855,9 @@
       <!-- Natural Language Feedback -->
       <div class="feature-section reverse">
         <div class="feature-content">
-          <h3 class="feature-title">Natural Language Feedback</h3>
+          <h3 class="feature-title">Regeneration</h3>
           <p class="feature-description">
-            Provides clear feedback about how the system interprets user inputs, helping users build a better mental model of the system. The interface explains what changes will be made before executing them, creating transparency in the AI process.
-          </p>
+            Our prototype enhances AI-generated image creation by breaking down each image into its core elements—such as color, style, and key features—then turning them into editable text descriptions. Users can regenerate specific parts of the image, like changing just the background or adjusting the style, or choose to regenerate the entire image at once. With support for content selection, voice input, and flexible regeneration, the tool makes refining AI art faster, more intuitive, and more creative.  </p>
         </div>
         <div class="feature-visual">
           <!-- Desktop Demo -->
@@ -1874,14 +1871,7 @@
                 </div>
                 <div class="browser-url">nli-app.com/feedback</div>
               </div>
-              <div style="width: 100%; height: 365px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #888;">
-                Feedback System Demo
-              </div>
-            </div>
-            <div class="video-controls">
-              <button class="play-pause-btn" onclick="toggleVideo('feedback-desktop', this)">
-                <i class="fas fa-pause"></i>
-              </button>
+              <img src="./images/AIgen/Regen.png" alt="Feedback System Interface" />
             </div>
           </div>
         </div>
@@ -2090,205 +2080,20 @@
       <div class="prototype-header">
         <div class="research-label">
           <span class="dot"></span>
-          Prototype
+          Interactive Prototype
         </div>
-       <!-- <h2 class="research-title">System in Action</h2>
+        <h2 class="research-title">Experience the Solution</h2>
         <p class="research-description">
-          Each interaction was designed to directly address our core research questions, ensuring that every feature reduces barriers between user intent and AI output.
+          Explore the interactive prototype to see how our natural language input system works in practice. Navigate through the different features and experience the seamless interaction between voice, visual selection, and AI feedback.
         </p>
-      </div>-->
+      </div>
 
-      <!-- Screen Walkthrough Section -->
-   <!--   <div class="screen-walkthrough-section">
-        <p class="walkthrough-intro">
-          The following demonstrations show how our solution addresses the key challenges identified in our research.
-        </p>-->
-
-        <!-- Natural Language Processing -->
-    <!--    <div class="screen-section">
-          <div class="screen-header">
-            <h4 class="screen-title">1. Natural Language Processing</h4>
-            <div class="hmw-connection">
-              <span class="hmw-tag">Addresses: System interpretation transparency</span>
-            </div>
-          </div>
-
-          <div class="screen-image">
-            <div class="screen-placeholder">
-              <video autoplay muted loop playsinline style="width: 500px; height: 300px;">
-                <source src="example-nlp-demo.mp4" type="video/mp4">
-                <div style="width: 500px; height: 300px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #888;">
-                  NLP Processing Demo
-                </div>
-              </video>
-            </div>
-            <p class="screen-caption">
-              Real-time natural language processing showing how user input is interpreted and structured
-            </p>
-          </div>
-          
-          <div class="screen-content">
-            <div class="screen-features">
-              <div class="feature-item">
-                <div class="feature-icon">
-                  <i class="fas fa-brain"></i>
-                </div>
-                <div class="feature-description">
-                  <h5>Intent Classification</h5>
-                  <p>The system analyzes user input to identify the type of modification requested - creation, modification, or refinement.</p>
-                </div>
-              </div>
-
-              <div class="feature-item">
-                <div class="feature-icon">
-                  <i class="fas fa-tags"></i>
-                </div>
-                <div class="feature-description">
-                  <h5>Entity Extraction</h5>
-                  <p>Key elements like objects, styles, colors, and modifiers are identified and categorized for precise control.</p>
-                </div>
-              </div>
-
-              <div class="feature-item">
-                <div class="feature-icon">
-                  <i class="fas fa-cogs"></i>
-                </div>
-                <div class="feature-description">
-                  <h5>Action Mapping</h5>
-                  <p>Natural language is translated into specific parameters that the AI generation system can execute.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="design-rationale">
-              <h5>Why this matters:</h5>
-              <p>By making the interpretation process visible, users can understand exactly how their words translate into AI actions. This transparency builds trust and helps users refine their communication style for better results.</p>
-            </div>
-          </div>
-        </div>-->
-
-        <!-- Component Selection -->
-      <!--  <div class="screen-section">
-          <div class="screen-header">
-            <h4 class="screen-title">2. Component Selection System</h4>
-            <div class="hmw-connection">
-              <span class="hmw-tag">Addresses: Visual selection with natural language</span>
-            </div>
-          </div>
-
-          <div class="screen-image">
-            <div class="screen-placeholder">
-              <div style="width: 500px; height: 300px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #888;">
-                Component Selection Demo
-              </div>
-            </div>
-            <p class="screen-caption">
-              Interactive component selection allowing users to point and modify specific elements
-            </p>
-          </div>
-          
-          <div class="screen-content">
-            <div class="screen-features">
-              <div class="feature-item">
-                <div class="feature-icon">
-                  <i class="fas fa-mouse-pointer"></i>
-                </div>
-                <div class="feature-description">
-                  <h5>Visual Selection</h5>
-                  <p>Users can click on specific parts of generated images to select them for modification or preservation.</p>
-                </div>
-              </div>
-
-              <div class="feature-item">
-                <div class="feature-icon">
-                  <i class="fas fa-comments"></i>
-                </div>
-                <div class="feature-description">
-                  <h5>Contextual Feedback</h5>
-                  <p>Selected components trigger contextual prompts that guide users in providing specific natural language instructions.</p>
-                </div>
-              </div>
-
-              <div class="feature-item">
-                <div class="feature-icon">
-                  <i class="fas fa-eye"></i>
-                </div>
-                <div class="feature-description">
-                  <h5>Preview Changes</h5>
-                  <p>Before applying modifications, users can preview how their natural language instructions will affect the selected components.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="design-rationale">
-              <h5>Why this matters:</h5>
-              <p>Combining visual selection with natural language creates a more intuitive interaction model. Users can be specific about what to change without needing to describe location or identify components through text alone.</p>
-            </div>
-          </div>
-        </div>-->
-
-        <!-- System Response 
-        <div class="screen-section">
-          <div class="screen-header">
-            <h4 class="screen-title">3. Intelligent System Response</h4>
-            <div class="hmw-connection">
-              <span class="hmw-tag">Addresses: Natural conversation with AI</span>
-            </div>
-          </div>
-
-          <div class="screen-image">
-            <div class="screen-placeholder">
-              <div style="width: 500px; height: 300px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #888;">
-                System Response Demo
-              </div>
-            </div>
-            <p class="screen-caption">
-              Conversational feedback system that explains changes and suggests improvements
-            </p>
-          </div>
-          
-          <div class="screen-content">
-            <div class="screen-features">
-              <div class="feature-item">
-                <div class="feature-icon">
-                  <i class="fas fa-lightbulb"></i>
-                </div>
-                <div class="feature-description">
-                  <h5>Explanation Generation</h5>
-                  <p>The system explains what changes will be made and why, helping users understand the AI's reasoning process.</p>
-                </div>
-              </div>
-
-              <div class="feature-item">
-                <div class="feature-icon">
-                  <i class="fas fa-magic"></i>
-                </div>
-                <div class="feature-description">
-                  <h5>Suggestion Engine</h5>
-                  <p>Based on the current context, the system suggests additional modifications or alternative approaches users might consider.</p>
-                </div>
-              </div>
-
-              <div class="feature-item">
-                <div class="feature-icon">
-                  <i class="fas fa-history"></i>
-                </div>
-                <div class="feature-description">
-                  <h5>Learning Integration</h5>
-                  <p>The system learns from user preferences and adjusts its interpretation and suggestions for more personalized interactions.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="design-rationale">
-              <h5>Why this matters:</h5>
-              <p>By making AI responses more conversational and educational, users develop better mental models of the system's capabilities. This leads to more effective communication and better results over time.</p>
-            </div>
-          </div>
-        </div>
+      <!-- Figma Prototype Iframe -->
+      <div class="prototype-iframe-container">
+        <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/proto/2gtv5vaIe9ExfMinayvwpK/Untitled?node-id=1-1892&p=f&scaling=scale-down&content-scaling=fixed&page-id=1%3A981&starting-point-node-id=1%3A1892&embed-host=share" allowfullscreen></iframe>
       </div>
     </div>
-  </section>-->
+  </section>
 
   <!-- Conclusion Section -->
   <section id="conclusion">
@@ -2558,25 +2363,6 @@
       window.addEventListener('scroll', updateActiveSection);
       updateActiveSection(); // Initial call
     });
-
-    // Device Toggle Functionality
-    function toggleDevice(sectionName, checkbox) {
-      const desktopDemo = document.getElementById(`${sectionName}-desktop`);
-      const phoneDemo = document.getElementById(`${sectionName}-phone`);
-      const toggleLabels = checkbox.closest('.device-toggle').querySelectorAll('.toggle-label');
-      
-      if (checkbox.checked) {
-        // Switch to mobile
-        desktopDemo.classList.remove('active');
-        phoneDemo.classList.add('active');
-        toggleLabels[0].classList.remove('active');
-        toggleLabels[1].classList.add('active');
-      } else {
-        // Switch to desktop
-        phoneDemo.classList.remove('active');
-        desktopDemo.classList.add('active');
-        toggleLabels[1].classList.remove('active');
-        toggleLabels[0].classList.add('active');
-      }
-
-      
+  </script>
+</body>
+</html>
