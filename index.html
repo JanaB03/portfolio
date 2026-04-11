@@ -16,15 +16,15 @@
        CSS VARIABLES
     ============================================================ */
     :root {
-      --bg:           #F4EFE6;
-      --bg-raised:    #EDE7D9;
-      --bg-sunken:    #E6DFD0;
-      --ink:          #1C1812;
-      --ink-muted:    #6A6155;
-      --ink-faint:    #A09585;
-      --accent:       #B85C2A;
-      --rule:         #D5CDBE;
-      --annotation:   #4A6741;
+      --bg:           #F0E8D2;   /* warm amber parchment */
+      --bg-raised:    #DDD0B2;   /* distinctly golden card surface */
+      --bg-sunken:    #CFC09A;   /* clearly inset / placeholder bg */
+      --ink:          #1C1410;   /* rich warm black */
+      --ink-muted:    #584638;   /* warm mid-brown — high contrast */
+      --ink-faint:    #96806C;   /* visible faint text */
+      --accent:       #C25518;   /* saturated burnt sienna — punchy */
+      --rule:         #C0AD92;   /* visible rule */
+      --annotation:   #3A6632;   /* deep forest green */
     }
 
     /* ============================================================
@@ -498,8 +498,8 @@
 
     /* ── Project card ── */
     .project-card {
-      min-width: 460px;
-      max-width: 480px;
+      min-width: 640px;
+      max-width: 680px;
       flex-shrink: 0;
       background: var(--bg-raised);
       border: 1px solid var(--rule);
@@ -573,15 +573,17 @@
 
     /* Image placeholder */
     .card__image {
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 4 / 3;
       background: var(--bg-sunken);
-      border: 1px dashed var(--rule);
+      border: 1px solid var(--rule);
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 16px;
-      margin-bottom: 20px;
+      padding: 0;
+      margin-bottom: 24px;
+      width: 100%;
+      overflow: hidden;
     }
 
     .card__image span {
@@ -590,6 +592,11 @@
       color: var(--ink-faint);
       text-align: center;
       line-height: 1.6;
+    }
+
+    video.card__image,
+    iframe.card__image {
+      border: none;
     }
 
     /* Fact row */
@@ -682,12 +689,12 @@
       gap: 20px;
     }
 
-    /* Portrait photo placeholder */
+    /* Portrait photo */
     .about__photo {
       width: 280px;
       height: 360px;
-      background: var(--bg-sunken);
-      border: 1px dashed var(--rule);
+      background: var(--bg-raised);
+      border: 1px solid var(--rule);
       border-radius: 4px;
       display: flex;
       align-items: center;
@@ -1165,7 +1172,7 @@
     muted
     playsinline
   >
-    <source src="abc10.mp4" type="video/mp4">
+    <source src="OneDrive/abc10.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
@@ -1185,7 +1192,7 @@
   </div>
 
   <div class="card__footer">
-    <a href="https://janab03.github.io/portfolio/cc.html" class="card-link">Read case study →</a>
+    <a href="cc.html" class="card-link">Read case study →</a>
   </div>
 </article>
 
@@ -1233,23 +1240,46 @@
   </div>
 </article>
 
-<!-- Card 03: Coming Soon -->
-<article class="project-card project-card--empty" role="listitem" aria-label="Third project — coming soon">
+<!-- Card 03: 48in48 — UB Healthy Project -->
+<article class="project-card" role="listitem" aria-label="48in48 — UB Healthy Project case study">
   <span class="ghost-num" aria-hidden="true">03</span>
 
   <div class="card__top">
-    <span class="card__tag">Coming Soon</span>
-    <span class="card__year">—</span>
+    <span class="card__tag">Volunteer · Hackathon · Live</span>
+    <span class="card__year">2024</span>
   </div>
 
-  <h3 style="color: var(--ink-faint); font-weight: 400;">Next Project</h3>
-  <p class="card__subtitle" style="color: var(--ink-faint);">Case study in progress</p>
+  <h3>
+    <span class="annotated">UB Healthy Project<span class="annotation">48 hrs. 1st place.</span></span>
+  </h3>
+  <p class="card__subtitle">Full website built in 48 hours for a health equity nonprofit — 1st place out of 50 teams</p>
 
-  <div class="card__image" role="img" aria-label="Coming soon — placeholder">
-    <span style="font-size: 18px; color: var(--rule);">—</span>
+  <iframe
+  class="card__image"
+  src="https://ubhealthyproject.org/"
+  title="UB Healthy Project website"
+  loading="lazy"
+  referrerpolicy="no-referrer"
+></iframe>
+
+  <div class="card__facts">
+    <div>
+      <span class="fact__label">Problem</span>
+      <p class="fact__value">No digital presence to match the mission</p>
+    </div>
+    <div>
+      <span class="fact__label">Role</span>
+      <p class="fact__value">Web design + development sprint</p>
+    </div>
+    <div>
+      <span class="fact__label">Outcome</span>
+      <p class="fact__value">1st place out of 50 teams</p>
+    </div>
   </div>
 
-  <div class="card__empty-msg">— more work on the way —</div>
+  <div class="card__footer">
+    <a href="48in48.html" class="card-link">Read case study →</a>
+  </div>
 </article>
 
       </div>
@@ -1264,10 +1294,7 @@
 
           <!-- Left: photo + specimen label -->
           <div class="about__left">
-            <!-- TODO: Replace this div with <img src="your-photo.jpg" alt="Jana Bridi" width="280" height="360"> -->
-            <div class="about__photo" role="img" aria-label="Photo of Jana Bridi — placeholder">
-              <span>your photo<br>here</span>
-            </div>
+            <img src="Downloads/ChatGPT Image Feb 25, 2026, 01_22_27 PM.png" alt="Jana Bridi" class="about__photo" style="object-fit:cover; border:none; background:none;" />
 
             <div class="specimen" role="list" aria-label="At a glance">
               <div class="specimen-row" role="listitem">
@@ -1297,7 +1324,7 @@
             <p>I came to design through cognitive science, not the other way around.</p>
 
             <p>
-              At UCSD I spent two years in an XR lab under
+              At UCSD I spent a summer and fall in an XR lab under
               <span class="annotated">Dr. David Kirsh<span class="annotation">he studies how jazz musicians think</span></span>,
               studying how people distribute cognition across tools, space, and interfaces.
               That work changed how I see everything. I don't just ask "is it usable?" — I ask
@@ -1394,8 +1421,8 @@
 
         <div class="contact__links">
           <!-- TODO: Replace with your actual email address -->
-          <a href="mailto:bridijana@gmail.com" class="contact__link">bridijana@gmail.com</a>
-          <!-- TODO: Replace href="linkedin.com/in/janabridi" with your LinkedIn URL -->
+          <a href="mailto:jana@email.com" class="contact__link">jana@email.com</a>
+          <!-- TODO: Replace href="#" with your LinkedIn URL -->
           <a href="#" class="contact__link" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
           <!-- TODO: Replace href="#" with your GitHub URL -->
           <a href="#" class="contact__link" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
