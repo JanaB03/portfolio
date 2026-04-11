@@ -1,589 +1,940 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Farmers Market – A 48-Hour Sprint Story</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UB Healthy Project — 48in48 Case Study · Jana Bridi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Caveat:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:           #F0E8D2;
+    --bg-raised:    #DDD0B2;
+    --bg-sunken:    #CFC09A;
+    --ink:          #1C1410;
+    --ink-muted:    #584638;
+    --ink-faint:    #96806C;
+    --accent:       #C25518;
+    --rule:         #C0AD92;
+    --annotation:   #3A6632;
+    --ub-green:     #2D6A4F;
+    --ub-yellow:    #E9C46A;
+  }
 
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"/>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
 
-  <!-- GSAP (optional) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
 
-  <style>
-    /* ===== THEME ===== */
-    :root{
-      --bg-primary:#1e1e1e;
-      --bg-secondary:#2c2c2c;
-      --bg-tertiary:#383838;
-      --text-primary:#ffffff;
-      --text-secondary:#a0a0a0;
-      --accent:#ff6b35;      /* main */
-      --accent2:#5551ff;     /* hover */
-      --border:#3c3c3c;
-      --radius:14px;
-      --shadow-lg:0 30px 80px rgba(0,0,0,.5);
-      --shadow-md:0 18px 50px rgba(0,0,0,.35);
-      --shadow-sm:0 8px 20px rgba(0,0,0,.25);
-    }
+  /* grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
 
-    *{margin:0;padding:0;box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      font-family:'Inter',sans-serif;
-      color:var(--text-primary);
-      background:linear-gradient(135deg,var(--bg-primary) 0%,var(--bg-secondary) 100%);
-      line-height:1.6; overflow-x:hidden;
-    }
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+    height: 60px;
+  }
+  nav a.back {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  nav a.back:hover { color: var(--accent); }
+  nav .nav-badge {
+    font-family: 'Caveat', cursive;
+    font-size: 1.05rem;
+    color: var(--annotation);
+  }
 
-    /* Global media safety (prevents giant images) */
-    img, video{display:block;max-width:100%;height:auto}
-    .contain img{width:100%;max-height:70vh;object-fit:contain;background:#000;border:1px solid var(--border);border-radius:8px}
+  /* LAYOUT */
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+  }
+  .container--wide {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+  }
 
-    /* Progress */
-    .nav-progress{position:fixed;top:0;left:0;right:0;height:3px;background:var(--bg-tertiary);z-index:1001}
-    .nav-progress-bar{height:100%;background:var(--accent2);width:0;transition:width .25s ease}
+  section { padding: 6rem 0; }
+  section + section { padding-top: 0; }
 
-    /* Header */
-    .nav-header{
-      position:fixed;top:0;left:0;right:0;height:56px;z-index:1000;
-      display:flex;align-items:center;gap:12px;padding:0 20px;
-      background:rgba(44,44,44,.95);backdrop-filter:blur(8px);
-      border-bottom:1px solid var(--border);
-    }
-    .nav-back{color:var(--text-secondary);text-decoration:none;font-size:14px}
-    .nav-back:hover{color:var(--text-primary)}
-    .nav-title{position:absolute;left:50%;transform:translateX(-50%);font-size:14px;color:var(--text-secondary)}
+  /* HERO */
+  .hero {
+    padding-top: 120px;
+    padding-bottom: 5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero__eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero__eyebrow::before {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+    display: inline-block;
+  }
+  .hero__title {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+  .hero__subtitle {
+    font-size: 1.15rem;
+    color: var(--ink-muted);
+    max-width: 56ch;
+    margin-bottom: 3rem;
+    line-height: 1.75;
+  }
+  .hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+  }
+  .meta-item__label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  .meta-item__value {
+    font-size: 0.92rem;
+    color: var(--ink-muted);
+  }
 
-    /* Side dots */
-    .chapter-nav{
-      position:fixed;left:24px;top:50%;transform:translateY(-50%);z-index:999;
-      background:var(--bg-secondary);border:1px solid var(--border);
-      border-radius:12px;padding:16px 8px;
-    }
-    .chapter-dot{
-      width:8px;height:8px;border-radius:50%;background:var(--bg-tertiary);
-      margin:16px auto;cursor:pointer;position:relative;transition:.2s;
-    }
-    .chapter-dot:hover{background:var(--text-secondary);transform:scale(1.15)}
-    .chapter-dot.active{background:var(--accent2);box-shadow:0 0 0 4px rgba(85,81,255,.2)}
-    .chapter-label{
-      position:absolute;left:22px;top:50%;transform:translateY(-50%);
-      background:var(--bg-secondary);border:1px solid var(--border);
-      color:var(--text-secondary);padding:4px 10px;border-radius:8px;font-size:12px;white-space:nowrap;
-      opacity:0;pointer-events:none;transition:.15s;
-    }
-    .chapter-dot:hover .chapter-label{opacity:1}
+  .hero__stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--ub-green);
+    color: #fff;
+    padding: 1.25rem 2rem;
+    border-radius: 4px;
+    margin-bottom: 2.5rem;
+  }
+  .hero__stat-num {
+    font-family: 'Lora', serif;
+    font-size: 3.5rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .hero__stat-desc {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    opacity: 0.9;
+  }
 
-    /* Type & layout */
-    .chapter-number{font-size:12px;text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:20px;text-align:center;color:var(--accent)}
-    .chapter-title{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,48px);margin-bottom:20px;text-align:center;color:var(--text-primary)}
-    .story-text{font-size:clamp(18px,2.3vw,22px);line-height:1.7;color:var(--text-secondary);margin:0 auto 36px;max-width:900px;text-align:center}
-    .section{padding:100px 2rem;position:relative}
-    .section.alt{background:var(--bg-secondary)}
-    .container{max-width:1200px;margin:0 auto}
+  /* SECTION HEADERS */
+  .section-marker {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .section-marker__num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+  }
+  .section-marker__line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .section-marker__tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
 
-    /* Hero */
-    .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;margin-top:56px}
-    .hero-content{text-align:center;max-width:1100px;width:100%}
-    .hero-label{font-size:12px;text-transform:uppercase;letter-spacing:3px;color:var(--accent);margin-bottom:20px;font-weight:700}
-    .hero-title{font-family:'Playfair Display',serif;font-size:clamp(48px,7vw,80px);line-height:1.1;margin-bottom:18px}
-    .hero-subtitle{font-size:clamp(18px,2.6vw,24px);color:var(--text-secondary);max-width:850px;margin:0 auto 36px}
-    .hero-stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-bottom:36px}
-    .stat-block{text-align:center;padding:14px 16px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:12px}
-    .stat-number{font-size:clamp(28px,4.8vw,44px);font-weight:800;color:var(--accent)}
-    .stat-label{font-size:12px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px}
-    .device-preview{margin-top:24px;display:flex;justify-content:center;gap:28px;flex-wrap:wrap}
-    .device{border-radius:20px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-lg);transition:transform .3s ease}
-    .device:hover{transform:translateY(-6px)}
-    .device.desktop{width:clamp(360px,60vw,640px)}
-    .device.phone{width:clamp(140px,22vw,220px)}
-    .device img{width:100%;height:auto}
+  h2.section-title {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.01em;
+  }
+  p.section-body {
+    font-size: 1.05rem;
+    color: var(--ink-muted);
+    max-width: 64ch;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
 
-    /* Generic cards & lists */
-    .card{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
-    .grid{display:grid;gap:24px}
-    .grid-2{grid-template-columns:1fr 1fr}
-    .list{list-style:none;color:var(--text-secondary)}
-    .list li{margin:10px 0;padding-left:18px;position:relative}
-    .list li::before{content:"→";position:absolute;left:0;color:var(--accent);font-weight:800}
+  /* CLIENT */
+  .client-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-top: 3rem;
+  }
+  .client-portrait img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 4px;
+    display: block;
+  }
+  .client-portrait__caption {
+    font-family: 'Caveat', cursive;
+    font-size: 1.05rem;
+    color: var(--annotation);
+    margin-top: 0.75rem;
+    padding-left: 0.25rem;
+  }
+  .client-info h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+  .client-info p {
+    font-size: 1rem;
+    color: var(--ink-muted);
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+  }
+  .client-programs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+    background: var(--bg-raised);
+    color: var(--ink-muted);
+    border: 1px solid var(--rule);
+  }
+  .pill--green {
+    background: var(--ub-green);
+    color: #fff;
+    border-color: var(--ub-green);
+  }
 
-    /* Quote */
-    .story-quote{background:var(--bg-tertiary);border-left:4px solid var(--accent);padding:24px 28px;margin:24px auto;border-radius:10px;max-width:900px;text-align:left;border:1px solid var(--border)}
-    .quote-text{font-size:22px;font-style:italic;color:var(--text-primary);margin-bottom:10px}
-    .quote-source{font-size:14px;color:var(--text-secondary);font-weight:600}
+  /* IMAGES */
+  .img-full {
+    width: 100%;
+    border-radius: 4px;
+    display: block;
+    margin: 2rem 0;
+    border: 1px solid var(--rule);
+  }
+  .img-caption {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-faint);
+    margin-top: -1.25rem;
+    margin-bottom: 2rem;
+    padding-left: 0.25rem;
+  }
 
-    /* Objectives (replaces “problems”) */
-    .objectives-grid{display:grid;grid-template-columns:1fr 1fr;gap:46px;max-width:1200px;margin:46px auto;align-items:center}
-    .objective-ill{width:100%;max-width:420px;border-radius:12px;box-shadow:var(--shadow-sm);border:1px solid var(--border);margin-inline:auto}
-    .objective h3{font-size:26px;margin-bottom:12px}
-    .objective p{font-size:16px;color:var(--text-secondary);margin-bottom:10px}
+  /* GRIDS */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .grid-item img {
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    display: block;
+  }
+  .grid-item__label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+  }
 
-    /* Research */
-    .journey-timeline{display:flex;justify-content:space-between;max-width:1000px;margin:0 auto 50px;position:relative}
-    .journey-timeline::before{content:'';position:absolute;top:30px;left:10%;right:10%;height:2px;background:var(--accent);opacity:.35}
-    .timeline-step{flex:1;text-align:center}
-    .step-icon{width:56px;height:56px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:#fff;font-size:22px;box-shadow:0 4px 12px rgba(255,107,53,.3);border:3px solid var(--bg-primary)}
-    .step-title{font-weight:700;font-size:16px;margin-bottom:6px}
-    .step-desc{font-size:13px;color:var(--text-secondary);max-width:220px;margin:0 auto}
-    .insights-showcase{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1200px;margin:0 auto}
-    .insight-card{background:var(--bg-secondary);padding:28px;border-radius:16px;border:1px solid var(--border)}
+  /* DESIGN SYSTEM */
+  .ds-block {
+    background: var(--bg-raised);
+    border-radius: 6px;
+    padding: 2rem;
+    border: 1px solid var(--rule);
+  }
+  .ds-block h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1.25rem;
+  }
+  .ds-block img {
+    width: 100%;
+    border-radius: 3px;
+    display: block;
+  }
 
-    /* IA / Wireframes / Design */
-    .ia-grid{display:flex;gap:28px;max-width:1200px;margin:40px auto;flex-wrap:wrap}
-    .ia-desc{flex:1;background:var(--bg-tertiary);padding:20px;border-radius:12px;border:1px solid var(--border)}
-    .ia-img{flex:2;max-width:700px}
-    .ia-img img{width:100%;border-radius:8px;border:1px solid var(--border);background:#000}
+  /* HI-FI */
+  .hifi-row {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    margin: 3rem 0;
+  }
+  .hifi-row.reverse { grid-template-columns: 1fr 1.3fr; }
+  .hifi-row img {
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid var(--rule);
+    display: block;
+    box-shadow: 0 4px 24px rgba(28,20,16,0.1);
+  }
+  .hifi-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  .hifi-info h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+  }
+  .hifi-info p {
+    font-size: 0.95rem;
+    color: var(--ink-muted);
+    line-height: 1.75;
+  }
 
-    .wireframe-showcase{max-width:1200px;margin:0 auto}
-    .wf-display{width:100%;aspect-ratio:16/9;max-height:min(70vh,560px);border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#000;margin-bottom:16px}
-    .wf-display img{width:100%;height:100%;object-fit:contain}
-    .wf-thumbs{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
-    .wf-thumb{flex:0 0 120px;height:80px;border-radius:8px;overflow:hidden;cursor:pointer;border:1px solid var(--border);background:#000}
-    .wf-thumb img{width:100%;height:100%;object-fit:cover}
+  /* LIVE SITE */
+  .live-frames {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+  }
+  .live-frame {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    box-shadow: 0 8px 32px rgba(28,20,16,0.12);
+  }
+  .live-frame__bar {
+    background: var(--bg-raised);
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .live-frame__dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--rule);
+  }
+  .live-frame__dot:first-child { background: #E57373; }
+  .live-frame__dot:nth-child(2) { background: #FFB74D; }
+  .live-frame__dot:nth-child(3) { background: #81C784; }
+  .live-frame img {
+    width: 100%;
+    display: block;
+  }
 
-    .design-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;max-width:1200px;margin:24px auto}
-    .design-card{background:var(--bg-tertiary);border-radius:12px;padding:16px;border:1px solid var(--border)}
-    .design-card img{width:100%;max-height:420px;object-fit:contain;border-radius:8px;border:1px solid var(--border);background:#000}
+  /* OUTCOME */
+  .outcome-block {
+    background: var(--ub-green);
+    border-radius: 8px;
+    padding: 4rem;
+    text-align: center;
+    color: #fff;
+    margin: 3rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .outcome-block::before {
+    content: '1st';
+    position: absolute;
+    font-family: 'Lora', serif;
+    font-size: 18rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.06);
+    right: -2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .outcome-block h2 {
+    font-family: 'Lora', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .outcome-block p {
+    font-size: 1.1rem;
+    opacity: 0.85;
+    max-width: 48ch;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+    position: relative;
+  }
+  .outcome-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: background 0.2s;
+    position: relative;
+  }
+  .outcome-link:hover { background: rgba(255,255,255,0.25); }
 
-    /* Results / Process / Reflection / Next */
-    .result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;max-width:1000px;margin:24px auto}
-    .metric-card{background:var(--bg-tertiary);padding:22px;border-radius:12px;text-align:center;border:1px solid var(--border)}
-    .metric-number{font-size:2.4rem;font-weight:800;color:var(--accent);margin-bottom:.4rem}
-    .metric-desc{color:var(--text-secondary);font-size:.95rem}
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 3px solid var(--accent);
+    padding: 1.25rem 2rem;
+    margin: 3rem 0;
+    background: var(--bg-raised);
+    border-radius: 0 4px 4px 0;
+  }
+  .pull-quote p {
+    font-family: 'Lora', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.65;
+  }
 
-    .process-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:1200px;margin:0 auto}
-    .process-card{background:var(--bg-tertiary);border:1px solid var(--border);padding:28px;border-radius:16px;text-align:center}
+  /* TIMELINE */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin: 2.5rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .timeline-step {
+    padding: 1.5rem;
+    border-right: 1px solid var(--rule);
+  }
+  .timeline-step:last-child { border-right: none; }
+  .timeline-step__num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-faint);
+    margin-bottom: 0.5rem;
+  }
+  .timeline-step__label {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+  .timeline-step__desc {
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
 
-    .learning-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin:24px auto;max-width:900px}
-    .learning-card{background:rgba(255,255,255,.15);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,.2)}
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 3rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  footer .foot-left {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+  }
+  footer a.foot-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  footer a.foot-link:hover { color: var(--accent); }
 
-    .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;max-width:1000px;margin:24px auto}
-    .step-card{background:var(--bg-tertiary);padding:20px;border-radius:12px;border-left:4px solid var(--accent);border:1px solid var(--border)}
-
-    .cta-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px}
-    .cta-button{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:10px;font-weight:700;border:1px solid var(--border)}
-    .cta-button.primary{background:var(--accent);color:#fff}
-    .cta-button.secondary{background:transparent;color:#fff}
-    .cta-button.secondary:hover{background:var(--bg-tertiary)}
-
-    .footer{background:#141414;color:var(--text-secondary);text-align:center;padding:36px 2rem;border-top:1px solid var(--border)}
-
-    @media (max-width:1024px){ .chapter-nav{display:none} }
-    @media (max-width:840px){
-      .objectives-grid{grid-template-columns:1fr;gap:28px}
-      .journey-timeline{flex-direction:column;gap:24px}
-      .journey-timeline::before{display:none}
-    }
-    .client-card{
-  background:#f3f4f6;
-  color:#111;
-  border:1px solid #e5e7eb;
-  border-radius:16px;
-  padding:28px;
-  box-shadow:0 8px 24px rgba(0,0,0,.12);
-}
-.client-grid{
-  display:grid;
-  grid-template-columns:360px 1fr;
-  gap:28px;
-  align-items:center;
-}
-.client-photo{
-  width:100%;
-  aspect-ratio:1/1;
-  object-fit:cover;
-  border-radius:14px;
-  box-shadow:0 6px 18px rgba(0,0,0,.15);
-}
-.client-name{
-  font-size:clamp(24px,3.2vw,34px);
-  color:var(--brand-green);
-  font-weight:800;
-  margin:2px 0 12px;
-}
-.client-copy p{
-  font-size:18px;
-  line-height:1.8;
-  color:#374151;
-  margin-bottom:14px;
-}
-.hl{
-  color:var(--brand-green);
-  font-weight:700;
-  background:rgba(43,91,53,.1);
-  padding:0 .25rem;
-  border-radius:4px;
-}
-.client-context{
-  max-width:980px;
-  margin:28px auto 0;
-  color:var(--text-secondary);
-}
-
-/* responsive */
-@media (max-width:900px){
-  .client-grid{ grid-template-columns:1fr; }
-  .client-photo{ max-width:420px; margin:0 auto; }
-}
-  </style>
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .client-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .hifi-row, .hifi-row.reverse { grid-template-columns: 1fr; }
+    .live-frames { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: 1fr 1fr; }
+    .outcome-block { padding: 2.5rem 1.5rem; }
+  }
+  @media (max-width: 480px) {
+    .grid-3 { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: 1fr; }
+    .timeline-step { border-right: none; border-bottom: 1px solid var(--rule); }
+    .timeline-step:last-child { border-bottom: none; }
+  }
+</style>
 </head>
 <body>
-  <!-- Progress -->
-  <div class="nav-progress"><div class="nav-progress-bar" id="progressBar"></div></div>
 
-  <!-- Header -->
-  <nav class="nav-header">
-    <a href="index.html" class="nav-back">← Back</a>
-    <span class="nav-title">Farmers Market • 48-Hour Sprint</span>
-  </nav>
+<nav>
+  <a href="index.html" class="back">← Back to portfolio</a>
+  <span class="nav-badge">48in48 · 2024</span>
+</nav>
 
-  <!-- Left chapter nav -->
-  <div class="chapter-nav" aria-label="Section navigation">
-    <div class="chapter-dot active" data-section="hero"><span class="chapter-label">Intro</span></div>
-    <div class="chapter-dot" data-section="story-intro"><span class="chapter-label">Challenge</span></div>
-    <div class="chapter-dot" data-section="objectives"><span class="chapter-label">Objectives</span></div>
-    <div class="chapter-dot" data-section="client"><span class="chapter-label">Client</span></div>
-    <div class="chapter-dot" data-section="research"><span class="chapter-label">Research</span></div>
-    <div class="chapter-dot" data-section="ia"><span class="chapter-label">IA</span></div>
-    <div class="chapter-dot" data-section="wireframes"><span class="chapter-label">Wireframes</span></div>
-    <div class="chapter-dot" data-section="design"><span class="chapter-label">Design</span></div>
-    <div class="chapter-dot" data-section="results"><span class="chapter-label">Results</span></div>
-    <div class="chapter-dot" data-section="principles"><span class="chapter-label">Principles</span></div>
-    <div class="chapter-dot" data-section="reflection"><span class="chapter-label">Lessons</span></div>
-    <div class="chapter-dot" data-section="next-steps"><span class="chapter-label">Next</span></div>
-  </div>
-
-  <!-- HERO -->
-  <section class="section hero" id="hero">
-    <div class="hero-content">
-      <div class="hero-label">48 in 48 Sprint</div>
-      <h1 class="hero-title">Designing a Farmers Market<br><span style="color:var(--accent)">Website in 48 Hours</span></h1>
-      <p class="hero-subtitle">How volunteers transformed a community market’s digital presence during an intense two-day hackathon.</p>
-
-      <div class="hero-stats">
-        <div class="stat-block"><span class="stat-number">48</span><span class="stat-label">Hours</span></div>
-        <div class="stat-block"><span class="stat-number">100+</span><span class="stat-label">Vendors</span></div>
-        <div class="stat-block"><span class="stat-number">#1</span><span class="stat-label">Award</span></div>
-      </div>
-
-      <div class="device-preview">
-        <div class="device desktop"><img src="./images/48in48/Landing page.png" alt="Desktop homepage mockup"></div>
-        <div class="device phone"><img src="./images/48in48/Landing page.png" alt="Mobile homepage mockup"></div>
-      </div>
-    </div>
-  </section>
-  
-  <!-- CHALLENGE -->
-  <section class="section alt story-intro" id="story-intro">
-    <div class="container">
-      <div class="chapter-number">Chapter 1</div>
-      <h2 class="chapter-title">The 48-Hour Challenge</h2>
-      <p class="story-text"><strong>48in48</strong> pairs non-profits with volunteer designers & developers to build production-ready websites over a weekend. Our client—the local farmers market—needed donation, volunteer, vendor and schedule features fast.</p>
-      <div class="story-quote">
-        <p class="quote-text">“We need a site the community can trust—by Sunday night.”</p>
-        <p class="quote-source">— Kick-off, Friday 6 PM</p>
-      </div>
-      <p class="story-text">We set one goal: <strong>ship the highest-impact MVP</strong> without sacrificing accessibility or brand.</p>
-    </div>
-  </section>
-  <!-- ABOUT CLIENT -->
-<section class="section" id="client">
+<!-- HERO -->
+<div class="hero">
   <div class="container">
-    <div class="chapter-number">Chapter 2</div>
-    <h2 class="chapter-title">About Our Client</h2>
+    <p class="hero__eyebrow">Case Study — 48in48 Hackathon</p>
+    <h1 class="hero__title">UB Healthy<br>Project</h1>
+    <p class="hero__subtitle">A food equity nonprofit needed a full digital presence — website, design system, every screen — built in 48 hours. We shipped it, and won first place out of 50 teams.</p>
 
-    <div class="client-card">
-      <div class="client-grid">
-        <!-- Replace the src with your actual headshot path -->
-        <img src="./images/48in48/JUDIDESIRE.png" alt="Portrait of Judy, the market director" class="client-photo">
+    <div class="hero__stat">
+      <span class="hero__stat-num">1st</span>
+      <span class="hero__stat-desc">Place out of 50 teams<br>48in48 Hackathon, 2024</span>
+    </div>
 
-        <div class="client-copy">
-          <h3 class="client-name">Meet Judy</h3>
-          <p>
-            Our client is the visionary behind <span class="hl">sustainable farmers markets</span> in our community.
-            Her mission is to create <span class="hl">vibrant spaces</span> where local vendors and shoppers connect
-            while promoting <span class="hl">environmental consciousness</span>.
-          </p>
-          <p>
-            Through her <span class="hl">innovative approach</span>, she has launched multiple market locations,
-            empowering over <span class="hl">100+ local vendors</span> and serving thousands of community members.
-          </p>
+    <div class="hero__meta">
+      <div class="meta-item">
+        <span class="meta-item__label">Role</span>
+        <span class="meta-item__value">UX / Visual Designer</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-item__label">Duration</span>
+        <span class="meta-item__value">48 hours</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-item__label">Tools</span>
+        <span class="meta-item__value">Figma · FigJam</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-item__label">Status</span>
+        <span class="meta-item__value">Live at ubhealthyproject.org</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-item__label">Team</span>
+        <span class="meta-item__value">Volunteer · Cross-functional</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 01 THE CLIENT -->
+<section>
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">01</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">The Client</span>
+    </div>
+
+    <h2 class="section-title">Meet Uptown & Boogie<br>Healthy Project</h2>
+
+    <div class="client-grid">
+      <div class="client-portrait">
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/JUDIDESIRE.png" alt="Judi Desire — Founder, UB Healthy Project" />
+        <p class="client-portrait__caption">Judi Desire, Founder</p>
+      </div>
+      <div class="client-info">
+        <h3>Food, Community, Opportunity</h3>
+        <p>Uptown & Boogie Healthy Project is a community health nonprofit rooted in Harlem and the Bronx. They run farmers markets, community supported agriculture shares, composting programs, textile recycling, and a kids wellness club — making fresh food and healthy living accessible in underserved neighborhoods.</p>
+        <p>When Judi reached out to 48in48 as a client, the organization had programs running but no digital home to match its mission. They needed a full website — designed, built, and launched — in a single weekend.</p>
+        <div class="client-programs">
+          <span class="pill pill--green">Farmers Market</span>
+          <span class="pill pill--green">CSA Program</span>
+          <span class="pill pill--green">Pop Kids Club</span>
+          <span class="pill pill--green">Composting</span>
+          <span class="pill pill--green">Textile Recycling</span>
+          <span class="pill">Harlem · Bronx</span>
+          <span class="pill">Food Equity</span>
         </div>
       </div>
     </div>
-
-    <p class="story-text client-context">
-      Our client, who manages the local farmers market, came to us with specific goals for a new digital presence:
-      make it easy to donate, recruit and schedule volunteers, bring in more vendors, showcase market programs and schedules,
-      and highlight community initiatives. These goals shaped every design and development decision during the 48-hour sprint.
-    </p>
   </div>
 </section>
 
-  <!-- OBJECTIVES (new) -->
-  <section class="section" id="objectives">
-    <div class="container">
-      <div class="chapter-number">Chapter 2</div>
-      <h2 class="chapter-title">Project Objectives (from kickoff)</h2>
-      <p class="story-text">Since this was a ground-up build, we aligned on clear outcomes with the client.</p>
+<!-- 02 THE BRIEF -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">02</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">The Brief</span>
+    </div>
 
-      <div class="objectives-grid">
-        <div><img src="https://i.imgur.com/0J6G0lp.png" class="objective-ill" alt="Donations illustration"></div>
-        <div class="objective">
-          <h3>Make donating effortless</h3>
-          <p>Prominent giving paths, simple form, and clear impact messaging.</p>
-          <ul class="list">
-            <li>One-step donation flow</li>
-            <li>Option for recurring gifts</li>
-            <li>Automated receipts</li>
-          </ul>
+    <h2 class="section-title">48 hours. A complete digital presence.</h2>
+    <p class="section-body">Design a full website for a nonprofit from scratch — with no existing visual identity — and hand it off ready to launch. That meant making decisions fast: sitemap, content hierarchy, design system, lo-fi wireframes, and hi-fi screens, all in sequence over a single weekend.</p>
+
+    <div class="timeline">
+      <div class="timeline-step">
+        <div class="timeline-step__num">Hr 0–4</div>
+        <div class="timeline-step__label">Client Discovery</div>
+        <div class="timeline-step__desc">Met with Judi. Mapped content, understood programs, defined goals.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step__num">Hr 4–12</div>
+        <div class="timeline-step__label">Architecture</div>
+        <div class="timeline-step__desc">Built site map. Defined page structure and navigation hierarchy.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step__num">Hr 12–24</div>
+        <div class="timeline-step__label">Lo-Fi + Design System</div>
+        <div class="timeline-step__desc">Wireframed every page. Established color, type, and components.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step__num">Hr 24–48</div>
+        <div class="timeline-step__label">Hi-Fi + Handoff</div>
+        <div class="timeline-step__desc">Full fidelity screens for every page. Ready to build.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 SITE MAP -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">03</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">Architecture</span>
+    </div>
+
+    <h2 class="section-title">Structure first.</h2>
+    <p class="section-body">Before touching any visuals, we mapped the full site — every page, every navigation path. With programs as complex as CSA shares, vendor applications, and a kids club, the information architecture had to be clear enough that any first-time visitor could find what they needed without help.</p>
+
+    <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Site Map.jpg" alt="UB Healthy Project full site map" class="img-full" />
+    <p class="img-caption">Complete site map — home, programs, about, waste reduction, market, contact, and join our team</p>
+
+    <div class="pull-quote">
+      <p>"A messy structure is invisible to the people who built it. We stress-tested every path: can a first-time visitor find the CSA program in under 3 clicks?"</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 LO-FI WIREFRAMES -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">04</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">Lo-Fi Wireframes</span>
+    </div>
+
+    <h2 class="section-title">Content before color.</h2>
+    <p class="section-body">Lo-fi wireframes let us move fast. Every page was blocked out in grayscale — layout, hierarchy, content density — so we could get client sign-off on structure before committing to any visual direction.</p>
+  </div>
+
+  <div class="container--wide">
+    <div class="grid-2">
+      <div class="grid-item">
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Home.png" alt="Homepage lo-fi wireframe" />
+        <p class="grid-item__label">Homepage</p>
+      </div>
+      <div class="grid-item">
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/About Us.png" alt="About Us lo-fi wireframe" />
+        <p class="grid-item__label">About Us</p>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="grid-item">
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Programs.png" alt="Programs overview lo-fi wireframe" />
+        <p class="grid-item__label">Programs Overview</p>
+      </div>
+      <div class="grid-item">
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/CSA.png" alt="CSA program lo-fi wireframe" />
+        <p class="grid-item__label">CSA Program</p>
+      </div>
+      <div class="grid-item">
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Pop Kids Club.png" alt="Pop Kids Club lo-fi wireframe" />
+        <p class="grid-item__label">Pop Kids Club</p>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="grid-item">
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Composting.png" alt="Composting lo-fi wireframe" />
+        <p class="grid-item__label">Composting</p>
+      </div>
+      <div class="grid-item">
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Vendor Application.png" alt="Vendor Application lo-fi wireframe" />
+        <p class="grid-item__label">Vendor Application</p>
+      </div>
+      <div class="grid-item">
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Contact.png" alt="Contact lo-fi wireframe" />
+        <p class="grid-item__label">Contact</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 DESIGN SYSTEM -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">05</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">Design System</span>
+    </div>
+
+    <h2 class="section-title">Building the visual language.</h2>
+    <p class="section-body">With the wireframes approved, we built the design system in parallel — color palette, typography, buttons, icons, and elevation. Every decision was made with community and accessibility in mind: high contrast, warm but energetic, rooted in the neighborhood.</p>
+
+    <div class="grid-2">
+      <div class="ds-block">
+        <h4>Color Palette</h4>
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Colors.png" alt="Color palette — green primary, black secondary, blue info" />
+      </div>
+      <div class="ds-block">
+        <h4>Typography</h4>
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Fonts.png" alt="Typography — Lexend Extrabold for titles, Zilla Slab for body" />
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="ds-block">
+        <h4>Buttons &amp; States</h4>
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Buttons.png" alt="Button system — primary, secondary, ghost, icon buttons" />
+      </div>
+      <div class="ds-block">
+        <h4>Type Hierarchy in Action</h4>
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Font Hierarchy in Action.png" alt="Typography applied to real page layout" />
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="ds-block">
+        <h4>Icon Library</h4>
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Icons.png" alt="Icons — arrows and user interface icon set" />
+      </div>
+      <div class="ds-block">
+        <h4>Elevation &amp; Shadows</h4>
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Effects.png" alt="Shadow elevation system — 2px through 16px" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 HI-FI SCREENS -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">06</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">Hi-Fi Designs</span>
+    </div>
+
+    <h2 class="section-title">Full fidelity, every screen.</h2>
+    <p class="section-body">With the system in place, every wireframe came to life. Green for growth and health. Bold headers that earn attention. Real photography so Judi's community and story could speak for themselves.</p>
+  </div>
+
+  <div class="container" style="margin-top:3rem;">
+    <div class="hifi-row">
+      <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Landing page.png" alt="Hi-fi homepage — Growing Together hero with green and yellow branding" />
+      <div class="hifi-info">
+        <h3>Landing Page</h3>
+        <p>The homepage sets the tone immediately — bold headline, strong green, the U&B mark. The donate CTA lives persistently so supporters never have to search for it. Above the fold: mission. Below: how to get involved.</p>
+      </div>
+    </div>
+
+    <div class="hifi-row reverse">
+      <div class="hifi-info">
+        <h3>About Us</h3>
+        <p>Judi's story is the organization's story. We gave the About page real photography, video embeds of founder interviews, and a team section — making the humans behind U&B visible and real.</p>
+      </div>
+      <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/About us HiFi.png" alt="Hi-fi About Us — founder photo, team section, video embeds" />
+    </div>
+
+    <div class="hifi-row">
+      <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Programs HiFi.png" alt="Hi-fi Programs page — CSA, Farmers Market, Pop Kids Club" />
+      <div class="hifi-info">
+        <h3>Programs</h3>
+        <p>Each program got its own section with imagery, location, and a clear call to participate. Farmers Market, CSA shares, and Pop Kids Club each read distinctly while sharing the same visual DNA.</p>
+      </div>
+    </div>
+
+    <div class="hifi-row reverse">
+      <div class="hifi-info">
+        <h3>Donations</h3>
+        <p>The donation page had one job: make giving feel meaningful. "Your Impact" shows donors exactly what their contribution does. Tiered giving, sponsor options, and a simple application flow — no friction between intention and action.</p>
+      </div>
+      <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Donation HiFi.png" alt="Hi-fi Donation page — Your Impact section, sponsor tiers, Ready to Apply" />
+    </div>
+
+    <div class="hifi-row">
+      <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Join our team.png" alt="Hi-fi Join Our Team page — volunteer and board member recruitment" />
+      <div class="hifi-info">
+        <h3>Join Our Team</h3>
+        <p>Volunteer recruitment needed to feel inviting, not bureaucratic. Real photography from market events, two clear paths (Volunteer vs. Board Member), and staff testimonials — making the ask personal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 LIVE SITE -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">07</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">Live Site</span>
+    </div>
+
+    <h2 class="section-title">From Figma to live — in 48 hours.</h2>
+    <p class="section-body">The development team built directly from our hi-fi designs. By hour 48, UB Healthy Project had a fully functioning website — donation flows, program pages, and a volunteer application running live for the Harlem and Bronx community.</p>
+
+    <div class="live-frames">
+      <div class="live-frame">
+        <div class="live-frame__bar">
+          <div class="live-frame__dot"></div>
+          <div class="live-frame__dot"></div>
+          <div class="live-frame__dot"></div>
         </div>
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/UB screen1.png" alt="Live site — Growing Together hero with donate popup" />
       </div>
-
-      <div class="objectives-grid" style="margin-top:20px">
-        <div class="objective">
-          <h3>Recruit and schedule volunteers</h3>
-          <p>Shift-first sign-up that confirms instantly and reduces coordinator workload.</p>
-          <ul class="list">
-            <li>Shift picker with confirmations</li>
-            <li>Cleaner intake data</li>
-            <li>Automatic reminders (post-MVP)</li>
-          </ul>
+      <div class="live-frame">
+        <div class="live-frame__bar">
+          <div class="live-frame__dot"></div>
+          <div class="live-frame__dot"></div>
+          <div class="live-frame__dot"></div>
         </div>
-        <div><img src="https://i.imgur.com/fx0xXEh.png" class="objective-ill" alt="Volunteers illustration"></div>
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/UB screen 2.png" alt="Live site — GET INVOLVED section" />
       </div>
-
-      <div class="objectives-grid" style="margin-top:20px">
-        <div><img src="https://i.imgur.com/U9l6pnm.png" class="objective-ill" alt="Vendors illustration"></div>
-        <div class="objective">
-          <h3>Simplify vendor onboarding</h3>
-          <p>One page to understand criteria, submit documents, and track status.</p>
-          <ul class="list">
-            <li>Requirements & fees up front</li>
-            <li>Single application flow</li>
-            <li>Status clarity for farmers</li>
-          </ul>
+      <div class="live-frame">
+        <div class="live-frame__bar">
+          <div class="live-frame__dot"></div>
+          <div class="live-frame__dot"></div>
+          <div class="live-frame__dot"></div>
         </div>
+        <img src="OneDrive/Documents/GitHub/portfolio/images/48in48/Project 3 Title.png" alt="Live site — Current Programs section" />
       </div>
     </div>
-  </section>
-  
+    <p class="img-caption">ubhealthyproject.org — live and functional at hour 48</p>
+  </div>
+</section>
 
+<!-- 08 OUTCOME -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">08</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">Outcome</span>
+    </div>
 
-  <!-- RESEARCH -->
-  <section class="section alt" id="research">
-    <div class="container">
-      <div class="chapter-number">Chapter 3</div>
-      <h2 class="chapter-title">Sprint-Size Research</h2>
-      <p class="story-text">Four micro-activities replaced a traditional discovery phase.</p>
+    <div class="outcome-block">
+      <h2>First place.<br>Out of 50 teams.</h2>
+      <p>In 48 hours, we took a nonprofit with no digital presence and gave it a complete identity — a design system, wireframes for every page, full hi-fi screens, and a live website the community can actually use.</p>
+      <a href="https://ubhealthyproject.org" target="_blank" rel="noopener" class="outcome-link">Visit ubhealthyproject.org ↗</a>
+    </div>
 
-      <div class="journey-timeline">
-        <div class="timeline-step"><div class="step-icon"><i class="fas fa-comments"></i></div><h3 class="step-title">Interview</h3><p class="step-desc">1-hr deep dive</p></div>
-        <div class="timeline-step"><div class="step-icon"><i class="fas fa-sitemap"></i></div><h3 class="step-title">IA Workshop</h3><p class="step-desc">Sticky-note sprint</p></div>
-        <div class="timeline-step"><div class="step-icon"><i class="fas fa-pencil-ruler"></i></div><h3 class="step-title">Wire Test</h3><p class="step-desc">5 guerilla users</p></div>
-        <div class="timeline-step"><div class="step-icon"><i class="fas fa-sync"></i></div><h3 class="step-title">Iterate</h3><p class="step-desc">Loops every 4 hrs</p></div>
+    <div class="grid-3">
+      <div class="ds-block" style="text-align:center;">
+        <h4 style="text-align:center; margin-bottom:0.5rem;">Pages Designed</h4>
+        <p style="font-family:'Lora',serif; font-size:2.5rem; font-weight:600; color:var(--ink);">10+</p>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin-top:0.5rem;">Home, About, Programs, CSA, Kids Club, Composting, Vendor, Contact, Join Our Team, Donation</p>
       </div>
-
-      <div class="insights-showcase">
-        <div class="insight-card"><h3 class="insight-title">Trust Fuels Giving</h3><p class="insight-detail">Impact meters and stories increase donor confidence.</p></div>
-        <div class="insight-card"><h3 class="insight-title">Shift-First Sign-up</h3><p class="insight-detail">Choosing a time early reduces volunteer drop-off.</p></div>
-        <div class="insight-card"><h3 class="insight-title">One-Page Vendor Flow</h3><p class="insight-detail">Centralizing info cuts back-and-forth emails.</p></div>
+      <div class="ds-block" style="text-align:center;">
+        <h4 style="text-align:center; margin-bottom:0.5rem;">Design System</h4>
+        <p style="font-family:'Lora',serif; font-size:2.5rem; font-weight:600; color:var(--ink);">Full</p>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin-top:0.5rem;">Colors, typography, buttons, icons, shadows, and component library — built from scratch</p>
+      </div>
+      <div class="ds-block" style="text-align:center;">
+        <h4 style="text-align:center; margin-bottom:0.5rem;">Time to Launch</h4>
+        <p style="font-family:'Lora',serif; font-size:2.5rem; font-weight:600; color:var(--ink);">48h</p>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin-top:0.5rem;">Discovery → architecture → wireframes → design system → hi-fi → live</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- IA -->
-  <section class="section" id="ia">
-    <div class="container">
-      <div class="chapter-number">Chapter 4</div>
-      <h2 class="chapter-title">Information Architecture</h2>
-      <p class="story-text">A concise site map guides visitors to donations, schedules, and applications in two clicks or fewer.</p>
-
-      <div class="ia-grid">
-        <div class="ia-desc">
-          <h3 style="color:var(--accent);margin-bottom:.8rem">Key Flows</h3>
-          <ul class="list" style="margin-top:8px">
-            <li>Donate in 1 step</li>
-            <li>Choose a volunteer shift</li>
-            <li>Submit vendor application</li>
-            <li>Find next market</li>
-          </ul>
-        </div>
-        <div class="ia-img"><img src="./images/48in48/Site Map.jpg" alt="Site map"></div>
-      </div>
+<div class="container">
+  <footer>
+    <span class="foot-left">Jana Bridi · Portfolio</span>
+    <div style="display:flex; gap:2rem;">
+      <a href="index.html" class="foot-link">← Back to work</a>
+      <a href="https://ubhealthyproject.org" target="_blank" rel="noopener" class="foot-link">Visit live site ↗</a>
     </div>
-  </section>
+  </footer>
+</div>
 
-  <!-- WIREFRAMES -->
-  <section class="section" id="wireframes">
-    <div class="container">
-      <div class="chapter-number">Chapter 5</div>
-      <h2 class="chapter-title">Low-Fi Wireframes</h2>
-      <p class="story-text">Sketching fast let us validate layout before polishing pixels.</p>
-
-      <div class="wireframe-showcase">
-        <div class="wf-display contain"><img src="./images/48in48/Home.png" id="wfMain" alt="Wireframe"></div>
-        <div class="wf-thumbs" id="wfThumbs">
-          <div class="wf-thumb active"><img src="./images/48in48/Home.png" data-img="./images/48in48/Home.png" alt="Home wireframe"></div>
-          <div class="wf-thumb"><img src="./images/48in48/About Us.png" data-img="./images/48in48/About Us.png" alt="About wireframe"></div>
-          <div class="wf-thumb"><img src="./images/48in48/Programs.png" data-img="./images/48in48/Programs.png" alt="Programs wireframe"></div>
-          <div class="wf-thumb"><img src="./images/48in48/Composting.png" data-img="./images/48in48/Composting.png" alt="Composting wireframe"></div>
-          <div class="wf-thumb"><img src="./images/48in48/Contact.png" data-img="./images/48in48/Contact.png" alt="Contact wireframe"></div>
-          <div class="wf-thumb"><img src="./images/48in48/CSA.png" data-img="./images/48in48/CSA.png" alt="CSA wireframe"></div>
-          <div class="wf-thumb"><img src="./images/48in48/Pop Kids Club.png" data-img="./images/48in48/Pop Kids Club.png" alt="Pop Kids Club wireframe"></div>
-        <div class="wf-thumb"><img src="./images/48in48/Textile Recycling.png" data-img="./images/48in48/Textile Recycling.png" alt="Textile Recycling wireframe"></div>
-        <div class="wf-thumb"><img src="./images/48in48/Vendor Application.png" data-img="./images/48in48/Vendor Application.png" alt="Vendor Application wireframe"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- DESIGN SYSTEM & HIFI -->
-  <section class="section" id="design">
-    <div class="container">
-      <div class="chapter-number">Chapter 6</div>
-      <h2 class="chapter-title">Design System & Hi-Fi</h2>
-      <p class="story-text">A reusable component library kept dev speed high and visuals on-brand.</p>
-
-      <div class="design-grid">
-        <div class="design-card"><h3>Typography</h3><img src="./images/48in48/Fonts.png" alt="Fonts"></div>
-         <div class="design-card"><h3>Typography in Action</h3><img src="./images/48in48/Font Hierarchy in Action.png" alt="Fonts"></div>
-        <div class="design-card"><h3>Colors</h3><img src="./images/48in48/colors.png" alt="Colors"></div>
-        <div class="design-card"><h3>Buttons</h3><img src="./images/48in48/buttons.png" alt="Buttons"></div>
-        <div class="design-card"><h3>Icons</h3><img src="./images/48in48/icons.png" alt="Icons"></div>
-      </div>
-
-      <h3 style="text-align:center;margin:32px 0;font-family:'Playfair Display',serif;color:var(--accent);font-size:2rem">High-Fidelity Screens</h3>
-      <div class="design-grid">
-        <div class="design-card"><h3>Homepage</h3><img src="./images/48in48/Landing page.png" alt="Homepage"></div>
-        <div class="design-card"><h3>Donation Flow</h3><img src="./images/48in48/Donation HiFi.png" alt="Donation"></div>
-        <div class="design-card"><h3>Volunteer</h3><img src="./images/48in48/Join our team.png" alt="Volunteer"></div>
-        <div class="design-card"><h3>About Us</h3><img src="./images/48in48/About us HiFi.png" alt="Vendor"></div>
-      <div class="design-card"><h3>Programs</h3><img src="./images/48in48/Programs HiFi.png" alt="Vendor"></div>
-      
-      </div>
-    </div>
-  </section>
-
-  <!-- RESULTS -->
-  <section class="section alt" id="results">
-    <div class="container">
-      <div class="chapter-number">Chapter 7</div>
-      <h2 class="chapter-title">Sprint Impact</h2>
-      <p class="story-text">Rapid design produced measurable wins for the market.</p>
-
-      <div class="result-grid">
-        <div class="metric-card"><div class="metric-number">1st</div><p class="metric-desc">Place in 48in48 competition</p></div>
-        <div class="metric-card"><div class="metric-number">100%</div><p class="metric-desc">Primary objectives met</p></div>
-        <div class="metric-card"><div class="metric-number">12</div><p class="metric-desc">Volunteers signed up week 1</p></div>
-        <div class="metric-card"><div class="metric-number">5</div><p class="metric-desc">Key features shipped</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRINCIPLES -->
-  <section class="section" id="principles">
-    <div class="container">
-      <div class="chapter-number">Chapter 8</div>
-      <h2 class="chapter-title">Principles Behind Every Pixel</h2>
-      <p class="story-text">Four guardrails kept quality high under pressure.</p>
-
-      <div class="process-grid">
-        <div class="process-card"><div class="process-icon"><i class="fas fa-seedling"></i></div><h3>Community First</h3><p>Plain-language copy & ADA contrast.</p></div>
-        <div class="process-card"><div class="process-icon"><i class="fas fa-bolt"></i></div><h3>Speed w/ Purpose</h3><p>WordPress blocks not templates.</p></div>
-        <div class="process-card"><div class="process-icon"><i class="fas fa-leaf"></i></div><h3>Sustainable Palette</h3><p>Earth tones echo mission.</p></div>
-        <div class="process-card"><div class="process-icon"><i class="fas fa-users"></i></div><h3>Collaboration</h3><p>Designer & dev sync 4-hr cadence.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- REFLECTION -->
-  <section class="section reflection" id="reflection">
-    <div class="container">
-      <div class="chapter-number" style="color:#fff">Chapter 9</div>
-      <h2 class="chapter-title" style="color:#fff">Lessons Learned</h2>
-      <p class="story-text" style="color:#fff">“Sprint constraints bred creativity and clarity in equal measure.”</p>
-
-      <div class="learning-grid">
-        <div class="learning-card"><h3 style="margin-bottom:8px">Prioritize</h3><p>Focus on KPIs first.</p></div>
-        <div class="learning-card"><h3 style="margin-bottom:8px">Prototype Fast</h3><p>Wireframes answer big questions quickly.</p></div>
-        <div class="learning-card"><h3 style="margin-bottom:8px">Love Constraints</h3><p>Timers force elegant solutions.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- NEXT -->
-  <section class="section" id="next-steps">
-    <div class="container">
-      <div class="chapter-number">What's Next</div>
-      <h2 class="chapter-title">Beyond the Weekend</h2>
-      <p class="story-text">A live site is just the beginning.</p>
-
-      <div class="steps-grid">
-        <div class="step-card"><h3 style="font-size:42px;color:var(--accent);margin-bottom:8px">01</h3><h4>E-commerce CSA</h4><p>Launch online produce boxes.</p></div>
-        <div class="step-card"><h3 style="font-size:42px;color:var(--accent);margin-bottom:8px">02</h3><h4>Data Dashboard</h4><p>Track donations and sign-ups.</p></div>
-        <div class="step-card"><h3 style="font-size:42px;color:var(--accent);margin-bottom:8px">03</h3><h4>Content SEO</h4><p>Recipes blog for organic traffic.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="section" id="cta" style="background:var(--bg-secondary);text-align:center;color:#fff">
-    <div class="container">
-      <h2 style="font-size:36px;margin-bottom:14px">Explore the Live Site</h2>
-      <p style="font-size:18px;color:#ddd;margin-bottom:24px">See the full build in action.</p>
-      <div class="cta-buttons">
-        <a href="https://ubhealthyproject.org/" target="_blank" class="cta-button primary">View Website <i class="fas fa-external-link-alt"></i></a>
-        <a href="https://github.com" target="_blank" class="cta-button secondary">See Code <i class="fab fa-github"></i></a>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer"><p>&copy; 2025 Farmers Market Sprint — crafted with 🍎 & 💻.</p></footer>
-
-  <script>
-    // Progress
-    window.addEventListener('scroll',()=>{
-      const s=document.documentElement.scrollTop||document.body.scrollTop;
-      const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
-      document.getElementById('progressBar').style.width=(s/h*100)+'%';
-    });
-
-    // Scroll spy + smooth scroll
-    const sections = document.querySelectorAll('#hero,#story-intro,#client,#objective,#research,#ia,#wireframes,#design,#results,#principles,#reflection,#next-steps');
-    const dots = document.querySelectorAll('.chapter-dot');
-    const setActive = ()=>{
-      const y=scrollY+120; let cur='hero';
-      sections.forEach(s=>{ if(y>=s.offsetTop) cur=s.id; });
-      dots.forEach(d=>d.classList.toggle('active', d.dataset.section===cur));
-    };
-    addEventListener('scroll', setActive, {passive:true}); setActive();
-    dots.forEach(d=>d.addEventListener('click',()=>document.getElementById(d.dataset.section)?.scrollIntoView({behavior:'smooth'})));
-
-    // GSAP entrances (optional)
-    if(window.gsap){
-      gsap.registerPlugin(ScrollTrigger);
-      gsap.utils.toArray('.chapter-number,.chapter-title,.story-text').forEach(el=>{
-        gsap.from(el,{opacity:0,y:24,duration:.6,scrollTrigger:{trigger:el,start:'top 85%'}});
-      });
-      gsap.utils.toArray('.insight-card,.process-card,.design-card,.metric-card').forEach(el=>{
-        gsap.from(el,{opacity:0,y:18,duration:.5,scrollTrigger:{trigger:el,start:'top 85%'}});
-      });
-    }
-
-    // Wireframe gallery
-    const main=document.getElementById('wfMain');
-    document.querySelectorAll('#wfThumbs .wf-thumb img').forEach(t=>{
-      t.parentElement.addEventListener('click',()=>{
-        document.querySelectorAll('#wfThumbs .wf-thumb').forEach(x=>x.classList.remove('active'));
-        t.parentElement.classList.add('active');
-        main.src=t.dataset.img;
-      });
-    });
-  </script>
 </body>
 </html>
