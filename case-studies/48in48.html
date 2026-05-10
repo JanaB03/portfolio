@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UB Healthy Project — 48in48 Case Study · Jana Bridi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Caveat:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:           #F0E8D2;
+    --bg-raised:    #DDD0B2;
+    --bg-sunken:    #CFC09A;
+    --ink:          #1C1410;
+    --ink-muted:    #584638;
+    --ink-faint:    #96806C;
+    --accent:       #C25518;
+    --rule:         #C0AD92;
+    --annotation:   #3A6632;
+    --ub-green:     #2D6A4F;
+    --ub-yellow:    #E9C46A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+    height: 60px;
+  }
+  nav a.back {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  nav a.back:hover { color: var(--accent); }
+  nav .nav-badge {
+    font-family: 'Caveat', cursive;
+    font-size: 1.05rem;
+    color: var(--annotation);
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+  }
+  .container--wide {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+  }
+
+  section { padding: 6rem 0; }
+  section + section { padding-top: 0; }
+
+  /* HERO */
+  .hero {
+    padding-top: 120px;
+    padding-bottom: 5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero__eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero__eyebrow::before {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+    display: inline-block;
+  }
+  .hero__title {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+  .hero__subtitle {
+    font-size: 1.15rem;
+    color: var(--ink-muted);
+    max-width: 56ch;
+    margin-bottom: 3rem;
+    line-height: 1.75;
+  }
+  .hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+  }
+  .meta-item__label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  .meta-item__value {
+    font-size: 0.92rem;
+    color: var(--ink-muted);
+  }
+
+  .hero__stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--ub-green);
+    color: #fff;
+    padding: 1.25rem 2rem;
+    border-radius: 4px;
+    margin-bottom: 2.5rem;
+  }
+  .hero__stat-num {
+    font-family: 'Lora', serif;
+    font-size: 3.5rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .hero__stat-desc {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    opacity: 0.9;
+  }
+
+  /* SECTION HEADERS */
+  .section-marker {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .section-marker__num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+  }
+  .section-marker__line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .section-marker__tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  h2.section-title {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.01em;
+  }
+  p.section-body {
+    font-size: 1.05rem;
+    color: var(--ink-muted);
+    max-width: 64ch;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  /* CLIENT */
+  .client-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-top: 3rem;
+  }
+  .client-portrait img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 4px;
+    display: block;
+  }
+  .client-portrait__caption {
+    font-family: 'Caveat', cursive;
+    font-size: 1.05rem;
+    color: var(--annotation);
+    margin-top: 0.75rem;
+    padding-left: 0.25rem;
+  }
+  .client-info h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+  .client-info p {
+    font-size: 1rem;
+    color: var(--ink-muted);
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+  }
+  .client-programs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+    background: var(--bg-raised);
+    color: var(--ink-muted);
+    border: 1px solid var(--rule);
+  }
+  .pill--green {
+    background: var(--ub-green);
+    color: #fff;
+    border-color: var(--ub-green);
+  }
+
+  /* IMAGES */
+  .img-full {
+    width: 100%;
+    border-radius: 4px;
+    display: block;
+    margin: 2rem 0;
+    border: 1px solid var(--rule);
+  }
+  .img-caption {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-faint);
+    margin-top: -1.25rem;
+    margin-bottom: 2rem;
+    padding-left: 0.25rem;
+  }
+
+  /* GRIDS */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .grid-item img {
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    display: block;
+  }
+  .grid-item__label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+  }
+
+  /* DESIGN SYSTEM */
+  .ds-block {
+    background: var(--bg-raised);
+    border-radius: 6px;
+    padding: 2rem;
+    border: 1px solid var(--rule);
+  }
+  .ds-block h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1.25rem;
+  }
+  .ds-block img {
+    width: 100%;
+    border-radius: 3px;
+    display: block;
+  }
+
+  /* HI-FI */
+  .hifi-row {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    margin: 3rem 0;
+  }
+  .hifi-row.reverse { grid-template-columns: 1fr 1.3fr; }
+  .hifi-row img {
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid var(--rule);
+    display: block;
+    box-shadow: 0 4px 24px rgba(28,20,16,0.1);
+  }
+  .hifi-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  .hifi-info h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+  }
+  .hifi-info p {
+    font-size: 0.95rem;
+    color: var(--ink-muted);
+    line-height: 1.75;
+  }
+
+  /* LIVE SITE */
+  .live-frames {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+  }
+  .live-frame {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    box-shadow: 0 8px 32px rgba(28,20,16,0.12);
+  }
+  .live-frame__bar {
+    background: var(--bg-raised);
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .live-frame__dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--rule);
+  }
+  .live-frame__dot:first-child { background: #E57373; }
+  .live-frame__dot:nth-child(2) { background: #FFB74D; }
+  .live-frame__dot:nth-child(3) { background: #81C784; }
+  .live-frame img {
+    width: 100%;
+    display: block;
+  }
+
+  /* OUTCOME */
+  .outcome-block {
+    background: var(--ub-green);
+    border-radius: 8px;
+    padding: 4rem;
+    text-align: center;
+    color: #fff;
+    margin: 3rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .outcome-block::before {
+    content: '1st';
+    position: absolute;
+    font-family: 'Lora', serif;
+    font-size: 18rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.06);
+    right: -2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .outcome-block h2 {
+    font-family: 'Lora', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .outcome-block p {
+    font-size: 1.1rem;
+    opacity: 0.85;
+    max-width: 48ch;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+    position: relative;
+  }
+  .outcome-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: background 0.2s;
+    position: relative;
+  }
+  .outcome-link:hover { background: rgba(255,255,255,0.25); }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 3px solid var(--accent);
+    padding: 1.25rem 2rem;
+    margin: 3rem 0;
+    background: var(--bg-raised);
+    border-radius: 0 4px 4px 0;
+  }
+  .pull-quote p {
+    font-family: 'Lora', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.65;
+  }
+
+  /* TIMELINE */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin: 2.5rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .timeline-step {
+    padding: 1.5rem;
+    border-right: 1px solid var(--rule);
+  }
+  .timeline-step:last-child { border-right: none; }
+  .timeline-step__num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-faint);
+    margin-bottom: 0.5rem;
+  }
+  .timeline-step__label {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+  .timeline-step__desc {
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 3rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  footer .foot-left {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+  }
+  footer a.foot-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  footer a.foot-link:hover { color: var(--accent); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .client-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .hifi-row, .hifi-row.reverse { grid-template-columns: 1fr; }
+    .live-frames { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: 1fr 1fr; }
+    .outcome-block { padding: 2.5rem 1.5rem; }
+  }
+  @media (max-width: 480px) {
+    .grid-3 { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: 1fr; }
+    .timeline-step { border-right: none; border-bottom: 1px solid var(--rule); }
+    .timeline-step:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../jana-portfolio.html" class="back">← Back to portfolio</a>
+  <span class="nav-badge">48in48 · 2024</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <p class="hero__eyebrow">Case Study — 48in48 Hackathon</p>
+    <h1 class="hero__title">UB Healthy<br>Project</h1>
+    <p class="hero__subtitle">A food equity nonprofit needed a full digital presence — website, design system, every screen — built in 48 hours. We shipped it, and won first place out of 50 teams.</p>
+
+    <div class="hero__stat">
+      <span class="hero__stat-num">1st</span>
+      <span class="hero__stat-desc">Place out of 50 teams<br>48in48 Hackathon, 2024</span>
+    </div>
+
+    <div class="hero__meta">
+      <div class="meta-item">
+        <span class="meta-item__label">Role</span>
+        <span class="meta-item__value">UX / Visual Designer</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-item__label">Duration</span>
+        <span class="meta-item__value">48 hours</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-item__label">Tools</span>
+        <span class="meta-item__value">Figma · FigJam</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-item__label">Status</span>
+        <span class="meta-item__value">Live at ubhealthyproject.org</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-item__label">Team</span>
+        <span class="meta-item__value">Volunteer · Cross-functional</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 01 THE CLIENT -->
+<section>
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">01</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">The Client</span>
+    </div>
+
+    <h2 class="section-title">Meet Uptown & Boogie<br>Healthy Project</h2>
+
+    <div class="client-grid">
+      <div class="client-portrait">
+        <img src="../UX-Engineer/images/48in48/JUDIDESIRE.png" alt="Judi Desire — Founder, UB Healthy Project" />
+        <p class="client-portrait__caption">Judi Desire, Founder</p>
+      </div>
+      <div class="client-info">
+        <h3>Food, Community, Opportunity</h3>
+        <p>Uptown & Boogie Healthy Project is a community health nonprofit rooted in Harlem and the Bronx. They run farmers markets, community supported agriculture shares, composting programs, textile recycling, and a kids wellness club — making fresh food and healthy living accessible in underserved neighborhoods.</p>
+        <p>When Judi reached out to 48in48 as a client, the organization had programs running but no digital home to match its mission. They needed a full website — designed, built, and launched — in a single weekend.</p>
+        <div class="client-programs">
+          <span class="pill pill--green">Farmers Market</span>
+          <span class="pill pill--green">CSA Program</span>
+          <span class="pill pill--green">Pop Kids Club</span>
+          <span class="pill pill--green">Composting</span>
+          <span class="pill pill--green">Textile Recycling</span>
+          <span class="pill">Harlem · Bronx</span>
+          <span class="pill">Food Equity</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 THE BRIEF -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">02</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">The Brief</span>
+    </div>
+
+    <h2 class="section-title">48 hours. A complete digital presence.</h2>
+    <p class="section-body">Design a full website for a nonprofit from scratch — with no existing visual identity — and hand it off ready to launch. That meant making decisions fast: sitemap, content hierarchy, design system, lo-fi wireframes, and hi-fi screens, all in sequence over a single weekend.</p>
+
+    <div class="timeline">
+      <div class="timeline-step">
+        <div class="timeline-step__num">Hr 0–4</div>
+        <div class="timeline-step__label">Client Discovery</div>
+        <div class="timeline-step__desc">Met with Judi. Mapped content, understood programs, defined goals.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step__num">Hr 4–12</div>
+        <div class="timeline-step__label">Architecture</div>
+        <div class="timeline-step__desc">Built site map. Defined page structure and navigation hierarchy.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step__num">Hr 12–24</div>
+        <div class="timeline-step__label">Lo-Fi + Design System</div>
+        <div class="timeline-step__desc">Wireframed every page. Established color, type, and components.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step__num">Hr 24–48</div>
+        <div class="timeline-step__label">Hi-Fi + Handoff</div>
+        <div class="timeline-step__desc">Full fidelity screens for every page. Ready to build.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 SITE MAP -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">03</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">Architecture</span>
+    </div>
+
+    <h2 class="section-title">Structure first.</h2>
+    <p class="section-body">Before touching any visuals, we mapped the full site — every page, every navigation path. With programs as complex as CSA shares, vendor applications, and a kids club, the information architecture had to be clear enough that any first-time visitor could find what they needed without help.</p>
+
+    <img src="../UX-Engineer/images/48in48/Site Map.jpg" alt="UB Healthy Project full site map" class="img-full" />
+    <p class="img-caption">Complete site map — home, programs, about, waste reduction, market, contact, and join our team</p>
+
+    <div class="pull-quote">
+      <p>"A messy structure is invisible to the people who built it. We stress-tested every path: can a first-time visitor find the CSA program in under 3 clicks?"</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 LO-FI WIREFRAMES -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">04</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">Lo-Fi Wireframes</span>
+    </div>
+
+    <h2 class="section-title">Content before color.</h2>
+    <p class="section-body">Lo-fi wireframes let us move fast. Every page was blocked out in grayscale — layout, hierarchy, content density — so we could get client sign-off on structure before committing to any visual direction.</p>
+  </div>
+
+  <div class="container--wide">
+    <div class="grid-2">
+      <div class="grid-item">
+        <img src="../UX-Engineer/images/48in48/Home.png" alt="Homepage lo-fi wireframe" />
+        <p class="grid-item__label">Homepage</p>
+      </div>
+      <div class="grid-item">
+        <img src="../UX-Engineer/images/48in48/About Us.png" alt="About Us lo-fi wireframe" />
+        <p class="grid-item__label">About Us</p>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="grid-item">
+        <img src="../UX-Engineer/images/48in48/Programs.png" alt="Programs overview lo-fi wireframe" />
+        <p class="grid-item__label">Programs Overview</p>
+      </div>
+      <div class="grid-item">
+        <img src="../UX-Engineer/images/48in48/CSA.png" alt="CSA program lo-fi wireframe" />
+        <p class="grid-item__label">CSA Program</p>
+      </div>
+      <div class="grid-item">
+        <img src="../UX-Engineer/images/48in48/Pop Kids Club.png" alt="Pop Kids Club lo-fi wireframe" />
+        <p class="grid-item__label">Pop Kids Club</p>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="grid-item">
+        <img src="../UX-Engineer/images/48in48/Composting.png" alt="Composting lo-fi wireframe" />
+        <p class="grid-item__label">Composting</p>
+      </div>
+      <div class="grid-item">
+        <img src="../UX-Engineer/images/48in48/Vendor Application.png" alt="Vendor Application lo-fi wireframe" />
+        <p class="grid-item__label">Vendor Application</p>
+      </div>
+      <div class="grid-item">
+        <img src="../UX-Engineer/images/48in48/Contact.png" alt="Contact lo-fi wireframe" />
+        <p class="grid-item__label">Contact</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 DESIGN SYSTEM -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">05</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">Design System</span>
+    </div>
+
+    <h2 class="section-title">Building the visual language.</h2>
+    <p class="section-body">With the wireframes approved, we built the design system in parallel — color palette, typography, buttons, icons, and elevation. Every decision was made with community and accessibility in mind: high contrast, warm but energetic, rooted in the neighborhood.</p>
+
+    <div class="grid-2">
+      <div class="ds-block">
+        <h4>Color Palette</h4>
+        <img src="../UX-Engineer/images/48in48/Colors.png" alt="Color palette — green primary, black secondary, blue info" />
+      </div>
+      <div class="ds-block">
+        <h4>Typography</h4>
+        <img src="../UX-Engineer/images/48in48/Fonts.png" alt="Typography — Lexend Extrabold for titles, Zilla Slab for body" />
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="ds-block">
+        <h4>Buttons &amp; States</h4>
+        <img src="../UX-Engineer/images/48in48/Buttons.png" alt="Button system — primary, secondary, ghost, icon buttons" />
+      </div>
+      <div class="ds-block">
+        <h4>Type Hierarchy in Action</h4>
+        <img src="../UX-Engineer/images/48in48/Font Hierarchy in Action.png" alt="Typography applied to real page layout" />
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="ds-block">
+        <h4>Icon Library</h4>
+        <img src="../UX-Engineer/images/48in48/Icons.png" alt="Icons — arrows and user interface icon set" />
+      </div>
+      <div class="ds-block">
+        <h4>Elevation &amp; Shadows</h4>
+        <img src="../UX-Engineer/images/48in48/Effects.png" alt="Shadow elevation system — 2px through 16px" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 HI-FI SCREENS -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">06</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">Hi-Fi Designs</span>
+    </div>
+
+    <h2 class="section-title">Full fidelity, every screen.</h2>
+    <p class="section-body">With the system in place, every wireframe came to life. Green for growth and health. Bold headers that earn attention. Real photography so Judi's community and story could speak for themselves.</p>
+  </div>
+
+  <div class="container" style="margin-top:3rem;">
+    <div class="hifi-row">
+      <img src="../UX-Engineer/images/48in48/Landing page.png" alt="Hi-fi homepage — Growing Together hero with green and yellow branding" />
+      <div class="hifi-info">
+        <h3>Landing Page</h3>
+        <p>The homepage sets the tone immediately — bold headline, strong green, the U&B mark. The donate CTA lives persistently so supporters never have to search for it. Above the fold: mission. Below: how to get involved.</p>
+      </div>
+    </div>
+
+    <div class="hifi-row reverse">
+      <div class="hifi-info">
+        <h3>About Us</h3>
+        <p>Judi's story is the organization's story. We gave the About page real photography, video embeds of founder interviews, and a team section — making the humans behind U&B visible and real.</p>
+      </div>
+      <img src="../UX-Engineer/images/48in48/About us HiFi.png" alt="Hi-fi About Us — founder photo, team section, video embeds" />
+    </div>
+
+    <div class="hifi-row">
+      <img src="../UX-Engineer/images/48in48/Programs HiFi.png" alt="Hi-fi Programs page — CSA, Farmers Market, Pop Kids Club" />
+      <div class="hifi-info">
+        <h3>Programs</h3>
+        <p>Each program got its own section with imagery, location, and a clear call to participate. Farmers Market, CSA shares, and Pop Kids Club each read distinctly while sharing the same visual DNA.</p>
+      </div>
+    </div>
+
+    <div class="hifi-row reverse">
+      <div class="hifi-info">
+        <h3>Donations</h3>
+        <p>The donation page had one job: make giving feel meaningful. "Your Impact" shows donors exactly what their contribution does. Tiered giving, sponsor options, and a simple application flow — no friction between intention and action.</p>
+      </div>
+      <img src="../UX-Engineer/images/48in48/Donation HiFi.png" alt="Hi-fi Donation page — Your Impact section, sponsor tiers, Ready to Apply" />
+    </div>
+
+    <div class="hifi-row">
+      <img src="../UX-Engineer/images/48in48/Join our team.png" alt="Hi-fi Join Our Team page — volunteer and board member recruitment" />
+      <div class="hifi-info">
+        <h3>Join Our Team</h3>
+        <p>Volunteer recruitment needed to feel inviting, not bureaucratic. Real photography from market events, two clear paths (Volunteer vs. Board Member), and staff testimonials — making the ask personal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 LIVE SITE -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">07</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">Live Site</span>
+    </div>
+
+    <h2 class="section-title">From Figma to live — in 48 hours.</h2>
+    <p class="section-body">The development team built directly from our hi-fi designs. By hour 48, UB Healthy Project had a fully functioning website — donation flows, program pages, and a volunteer application running live for the Harlem and Bronx community.</p>
+
+    <div class="live-frames">
+      <div class="live-frame">
+        <div class="live-frame__bar">
+          <div class="live-frame__dot"></div>
+          <div class="live-frame__dot"></div>
+          <div class="live-frame__dot"></div>
+        </div>
+        <img src="../UX-Engineer/images/48in48/UB screen1.png" alt="Live site — Growing Together hero with donate popup" />
+      </div>
+      <div class="live-frame">
+        <div class="live-frame__bar">
+          <div class="live-frame__dot"></div>
+          <div class="live-frame__dot"></div>
+          <div class="live-frame__dot"></div>
+        </div>
+        <img src="../UX-Engineer/images/48in48/UB screen 2.png" alt="Live site — GET INVOLVED section" />
+      </div>
+      <div class="live-frame">
+        <div class="live-frame__bar">
+          <div class="live-frame__dot"></div>
+          <div class="live-frame__dot"></div>
+          <div class="live-frame__dot"></div>
+        </div>
+        <img src="../UX-Engineer/images/48in48/Project 3 Title.png" alt="Live site — Current Programs section" />
+      </div>
+    </div>
+    <p class="img-caption">ubhealthyproject.org — live and functional at hour 48</p>
+  </div>
+</section>
+
+<!-- 08 OUTCOME -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">08</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">Outcome</span>
+    </div>
+
+    <div class="outcome-block">
+      <h2>First place.<br>Out of 50 teams.</h2>
+      <p>In 48 hours, we took a nonprofit with no digital presence and gave it a complete identity — a design system, wireframes for every page, full hi-fi screens, and a live website the community can actually use.</p>
+      <a href="https://ubhealthyproject.org" target="_blank" rel="noopener" class="outcome-link">Visit ubhealthyproject.org ↗</a>
+    </div>
+
+    <div class="grid-3">
+      <div class="ds-block" style="text-align:center;">
+        <h4 style="text-align:center; margin-bottom:0.5rem;">Pages Designed</h4>
+        <p style="font-family:'Lora',serif; font-size:2.5rem; font-weight:600; color:var(--ink);">10+</p>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin-top:0.5rem;">Home, About, Programs, CSA, Kids Club, Composting, Vendor, Contact, Join Our Team, Donation</p>
+      </div>
+      <div class="ds-block" style="text-align:center;">
+        <h4 style="text-align:center; margin-bottom:0.5rem;">Design System</h4>
+        <p style="font-family:'Lora',serif; font-size:2.5rem; font-weight:600; color:var(--ink);">Full</p>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin-top:0.5rem;">Colors, typography, buttons, icons, shadows, and component library — built from scratch</p>
+      </div>
+      <div class="ds-block" style="text-align:center;">
+        <h4 style="text-align:center; margin-bottom:0.5rem;">Time to Launch</h4>
+        <p style="font-family:'Lora',serif; font-size:2.5rem; font-weight:600; color:var(--ink);">48h</p>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin-top:0.5rem;">Discovery → architecture → wireframes → design system → hi-fi → live</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <footer>
+    <span class="foot-left">Jana Bridi · Portfolio</span>
+    <div style="display:flex; gap:2rem;">
+      <a href="../jana-portfolio.html" class="foot-link">← Back to work</a>
+      <a href="https://ubhealthyproject.org" target="_blank" rel="noopener" class="foot-link">Visit live site ↗</a>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>

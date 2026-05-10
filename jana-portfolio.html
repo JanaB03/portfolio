@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jana Bridi — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Pixelify+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    /* warm sand base — slightly more golden than the original cream */
+    --color-bg: #f3eee0;
+    --color-bg-light: #e8dec8;
+    --color-bg-neutral: #ede5d2;
+    --color-bg-neutral-2: #d6caaf;
+    --color-ink: #242424;
+    --color-ink-dim: #666;
+    --color-ink-mute: #a2a2a2;
+    --color-ink-inverted: #fff;
+    --color-pink: #bf5a7a;
+    --color-pink-1: #eabaca;
+    --color-teal: #168b9d;
+    --color-orange: #cb7836;
+    --color-green: #1a7b3f;
+    /* mossy palette for jungly accents */
+    --color-moss-light: #c5d3b0;
+    --color-moss: #9bb37e;
+    --color-moss-deep: #3f5e3b;
+    --color-explore-bg: #c5d3b0;
+    --color-explore-pill: #9bb37e;
+
+    /* Pixel-Nintendo typography */
+    --font-display: "Press Start 2P", "Pixelify Sans", monospace;
+    --font-mono:    "Pixelify Sans", "VT323", monospace;
+    --font-body:    "Pixelify Sans", "VT323", system-ui, sans-serif;
+
+    --ease-out-soft: cubic-bezier(.22, 1, .36, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .shell {
+    display: flex;
+    align-items: stretch;
+    min-height: 100vh;
+  }
+
+  /* ========== SIDEBAR ========== */
+  .sidebar {
+    background: var(--color-bg-light);
+    width: 303px;
+    flex-shrink: 0;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* frog doodle as the personal mark above the name */
+  .sidebar-logo {
+    display: inline-block;
+    width: 56px;
+    height: 48px;
+    margin-bottom: 6px;
+    transition: transform .25s var(--ease-out-soft);
+  }
+  .sidebar-logo:hover { transform: scale(1.1) rotate(-4deg); }
+  .sidebar-logo svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  .sidebar-name {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+    color: var(--color-ink);
+    /* stepped pixel drop shadow */
+    text-shadow: 2px 2px 0 var(--color-moss);
+  }
+
+  .sidebar-role {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    text-transform: uppercase;
+    color: var(--color-ink-dim);
+    letter-spacing: .04em;
+  }
+
+  .sidebar-bio {
+    font-family: var(--font-body);
+    font-size: 16px;
+    color: var(--color-ink-dim);
+    line-height: 1.4;
+  }
+  .sidebar-bio .strong { color: var(--color-ink); }
+
+  /* Chapter list — journal-style table of contents (no rigid pill nav) */
+  .chapters {
+    width: 100%;
+  }
+  .chapters-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-ink-mute);
+    margin-bottom: 10px;
+  }
+  .chapters-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .chapter-link {
+    display: grid;
+    grid-template-columns: 16px auto 1fr;
+    align-items: baseline;
+    column-gap: 8px;
+    padding: 3px 0;
+    color: var(--color-ink-dim);
+    text-decoration: none;
+    transition: color .2s, transform .25s var(--ease-out-soft);
+  }
+  .chapter-link:hover { color: var(--color-ink); transform: translateX(3px); }
+  .ch-mark {
+    font-size: 14px;
+    line-height: 1;
+    color: var(--color-moss);
+    transition: color .2s, transform .25s var(--ease-out-soft);
+  }
+  .chapter-link:hover .ch-mark { transform: rotate(20deg); }
+  .ch-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-ink-mute);
+    flex-shrink: 0;
+  }
+  .ch-title {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.15;
+  }
+  .chapter-link.active { color: var(--color-ink); }
+  .chapter-link.active .ch-mark { color: var(--color-moss-deep); }
+  .chapter-link.active .ch-title {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--color-moss);
+    text-decoration-thickness: 1.5px;
+  }
+
+  .find-label {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    margin-bottom: 4px;
+  }
+  .find-links {
+    color: var(--color-ink-dim);
+    font-size: 15px;
+  }
+  .find-links a {
+    color: var(--color-ink-dim);
+    text-underline-offset: 4px;
+  }
+  .find-links a:hover { color: var(--color-ink); text-decoration: underline; }
+
+  /* "Right now" — personality footer instead of tech-status */
+  .right-now {
+    margin-top: auto;
+    border-top: 1px dashed rgba(60, 50, 30, 0.18);
+    padding-top: 14px;
+  }
+  .right-now-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-ink-mute);
+    margin-bottom: 8px;
+  }
+  .right-now-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .right-now-list li {
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--color-ink-dim);
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .rn-key {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-moss-deep);
+    flex-shrink: 0;
+    min-width: 50px;
+  }
+  .rn-val {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--color-ink);
+    line-height: 1.2;
+  }
+
+  /* "Your order" — only shows if the user picked a drink at the cafe */
+  .your-order {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0 4px;
+  }
+  .your-order.visible { display: flex; }
+  .your-order img {
+    width: 52px;
+    height: auto;
+    transform: rotate(-7deg);
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.18));
+    flex-shrink: 0;
+  }
+  .your-order-text { line-height: 1.2; }
+  .your-order-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-ink-mute);
+    margin-bottom: 3px;
+  }
+  .your-order-name {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--color-ink);
+  }
+
+  /* ========== MAIN ========== */
+  .main {
+    flex: 1;
+    min-width: 0;
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  /* Latest Log (dark card at top) */
+  .latest-log {
+    background: var(--color-ink);
+    color: var(--color-ink-inverted);
+    border-radius: 4px;
+    border: 2px solid var(--color-ink);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 4px 4px 0 var(--color-moss-deep);
+  }
+  .log-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  .log-header-left { display: flex; align-items: center; gap: 8px; }
+  .log-label {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    text-transform: uppercase;
+  }
+  .log-date {
+    font-size: 12px;
+    color: rgba(255,255,255,.55);
+  }
+  .log-chevron { opacity: .7; }
+  .log-body {
+    font-size: 15px;
+    color: rgba(255,255,255,.75);
+    line-height: 1.55;
+  }
+  .log-body a {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(255,255,255,.35);
+    transition: text-decoration-color .2s;
+  }
+  .log-body a:hover { text-decoration-color: #fff; }
+
+  /* Project grid: single column, full width, no branches */
+  .work-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 1100px;
+  }
+  .thread-row {
+    position: relative;
+    display: grid;
+    gap: 28px;
+    padding-top: 38px; /* space for the thread to drape above the cards */
+    align-items: start;
+  }
+  /* Single column layout — one card per row, full width */
+  .thread-row,
+  .thread-row--1,
+  .thread-row--2,
+  .thread-row--3 {
+    grid-template-columns: 1fr;
+    max-width: none;
+    padding-top: 0;
+  }
+  /* Branches and rope ties are hidden in single-column mode */
+  .thread,
+  .card::before,
+  .card::after {
+    display: none !important;
+  }
+
+  /* ── Branch: a thick woody horizontal limb spanning the row ── */
+  .thread {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 32px;
+    pointer-events: none;
+    z-index: 0;
+    overflow: visible;
+  }
+  .thread path { fill: none; stroke-linecap: round; }
+  .thread .branch-base {
+    stroke: #5e3f1f;
+    stroke-width: 5;
+    opacity: 0.95;
+  }
+  .thread .branch-shadow {
+    stroke: #2f1f0d;
+    stroke-width: 6;
+    opacity: 0.45;
+    transform: translateY(1px);
+  }
+  .thread .branch-highlight {
+    stroke: #a07a4a;
+    stroke-width: 1.4;
+    opacity: 0.6;
+  }
+  /* small leaf sprout near the middle of the branch */
+  .thread .leaf-sprout {
+    fill: #7a9c66;
+    stroke: #3f5e3b;
+    stroke-width: 1;
+  }
+
+  /* ── Rope tied through each card's punched hole ── */
+  .card { margin-top: 0; }
+
+  /* (1) the rope coming down from the branch, ending just at the hole */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -34px;
+    left: 25px;            /* aligns with .card-hole's center */
+    width: 4px;
+    height: 36px;
+    /* twisted rope fibers via diagonal repeating gradient */
+    background:
+      repeating-linear-gradient(
+        -28deg,
+        #5a3a1a 0px,
+        #5a3a1a 1px,
+        #8a6b46 1px,
+        #8a6b46 2.5px
+      );
+    border-radius: 2px;
+    z-index: 1;
+    box-shadow: 0 0 0 0.5px rgba(0,0,0,0.2);
+    transform-origin: bottom center;
+    /* counter-rotate so the rope hangs straight despite card tilt */
+    transform: rotate(calc(var(--card-tilt, 0deg) * -1));
+  }
+
+  /* (2) the wrap/knot tied around the hole */
+  .card::after {
+    content: '';
+    position: absolute;
+    top: 17px;             /* sits right over the hole */
+    left: 18px;
+    width: 21px;
+    height: 7px;
+    background:
+      repeating-linear-gradient(
+        78deg,
+        #4a2f12 0px,
+        #4a2f12 1px,
+        #8a6b46 1px,
+        #8a6b46 2.5px
+      );
+    border-radius: 4px;
+    z-index: 6;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.35), inset 0 -1px 0 rgba(0,0,0,0.25);
+  }
+
+  /* the punched hole itself: now reads as a metal grommet */
+  .card-hole {
+    z-index: 3 !important;
+    box-shadow:
+      inset 0 1.5px 2px rgba(0,0,0,.55),
+      0 0 0 1px rgba(94, 63, 31, 0.6) !important;
+  }
+
+
+  /* Index card — pixel-vibe: sharp borders, stepped drop shadows */
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg-neutral);
+    border: 3px solid var(--color-ink);
+    border-radius: 4px;
+    padding: 16px;
+    box-shadow: 5px 5px 0 var(--color-ink);
+    transition: transform .25s var(--ease-out-soft), box-shadow .25s var(--ease-out-soft);
+    transform: rotate(var(--card-tilt, 0deg));
+    cursor: pointer;
+    position: relative;
+  }
+  .card:hover {
+    transform: rotate(0deg) translate(-2px, -2px);
+    box-shadow: 8px 8px 0 var(--color-ink);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 0 4px;
+  }
+  .card-hole {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--color-bg);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.18);
+  }
+  .card-num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-transform: uppercase;
+    color: var(--color-ink-dim);
+  }
+
+  .card-frame {
+    border-radius: 0;
+    overflow: hidden;
+    background: var(--color-bg-neutral-2);
+    margin-bottom: 14px;
+    border: 2px solid var(--color-ink);
+  }
+  .card-frame img,
+  .card-frame video,
+  .card-frame iframe {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    border: 0;
+  }
+  /* Pixel-rendering only for static images, not videos — video keeps the
+     normal smooth playback so case-study recordings stay readable. */
+  .card-frame img {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+  .card-frame video {
+    image-rendering: auto;
+  }
+  /* full-bleed frame: video extends to the very edges of the card,
+     ignoring the card's 16px padding so it dominates the card area */
+  .card-frame--bleed {
+    margin: -16px -16px 14px -16px;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 2px solid var(--color-ink);
+  }
+  /* Placeholder gradient when no image */
+  .card-frame.placeholder {
+    background: linear-gradient(135deg, var(--ph-a, #e6dfca) 0%, var(--ph-b, #c8c0a4) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(0,0,0,.25);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 28px;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 26px;
+    color: var(--color-ink);
+    line-height: 1.1;
+  }
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 0;
+    border: 1.5px solid var(--color-ink);
+    background: var(--color-bg-neutral-2);
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .card-desc {
+    margin-top: 8px;
+    font-size: 14.5px;
+    color: var(--color-ink-dim);
+    line-height: 1.5;
+  }
+
+  .card-rule {
+    height: 1px;
+    background: rgba(0,0,0,.08);
+    margin: 14px 0 10px;
+  }
+
+  .card-meta { display: flex; flex-direction: column; gap: 4px; }
+  .meta-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 10px;
+    font-size: 13px;
+  }
+  .meta-row dt {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    color: var(--color-ink-mute);
+    font-size: 12px;
+  }
+  .meta-row dd { color: var(--color-ink-dim); }
+
+  /* ========== FOOTER ========== */
+  .footer {
+    width: 100%;
+    background: var(--color-moss-deep);
+    color: #fff;
+    min-height: 220px;
+    padding: 40px 48px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  .footer-quote {
+    font-family: var(--font-display);
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 560px;
+    z-index: 1;
+    position: relative;
+    text-shadow: 2px 2px 0 #00000040;
+  }
+  .footer-flower {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.05;
+    white-space: pre;
+    color: rgba(255,255,255,.3);
+    pointer-events: none;
+    user-select: none;
+  }
+  .footer-foot {
+    position: absolute;
+    bottom: 16px;
+    left: 48px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    opacity: .85;
+  }
+
+  /* ========== LEAF ACCENTS — subtle jungle peeking in ========== */
+  .leaf {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.45;
+    width: 320px;
+    height: auto;
+  }
+  .leaf--tr {
+    top: -90px;
+    right: -100px;
+    transform: rotate(35deg);
+  }
+  .leaf--bl {
+    /* bottom of the page, peeking from behind the sidebar/main divider */
+    bottom: 280px; /* sits above the footer */
+    left: -130px;
+    transform: rotate(-145deg);
+    width: 280px;
+    opacity: 0.35;
+  }
+
+  /* main + sidebar should sit on top of leaves */
+  .shell { position: relative; z-index: 1; }
+
+  /* ========== CHATBOT ========== */
+  .chatbot {
+    position: fixed;
+    bottom: 18px;
+    left: 18px;
+    z-index: 100;
+    font-family: var(--font-body);
+  }
+  .chatbot-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 110px;
+    height: auto;
+    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.25));
+    transition: transform .25s var(--ease-out-soft);
+  }
+  .chatbot-toggle:hover { transform: translateY(-4px) scale(1.05); }
+  .chatbot-toggle:active { transform: scale(0.96); }
+  .chatbot-avatar {
+    width: 100%;
+    height: auto;
+    display: block;
+    /* mirror so the character faces toward the page (right) */
+    transform: scaleX(-1);
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  /* The peek bubble nudging the user to chat */
+  .chatbot-bubble {
+    position: absolute;
+    left: 116px;
+    bottom: 60px;
+    background: var(--color-bg-light);
+    border: 3px solid var(--color-ink);
+    border-radius: 0;
+    padding: 8px 12px 9px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-ink);
+    box-shadow: 4px 4px 0 var(--color-ink);
+    white-space: nowrap;
+    pointer-events: none;
+    animation: bubbleFloat 3s ease-in-out infinite;
+    transition: opacity .25s ease;
+  }
+  .chatbot-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: 12px;
+    left: -10px;
+    width: 12px;
+    height: 12px;
+    background: var(--color-bg-light);
+    border-left: 3px solid var(--color-ink);
+    border-bottom: 3px solid var(--color-ink);
+    transform: rotate(45deg);
+  }
+  .chatbot[data-open] .chatbot-bubble { opacity: 0; }
+  @keyframes bubbleFloat {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-3px); }
+  }
+
+  /* The chat panel that opens when the frog is clicked */
+  .chatbot-panel {
+    position: absolute;
+    bottom: 130px;
+    left: 0;
+    width: 320px;
+    max-width: calc(100vw - 36px);
+    background: var(--color-bg);
+    border: 3px solid var(--color-ink);
+    border-radius: 0;
+    box-shadow: 6px 6px 0 var(--color-ink);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform-origin: bottom left;
+    transform: scale(0.85) translateY(10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .25s var(--ease-out-soft), opacity .25s ease;
+  }
+  .chatbot[data-open] .chatbot-panel {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .chatbot-header {
+    background: var(--color-moss-deep);
+    color: #fff;
+    padding: 10px 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .chatbot-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 4px;
+    opacity: 0.85;
+    transition: opacity .2s, transform .2s;
+  }
+  .chatbot-close:hover { opacity: 1; transform: rotate(90deg); }
+  .chatbot-messages {
+    padding: 14px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 260px;
+    scroll-behavior: smooth;
+  }
+  .msg {
+    font-size: 14px;
+    line-height: 1.45;
+    padding: 9px 12px;
+    border-radius: 0;
+    border: 2px solid var(--color-ink);
+    max-width: 88%;
+  }
+  .msg--bot {
+    background: var(--color-bg-neutral);
+    align-self: flex-start;
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: 14px;
+  }
+  .msg--user {
+    background: var(--color-moss);
+    align-self: flex-end;
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .chatbot-quick {
+    border-top: 1px dashed rgba(0,0,0,0.15);
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    background: var(--color-bg-neutral);
+  }
+  .quick-btn {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 6px 10px;
+    background: var(--color-bg);
+    border: 2px solid var(--color-ink);
+    border-radius: 0;
+    box-shadow: 2px 2px 0 var(--color-ink);
+    cursor: pointer;
+    color: var(--color-ink);
+    transition: all .15s;
+  }
+  .quick-btn:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--color-ink); }
+  .quick-btn:hover {
+    background: var(--color-moss-light);
+    color: var(--color-moss-deep);
+    transform: translateY(-1px);
+    border-color: var(--color-moss);
+  }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 900px) {
+    .shell { flex-direction: column; }
+    .sidebar { width: 100%; }
+    .main { padding: 24px; }
+    .work-grid { gap: 48px; }
+    .thread-row, .thread-row--3, .thread-row--2 {
+      grid-template-columns: 1fr;
+      max-width: none;
+      padding-top: 28px;
+    }
+    /* hide the branch + ropes on narrow screens — looks weird with 1 col */
+    .thread, .card::before, .card::after { display: none; }
+    .footer { padding: 24px; }
+    .footer-flower { display: none; }
+    .footer-foot { left: 24px; }
+    /* shrink chatbot on mobile */
+    .chatbot-toggle { width: 84px; }
+    .chatbot-bubble { display: none; }
+    .chatbot-panel { width: calc(100vw - 36px); bottom: 100px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- subtle hand-drawn leaves peeking in from corners -->
+<svg class="leaf leaf--tr" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M100,12 C45,38 22,130 48,238 C68,300 100,310 100,310 C100,310 132,300 152,238 C178,130 155,38 100,12 Z"
+        fill="#9bb37e" stroke="#4a6b3e" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M100,12 L100,305" stroke="#4a6b3e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M100,80  C78,92  66,114 56,148"  stroke="#4a6b3e" stroke-width="1.8" fill="none" opacity="0.7" stroke-linecap="round"/>
+  <path d="M100,80  C122,92 134,114 144,148" stroke="#4a6b3e" stroke-width="1.8" fill="none" opacity="0.7" stroke-linecap="round"/>
+  <path d="M100,150 C78,162 66,184 56,218"  stroke="#4a6b3e" stroke-width="1.8" fill="none" opacity="0.7" stroke-linecap="round"/>
+  <path d="M100,150 C122,162 134,184 144,218" stroke="#4a6b3e" stroke-width="1.8" fill="none" opacity="0.7" stroke-linecap="round"/>
+</svg>
+
+<svg class="leaf leaf--bl" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M100,12 C45,38 22,130 48,238 C68,300 100,310 100,310 C100,310 132,300 152,238 C178,130 155,38 100,12 Z"
+        fill="#7a9c66" stroke="#3f5e3b" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M100,12 L100,305" stroke="#3f5e3b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M100,80  C78,92  66,114 56,148"  stroke="#3f5e3b" stroke-width="1.8" fill="none" opacity="0.7" stroke-linecap="round"/>
+  <path d="M100,80  C122,92 134,114 144,148" stroke="#3f5e3b" stroke-width="1.8" fill="none" opacity="0.7" stroke-linecap="round"/>
+  <path d="M100,150 C78,162 66,184 56,218"  stroke="#3f5e3b" stroke-width="1.8" fill="none" opacity="0.7" stroke-linecap="round"/>
+  <path d="M100,150 C122,162 134,184 144,218" stroke="#3f5e3b" stroke-width="1.8" fill="none" opacity="0.7" stroke-linecap="round"/>
+</svg>
+
+<div class="shell">
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar">
+    <a href="#" class="sidebar-logo" aria-label="Home">
+      <svg viewBox="0 0 60 50" xmlns="http://www.w3.org/2000/svg">
+        <!-- frog body -->
+        <ellipse cx="30" cy="30" rx="22" ry="17" fill="#7AB85F" stroke="#3f5e3b" stroke-width="2.2" stroke-linejoin="round"/>
+        <!-- eye bumps -->
+        <circle cx="18" cy="13" r="7" fill="#7AB85F" stroke="#3f5e3b" stroke-width="2.2"/>
+        <circle cx="42" cy="13" r="7" fill="#7AB85F" stroke="#3f5e3b" stroke-width="2.2"/>
+        <!-- pupils -->
+        <circle cx="18" cy="13" r="2.6" fill="#1a2a14"/>
+        <circle cx="42" cy="13" r="2.6" fill="#1a2a14"/>
+        <!-- eye shine -->
+        <circle cx="20" cy="11" r="1" fill="#fff"/>
+        <circle cx="44" cy="11" r="1" fill="#fff"/>
+        <!-- mouth -->
+        <path d="M22,32 Q30,38 38,32" stroke="#3f5e3b" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <!-- pink cheeks -->
+        <ellipse cx="14" cy="32" rx="3" ry="2" fill="#f4a8a8" opacity="0.55"/>
+        <ellipse cx="46" cy="32" rx="3" ry="2" fill="#f4a8a8" opacity="0.55"/>
+      </svg>
+    </a>
+
+    <h1 class="sidebar-name">Jana Bridi</h1>
+    <p class="sidebar-role">Cog Sci · UCSD</p>
+
+    <p class="sidebar-bio">
+      I design for humans — and I actually studied them. Cog Sci grad from UCSD with a passion for experiences that just <em>feel right.</em>
+    </p>
+    <p class="sidebar-bio">
+      <span class="strong">designer</span> · <span class="strong">human expert</span> · the engineer who designs how people think.
+    </p>
+
+    <nav class="chapters" aria-label="Sections">
+      <p class="chapters-label">Around Here</p>
+      <ul class="chapters-list">
+        <li>
+          <a href="jana-portfolio.html" class="chapter-link active">
+            <span class="ch-mark">❀</span>
+            <span class="ch-num">Ch. 01</span>
+            <span class="ch-title">My Work</span>
+          </a>
+        </li>
+        <li>
+          <a href="about.html" class="chapter-link">
+            <span class="ch-mark">❀</span>
+            <span class="ch-num">Ch. 02</span>
+            <span class="ch-title">About Me</span>
+          </a>
+        </li>
+        <!-- Playground + Visitor Gallery chapters hidden for now
+        <li>
+          <a href="#" class="chapter-link">
+            <span class="ch-mark">❀</span>
+            <span class="ch-num">Ch. 03</span>
+            <span class="ch-title">Playground</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="chapter-link">
+            <span class="ch-mark">❀</span>
+            <span class="ch-num">Ch. 04</span>
+            <span class="ch-title">Visitor Gallery</span>
+          </a>
+        </li>
+        -->
+      </ul>
+    </nav>
+
+    <div>
+      <p class="find-label">Find me at</p>
+      <p class="find-links">
+        <a href="mailto:lanerodrodlane@gmail.com">Email</a>,
+        <a href="#">LinkedIn</a>,
+        <a href="#">GitHub</a>
+      </p>
+    </div>
+
+    <!-- Your order from the cafe (only shows if user picked a drink) -->
+    <div class="your-order" id="yourOrder" aria-live="polite">
+      <img id="yourOrderImg" src="" alt="">
+      <p class="your-order-text">
+        <span class="your-order-eyebrow">Your order</span>
+        <span class="your-order-name" id="yourOrderName"></span>
+      </p>
+    </div>
+
+    <div class="right-now">
+      <p class="right-now-label">Right Now</p>
+      <ul class="right-now-list">
+        <li>
+          <span class="rn-key">Sipping</span>
+          <span class="rn-val" id="sippingVal">a lavender latte</span>
+        </li>
+        <li>
+          <span class="rn-key">Building</span>
+          <span class="rn-val">Phone-as-Mouse</span>
+        </li>
+        <li>
+          <span class="rn-key">Reading</span>
+          <span class="rn-val">The Design of Everyday Things</span>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- ========== MAIN ========== -->
+  <main class="main">
+
+    <!-- Latest Log -->
+    <article class="latest-log">
+      <header class="log-header">
+        <div class="log-header-left">
+          <p class="log-label">Latest Log</p>
+          <p class="log-date">May 7, 2026</p>
+        </div>
+        <span class="log-chevron">▾</span>
+      </header>
+      <div class="log-body">
+        Just shipped <a href="case-studies/communicare.html">CommuniCare</a> with Father Joe's Villages, won first place at the <a href="case-studies/48in48.html">48in48 Hackathon</a> with the UB Healthy Project, and currently building Phone-as-Mouse — turning an iPhone into a desktop mouse via camera optical flow.
+      </div>
+    </article>
+
+    <!-- Project grid — cards hang on threads in rows of 3 + 2 + 2 -->
+    <div class="work-grid">
+
+      <!-- ROW 1 — 2 cards on a leafy branch -->
+      <div class="thread-row thread-row--2">
+        <svg class="thread" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true">
+          <path class="branch-shadow" d="M 0 6 Q 50 20 100 6" vector-effect="non-scaling-stroke"/>
+          <path class="branch-base"   d="M 0 6 Q 50 20 100 6" vector-effect="non-scaling-stroke"/>
+          <path class="branch-highlight" d="M 0 5 Q 50 19 100 5" vector-effect="non-scaling-stroke"/>
+        </svg>
+
+        <!-- 01. CommuniCare -->
+        <a href="case-studies/communicare.html" class="card" style="--card-tilt: -0.8deg;">
+          <div class="card-top">
+            <span class="card-hole"></span>
+            <span class="card-num">No. 01</span>
+          </div>
+          <div class="card-frame card-frame--bleed" style="height: 320px;">
+            <video class="card-video" autoplay loop muted playsinline preload="auto"
+                   src="OneDrive/communicare%20home%20page%20recording.mp4"
+                   aria-label="CommuniCare home page demo"></video>
+          </div>
+          <div class="card-header">
+            <h3 class="card-title">CommuniCare</h3>
+            <div class="card-tags">
+              <span class="tag">Field</span>
+              <span class="tag">Shipped</span>
+            </div>
+          </div>
+          <p class="card-desc">A device-agnostic communication platform for people experiencing homelessness in San Diego — built with Father Joe's Villages.</p>
+          <span class="card-rule"></span>
+          <dl class="card-meta">
+            <div class="meta-row"><dt>Role</dt><dd>Designer, UX Engineer</dd></div>
+            <div class="meta-row"><dt>Timeframe</dt><dd>2025</dd></div>
+          </dl>
+        </a>
+
+        <!-- 02. UB Healthy Project / 48in48 -->
+        <a href="case-studies/48in48.html" class="card" style="--card-tilt: 0.5deg;">
+          <div class="card-top">
+            <span class="card-hole"></span>
+            <span class="card-num">No. 02</span>
+          </div>
+          <div class="card-frame card-frame--bleed" style="height: 320px;">
+            <iframe class="card-iframe"
+                    src="https://ubhealthyproject.org"
+                    title="UB Healthy Project — live site"
+                    loading="lazy"
+                    referrerpolicy="no-referrer"
+                    sandbox="allow-same-origin allow-scripts"></iframe>
+          </div>
+          <div class="card-header">
+            <h3 class="card-title">UB Healthy Project</h3>
+            <div class="card-tags">
+              <span class="tag">48in48</span>
+              <span class="tag">1st Place</span>
+            </div>
+          </div>
+          <p class="card-desc">A food equity nonprofit needed a full digital presence built in 48 hours. We shipped it and won first place out of 50 teams.</p>
+          <span class="card-rule"></span>
+          <dl class="card-meta">
+            <div class="meta-row"><dt>Role</dt><dd>Volunteer · Cross-functional</dd></div>
+            <div class="meta-row"><dt>Timeframe</dt><dd>48 hours · 2024</dd></div>
+          </dl>
+        </a>
+
+      </div>
+
+      <!-- ROW 2 — Pawesome -->
+      <div class="thread-row thread-row--2">
+        <svg class="thread" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true">
+          <path class="branch-shadow" d="M 0 6 Q 50 20 100 6" vector-effect="non-scaling-stroke"/>
+          <path class="branch-base"   d="M 0 6 Q 50 20 100 6" vector-effect="non-scaling-stroke"/>
+          <path class="branch-highlight" d="M 0 5 Q 50 19 100 5" vector-effect="non-scaling-stroke"/>
+        </svg>
+
+        <!-- 03. Pawesome -->
+        <a href="case-studies/pawesome.html" class="card" style="--card-tilt: -0.5deg;">
+          <div class="card-top">
+            <span class="card-hole"></span>
+            <span class="card-num">No. 03</span>
+          </div>
+          <div class="card-frame card-frame--bleed" style="height: 320px;">
+            <video class="card-video" autoplay loop muted playsinline preload="auto"
+                   src="OneDrive/pawesome%20recording.mp4"
+                   aria-label="Pawesome demo"></video>
+          </div>
+          <div class="card-header">
+            <h3 class="card-title">Pawesome</h3>
+            <div class="card-tags">
+              <span class="tag">Side Project</span>
+              <span class="tag">Shipped</span>
+            </div>
+          </div>
+          <p class="card-desc">A pet-care app designed to make the everyday small joys of having a pet a little more delightful — sitemaps, flows, and prototypes built end-to-end.</p>
+          <span class="card-rule"></span>
+          <dl class="card-meta">
+            <div class="meta-row"><dt>Role</dt><dd>Design, Dev</dd></div>
+            <div class="meta-row"><dt>Timeframe</dt><dd>Summer 2025</dd></div>
+          </dl>
+        </a>
+      </div>
+
+      <!-- (removed: EEG, JaNa Portfolio, Phone-as-Mouse, UX Engineer Site) -->
+
+    </div>
+
+  </main>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<!-- Chatbot in the bottom-left corner -->
+<div class="chatbot" id="chatbot">
+  <button class="chatbot-toggle" id="chatbotToggle" aria-label="Open chat with Jana" aria-expanded="false">
+    <img src="Downloads/image%2038.svg" alt="" class="chatbot-avatar">
+  </button>
+  <div class="chatbot-bubble" id="chatbotBubble" aria-hidden="true">hi! ask me anything →</div>
+
+  <div class="chatbot-panel" id="chatbotPanel" role="dialog" aria-label="Chat with Jana">
+    <div class="chatbot-header">
+      <span>Chat with Jana 🐸</span>
+      <button class="chatbot-close" id="chatbotClose" aria-label="Close chat">×</button>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages">
+      <div class="msg msg--bot">Hi! I'm Jana — well, sort of. Pick a question below to get started.</div>
+    </div>
+    <div class="chatbot-quick">
+      <button class="quick-btn" data-q="who">who are you?</button>
+      <button class="quick-btn" data-q="work">your work</button>
+      <button class="quick-btn" data-q="contact">contact</button>
+      <button class="quick-btn" data-q="fav">fav project</button>
+      <button class="quick-btn" data-q="hire">hiring me</button>
+      <button class="quick-btn" data-q="frog">why frogs?</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p class="footer-quote">
+    "The details are not the details. They make the design."
+  </p>
+  <pre class="footer-flower" aria-hidden="true">          .  *  .
+       *  .  *  .
+     .  *   ✿   *
+   *   ✿  ✿✿✿  ✿
+     ✿  ✿✿✿✿✿  ✿
+   ✿✿  ✿✿✿✿✿✿✿  ✿✿
+     ✿  ✿✿✿✿✿  ✿
+       ✿  ✿  ✿
+          |
+          |
+        \ | /
+         \|/</pre>
+  <p class="footer-foot">© Jana Bridi — designed for humans</p>
+</footer>
+
+<script>
+  // Live clock in sidebar (matches the original)
+  function tick() {
+    const el = document.getElementById('clock');
+    if (!el) return;
+    const d = new Date();
+    const h = ((d.getHours() + 11) % 12) + 1;
+    const m = String(d.getMinutes()).padStart(2, '0');
+    const s = String(d.getSeconds()).padStart(2, '0');
+    const ap = d.getHours() >= 12 ? 'PM' : 'AM';
+    el.textContent = `${h}:${m}:${s} ${ap}`;
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // Collapse / expand the Latest Log card
+  document.querySelector('.log-header')?.addEventListener('click', (e) => {
+    const body = document.querySelector('.log-body');
+    const chev = document.querySelector('.log-chevron');
+    if (!body) return;
+    const collapsed = body.style.display === 'none';
+    body.style.display = collapsed ? '' : 'none';
+    if (chev) chev.style.transform = collapsed ? '' : 'rotate(-90deg)';
+  });
+
+  // Show "Your order" sticker if the user picked a drink at the cafe
+  (function showOrder() {
+    const drinks = {
+      matcha:   { name: 'Matcha Latte',  img: null, sip: 'a matcha latte' },
+      vanilla:  { name: 'Vanilla Latte', img: null, sip: 'a vanilla latte' },
+      blacktea: { name: 'Black Tea',     img: null, sip: 'black tea' }
+    };
+    let order;
+    try { order = sessionStorage.getItem('janasOrder'); } catch (e) {}
+    if (!order || !drinks[order]) return;
+    const d = drinks[order];
+    if (d.img) {
+      const wrap = document.getElementById('yourOrder');
+      document.getElementById('yourOrderImg').src = d.img;
+      document.getElementById('yourOrderImg').alt = d.name;
+      document.getElementById('yourOrderName').textContent = d.name;
+      wrap.classList.add('visible');
+    }
+    const sipping = document.getElementById('sippingVal');
+    if (sipping) sipping.textContent = d.sip;
+  })();
+
+  // ── Chatbot ──
+  (function chatbot() {
+    const root    = document.getElementById('chatbot');
+    const toggle  = document.getElementById('chatbotToggle');
+    const closeBtn= document.getElementById('chatbotClose');
+    const panel   = document.getElementById('chatbotPanel');
+    const msgs    = document.getElementById('chatbotMessages');
+    if (!root || !toggle || !panel) return;
+
+    const responses = {
+      who:     "I'm Jana Bridi — designer and engineer, Cog Sci grad from UCSD. I make software for humans (and I actually studied them).",
+      work:    "Three case studies are up: CommuniCare (Father Joe's Villages, San Diego), UB Healthy Project (we won 48in48 out of 50 teams), and Pawesome (a pet-care side project). Scroll the cards to dig in.",
+      contact: "Easiest: lanerodrodlane@gmail.com 📧 — also LinkedIn and GitHub via the sidebar 'Find me at' links.",
+      fav:     "CommuniCare. Designing in the field with people experiencing homelessness — equal parts humbling, hard, and the most meaningful design work I've done.",
+      hire:    "Yes, please! I'm open to design and design-engineering roles. Drop me an email and we'll chat.",
+      frog:    "Long story. Short version: cog sci students hang out in lab basements, frogs hang out in marshes. Both vibe with weird ecosystems."
+    };
+
+    function open()  { root.setAttribute('data-open',''); toggle.setAttribute('aria-expanded','true'); }
+    function close() { root.removeAttribute('data-open'); toggle.setAttribute('aria-expanded','false'); }
+    toggle.addEventListener('click', () => {
+      if (root.hasAttribute('data-open')) close(); else open();
+    });
+    closeBtn?.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && root.hasAttribute('data-open')) close();
+    });
+
+    function addMsg(text, who) {
+      const el = document.createElement('div');
+      el.className = 'msg msg--' + who;
+      el.textContent = text;
+      msgs.appendChild(el);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    document.querySelectorAll('.quick-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const q = btn.dataset.q;
+        addMsg(btn.textContent, 'user');
+        setTimeout(() => addMsg(responses[q] || "Hmm, I don't know that yet.", 'bot'), 350);
+      });
+    });
+  })();
+
+  // Active state on the Chapters nav — only suppress navigation for "#" placeholders
+  document.querySelectorAll('.chapter-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      if (link.getAttribute('href') === '#') {
+        e.preventDefault();
+        document.querySelectorAll('.chapter-link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  });
+</script>
+</body>
+</html>

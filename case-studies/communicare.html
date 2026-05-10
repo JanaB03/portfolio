@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CommuniCare — Case Study · Jana Bridi</title>
+<meta name="description" content="A device-agnostic communication platform for people experiencing homelessness in San Diego — built with Father Joe's Villages, designed in the field, and built with AI as a thinking partner." />
+<meta name="theme-color" content="#F0E8D2" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Caveat:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  /* ============================================================
+     RESET
+  ============================================================ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  img, video { max-width: 100%; display: block; }
+  button { font: inherit; cursor: pointer; }
+
+  /* ============================================================
+     TOKENS — paper aesthetic, matching 48in48
+  ============================================================ */
+  :root {
+    --bg:           #F0E8D2;
+    --bg-raised:    #DDD0B2;
+    --bg-sunken:    #CFC09A;
+    --bg-warm:      #DDD0B2;
+    --ink:          #1C1410;
+    --ink-muted:    #584638;
+    --ink-faint:    #96806C;
+    --ink-quiet:    rgba(28, 20, 16, 0.32);
+
+    --accent:       #C25518;   /* burnt orange — primary accent */
+    --rule:         #C0AD92;
+    --annotation:   #3A6632;
+    --ub-green:     #2D6A4F;
+    --ub-yellow:    #E9C46A;
+
+    /* keep legacy aliases so existing class rules still work */
+    --amber:        #C25518;
+    --coral:        #C25518;
+    --warm-glow:    #E9C46A;
+
+    --glass-bg:            var(--bg-raised);
+    --glass-bg-warm:       var(--bg-raised);
+    --glass-border:        var(--rule);
+    --glass-border-strong: var(--rule);
+
+    --font-display: 'Lora', Georgia, serif;
+    --font-body:    'DM Sans', system-ui, sans-serif;
+    --font-mono:    'DM Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    --font-cursive: 'Caveat', cursive;
+
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+  }
+
+  /* ============================================================
+     PAGE
+  ============================================================ */
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.65;
+    font-weight: 400;
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+    letter-spacing: 0;
+  }
+
+  /* Paper grain — same SVG noise pattern as 48in48 */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+  body::after { content: none; }
+
+  /* ============================================================
+     LAYOUT HELPERS
+  ============================================================ */
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 5vw, 56px);
+  }
+  .wrap--narrow { max-width: 780px; }
+
+  /* ============================================================
+     NAV — paper top bar
+  ============================================================ */
+  nav.topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    transform: none;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+    height: 60px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  nav.topbar a {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 0;
+    transition: color 200ms ease;
+    letter-spacing: 0.04em;
+  }
+  nav.topbar a:hover { color: var(--accent); background: transparent; }
+  nav.topbar a.back { color: var(--ink-muted); }
+  nav.topbar a.back:hover { color: var(--accent); background: transparent; }
+  nav.topbar .sep { width: 1px; height: 18px; background: var(--rule); margin: 0 4px; }
+
+  @media (max-width: 640px) {
+    nav.topbar { gap: 0; padding: 0 14px; }
+    nav.topbar a { font-size: 12px; padding: 7px 10px; }
+    nav.topbar .sep { margin: 0 2px; }
+  }
+
+  /* ============================================================
+     HERO — paper layout, matching 48in48
+  ============================================================ */
+  .hero {
+    min-height: 0;
+    padding: 120px 0 5rem;
+    border-bottom: 1px solid var(--rule);
+    display: block;
+    position: relative;
+  }
+
+  .hero-card {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    position: relative;
+    overflow: visible;
+  }
+  .hero-card::before { content: none; }
+
+  .hero__lockscreen-time {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero__lockscreen-time::before {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    color: var(--ink);
+  }
+
+  .hero__mission {
+    font-family: var(--font-body);
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--ink-muted);
+    line-height: 1.75;
+    max-width: 56ch;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0;
+  }
+
+  .hero__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .hero-stat {
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .hero-stat:first-child {
+    background: var(--ub-green);
+    border-color: var(--ub-green);
+    color: #fff;
+  }
+  .hero-stat:first-child .hero-stat__num { color: #fff; }
+  .hero-stat:first-child .hero-stat__label { color: rgba(255,255,255,0.85); }
+
+  .hero-stat__num {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  .hero-stat__label {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    line-height: 1.4;
+    letter-spacing: 0;
+  }
+
+  .hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.92rem;
+    color: var(--ink-muted);
+  }
+  .hero__meta span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .hero__meta strong {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-right: 0;
+  }
+
+  @media (max-width: 640px) {
+    .hero__stats { grid-template-columns: 1fr; }
+    .hero { padding: 100px 0 3.5rem; }
+  }
+
+  /* ============================================================
+     SECTION SHELL
+  ============================================================ */
+  section.story {
+    padding: 6rem 0;
+    position: relative;
+  }
+  @media (max-width: 640px) { section.story { padding: 4rem 0; } }
+
+  .section-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ink-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-eyebrow::before {
+    content: '';
+    flex-shrink: 0;
+    width: 2rem;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.25rem;
+    color: var(--ink);
+  }
+  .section-subtitle {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--ink-muted);
+    line-height: 1.8;
+    max-width: 64ch;
+    margin-bottom: 4rem;
+    letter-spacing: 0;
+  }
+
+  /* Narrative beats */
+  .beat { margin-bottom: 5rem; }
+  .beat:last-child { margin-bottom: 0; }
+
+  .beat__heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.25rem;
+  }
+
+  .beat__body {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    color: var(--ink-muted);
+    line-height: 1.8;
+    max-width: 64ch;
+    margin-bottom: 1rem;
+  }
+  .beat__body strong { color: var(--ink); font-weight: 500; }
+  .beat__body + .beat__body { margin-top: 0; }
+
+  /* ============================================================
+     PULL QUOTE — left-bordered cream raised
+  ============================================================ */
+  .pullquote {
+    margin: 3rem 0;
+    padding: 1.5rem 2rem;
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 4px 4px 0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .pullquote p {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.55;
+    letter-spacing: 0;
+  }
+  .pullquote cite {
+    display: block;
+    margin-top: 0.85rem;
+    font-family: var(--font-cursive);
+    font-style: normal;
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--annotation);
+  }
+
+  /* ============================================================
+     RESEARCH TIMELINE — single bordered grid
+  ============================================================ */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin: 2rem 0 0.5rem;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--bg);
+    list-style: none;
+    padding: 0;
+  }
+  .step {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: none;
+    border-right: 1px solid var(--rule);
+    border-radius: 0;
+    padding: 1.5rem;
+    position: relative;
+  }
+  .step:last-child { border-right: none; }
+  .step__num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--ink-faint);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .step__label {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0;
+    margin-bottom: 0.4rem;
+  }
+  .step__desc {
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+  @media (max-width: 900px) {
+    .timeline { grid-template-columns: 1fr 1fr; }
+    .step { border-bottom: 1px solid var(--rule); }
+    .step:nth-last-child(-n+2) { border-bottom: none; }
+    .step:nth-child(2n) { border-right: none; }
+  }
+  @media (max-width: 540px) {
+    .timeline { grid-template-columns: 1fr; }
+    .step { border-right: none; border-bottom: 1px solid var(--rule); }
+    .step:last-child { border-bottom: none; }
+  }
+
+  /* ============================================================
+     BARRIERS — three paper cards
+  ============================================================ */
+  .barriers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .barrier {
+    background: var(--bg-raised);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 1.75rem;
+  }
+  .barrier__num {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+  }
+  .barrier__name {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0;
+  }
+  .barrier__impact {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--ink-muted);
+    line-height: 1.65;
+  }
+  @media (max-width: 900px) { .barriers { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     ARTIFACT FRAMES
+  ============================================================ */
+  .artifact {
+    margin: 2rem 0;
+    background: var(--bg-raised);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 0.875rem;
+    overflow: hidden;
+  }
+  .artifact img {
+    width: 100%;
+    border-radius: 4px;
+    display: block;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+  }
+  .artifact figcaption {
+    padding: 1rem 0.5rem 0.25rem;
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    color: var(--ink-muted);
+    line-height: 1.6;
+    font-style: italic;
+    letter-spacing: 0;
+  }
+  .artifact figcaption strong { color: var(--ink); font-weight: 500; font-style: normal; }
+
+  /* ============================================================
+     ACCESSIBILITY 2x2 — paper panel
+  ============================================================ */
+  .a11y-panel {
+    margin: 2rem 0;
+    background: var(--bg-raised);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 1.75rem;
+  }
+  .a11y-panel__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .a11y-panel__title {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0;
+  }
+  .a11y-panel__meta {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+  .a11y-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  .a11y-grid img {
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    background: var(--bg);
+  }
+  @media (max-width: 640px) { .a11y-grid { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     BRIDGE — section transition
+  ============================================================ */
+  .bridge {
+    margin: 5rem auto 0;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+    font-weight: 500;
+    font-style: italic;
+    color: var(--ink-muted);
+    line-height: 1.5;
+    letter-spacing: 0;
+    max-width: 580px;
+  }
+  .bridge::before, .bridge::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--rule);
+    margin: 1.5rem auto;
+  }
+
+  /* ============================================================
+     FEATURE BLOCKS — alternating paper rows
+  ============================================================ */
+  .feature {
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    gap: 2.25rem;
+    align-items: center;
+    background: var(--bg-raised);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    margin-bottom: 1.5rem;
+  }
+  .feature.reverse { grid-template-columns: 1fr 1.7fr; }
+  .feature.reverse .feature__media { order: 2; }
+  .feature.reverse .feature__copy { order: 1; }
+
+  .feature__copy { display: flex; flex-direction: column; gap: 0.85rem; }
+  .feature__pain {
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+    font-weight: 500;
+    font-style: italic;
+    color: var(--accent);
+    line-height: 1.4;
+    letter-spacing: 0;
+    margin-bottom: 0.25rem;
+  }
+  .feature__pain::before { content: '“'; opacity: 0.7; margin-right: 2px; }
+  .feature__pain::after  { content: '”'; opacity: 0.7; margin-left: 2px; }
+
+  .feature__name {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .feature__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+  .feature__what {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--ink-muted);
+    line-height: 1.7;
+  }
+
+  .feature__ai {
+    margin-top: 0.5rem;
+    padding: 1rem 1.1rem;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    line-height: 1.65;
+  }
+  .feature__ai-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .feature__media {
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    background: var(--bg);
+    box-shadow: 0 8px 32px rgba(28, 20, 16, 0.14);
+  }
+  .feature__media video,
+  .feature__media img { width: 100%; height: auto; display: block; }
+
+  @media (max-width: 880px) {
+    .feature, .feature.reverse { grid-template-columns: 1fr; }
+    .feature.reverse .feature__media { order: 0; }
+    .feature.reverse .feature__copy { order: 0; }
+  }
+
+  /* ============================================================
+     PRINCIPLES 2x2
+  ============================================================ */
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .principle {
+    background: var(--bg-raised);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 1.5rem;
+  }
+  .principle__name {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .principle__dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--ub-green);
+    box-shadow: none;
+  }
+  .principle__body {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--ink-muted);
+    line-height: 1.65;
+  }
+  @media (max-width: 640px) { .principles { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     OUTCOME — green block matching 48in48
+  ============================================================ */
+  .outcome {
+    margin: 3rem 0;
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.75rem, 5vw, 3.5rem);
+    background: var(--ub-green);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: none;
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+  }
+  .outcome::before {
+    content: 'ABC10';
+    position: absolute;
+    font-family: var(--font-display);
+    font-size: 14rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.06);
+    right: -1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 1;
+    pointer-events: none;
+    background: none;
+    width: auto;
+    height: auto;
+  }
+  .outcome__badge {
+    display: inline-block;
+    padding: 0.4rem 0.9rem;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .outcome__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 2.6rem);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+    position: relative;
+  }
+  .outcome__quote {
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    font-weight: 400;
+    font-style: italic;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.6;
+    letter-spacing: 0;
+    max-width: 60ch;
+    margin: 0 auto 1rem;
+    position: relative;
+  }
+  .outcome__sign {
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  /* ============================================================
+     NEXT — three small paper cards
+  ============================================================ */
+  .next {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .next-card {
+    background: var(--bg-raised);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 1.4rem;
+  }
+  .next-card__step {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.6rem;
+  }
+  .next-card__name {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0;
+    margin-bottom: 0.4rem;
+  }
+  .next-card__desc {
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    color: var(--ink-muted);
+    line-height: 1.6;
+  }
+  @media (max-width: 800px) { .next { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     FOOTER
+  ============================================================ */
+  footer.foot {
+    padding: 3rem 0 5rem;
+    text-align: center;
+    border-top: 1px solid var(--rule);
+  }
+  footer.foot p {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+  }
+  footer.foot a {
+    color: var(--ink-muted);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+  footer.foot a:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ============================================================
+     SCROLL ANIMATIONS
+  ============================================================ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 700ms cubic-bezier(0.2, 0.65, 0.3, 1), transform 700ms cubic-bezier(0.2, 0.65, 0.3, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ============================================================
+     FOCUS STATES
+  ============================================================ */
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* ============================================================
+     LIVE PREVIEW — paper-framed mockup
+  ============================================================ */
+  .live-preview { padding: 2rem 0 4rem; border-bottom: 1px solid var(--rule); }
+  .live-preview .wrap { max-width: 1100px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px); }
+  .live-preview__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .live-preview__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .live-preview__pulse {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 rgba(194, 85, 24, 0.55);
+    animation: cc-live-pulse 1.6s ease-out infinite;
+  }
+  @keyframes cc-live-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(194, 85, 24, 0.55); }
+    70%  { box-shadow: 0 0 0 12px rgba(194, 85, 24, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(194, 85, 24, 0); }
+  }
+  .live-preview__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 0;
+    flex: 1 1 auto;
+    min-width: 220px;
+  }
+  .live-preview__url {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 0.45rem 0.85rem;
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    transition: background 0.2s, border-color 0.2s;
+    flex-shrink: 0;
+  }
+  .live-preview__url:hover {
+    background: var(--bg-sunken);
+    border-color: var(--accent);
+  }
+  .live-preview__frame {
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(28, 20, 16, 0.12);
+    backdrop-filter: none;
+  }
+  .live-preview__bar {
+    background: var(--bg-raised);
+    padding: 0.55rem 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .live-preview__dots {
+    display: flex;
+    gap: 0.4rem;
+  }
+  .live-preview__dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--rule);
+  }
+  .live-preview__dots span:nth-child(1) { background: #E57373; }
+  .live-preview__dots span:nth-child(2) { background: #FFB74D; }
+  .live-preview__dots span:nth-child(3) { background: #81C784; }
+  .live-preview__address {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.4rem 0.85rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .live-preview__iframe-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: #f9f7f2;
+  }
+  .live-preview__iframe-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  .live-preview__cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 1.4rem;
+    align-items: center;
+  }
+  .live-preview__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.65rem 1.2rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .live-preview__btn--primary {
+    background: var(--accent);
+    color: #fff;
+    border: 1px solid var(--accent);
+  }
+  .live-preview__btn--primary:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+    transform: translateY(-1px);
+  }
+  .live-preview__hint {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+  }
+  @media (max-width: 640px) {
+    .live-preview { padding: 1.5rem 0 3rem; }
+    .live-preview__address { font-size: 0.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="topbar" aria-label="Page navigation">
+  <a href="../jana-portfolio.html" class="back" aria-label="Back to portfolio">← Portfolio</a>
+  <span class="sep" aria-hidden="true"></span>
+  <a href="#story">The Design Story</a>
+  <a href="#build">Building With AI</a>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="wrap">
+      <div class="hero-card">
+        <div class="hero__lockscreen-time" aria-hidden="true">CommuniCare · Case Study · 2025</div>
+        <h1 class="hero__title">CommuniCare</h1>
+        <p class="hero__mission">A device-agnostic communication platform built so San Diego's most vulnerable residents stay connected to the people keeping them alive — even after they lose their phone, their tent, or their place to be.</p>
+
+        <div class="hero__stats" role="list">
+          <div class="hero-stat" role="listitem">
+            <span class="hero-stat__num">9,300+</span>
+            <span class="hero-stat__label">people displaced by encampment sweeps</span>
+          </div>
+          <div class="hero-stat" role="listitem">
+            <span class="hero-stat__num">50%</span>
+            <span class="hero-stat__label">of clients lose phone access each year</span>
+          </div>
+          <div class="hero-stat" role="listitem">
+            <span class="hero-stat__num">ABC10</span>
+            <span class="hero-stat__label">San Diego news coverage</span>
+          </div>
+        </div>
+
+        <div class="hero__meta">
+          <span><strong>Role</strong> Product Design + Frontend</span>
+          <span><strong>Timeline</strong> Jan – May 2025</span>
+          <span><strong>Tools</strong> Figma · React · Claude · Cursor · Gemini</span>
+          <span><strong>Partner</strong> Father Joe's Villages</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       LIVE PREVIEW
+  ============================================================ -->
+  <section class="live-preview reveal" aria-labelledby="live-title">
+    <div class="wrap">
+      <div class="live-preview__head">
+        <span class="live-preview__eyebrow">
+          <span class="live-preview__pulse" aria-hidden="true"></span>
+          Live now
+        </span>
+        <h2 class="live-preview__title" id="live-title">It's running. Click in.</h2>
+        <a class="live-preview__url" href="https://communicare-fjv.vercel.app/" target="_blank" rel="noopener">
+          communicare-fjv.vercel.app ↗
+        </a>
+      </div>
+
+      <div class="live-preview__frame">
+        <div class="live-preview__bar">
+          <div class="live-preview__dots" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="live-preview__address">https://communicare-fjv.vercel.app/</div>
+        </div>
+        <div class="live-preview__iframe-wrap">
+          <iframe
+            src="https://communicare-fjv.vercel.app/"
+            title="CommuniCare — live app"
+            loading="lazy"
+            referrerpolicy="no-referrer"></iframe>
+        </div>
+      </div>
+
+      <div class="live-preview__cta-row">
+        <a href="https://communicare-fjv.vercel.app/" target="_blank" rel="noopener" class="live-preview__btn live-preview__btn--primary">
+          Open in new tab ↗
+        </a>
+        <span class="live-preview__hint">Demo logins · Client: TSR-1245-A8T  ·  Staff: STF-9821-M3R</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 1 — THE DESIGN STORY
+  ============================================================ -->
+  <section class="story" id="story" aria-labelledby="story-title">
+    <div class="wrap">
+
+      <div class="reveal">
+        <p class="section-eyebrow">Section 01 · The Design Story</p>
+        <h2 class="section-title" id="story-title">From Crisis to Concept</h2>
+        <p class="section-subtitle">A field-led design process that started with a single sentence from an outreach worker — and ended with wireframes a Father Joe's staff member tested the same afternoon they were drawn.</p>
+      </div>
+
+      <!-- BEAT 1 — INCITING INCIDENT -->
+      <article class="beat reveal">
+        <h3 class="beat__heading">The inciting incident</h3>
+        <p class="beat__body">In 2023, San Diego passed a regulation banning encampments on public property. The intent was public health. The result, six months in, was something no one had planned for: outreach workers at <strong>Father Joe's Villages</strong> began losing contact with the clients they had been supporting for months — sometimes years.</p>
+        <p class="beat__body">When the sweeps moved a person, they moved away from the bench where their case manager met them, the corner where the mobile clinic parked, the shelter that had a bed reserved. <strong>9,300+ people</strong> were displaced. About half lost phone access in the same window. Whole care relationships went dark in a weekend.</p>
+
+        <figure class="pullquote">
+          <p>Every crisis happens on Friday at 6pm.</p>
+          <cite>— Outreach Worker, Father Joe's Villages</cite>
+        </figure>
+
+        <p class="beat__body">That sentence became the brief. Whatever we built had to survive the worst version of itself: a person on a borrowed library computer, on a Friday night, trying to reach someone who could help.</p>
+      </article>
+
+      <!-- BEAT 2 — GOING INTO THE FIELD -->
+      <article class="beat reveal">
+        <h3 class="beat__heading">Going into the field</h3>
+        <p class="beat__body">We didn't design from desks. The team toured the Father Joe's Villages campus, sat in on intake mornings, and ran structured conversations with the people on both sides of the problem — staff who keep the system running, and clients who depend on it.</p>
+
+        <ol class="timeline" aria-label="Research process">
+          <li class="step">
+            <p class="step__num">Step 01</p>
+            <p class="step__label">Site Tour</p>
+            <p class="step__desc">Walked the Father Joe's Villages campus — San Diego's largest provider — to see the spaces, kiosks, and bottlenecks where care actually happens.</p>
+          </li>
+          <li class="step">
+            <p class="step__num">Step 02</p>
+            <p class="step__label">Staff Interviews</p>
+            <p class="step__desc">15+ conversations with outreach workers, nurses, and case managers across multiple service points and shifts.</p>
+          </li>
+          <li class="step">
+            <p class="step__num">Step 03</p>
+            <p class="step__label">Client Sessions</p>
+            <p class="step__desc">Group sessions with currently and recently unsheltered people about the texture of their day — and where communication actually breaks.</p>
+          </li>
+          <li class="step">
+            <p class="step__num">Step 04</p>
+            <p class="step__label">Synthesis</p>
+            <p class="step__desc">Mapped findings into prioritized design opportunities, ranked by what the field had told us was load-bearing.</p>
+          </li>
+        </ol>
+      </article>
+
+      <!-- BEAT 3 — WHAT WE HEARD -->
+      <article class="beat reveal">
+        <h3 class="beat__heading">What we heard</h3>
+        <p class="beat__body">Three barriers showed up in nearly every conversation. None of them were technical. All of them compounded.</p>
+
+        <div class="barriers">
+          <div class="barrier">
+            <p class="barrier__num">01</p>
+            <p class="barrier__name">Phone loss</p>
+            <p class="barrier__impact">Clients reported losing roughly a dozen phones a year — to theft, to weather, to the cost of staying paid up. Continuous contact through a personal device is a fiction.</p>
+          </div>
+          <div class="barrier">
+            <p class="barrier__num">02</p>
+            <p class="barrier__name">Constant displacement</p>
+            <p class="barrier__impact">Sweeps don't just move people; they sever the small geographies of trust — the corner, the bench, the parked clinic — that care was built around.</p>
+          </div>
+          <div class="barrier">
+            <p class="barrier__num">03</p>
+            <p class="barrier__name">Resource blindness</p>
+            <p class="barrier__impact">Services exist that clients never reach, because the information is distributed by flyer and word of mouth in a population that moves every few days.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- BEAT 4 — THE DESIGN RESPONSE -->
+      <article class="beat reveal">
+        <h3 class="beat__heading">The design response</h3>
+        <p class="beat__body">With the field work behind us, the question stopped being "what's the problem" and started being "what's the smallest thing we can build that the staff can use this Friday." Three artifacts shaped the answer.</p>
+
+        <figure class="artifact">
+          <img src="../UX-Engineer/images/communicare/Comparison.png" alt="Competitive analysis matrix comparing scheduling apps, social-care portals, and SMS alert platforms" loading="lazy" />
+          <figcaption><strong>Competitive landscape.</strong> Nothing on the market solved both halves of the problem — device loss <em>and</em> after-hours contact. Scheduling apps assume a phone; SMS tools assume a number. The white space was real.</figcaption>
+        </figure>
+
+        <figure class="artifact">
+          <img src="../UX-Engineer/images/communicare/feasibility map.png" alt="Impact versus feasibility matrix used to prioritize MVP features" loading="lazy" />
+          <figcaption><strong>Feasibility map.</strong> Plotted every idea against impact and build cost. The high-impact / low-cost quadrant became the MVP shortlist — access-code login, 24/7 chat, location sharing, smart resource filter.</figcaption>
+        </figure>
+
+        <figure class="artifact">
+          <img src="../UX-Engineer/images/communicare/Wireframes.png" alt="Low-fidelity wireframes for CommuniCare's core flows" loading="lazy" />
+          <figcaption><strong>First wireframes.</strong> Sketched in a single afternoon sprint and walked over to a Father Joe's staff member the same day. Josh looked at them for a minute and said: <em>"This solves my 6 p.m. Friday panic."</em> That was the validation we built on.</figcaption>
+        </figure>
+      </article>
+
+      <!-- BEAT 5 — ACCESSIBILITY -->
+      <article class="beat reveal">
+        <h3 class="beat__heading">Accessibility as foundation</h3>
+        <p class="beat__body">Accessibility wasn't a checklist at the end. It was the floor everything else stood on — because the design assumption was a stranger's device, in a hard moment, with whatever vision and motor ability the user happened to bring that day.</p>
+
+        <figure class="pullquote">
+          <p>Accessibility is the real emergency.</p>
+          <cite>— Josh, Father Joe's Villages</cite>
+        </figure>
+
+        <div class="a11y-panel">
+          <div class="a11y-panel__head">
+            <p class="a11y-panel__title">Before / After — accessibility pass</p>
+            <p class="a11y-panel__meta">44px touch targets · WCAG AAA contrast · simplified navigation</p>
+          </div>
+          <div class="a11y-grid">
+            <img src="../UX-Engineer/images/communicare/Acess1.jpg" alt="Color contrast testing — text against background combinations" loading="lazy" />
+            <img src="../UX-Engineer/images/communicare/Acess2.jpg" alt="Screen reader compatibility audit results" loading="lazy" />
+            <img src="../UX-Engineer/images/communicare/Acess3.jpg" alt="Touch target size validation against 44px minimum" loading="lazy" />
+            <img src="../UX-Engineer/images/communicare/Acess4.jpg" alt="Before and after of the full accessibility revision" loading="lazy" />
+          </div>
+        </div>
+      </article>
+
+      <p class="bridge reveal">The designs were validated. The wireframes were approved. Now it was time to build.</p>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 2 — BUILDING WITH AI
+  ============================================================ -->
+  <section class="story" id="build" aria-labelledby="build-title">
+    <div class="wrap">
+
+      <div class="reveal">
+        <p class="section-eyebrow">Section 02 · Building With AI</p>
+        <h2 class="section-title" id="build-title">Iteration in the Age of AI Tools</h2>
+        <p class="section-subtitle">Four features, four conversations, and an honest account of where AI helped — and where it didn't.</p>
+      </div>
+
+      <!-- OPENING -->
+      <article class="beat reveal">
+        <p class="beat__body">Building this as a junior designer meant my hands had to be on the actual product, not just the screens. That's where AI became real for me. <strong>Not "AI did it for me" — AI helped me move faster, question more, and ship things I couldn't have alone.</strong></p>
+        <p class="beat__body">Claude was my pair for edge cases and trauma-informed copy. Cursor was my pair for plumbing and debugging. Gemini powered the live chatbot. The judgment about what to ship — what stayed, what got cut, what was safe enough to put in front of a vulnerable person on a borrowed device — was still mine to make.</p>
+      </article>
+
+      <!-- FEATURE 1 -->
+      <article class="feature reveal">
+        <div class="feature__media">
+          <video autoplay muted loop playsinline aria-label="Demo of the landing page and access-code login flow">
+            <source src="../UX-Engineer/images/communicare/section1.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="feature__copy">
+          <p class="feature__pain">I've had 12 phones stolen this year.</p>
+          <p class="feature__name">Feature 01 · Access from Anywhere</p>
+          <h3 class="feature__title">A login that doesn't require a phone</h3>
+          <p class="feature__what">Secure access codes — no phone number, no email, no personal contact info needed. Clients can sign in from a library terminal, a borrowed phone, or a shelter kiosk and find their account exactly where they left it.</p>
+          <div class="feature__ai">
+            <span class="feature__ai-tag">How AI helped here</span>
+            Claude helped me think through edge cases for users on shared devices with no email address — things like silent timeout for an abandoned session, how to handle a code typed wrong three times, and what a recovery flow looks like for someone who can't be reached by SMS.
+          </div>
+        </div>
+      </article>
+
+      <!-- FEATURE 2 -->
+      <article class="feature reverse reveal">
+        <div class="feature__media">
+          <img src="../UX-Engineer/images/communicare/section2.gif" alt="Demo of the AI chatbot and 24/7 support dashboard" loading="lazy" />
+        </div>
+        <div class="feature__copy">
+          <p class="feature__pain">Every crisis happens on Friday at 6pm.</p>
+          <p class="feature__name">Feature 02 · Always Someone to Help</p>
+          <h3 class="feature__title">Private chat, always-on AI fallback</h3>
+          <p class="feature__what">Private messaging with case managers during business hours, with an always-available AI support chatbot for the nights, weekends, and Friday-at-6 moments when staff are gone. Sensitive messages can be deleted instantly for safety on shared screens.</p>
+          <div class="feature__ai">
+            <span class="feature__ai-tag">How AI helped here</span>
+            The 24/7 support chatbot was built on the Gemini API. I used Claude to iterate on the prompt design for trauma-informed responses — specifically: never minimize, never push someone toward a service before acknowledging the situation, and always surface a human escalation path within two messages.
+          </div>
+        </div>
+      </article>
+
+      <!-- FEATURE 3 -->
+      <article class="feature reveal">
+        <div class="feature__media">
+          <video autoplay muted loop playsinline aria-label="Demo of flexible location sharing on the map">
+            <source src="../UX-Engineer/images/communicare/section3.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="feature__copy">
+          <p class="feature__pain">We can't find clients after the sweeps.</p>
+          <p class="feature__name">Feature 03 · Stay Connected, Stay Safe</p>
+          <h3 class="feature__title">Flexible, opt-in location sharing</h3>
+          <p class="feature__what">Clients can share a current location, a future meeting spot, or a general area — whatever they're comfortable with. The mobile health clinic's live position is on the same map, so people can find care without being found.</p>
+          <div class="feature__ai">
+            <span class="feature__ai-tag">How AI helped here</span>
+            Cursor helped me debug the location API integration without breaking the accessibility patterns underneath — keeping the map keyboard-navigable and the share controls usable with a screen reader, even as the underlying geolocation logic got rewritten twice.
+          </div>
+        </div>
+      </article>
+
+      <!-- FEATURE 4 -->
+      <article class="feature reverse reveal">
+        <div class="feature__media">
+          <video autoplay muted loop playsinline aria-label="Demo of the resource filter">
+            <source src="../UX-Engineer/images/communicare/section4.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="feature__copy">
+          <p class="feature__pain">I don't know what's even available to me.</p>
+          <p class="feature__name">Feature 04 · Find Help That Fits</p>
+          <h3 class="feature__title">Smart resource filtering</h3>
+          <p class="feature__what">Smart filters surface only the resources a person is actually eligible for, based on location, current availability, and stated requirements. No more wasted trips across town to a service that turned out to be closed or full.</p>
+          <div class="feature__ai">
+            <span class="feature__ai-tag">How AI helped here</span>
+            Used Claude to generate realistic synthetic data for stress-testing the filter logic across 40+ resources — ID requirements, hours, eligibility quirks, "men only / women only / families only" combinations — to catch the edge cases before a real person hit them at the wrong time.
+          </div>
+        </div>
+      </article>
+
+      <!-- PRINCIPLES -->
+      <article class="beat reveal" style="margin-top: 32px;">
+        <h3 class="beat__heading">The principles every AI-assisted decision had to pass</h3>
+        <p class="beat__body">When AI is in the loop, it's tempting to ship whatever works. These four sentences were the gate.</p>
+
+        <div class="principles">
+          <div class="principle">
+            <p class="principle__name"><span class="principle__dot" aria-hidden="true"></span>Privacy First</p>
+            <p class="principle__body">Every interaction gives the user control over what they share, with immediate deletion built in. For vulnerable populations, privacy isn't a feature — it's the basis for trust.</p>
+          </div>
+          <div class="principle">
+            <p class="principle__name"><span class="principle__dot" aria-hidden="true"></span>Device Agnostic</p>
+            <p class="principle__body">Works on any internet-connected screen — library computer, shelter kiosk, borrowed phone. No personal device assumed, ever.</p>
+          </div>
+          <div class="principle">
+            <p class="principle__name"><span class="principle__dot" aria-hidden="true"></span>Crisis Ready</p>
+            <p class="principle__body">24/7 support pathways, because displacement and emergency don't keep business hours. The AI fallback exists for this and only this.</p>
+          </div>
+          <div class="principle">
+            <p class="principle__name"><span class="principle__dot" aria-hidden="true"></span>Human Connection</p>
+            <p class="principle__body">Technology facilitates the relationship; it never replaces it. Every feature points back to a person who can help.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- OUTCOME -->
+      <article class="beat reveal">
+        <div class="outcome">
+          <span class="outcome__badge">Outcome · ABC10 News Coverage</span>
+          <p class="outcome__title">CommuniCare was featured by ABC10 News — a sign the problem we set out to solve was as urgent as the field had told us it was.</p>
+          <p class="outcome__quote">Working directly with people experiencing homelessness didn't just inform our design decisions — it fundamentally changed how I approach design as a whole.</p>
+          <p class="outcome__sign">— Jana Bridi · San Diego · 2025</p>
+        </div>
+      </article>
+
+      <!-- WHAT'S NEXT -->
+      <article class="beat reveal" style="margin-bottom: 0;">
+        <h3 class="beat__heading">What's next</h3>
+        <p class="beat__body">CommuniCare is a working client product. The next chapter is staff, infrastructure, and real-world use.</p>
+
+        <div class="next">
+          <div class="next-card">
+            <p class="next-card__step">Next 01</p>
+            <p class="next-card__name">Staff Interface</p>
+            <p class="next-card__desc">Companion platform for outreach workers — bulk messaging, client roster, location requests, and shift handoff.</p>
+          </div>
+          <div class="next-card">
+            <p class="next-card__step">Next 02</p>
+            <p class="next-card__name">Backend Infrastructure</p>
+            <p class="next-card__desc">Real-time messaging, durable location services, and security hardening for vulnerable users on shared devices.</p>
+          </div>
+          <div class="next-card">
+            <p class="next-card__step">Next 03</p>
+            <p class="next-card__name">Pilot at Father Joe's</p>
+            <p class="next-card__desc">Get it into the hands of clients and staff at Father Joe's Villages and iterate against actual deployment conditions.</p>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>Jana Bridi · 2025 · <a href="../jana-portfolio.html">← Back to portfolio</a></p>
+  </footer>
+
+</main>
+
+<script>
+  // Reveal-on-scroll
+  (function () {
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>

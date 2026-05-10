@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pawesome Adventure Walks — Case Study · Jana Bridi</title>
+<meta name="description" content="A full website build for a pet care business in the Scottish Borders — designed, developed, and launched solo." />
+<meta name="theme-color" content="#F0E8D2" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Caveat:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:           #F0E8D2;
+    --bg-raised:    #DDD0B2;
+    --bg-sunken:    #CFC09A;
+    --ink:          #1C1410;
+    --ink-muted:    #584638;
+    --ink-faint:    #96806C;
+    --accent:       #C25518;
+    --rule:         #C0AD92;
+    --annotation:   #3A6632;
+    --ub-green:     #2D6A4F;
+    --ub-yellow:    #E9C46A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+    height: 60px;
+  }
+  nav a.back {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  nav a.back:hover { color: var(--accent); }
+  nav .nav-badge {
+    font-family: 'Caveat', cursive;
+    font-size: 1.05rem;
+    color: var(--annotation);
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+  }
+  .container--wide {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+  }
+
+  section { padding: 6rem 0; }
+  section + section { padding-top: 0; }
+
+  /* HERO */
+  .hero {
+    padding-top: 120px;
+    padding-bottom: 5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero__eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero__eyebrow::before {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+    display: inline-block;
+  }
+  .hero__title {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+  .hero__subtitle {
+    font-size: 1.15rem;
+    color: var(--ink-muted);
+    max-width: 56ch;
+    margin-bottom: 3rem;
+    line-height: 1.75;
+  }
+  .hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+  }
+  .meta-item__label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  .meta-item__value {
+    font-size: 0.92rem;
+    color: var(--ink-muted);
+  }
+
+  .hero__stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--ub-green);
+    color: #fff;
+    padding: 1.25rem 2rem;
+    border-radius: 4px;
+    margin-bottom: 2.5rem;
+  }
+  .hero__stat-num {
+    font-family: 'Lora', serif;
+    font-size: 3.5rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .hero__stat-desc {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    opacity: 0.9;
+  }
+
+  /* SECTION HEADERS */
+  .section-marker {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .section-marker__num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+  }
+  .section-marker__line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .section-marker__tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  h2.section-title {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.01em;
+  }
+  p.section-body {
+    font-size: 1.05rem;
+    color: var(--ink-muted);
+    max-width: 64ch;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  /* CLIENT */
+  .client-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-top: 3rem;
+  }
+  .client-info h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+  .client-info p {
+    font-size: 1rem;
+    color: var(--ink-muted);
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+  }
+  .client-programs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+    background: var(--bg-raised);
+    color: var(--ink-muted);
+    border: 1px solid var(--rule);
+  }
+  .pill--green {
+    background: var(--ub-green);
+    color: #fff;
+    border-color: var(--ub-green);
+  }
+
+  .client-side {
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 2rem;
+  }
+  .client-side h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1rem;
+  }
+  .client-side p {
+    font-family: 'Lora', serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .client-side .signoff {
+    font-family: 'Caveat', cursive;
+    font-size: 1.05rem;
+    color: var(--annotation);
+    margin-top: 1rem;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* IMAGES */
+  .img-full {
+    width: 100%;
+    border-radius: 4px;
+    display: block;
+    margin: 2rem 0;
+    border: 1px solid var(--rule);
+  }
+  .img-caption {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-faint);
+    margin-top: -1.25rem;
+    margin-bottom: 2rem;
+    padding-left: 0.25rem;
+  }
+
+  /* TIMELINE */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin: 2.5rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .timeline-step {
+    padding: 1.5rem;
+    border-right: 1px solid var(--rule);
+  }
+  .timeline-step:last-child { border-right: none; }
+  .timeline-step__num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-faint);
+    margin-bottom: 0.5rem;
+  }
+  .timeline-step__label {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+  .timeline-step__desc {
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 3px solid var(--accent);
+    padding: 1.25rem 2rem;
+    margin: 3rem 0;
+    background: var(--bg-raised);
+    border-radius: 0 4px 4px 0;
+  }
+  .pull-quote p {
+    font-family: 'Lora', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.65;
+  }
+
+  /* MEDIA SHOWCASE — recording */
+  .showcase {
+    margin: 3rem 0;
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 0.875rem;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(28,20,16,0.12);
+  }
+  .showcase video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    background: var(--bg);
+  }
+  .showcase figcaption {
+    padding: 1rem 0.5rem 0.25rem;
+    font-size: 0.92rem;
+    color: var(--ink-muted);
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .showcase figcaption strong { color: var(--ink); font-weight: 500; font-style: normal; }
+
+  /* LIVE SITE — embedded iframe */
+  .live-frame {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    box-shadow: 0 8px 32px rgba(28,20,16,0.12);
+    margin: 2.5rem 0;
+    background: var(--bg);
+  }
+  .live-frame__bar {
+    background: var(--bg-raised);
+    padding: 0.55rem 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .live-frame__dots { display: flex; gap: 0.4rem; }
+  .live-frame__dots span {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--rule);
+  }
+  .live-frame__dots span:nth-child(1) { background: #E57373; }
+  .live-frame__dots span:nth-child(2) { background: #FFB74D; }
+  .live-frame__dots span:nth-child(3) { background: #81C784; }
+  .live-frame__address {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.3rem 0.85rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .live-frame__iframe-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: #fff;
+  }
+  .live-frame__iframe-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  /* OUTCOME */
+  .outcome-block {
+    background: var(--ub-green);
+    border-radius: 8px;
+    padding: 4rem;
+    text-align: center;
+    color: #fff;
+    margin: 3rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .outcome-block::before {
+    content: 'live';
+    position: absolute;
+    font-family: 'Lora', serif;
+    font-size: 18rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.06);
+    right: -2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .outcome-block h2 {
+    font-family: 'Lora', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .outcome-block p {
+    font-size: 1.1rem;
+    opacity: 0.85;
+    max-width: 48ch;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+    position: relative;
+  }
+  .outcome-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: background 0.2s;
+    position: relative;
+  }
+  .outcome-link:hover { background: rgba(255,255,255,0.25); }
+
+  /* GRIDS */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .ds-block {
+    background: var(--bg-raised);
+    border-radius: 6px;
+    padding: 2rem;
+    border: 1px solid var(--rule);
+  }
+  .ds-block h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1.25rem;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 3rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  footer .foot-left {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+  }
+  footer a.foot-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  footer a.foot-link:hover { color: var(--accent); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .client-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .timeline { grid-template-columns: 1fr 1fr; }
+    .outcome-block { padding: 2.5rem 1.5rem; }
+  }
+  @media (max-width: 480px) {
+    .grid-3 { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: 1fr; }
+    .timeline-step { border-right: none; border-bottom: 1px solid var(--rule); }
+    .timeline-step:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../jana-portfolio.html" class="back">← Back to portfolio</a>
+  <span class="nav-badge">Pawesome · 2024</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <p class="hero__eyebrow">Case Study — Freelance · Scotland</p>
+    <h1 class="hero__title">Pawesome<br>Adventure Walks</h1>
+    <p class="hero__subtitle">A pet care business in the Scottish Borders had no online presence to match the quality of the service. I designed, built, and launched a full website solo — across an ocean, in 2024.</p>
+
+    <div class="hero__stat">
+      <span class="hero__stat-num">1</span>
+      <span class="hero__stat-desc">Designer + developer<br>working solo, San Diego → Scotland</span>
+    </div>
+
+    <div class="hero__meta">
+      <div class="meta-item">
+        <span class="meta-item__label">Role</span>
+        <span class="meta-item__value">Web design + dev + SEO</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-item__label">Year</span>
+        <span class="meta-item__value">2024</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-item__label">Tools</span>
+        <span class="meta-item__value">Figma · React · Vercel</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-item__label">Status</span>
+        <span class="meta-item__value">Live at pawesomekelso.vercel.app</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-item__label">Client</span>
+        <span class="meta-item__value">Scottish Borders, UK</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 01 THE CLIENT -->
+<section>
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">01</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">The Client</span>
+    </div>
+
+    <h2 class="section-title">A small pet care business<br>in the Scottish Borders</h2>
+
+    <div class="client-grid">
+      <div class="client-info">
+        <h3>Real walks. Real care. No website to match.</h3>
+        <p>Pawesome Adventure Walks is a pet care business based in the Scottish Borders. They offer dog walking, adventure walks, and pet sitting — the kind of small local service that lives or dies on word of mouth and trust.</p>
+        <p>By 2024, the business had a loyal client base but no online presence. New customers had no easy way to verify the service was real, see what walks looked like, or get in touch. The job was to build a website that matched the quality of the service.</p>
+        <div class="client-programs">
+          <span class="pill pill--green">Dog Walking</span>
+          <span class="pill pill--green">Adventure Walks</span>
+          <span class="pill pill--green">Pet Sitting</span>
+          <span class="pill">Scottish Borders · UK</span>
+          <span class="pill">Small Business</span>
+        </div>
+      </div>
+      <div class="client-side">
+        <h4>The Brief</h4>
+        <p>"We need a website. Make it feel like the walks do."</p>
+        <p class="signoff">— Pawesome, 2024</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 THE BRIEF -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">02</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">The Brief</span>
+    </div>
+
+    <h2 class="section-title">Solo build, transatlantic.</h2>
+    <p class="section-body">Designer, developer, SEO, and project manager — all in one. Working remotely from San Diego with a client in Scotland meant fewer meetings and tighter feedback loops. The whole thing had to ship as one cohesive product, not a handoff.</p>
+
+    <div class="timeline">
+      <div class="timeline-step">
+        <div class="timeline-step__num">Phase 01</div>
+        <div class="timeline-step__label">Discovery</div>
+        <div class="timeline-step__desc">Understood the services, the customer, and the tone. Pulled local photography and copy.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step__num">Phase 02</div>
+        <div class="timeline-step__label">Architecture</div>
+        <div class="timeline-step__desc">Mapped the full site — services, gallery, about, contact, booking — into a navigation that one-time visitors could use.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step__num">Phase 03</div>
+        <div class="timeline-step__label">Design + Build</div>
+        <div class="timeline-step__desc">Designed in Figma, built in React, deployed on Vercel. Mobile-first, with maps and a gallery as first-class features.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step__num">Phase 04</div>
+        <div class="timeline-step__label">Launch + SEO</div>
+        <div class="timeline-step__desc">Launched live at pawesomekelso.vercel.app with on-page SEO, structured data, and responsive across devices.</div>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>"A small business website doesn't need to be flashy — it needs to be findable, trustworthy, and easy to book from a phone with one bar of signal."</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 ARCHITECTURE -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">03</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">Architecture</span>
+    </div>
+
+    <h2 class="section-title">Mapping the site.</h2>
+    <p class="section-body">Before any design, I mapped every page and how a first-time visitor would move through them. The goal: someone landing on a service page should be able to book or get in touch without ever scrolling back to the nav.</p>
+
+    <img src="../UX-Engineer/images/pawesome/sitemap.jpg" alt="Pawesome Adventure Walks full site map" class="img-full" />
+    <p class="img-caption">Full site map — home, services, gallery, about, contact, and booking flow</p>
+  </div>
+</section>
+
+<!-- 04 LIVE SITE -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">04</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">Live Site</span>
+    </div>
+
+    <h2 class="section-title">Designed, built, and shipped.</h2>
+    <p class="section-body">The site is live at pawesomekelso.vercel.app. Mobile-first responsive, with a real photo gallery, embedded maps for the walking routes, and a contact path that works on patchy rural signal.</p>
+
+    <div class="live-frame">
+      <div class="live-frame__bar">
+        <div class="live-frame__dots" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="live-frame__address">https://pawesomekelso.vercel.app/</div>
+      </div>
+      <div class="live-frame__iframe-wrap">
+        <iframe
+          src="https://pawesomekelso.vercel.app/"
+          title="Pawesome Adventure Walks — live site"
+          loading="lazy"
+          referrerpolicy="no-referrer"></iframe>
+      </div>
+    </div>
+
+    <figure class="showcase">
+      <video autoplay muted loop playsinline aria-label="Walkthrough recording of the live Pawesome website">
+        <source src="../UX-Engineer/images/pawesome/pawesome-recording.mp4" type="video/mp4" />
+      </video>
+      <figcaption><strong>Site walkthrough.</strong> A short recording of the live site — home, services, gallery, and contact in a single scroll.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 05 OUTCOME -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">05</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">Outcome</span>
+    </div>
+
+    <div class="outcome-block">
+      <h2>Live and working.</h2>
+      <p>A small business in rural Scotland now has a website that matches the quality of the service. Designed, built, and launched solo — discovery to deploy.</p>
+      <a href="https://pawesomekelso.vercel.app/" target="_blank" rel="noopener" class="outcome-link">Visit pawesomekelso.vercel.app ↗</a>
+    </div>
+
+    <div class="grid-3">
+      <div class="ds-block" style="text-align:center;">
+        <h4 style="text-align:center; margin-bottom:0.5rem;">Built Solo</h4>
+        <p style="font-family:'Lora',serif; font-size:2.5rem; font-weight:600; color:var(--ink);">1</p>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin-top:0.5rem;">Designer + developer + SEO — discovery through deploy</p>
+      </div>
+      <div class="ds-block" style="text-align:center;">
+        <h4 style="text-align:center; margin-bottom:0.5rem;">Built For</h4>
+        <p style="font-family:'Lora',serif; font-size:2.5rem; font-weight:600; color:var(--ink);">Mobile</p>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin-top:0.5rem;">Mobile-first responsive — works on patchy rural signal</p>
+      </div>
+      <div class="ds-block" style="text-align:center;">
+        <h4 style="text-align:center; margin-bottom:0.5rem;">Distance</h4>
+        <p style="font-family:'Lora',serif; font-size:2.5rem; font-weight:600; color:var(--ink);">8,580km</p>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin-top:0.5rem;">San Diego → Scottish Borders. Async, transatlantic delivery.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <footer>
+    <span class="foot-left">Jana Bridi · Portfolio</span>
+    <div style="display:flex; gap:2rem;">
+      <a href="../jana-portfolio.html" class="foot-link">← Back to work</a>
+      <a href="https://pawesomekelso.vercel.app/" target="_blank" rel="noopener" class="foot-link">Visit live site ↗</a>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>
