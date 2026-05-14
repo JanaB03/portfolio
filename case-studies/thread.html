@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Thread — Case Study · Jana Bridi</title>
+<meta name="description" content="A fully AI-built prototype that lets you take notes while scrolling Instagram and TikTok." />
+<meta name="theme-color" content="#F0E8D2" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Caveat:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:           #F0E8D2;
+    --bg-raised:    #DDD0B2;
+    --bg-sunken:    #CFC09A;
+    --ink:          #1C1410;
+    --ink-muted:    #584638;
+    --ink-faint:    #96806C;
+    --accent:       #C25518;
+    --rule:         #C0AD92;
+    --annotation:   #3A6632;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+    height: 60px;
+  }
+  nav a.back {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  nav a.back:hover { color: var(--accent); }
+  nav .nav-badge {
+    font-family: 'Caveat', cursive;
+    font-size: 1.05rem;
+    color: var(--annotation);
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+  }
+
+  section { padding: 4rem 0; }
+  section + section { padding-top: 0; }
+
+  /* HERO */
+  .hero {
+    padding-top: 120px;
+    padding-bottom: 3.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero__eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero__eyebrow::before {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+    display: inline-block;
+  }
+  .hero__title {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+  }
+  .hero__subtitle {
+    font-size: 1.15rem;
+    color: var(--ink-muted);
+    max-width: 56ch;
+    margin-bottom: 2.5rem;
+    line-height: 1.75;
+  }
+  .hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+  }
+  .meta-item__label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  .meta-item__value {
+    font-size: 0.92rem;
+    color: var(--ink-muted);
+  }
+
+  /* DEMO VIDEO */
+  .demo {
+    padding: 3rem 0;
+  }
+  .demo__frame {
+    width: 100%;
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px -20px rgba(28, 20, 16, 0.18);
+  }
+  .demo__frame video {
+    width: 100%;
+    display: block;
+  }
+  .demo__caption {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  /* BODY COPY */
+  h2.section-title {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.01em;
+  }
+  p.section-body {
+    font-size: 1.05rem;
+    color: var(--ink-muted);
+    max-width: 64ch;
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+  }
+  .section-marker {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .section-marker__num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+  }
+  .section-marker__line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .section-marker__tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* AI STACK chips */
+  .stack {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .tool {
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 1.25rem 1.25rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .tool:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px -16px rgba(28, 20, 16, 0.25);
+  }
+  .tool__icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Lora', serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 0.35rem;
+  }
+  .tool__icon--claude { background: #C25518; }
+  .tool__icon--figma  { background: #1C1410; }
+  .tool__icon--cursor { background: #3A6632; }
+  .tool__icon--chatgpt{ background: #2F6B5C; }
+  .tool__name {
+    font-family: 'Lora', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .tool__role {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.3rem;
+  }
+  .tool__note {
+    font-size: 0.92rem;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+
+  /* PROCESS strip */
+  .process {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+  }
+  .process .step {
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    padding: 0.4rem 0.85rem;
+    border-radius: 100px;
+  }
+  .process .arrow {
+    color: var(--ink-faint);
+  }
+
+  /* FOOTER */
+  footer.case-footer {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 4rem 0;
+    margin-top: 4rem;
+  }
+  footer.case-footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  footer.case-footer a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--bg);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--bg-sunken);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  footer.case-footer a:hover {
+    color: #fff;
+    border-color: var(--accent);
+  }
+  footer.case-footer .signature {
+    font-family: 'Caveat', cursive;
+    font-size: 1.25rem;
+    color: var(--bg-sunken);
+  }
+
+  @media (max-width: 640px) {
+    .hero__meta { gap: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../jana-portfolio.html" class="back">← Back to portfolio</a>
+  <span class="nav-badge">Thread · 2026</span>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <p class="hero__eyebrow">Case Study — Full AI Build</p>
+    <h1 class="hero__title">Thread</h1>
+    <p class="hero__subtitle">
+      A note-taking layer for your feed. Thread sits on top of Instagram and TikTok so the things you save while scrolling — recipes, hot-takes, outfit ideas, that one bookshelf — actually become notes you can come back to, instead of getting buried in the "saved" tab.
+    </p>
+    <div class="hero__meta">
+      <div class="meta-item">
+        <span class="meta-item__label">Role</span>
+        <span class="meta-item__value">Designer · AI-assisted builder</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-item__label">Stack</span>
+        <span class="meta-item__value">Claude Code · Figma Make · Cursor · ChatGPT</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-item__label">Timeframe</span>
+        <span class="meta-item__value">2026 · weekend prototype</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="demo">
+  <div class="container">
+    <div class="demo__frame">
+      <video autoplay loop muted playsinline preload="auto"
+             src="../Downloads/cursorful-video-1778650424561.mp4"
+             aria-label="Thread demo recording"></video>
+    </div>
+    <p class="demo__caption">↑ Quick walkthrough — taking notes without leaving the scroll.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">01</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">The idea</span>
+    </div>
+    <h2 class="section-title">Save isn't really save.</h2>
+    <p class="section-body">
+      I noticed I was hoarding "saved" posts I'd never look at again. The save button feels like remembering, but it's really just deferring. Thread reframes the moment: a one-tap note slides in over the video, you jot the why — the recipe, the quote, the idea it sparked — and it lands in a real note you actually own.
+    </p>
+    <p class="section-body">
+      No re-finding. No "wait which post was that." Just thoughts threaded to the thing that triggered them.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">02</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">How I built it</span>
+    </div>
+    <h2 class="section-title">Designed by hand, built by AI.</h2>
+    <p class="section-body">
+      Every line of code in Thread was generated through AI tools. My job was the taste — the flow, the feel, what stays, what gets cut. The AI's job was the typing. Here's the stack:
+    </p>
+
+    <div class="stack">
+      <div class="tool">
+        <div class="tool__icon tool__icon--claude">C</div>
+        <span class="tool__role">Build engine</span>
+        <span class="tool__name">Claude Code</span>
+        <span class="tool__note">Drove the actual implementation — components, state, the overlay logic. Where the bulk of the app got made.</span>
+      </div>
+      <div class="tool">
+        <div class="tool__icon tool__icon--figma">F</div>
+        <span class="tool__role">UI generation</span>
+        <span class="tool__name">Figma Make</span>
+        <span class="tool__note">First-pass screens and visual layout. Faster than wireframing from scratch.</span>
+      </div>
+      <div class="tool">
+        <div class="tool__icon tool__icon--cursor">↳</div>
+        <span class="tool__role">Inline edits</span>
+        <span class="tool__name">Cursor</span>
+        <span class="tool__note">Quick file-by-file changes and small refactors when I wanted to nudge a detail without a full rebuild.</span>
+      </div>
+      <div class="tool">
+        <div class="tool__icon tool__icon--chatgpt">G</div>
+        <span class="tool__role">Prompting partner</span>
+        <span class="tool__name">ChatGPT</span>
+        <span class="tool__note">Used to sharpen the prompts I fed the build tools — clearer asks in, better code out.</span>
+      </div>
+    </div>
+
+    <div class="process">
+      <span class="step">Sketch idea</span>
+      <span class="arrow">→</span>
+      <span class="step">ChatGPT: prompt</span>
+      <span class="arrow">→</span>
+      <span class="step">Figma Make: UI</span>
+      <span class="arrow">→</span>
+      <span class="step">Claude Code: build</span>
+      <span class="arrow">→</span>
+      <span class="step">Cursor: polish</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">03</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">What I took away</span>
+    </div>
+    <h2 class="section-title">The designer becomes the director.</h2>
+    <p class="section-body">
+      Building Thread without writing code myself changed how I think about my own role. The bottleneck wasn't the typing — it was knowing what to make and what to leave out. AI tools collapse the gap between "I want it to feel like this" and "here it is, running." The taste is still mine. The hands are faster.
+    </p>
+  </div>
+</section>
+
+<footer class="case-footer">
+  <div class="container">
+    <a href="../jana-portfolio.html">← Back to portfolio</a>
+    <span class="signature">— jana 🐸</span>
+  </div>
+</footer>
+
+</body>
+</html>
