@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — Jana Bridi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&display=swap">
+<style>
+  :root {
+    /* warm sand base */
+    --color-bg: #f3eee0;
+    --color-bg-light: #e8dec8;
+    --color-bg-neutral: #ede5d2;
+    --color-bg-neutral-2: #d6caaf;
+    --color-ink: #242424;
+    --color-ink-dim: #666;
+    --color-ink-mute: #a2a2a2;
+    --color-ink-inverted: #fff;
+    --color-pink-1: #eabaca;
+    --color-teal: #168b9d;
+    --color-orange: #cb7836;
+    --color-green: #1a7b3f;
+    /* mossy palette */
+    --color-moss-light: #c5d3b0;
+    --color-moss: #9bb37e;
+    --color-moss-deep: #3f5e3b;
+
+    --font-display: "Cormorant Garamond", "Times New Roman", serif;
+    --font-mono: "Source Code Pro", ui-monospace, "SF Mono", Menlo, monospace;
+    --font-body: "Segoe UI", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+
+    --ease-out-soft: cubic-bezier(.22, 1, .36, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .shell {
+    display: flex;
+    align-items: stretch;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ========== SIDEBAR (mirrors homepage) ========== */
+  .sidebar {
+    background: var(--color-bg-light);
+    width: 303px;
+    flex-shrink: 0;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .sidebar-logo {
+    display: inline-block;
+    width: 56px;
+    height: 48px;
+    margin-bottom: 6px;
+    transition: transform .25s var(--ease-out-soft);
+  }
+  .sidebar-logo:hover { transform: scale(1.1) rotate(-4deg); }
+  .sidebar-logo svg { display: block; width: 100%; height: 100%; }
+
+  .sidebar-name {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: 36px;
+    line-height: 1;
+    color: var(--color-ink);
+  }
+  .sidebar-role {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    text-transform: uppercase;
+    color: var(--color-ink-dim);
+    letter-spacing: .02em;
+  }
+  .sidebar-bio {
+    font-size: 15px;
+    color: var(--color-ink-dim);
+    line-height: 1.45;
+  }
+  .sidebar-bio .strong { color: var(--color-ink); }
+
+  /* Chapters nav */
+  .chapters { width: 100%; }
+  .chapters-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-ink-mute);
+    margin-bottom: 10px;
+  }
+  .chapters-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .chapter-link {
+    display: grid;
+    grid-template-columns: 16px auto 1fr;
+    align-items: baseline;
+    column-gap: 8px;
+    padding: 3px 0;
+    color: var(--color-ink-dim);
+    transition: color .2s, transform .25s var(--ease-out-soft);
+  }
+  .chapter-link:hover { color: var(--color-ink); transform: translateX(3px); }
+  .ch-mark {
+    font-size: 14px;
+    line-height: 1;
+    color: var(--color-moss);
+    transition: color .2s, transform .25s var(--ease-out-soft);
+  }
+  .chapter-link:hover .ch-mark { transform: rotate(20deg); }
+  .ch-num {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-ink-mute);
+  }
+  .ch-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.15;
+  }
+  .chapter-link.active { color: var(--color-ink); }
+  .chapter-link.active .ch-mark { color: var(--color-moss-deep); }
+  .chapter-link.active .ch-title {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--color-moss);
+    text-decoration-thickness: 1.5px;
+  }
+
+  /* Find me at */
+  .find-label {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    margin-bottom: 4px;
+  }
+  .find-links { color: var(--color-ink-dim); font-size: 15px; }
+  .find-links a { color: var(--color-ink-dim); text-underline-offset: 4px; }
+  .find-links a:hover { color: var(--color-ink); text-decoration: underline; }
+
+  /* Right Now footer */
+  .right-now {
+    margin-top: auto;
+    border-top: 1px dashed rgba(60, 50, 30, 0.18);
+    padding-top: 14px;
+  }
+  .right-now-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-ink-mute);
+    margin-bottom: 8px;
+  }
+  .right-now-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .right-now-list li {
+    font-size: 13px;
+    color: var(--color-ink-dim);
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .rn-key {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-moss-deep);
+    flex-shrink: 0;
+    min-width: 50px;
+  }
+  .rn-val {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--color-ink);
+    line-height: 1.2;
+  }
+
+  /* "Your order" — only shows if the user picked a drink at the cafe */
+  .your-order {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0 4px;
+  }
+  .your-order.visible { display: flex; }
+  .your-order img {
+    width: 52px;
+    height: auto;
+    transform: rotate(-7deg);
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.18));
+    flex-shrink: 0;
+  }
+  .your-order-text { line-height: 1.2; }
+  .your-order-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-ink-mute);
+    margin-bottom: 3px;
+  }
+  .your-order-name {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--color-ink);
+  }
+
+  /* ========== MAIN ========== */
+  .main {
+    flex: 1;
+    min-width: 0;
+    padding: 56px 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    max-width: 1100px;
+  }
+
+  /* Hero block */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 48px;
+    align-items: end;
+    padding-bottom: 32px;
+    border-bottom: 1px dashed rgba(60, 50, 30, 0.2);
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-ink-mute);
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.05;
+    color: var(--color-ink);
+    margin-bottom: 18px;
+  }
+  .hero h1 em { font-style: italic; font-weight: 400; }
+  .hero-lead {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(18px, 1.6vw, 22px);
+    color: var(--color-ink-dim);
+    max-width: 540px;
+    line-height: 1.45;
+  }
+  .hero-photo {
+    aspect-ratio: 5 / 4;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--color-bg-neutral);
+    transform: rotate(2deg);
+    box-shadow: 0 6px 20px -10px rgba(0,0,0,0.35);
+    transition: transform .35s var(--ease-out-soft);
+  }
+  .hero-photo:hover { transform: rotate(0); }
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Generic section */
+  .section { display: flex; flex-direction: column; gap: 16px; }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-moss-deep);
+  }
+  .section h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(28px, 3vw, 36px);
+    line-height: 1.1;
+    color: var(--color-ink);
+    margin-bottom: 4px;
+  }
+  .section p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--color-ink-dim);
+    max-width: 700px;
+  }
+  .section p .strong { color: var(--color-ink); font-weight: 500; }
+
+  /* Principles list */
+  .principles {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+    margin-top: 4px;
+    max-width: 820px;
+  }
+  .principle {
+    background: var(--color-bg-neutral);
+    border-radius: 12px;
+    padding: 18px 18px 20px;
+    border: 1px solid rgba(60, 50, 30, 0.08);
+  }
+  .principle-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-moss-deep);
+    margin-bottom: 6px;
+  }
+  .principle-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.15;
+    color: var(--color-ink);
+    margin-bottom: 6px;
+  }
+  .principle-desc {
+    font-size: 14px;
+    color: var(--color-ink-dim);
+    line-height: 1.5;
+  }
+
+  /* Loves list */
+  .loves {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .loves li {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-ink-dim);
+    padding: 7px 12px;
+    background: var(--color-bg-neutral);
+    border: 1px solid rgba(60, 50, 30, 0.1);
+    border-radius: 999px;
+    transition: transform .25s var(--ease-out-soft), background .2s, color .2s;
+  }
+  .loves li:hover {
+    transform: translateY(-2px) rotate(-1.2deg);
+    background: var(--color-moss-light);
+    color: var(--color-moss-deep);
+  }
+
+  /* Photo strip */
+  .photo-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 6px;
+  }
+  .polaroid {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--ph-a, #eee5d2) 0%, var(--ph-b, #c5d3b0) 100%);
+    display: flex;
+    align-items: end;
+    padding: 12px;
+    color: rgba(0,0,0,.55);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 14px;
+    transform: rotate(var(--tilt, 0deg));
+    box-shadow: 0 6px 18px -10px rgba(0,0,0,0.4);
+    transition: transform .3s var(--ease-out-soft);
+  }
+  .polaroid:hover { transform: rotate(0) translateY(-4px); }
+
+  /* ========== FOOTER ========== */
+  .footer {
+    width: 100%;
+    background: var(--color-moss-deep);
+    color: #fff;
+    min-height: 200px;
+    padding: 40px 48px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .footer-quote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 24px;
+    line-height: 1.3;
+    max-width: 560px;
+  }
+  .footer-foot {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    opacity: .85;
+    letter-spacing: 0.08em;
+  }
+
+  /* Leaf decorations (same as homepage) */
+  .leaf {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.45;
+    width: 320px;
+    height: auto;
+  }
+  .leaf--tr { top: -90px; right: -100px; transform: rotate(35deg); }
+  .leaf--bl { bottom: 280px; left: -130px; transform: rotate(-145deg); width: 280px; opacity: 0.35; }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 900px) {
+    .shell { flex-direction: column; }
+    .sidebar { width: 100%; }
+    .main { padding: 32px 24px; }
+    .hero { grid-template-columns: 1fr; gap: 24px; }
+    .hero-photo { width: 60%; max-width: 220px; }
+    .photo-strip { grid-template-columns: repeat(2, 1fr); }
+    .footer { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- subtle hand-drawn leaves peeking in from corners -->
+<svg class="leaf leaf--tr" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M100,12 C45,38 22,130 48,238 C68,300 100,310 100,310 C100,310 132,300 152,238 C178,130 155,38 100,12 Z"
+        fill="#9bb37e" stroke="#4a6b3e" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M100,12 L100,305" stroke="#4a6b3e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M100,80  C78,92  66,114 56,148"  stroke="#4a6b3e" stroke-width="1.8" fill="none" opacity="0.7" stroke-linecap="round"/>
+  <path d="M100,80  C122,92 134,114 144,148" stroke="#4a6b3e" stroke-width="1.8" fill="none" opacity="0.7" stroke-linecap="round"/>
+  <path d="M100,150 C78,162 66,184 56,218"  stroke="#4a6b3e" stroke-width="1.8" fill="none" opacity="0.7" stroke-linecap="round"/>
+  <path d="M100,150 C122,162 134,184 144,218" stroke="#4a6b3e" stroke-width="1.8" fill="none" opacity="0.7" stroke-linecap="round"/>
+</svg>
+
+<svg class="leaf leaf--bl" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M100,12 C45,38 22,130 48,238 C68,300 100,310 100,310 C100,310 132,300 152,238 C178,130 155,38 100,12 Z"
+        fill="#7a9c66" stroke="#3f5e3b" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M100,12 L100,305" stroke="#3f5e3b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</svg>
+
+<div class="shell">
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar">
+    <a href="jana-portfolio.html" class="sidebar-logo" aria-label="Home">
+      <svg viewBox="0 0 60 50" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="30" cy="30" rx="22" ry="17" fill="#7AB85F" stroke="#3f5e3b" stroke-width="2.2" stroke-linejoin="round"/>
+        <circle cx="18" cy="13" r="7" fill="#7AB85F" stroke="#3f5e3b" stroke-width="2.2"/>
+        <circle cx="42" cy="13" r="7" fill="#7AB85F" stroke="#3f5e3b" stroke-width="2.2"/>
+        <circle cx="18" cy="13" r="2.6" fill="#1a2a14"/>
+        <circle cx="42" cy="13" r="2.6" fill="#1a2a14"/>
+        <circle cx="20" cy="11" r="1" fill="#fff"/>
+        <circle cx="44" cy="11" r="1" fill="#fff"/>
+        <path d="M22,32 Q30,38 38,32" stroke="#3f5e3b" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <ellipse cx="14" cy="32" rx="3" ry="2" fill="#f4a8a8" opacity="0.55"/>
+        <ellipse cx="46" cy="32" rx="3" ry="2" fill="#f4a8a8" opacity="0.55"/>
+      </svg>
+    </a>
+
+    <h1 class="sidebar-name">Jana Bridi</h1>
+    <p class="sidebar-role">Cog Sci · UCSD</p>
+
+    <p class="sidebar-bio">
+      I design for humans — and I actually studied them. Cog Sci grad from UCSD with a passion for experiences that just <em>feel right.</em>
+    </p>
+    <p class="sidebar-bio">
+      <span class="strong">designer</span> · <span class="strong">human expert</span> · the engineer who designs how people think.
+    </p>
+
+    <nav class="chapters" aria-label="Sections">
+      <p class="chapters-label">Around Here</p>
+      <ul class="chapters-list">
+        <li>
+          <a href="jana-portfolio.html" class="chapter-link">
+            <span class="ch-mark">❀</span>
+            <span class="ch-num">Ch. 01</span>
+            <span class="ch-title">My Work</span>
+          </a>
+        </li>
+        <li>
+          <a href="about.html" class="chapter-link active">
+            <span class="ch-mark">❀</span>
+            <span class="ch-num">Ch. 02</span>
+            <span class="ch-title">About Me</span>
+          </a>
+        </li>
+        <li>
+          <a href="jana-portfolio.html#thread" class="chapter-link">
+            <span class="ch-mark">❀</span>
+            <span class="ch-num">Ch. 03</span>
+            <span class="ch-title">AI Projects</span>
+          </a>
+        </li>
+        <!-- Playground + Visitor Gallery chapters hidden for now
+        <li>
+          <a href="#" class="chapter-link">
+            <span class="ch-mark">❀</span>
+            <span class="ch-num">Ch. 03</span>
+            <span class="ch-title">Playground</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="chapter-link">
+            <span class="ch-mark">❀</span>
+            <span class="ch-num">Ch. 04</span>
+            <span class="ch-title">Visitor Gallery</span>
+          </a>
+        </li>
+        -->
+      </ul>
+    </nav>
+
+    <div>
+      <p class="find-label">Find me at</p>
+      <p class="find-links">
+        <a href="mailto:lanerodrodlane@gmail.com">Email</a>,
+        <a href="#">LinkedIn</a>,
+        <a href="#">GitHub</a>
+      </p>
+    </div>
+
+    <!-- Your order from the cafe (only shows if user picked a drink) -->
+    <div class="your-order" id="yourOrder" aria-live="polite">
+      <img id="yourOrderImg" src="" alt="">
+      <p class="your-order-text">
+        <span class="your-order-eyebrow">Your order</span>
+        <span class="your-order-name" id="yourOrderName"></span>
+      </p>
+    </div>
+
+    <div class="right-now">
+      <p class="right-now-label">Right Now</p>
+      <ul class="right-now-list">
+        <li><span class="rn-key">Sipping</span> <span class="rn-val" id="sippingVal">a lavender latte</span></li>
+        <li><span class="rn-key">Building</span> <span class="rn-val">phone-as-mouse</span></li>
+        <li><span class="rn-key">Reading</span> <span class="rn-val">The Design of Everyday Things</span></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- ========== MAIN ========== -->
+  <main class="main">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div>
+        <p class="hero-eyebrow">Ch. 02 — About Me</p>
+        <h1>Hi, I'm <em>Jana.</em></h1>
+        <p class="hero-lead">
+          Design comes from understanding people. I just studied them first.
+        </p>
+      </div>
+      <div class="hero-photo">
+        <img src="OneDrive/portoflio.jpg" alt="Jana Bridi">
+      </div>
+    </section>
+
+    <!-- The story -->
+    <section class="section">
+      <p class="section-label">The Story</p>
+      <h2>How I got here</h2>
+      <p>
+        I grew up drawing — characters, rooms, little worlds. In college I drifted into
+        <span class="strong">cognitive science at UCSD</span> because I wanted to know why interfaces frustrated my mom and felt invisible to my dad. That question kept following me.
+      </p>
+      <p>
+        It led to <span class="strong">field research with Father Joe's Villages</span> in San Diego, designing CommuniCare — a communication tool for people experiencing homelessness. To a 48-hour hackathon for a food-equity nonprofit (we shipped a full website and won first place out of 50 teams). To an EEG-based ADHD detector for my Brain-Computer Interfaces capstone. And now to <span class="strong">Phone-as-Mouse</span>, a tiny tool that turns an iPhone into a desktop mouse just by reading the camera.
+      </p>
+      <p>
+        The thread is the same: I want to build things that <em>meet people where they are.</em>
+      </p>
+    </section>
+
+    <!-- Principles -->
+    <section class="section">
+      <p class="section-label">How I Work</p>
+      <h2>Four things I keep close</h2>
+      <ol class="principles">
+        <li class="principle">
+          <p class="principle-num">01</p>
+          <p class="principle-title">Research before pixels.</p>
+          <p class="principle-desc">I sit with the people first. Pixels are easy. Knowing who they're for is the hard part.</p>
+        </li>
+        <li class="principle">
+          <p class="principle-num">02</p>
+          <p class="principle-title">Tinker fast, polish later.</p>
+          <p class="principle-desc">Twenty rough sketches beat one perfect mockup. Polish only what survives.</p>
+        </li>
+        <li class="principle">
+          <p class="principle-num">03</p>
+          <p class="principle-title">Design <em>and</em> build.</p>
+          <p class="principle-desc">Closing that loop — from idea to shipped — is the whole job. I don't hand off, I follow through.</p>
+        </li>
+        <li class="principle">
+          <p class="principle-num">04</p>
+          <p class="principle-title">Steal from cog sci.</p>
+          <p class="principle-desc">People aren't bugs to fix. The brain has rules, and good design bends with them.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Things I love + Glimpses photo strip — hidden for now, ready to bring back later -->
+    <!--
+    <section class="section">
+      <p class="section-label">Off the Clock</p>
+      <h2>Things I love</h2>
+      <ul class="loves">
+        <li>matcha</li>
+        <li>lavender lattes</li>
+        <li>hibiscus tea</li>
+        <li>frogs (obviously)</li>
+        <li>drawing my cat</li>
+        <li>la jolla cliffs</li>
+        <li>cognitive illusions</li>
+        <li>swamp ambient music</li>
+        <li>side projects nobody asked for</li>
+        <li>typography rabbit holes</li>
+        <li>sticker design</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <p class="section-label">Glimpses</p>
+      <h2>A few photos, mostly of food</h2>
+      <div class="photo-strip">
+        <div class="polaroid" style="--ph-a:#eabaca; --ph-b:#bf5a7a; --tilt:-2deg;">a matcha</div>
+        <div class="polaroid" style="--ph-a:#c5d3b0; --ph-b:#3f5e3b; --tilt:1.5deg;">my desk</div>
+        <div class="polaroid" style="--ph-a:#f3d9c6; --ph-b:#cb7836; --tilt:-1deg;">san diego</div>
+        <div class="polaroid" style="--ph-a:#b3d0d5; --ph-b:#168b9d; --tilt:2deg;">side quest</div>
+      </div>
+    </section>
+    -->
+
+  </main>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+  <p class="footer-quote">
+    "The details are not the details. They make the design."
+  </p>
+  <p class="footer-foot">© Jana Bridi — designed for humans</p>
+</footer>
+
+<script>
+  // Show "Your order" sticker if the user picked a drink at the cafe
+  (function showOrder() {
+    const drinks = {
+      matcha:   { name: 'Matcha Latte',  img: null, sip: 'a matcha latte' },
+      vanilla:  { name: 'Vanilla Latte', img: null, sip: 'a vanilla latte' },
+      blacktea: { name: 'Black Tea',     img: null, sip: 'black tea' }
+    };
+    let order;
+    try { order = sessionStorage.getItem('janasOrder'); } catch (e) {}
+    if (!order || !drinks[order]) return;
+    const d = drinks[order];
+    if (d.img) {
+      const wrap = document.getElementById('yourOrder');
+      document.getElementById('yourOrderImg').src = d.img;
+      document.getElementById('yourOrderImg').alt = d.name;
+      document.getElementById('yourOrderName').textContent = d.name;
+      wrap.classList.add('visible');
+    }
+    const sipping = document.getElementById('sippingVal');
+    if (sipping) sipping.textContent = d.sip;
+  })();
+
+  document.querySelectorAll('.chapter-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      // let real hrefs navigate; only suppress the placeholder "#" links
+      if (link.getAttribute('href') === '#') {
+        e.preventDefault();
+        document.querySelectorAll('.chapter-link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  });
+</script>
+</body>
+</html>
