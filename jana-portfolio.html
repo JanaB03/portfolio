@@ -40,6 +40,7 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  html { scroll-behavior: smooth; }
   html, body {
     background: var(--color-bg);
     color: var(--color-ink);
@@ -459,6 +460,13 @@
     transform: rotate(0deg) translate(-2px, -2px);
     box-shadow: 8px 8px 0 var(--color-ink);
   }
+  /* brief glow when scrolled to via the sidebar nav */
+  @keyframes cardFlash {
+    0%   { box-shadow: 5px 5px 0 var(--color-ink), 0 0 0 0 rgba(155, 179, 126, 0.0); }
+    30%  { box-shadow: 5px 5px 0 var(--color-ink), 0 0 0 8px rgba(155, 179, 126, 0.55); }
+    100% { box-shadow: 5px 5px 0 var(--color-ink), 0 0 0 0 rgba(155, 179, 126, 0.0); }
+  }
+  .card.card-flash { animation: cardFlash 1.4s ease-out; }
 
   .card-top {
     display: flex;
@@ -1296,13 +1304,23 @@
     });
   })();
 
-  // Active state on the Chapters nav — only suppress navigation for "#" placeholders
+  // Active state on the Chapters nav — suppress navigation for "#" placeholders,
+  // and for in-page anchors mark active + briefly flash the target card.
   document.querySelectorAll('.chapter-link').forEach(link => {
     link.addEventListener('click', (e) => {
-      if (link.getAttribute('href') === '#') {
+      const href = link.getAttribute('href');
+      if (href === '#') {
         e.preventDefault();
         document.querySelectorAll('.chapter-link').forEach(l => l.classList.remove('active'));
         link.classList.add('active');
+      } else if (href && href.startsWith('#') && href.length > 1) {
+        document.querySelectorAll('.chapter-link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        const target = document.querySelector(href);
+        if (target) {
+          target.classList.add('card-flash');
+          setTimeout(() => target.classList.remove('card-flash'), 1400);
+        }
       }
     });
   });
