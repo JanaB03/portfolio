@@ -525,6 +525,22 @@
     border-top: 0;
     border-bottom: 2px solid var(--color-ink);
   }
+  /* square frame variant: centered, contain-fit, shows the whole video
+     even if it's portrait or an odd aspect ratio. Pair with NO inline height. */
+  .card-frame--square {
+    aspect-ratio: 1 / 1;
+    max-width: 620px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 14px;
+    background: var(--color-bg-neutral-2);
+  }
+  .card-frame--square video,
+  .card-frame--square img {
+    object-fit: contain !important;
+    background: var(--color-bg-neutral-2);
+  }
   /* Placeholder gradient when no image */
   .card-frame.placeholder {
     background: linear-gradient(135deg, var(--ph-a, #e6dfca) 0%, var(--ph-b, #c8c0a4) 100%);
@@ -1176,7 +1192,7 @@
             <span class="card-hole"></span>
             <span class="card-num">No. 05</span>
           </div>
-          <div class="card-frame card-frame--bleed" style="height: 320px;">
+          <div class="card-frame card-frame--square">
             <video class="card-video phone-mouse-reel"
                    autoplay muted playsinline preload="auto"
                    data-playlist="videos/phone-mouse/01-optical.mp4,videos/phone-mouse/02-cursor-pad-1.mp4,videos/phone-mouse/03-cursor-pad-2.mp4,videos/phone-mouse/04-custom-cursor.mp4"
