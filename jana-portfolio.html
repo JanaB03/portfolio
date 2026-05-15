@@ -942,7 +942,7 @@
           </a>
         </li>
         <li>
-          <a href="#thread" class="chapter-link">
+          <a href="#ai-projects" class="chapter-link">
             <span class="ch-mark">❀</span>
             <span class="ch-num">Ch. 03</span>
             <span class="ch-title">AI Projects</span>
@@ -1124,6 +1124,9 @@
         </a>
       </div>
 
+      <!-- ── AI Projects section anchor (sidebar Ch. 03 lands here) ── -->
+      <div id="ai-projects"></div>
+
       <!-- ROW 3 — Thread (full AI build) -->
       <div class="thread-row thread-row--2">
         <svg class="thread" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true">
@@ -1155,6 +1158,43 @@
           <dl class="card-meta">
             <div class="meta-row"><dt>Role</dt><dd>Designer, AI-assisted builder</dd></div>
             <div class="meta-row"><dt>Timeframe</dt><dd>2026</dd></div>
+          </dl>
+        </a>
+      </div>
+
+      <!-- ROW 4 — Phone-as-Mouse (AI-assisted build) -->
+      <div class="thread-row thread-row--2">
+        <svg class="thread" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true">
+          <path class="branch-shadow" d="M 0 6 Q 50 20 100 6" vector-effect="non-scaling-stroke"/>
+          <path class="branch-base"   d="M 0 6 Q 50 20 100 6" vector-effect="non-scaling-stroke"/>
+          <path class="branch-highlight" d="M 0 5 Q 50 19 100 5" vector-effect="non-scaling-stroke"/>
+        </svg>
+
+        <!-- 05. Phone-as-Mouse -->
+        <a href="case-studies/phone-mouse.html" id="phone-mouse" class="card" style="--card-tilt: -0.5deg;">
+          <div class="card-top">
+            <span class="card-hole"></span>
+            <span class="card-num">No. 05</span>
+          </div>
+          <div class="card-frame card-frame--bleed" style="height: 320px;">
+            <video class="card-video phone-mouse-reel"
+                   autoplay muted playsinline preload="auto"
+                   data-playlist="videos/phone-mouse/01-optical.mp4,videos/phone-mouse/02-cursor-pad-1.mp4,videos/phone-mouse/03-cursor-pad-2.mp4,videos/phone-mouse/04-custom-cursor.mp4"
+                   aria-label="Phone-as-Mouse demo (optical flow, cursor pad, custom cursor)"></video>
+          </div>
+          <div class="card-header">
+            <h3 class="card-title">Phone-as-Mouse</h3>
+            <div class="card-tags">
+              <span class="tag">AI-Assisted</span>
+              <span class="tag">Prototype</span>
+            </div>
+          </div>
+          <p class="card-desc">Turning an iPhone into a desktop mouse using camera optical flow. Four features in this clip: optical-flow tracking, cursor-pad touch mode, gesture trackpad, and a custom cursor.</p>
+          <span class="card-rule"></span>
+          <dl class="card-meta">
+            <div class="meta-row"><dt>Role</dt><dd>Designer, AI-assisted builder</dd></div>
+            <div class="meta-row"><dt>Stack</dt><dd>SwiftUI · Python · Claude Code · Cursor</dd></div>
+            <div class="meta-row"><dt>Timeframe</dt><dd>2026 · in progress</dd></div>
           </dl>
         </a>
       </div>
@@ -1303,6 +1343,22 @@
       });
     });
   })();
+
+  // Sequential video playlist — plays the data-playlist clips in order, then loops.
+  document.querySelectorAll('video[data-playlist]').forEach(video => {
+    const sources = video.dataset.playlist.split(',').map(s => s.trim()).filter(Boolean);
+    if (!sources.length) return;
+    let idx = 0;
+    const playNext = () => {
+      idx = (idx + 1) % sources.length;
+      video.src = sources[idx];
+      video.play().catch(() => {});
+    };
+    video.addEventListener('ended', playNext);
+    // load first clip
+    video.src = sources[0];
+    video.play().catch(() => {});
+  });
 
   // Active state on the Chapters nav — suppress navigation for "#" placeholders,
   // and for in-page anchors mark active + briefly flash the target card.

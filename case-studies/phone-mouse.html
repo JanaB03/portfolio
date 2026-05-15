@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Phone-as-Mouse — Case Study · Jana Bridi</title>
+<meta name="description" content="Turning an iPhone into a desktop mouse using camera optical flow — an iOS + Windows prototype." />
+<meta name="theme-color" content="#F0E8D2" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Caveat:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:           #F0E8D2;
+    --bg-raised:    #DDD0B2;
+    --bg-sunken:    #CFC09A;
+    --ink:          #1C1410;
+    --ink-muted:    #584638;
+    --ink-faint:    #96806C;
+    --accent:       #C25518;
+    --rule:         #C0AD92;
+    --annotation:   #3A6632;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+    height: 60px;
+  }
+  nav a.back {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  nav a.back:hover { color: var(--accent); }
+  nav .nav-badge {
+    font-family: 'Caveat', cursive;
+    font-size: 1.05rem;
+    color: var(--annotation);
+  }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+  }
+
+  section { padding: 4rem 0; }
+  section + section { padding-top: 0; }
+
+  .hero {
+    padding-top: 120px;
+    padding-bottom: 3.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero__eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero__eyebrow::before {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+    display: inline-block;
+  }
+  .hero__title {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+  }
+  .hero__subtitle {
+    font-size: 1.15rem;
+    color: var(--ink-muted);
+    max-width: 56ch;
+    margin-bottom: 2.5rem;
+    line-height: 1.75;
+  }
+  .hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+  }
+  .meta-item__label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  .meta-item__value {
+    font-size: 0.92rem;
+    color: var(--ink-muted);
+  }
+
+  .demo {
+    padding: 3rem 0;
+  }
+  .demo__frame {
+    width: 100%;
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px -20px rgba(28, 20, 16, 0.18);
+  }
+  .demo__frame video {
+    width: 100%;
+    display: block;
+  }
+  .demo__caption {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  h2.section-title {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.01em;
+  }
+  p.section-body {
+    font-size: 1.05rem;
+    color: var(--ink-muted);
+    max-width: 64ch;
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+  }
+  .section-marker {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .section-marker__num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+  }
+  .section-marker__line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .section-marker__tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* feature grid */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .feature {
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .feature__num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 0.25rem;
+  }
+  .feature__name {
+    font-family: 'Lora', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .feature__note {
+    font-size: 0.92rem;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+
+  /* stack pills */
+  .stack-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .stack-pills .pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    background: var(--bg-raised);
+    color: var(--ink-muted);
+    border: 1px solid var(--rule);
+  }
+
+  footer.case-footer {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 4rem 0;
+    margin-top: 4rem;
+  }
+  footer.case-footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  footer.case-footer a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--bg);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--bg-sunken);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  footer.case-footer a:hover {
+    color: #fff;
+    border-color: var(--accent);
+  }
+  footer.case-footer .signature {
+    font-family: 'Caveat', cursive;
+    font-size: 1.25rem;
+    color: var(--bg-sunken);
+  }
+
+  @media (max-width: 640px) {
+    .hero__meta { gap: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../jana-portfolio.html" class="back">← Back to portfolio</a>
+  <span class="nav-badge">Phone-as-Mouse · 2026</span>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <p class="hero__eyebrow">Case Study — AI-Assisted Build</p>
+    <h1 class="hero__title">Phone-as-Mouse</h1>
+    <p class="hero__subtitle">
+      Your iPhone, but it's a mouse. Point the camera at any surface — a desk, a notebook, your jeans — and the optical flow from the camera feed becomes cursor motion on your laptop. No hardware, no Bluetooth setup, just open the app and start moving.
+    </p>
+    <div class="hero__meta">
+      <div class="meta-item">
+        <span class="meta-item__label">Role</span>
+        <span class="meta-item__value">Designer · AI-assisted builder</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-item__label">Stack</span>
+        <span class="meta-item__value">SwiftUI (iOS) · Python (Windows) · Claude Code · Cursor</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-item__label">Timeframe</span>
+        <span class="meta-item__value">2026 · in progress</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="demo">
+  <div class="container">
+    <div class="demo__frame">
+      <video class="phone-mouse-reel"
+             autoplay muted playsinline preload="auto"
+             data-playlist="../videos/phone-mouse/01-optical.mp4,../videos/phone-mouse/02-cursor-pad-1.mp4,../videos/phone-mouse/03-cursor-pad-2.mp4,../videos/phone-mouse/04-custom-cursor.mp4"
+             aria-label="Phone-as-Mouse feature demos"></video>
+    </div>
+    <p class="demo__caption">↑ Optical flow → cursor pad → cursor pad gestures → custom cursor.</p>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('video[data-playlist]').forEach(video => {
+    const sources = video.dataset.playlist.split(',').map(s => s.trim()).filter(Boolean);
+    if (!sources.length) return;
+    let idx = 0;
+    const playNext = () => {
+      idx = (idx + 1) % sources.length;
+      video.src = sources[idx];
+      video.play().catch(() => {});
+    };
+    video.addEventListener('ended', playNext);
+    video.src = sources[0];
+    video.play().catch(() => {});
+  });
+</script>
+
+<section>
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">01</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">The idea</span>
+    </div>
+    <h2 class="section-title">Your phone is already the best input device you own.</h2>
+    <p class="section-body">
+      You carry it everywhere. It has a camera with computer-vision tracking baked in. Why are we still buying separate pieces of plastic to move a cursor? Phone-as-Mouse turns the camera into the sensor — point it at any textured surface and the optical flow algorithm reads the motion the way an optical mouse does, just from further away.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">02</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">What's working</span>
+    </div>
+    <h2 class="section-title">Four features in the prototype.</h2>
+
+    <div class="features">
+      <div class="feature">
+        <span class="feature__num">01</span>
+        <span class="feature__name">Optical flow tracking</span>
+        <span class="feature__note">Point the rear camera at any surface — the cursor follows. Core feature, the whole reason the rest exists.</span>
+      </div>
+      <div class="feature">
+        <span class="feature__num">02</span>
+        <span class="feature__name">Cursor pad — touch mode</span>
+        <span class="feature__note">For when the camera approach isn't practical. The phone screen becomes a trackpad, like a mini Magic Trackpad in your pocket.</span>
+      </div>
+      <div class="feature">
+        <span class="feature__num">03</span>
+        <span class="feature__name">Cursor pad — gestures</span>
+        <span class="feature__note">Two-finger scroll, tap-to-click, drag — the small things that make a trackpad feel like a trackpad.</span>
+      </div>
+      <div class="feature">
+        <span class="feature__num">04</span>
+        <span class="feature__name">Custom cursor</span>
+        <span class="feature__note">Pick a cursor that looks like you. Because if your input device is a screen, the cursor should match the vibe.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">03</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">How I built it</span>
+    </div>
+    <h2 class="section-title">iOS app, Windows companion, AI in the middle.</h2>
+    <p class="section-body">
+      The iPhone runs a SwiftUI app that streams camera frames and touch events over the local network. A small Python service on Windows reads the stream and translates it into mouse movement. Both halves were scaffolded and iterated with Claude Code and Cursor — most of the typing was AI, most of the *what to build next* was me.
+    </p>
+    <div class="stack-pills">
+      <span class="pill">SwiftUI</span>
+      <span class="pill">Vision framework</span>
+      <span class="pill">Python · Windows</span>
+      <span class="pill">Claude Code</span>
+      <span class="pill">Cursor</span>
+      <span class="pill">ChatGPT</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-marker">
+      <span class="section-marker__num">04</span>
+      <span class="section-marker__line"></span>
+      <span class="section-marker__tag">Where it's headed</span>
+    </div>
+    <h2 class="section-title">Small device, big posture experiment.</h2>
+    <p class="section-body">
+      The interesting question isn't "can a phone be a mouse" — it's "what does a desk feel like when the mouse is just whatever you happen to be holding." Working through this prototype is teaching me what people actually want from a pointing device, and what gets in the way.
+    </p>
+  </div>
+</section>
+
+<footer class="case-footer">
+  <div class="container">
+    <a href="../jana-portfolio.html">← Back to portfolio</a>
+    <span class="signature">— jana 🐸</span>
+  </div>
+</footer>
+
+</body>
+</html>
