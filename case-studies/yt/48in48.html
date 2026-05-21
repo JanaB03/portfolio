@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>UB Healthy Project · 48in48 · lilypad</title>
+<title>UB Healthy Project · 48in48 — lilypad</title>
 <meta name="theme-color" content="#0f0f0f">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
 <link rel="stylesheet" href="yt-style.css">
 </head>
@@ -17,192 +17,80 @@
     <div class="phone__screen">
 
       <header class="topbar">
-        <a href="../../jana-portfolio-youtube.html" class="back-btn" aria-label="Back">
+        <a href="../../jana-portfolio-youtube.html" class="back-btn">
           <span class="material-symbols-outlined">arrow_back</span>
+          Portfolio
         </a>
-        <span class="yt-logo"><b>lily</b>pad</span>
-        <span class="topbar__spacer"></span>
-        <button class="icon-btn"><span class="material-symbols-outlined">cast</span></button>
-        <button class="icon-btn"><span class="material-symbols-outlined">search</span></button>
-        <button class="icon-btn"><span class="material-symbols-outlined">more_vert</span></button>
+        <span class="lily-mark"><b>lily</b>pad · case study</span>
       </header>
 
-      <div class="player" style="background: linear-gradient(135deg, #2D6A4F 0%, #E9C46A 100%);">
-        <iframe src="https://ubhealthyproject.org" title="UB Healthy Project — live site" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-same-origin allow-scripts" style="background: #fff;"></iframe>
-        <div class="player__hud">
-          <span class="player__time">live site</span>
-          <span class="material-symbols-outlined">open_in_new</span>
+      <section class="hero">
+        <p class="hero__eyebrow">48in48 · 1st place</p>
+        <h1 class="hero__title">UB Healthy Project</h1>
+        <p class="hero__sub">A food-equity nonprofit needed a full digital presence in 48 hours. We shipped it. We won first place out of 50 teams.</p>
+        <div class="hero__meta">
+          <div class="hero__meta-item"><span class="k">Role</span><span class="v">Lead designer · cross-functional</span></div>
+          <div class="hero__meta-item"><span class="k">Year</span><span class="v">2024</span></div>
+          <div class="hero__meta-item" style="grid-column: 1 / -1;"><span class="k">Build time</span><span class="v">48 hours · 50 competing teams · 1st place</span></div>
         </div>
+      </section>
+
+      <div class="media">
+        <div class="media__frame media__frame--16x9" style="background: linear-gradient(135deg, #2D6A4F 0%, #E9C46A 100%);">
+          <iframe src="https://ubhealthyproject.org" title="UB Healthy Project — live site" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-same-origin allow-scripts" style="background: #fff;"></iframe>
+        </div>
+        <p class="media__caption">↑ ubhealthyproject.org — still live</p>
       </div>
 
-      <div class="title-block">
-        <h1>48 hours to ship a nonprofit's website — and we won (UB Healthy Project @ 48in48)</h1>
-        <div class="meta-line">
-          <span>128K views</span><span class="dot">·</span>
-          <span>1 year ago</span><span class="dot">·</span>
-          <span class="show-more">…more</span>
+      <section class="section">
+        <div class="section__marker">
+          <span class="section__num">01</span>
+          <span class="section__line"></span>
+          <span class="section__tag">Discovery</span>
         </div>
-      </div>
+        <h2>Four hours to learn the whole organization.</h2>
+        <p>The opening session was a stakeholder interview with the nonprofit's founder. Four hours to understand who they serve, what they need from a website right now, and what they wish they could do but can't afford. The brief got cut down on the spot — <em>only the things that would make a difference on Monday morning</em>.</p>
+      </section>
 
-      <div class="desc-card">
-        <div class="desc-card__top">
-          <div class="stat">128K <span>views</span></div>
-          <div class="stat">1st <span>of 50 teams</span></div>
-          <div class="stat" style="margin-left:auto;">48h <span>build time</span></div>
+      <section class="section">
+        <div class="section__marker">
+          <span class="section__num">02</span>
+          <span class="section__line"></span>
+          <span class="section__tag">Design</span>
         </div>
-        <p>A food-equity nonprofit (UB Healthy Project) needed a full digital presence built in 48 hours at the 48in48 hackathon. We shipped it. We won first place.</p>
-        <div class="tags">
-          <span class="tag">#hackathon</span>
-          <span class="tag">#firstplace</span>
-          <span class="tag">#nonprofit</span>
+        <h2>Calm palette. Big type. Older-user-first.</h2>
+        <p>The volunteer base and audience skew older. So: <strong>oversized type, deep contrast, no decorative animation, big tap targets</strong>. Palette pulled from food — leafy greens, warm golden yellows. Friendly without being childish.</p>
+        <p>Tradeoff: skipped the slick hero animation everyone wanted in the kickoff. The site reads instead of performs.</p>
+      </section>
+
+      <section class="section">
+        <div class="section__marker">
+          <span class="section__num">03</span>
+          <span class="section__line"></span>
+          <span class="section__tag">Build</span>
         </div>
-      </div>
+        <h2>Decisions made fast. Decisions stuck.</h2>
+        <p>Cross-functional team — I led design while devs built in parallel. The hack: <em>every design decision had a 10-minute fuse</em>. If we couldn't agree in 10 minutes, the lead designer (me) called it and we moved on.</p>
+        <p>Zero revisits. No <em>"what if we changed the nav at 3am"</em>. Velocity over optimization.</p>
+      </section>
 
-      <div class="action-bar">
-        <div class="like-group">
-          <button class="action-btn like-btn"><span class="material-symbols-outlined">thumb_up</span><span class="count">14K</span></button>
-          <button class="action-btn dislike-btn"><span class="material-symbols-outlined">thumb_down</span></button>
+      <section class="section">
+        <div class="section__marker">
+          <span class="section__num">04</span>
+          <span class="section__line"></span>
+          <span class="section__tag">Outcome</span>
         </div>
-        <button class="action-btn"><span class="material-symbols-outlined">share</span> Share</button>
-        <button class="action-btn"><span class="material-symbols-outlined">download</span> Save</button>
-        <button class="action-btn"><span class="material-symbols-outlined">bookmark</span></button>
-      </div>
+        <h2>1st place. Site still live.</h2>
+        <p>50 teams. We won. More importantly the nonprofit got a real website out of the weekend — not a deck, not a Figma file, an actual <strong>ubhealthyproject.org</strong> they can hand to grant-writers and program staff. Best lesson of the year on what "design done" can mean when the deadline is hard.</p>
+      </section>
 
-      <div class="channel-row">
-        <div class="channel-avatar">JB</div>
-        <div class="channel-info">
-          <div class="name">@janabridi</div>
-          <div class="subs">1.4K subscribers</div>
-        </div>
-        <button class="subscribe-btn sub-toggle">Subscribe</button>
-      </div>
+      <footer class="case-footer">
+        <a href="../../jana-portfolio-youtube.html">← Back to portfolio</a>
+        <span>UB Healthy Project · 48in48 · 2024</span>
+      </footer>
 
-      <header class="comments-header">
-        <div class="count"><span class="material-symbols-outlined">comment</span><span>Process · <em>5</em></span></div>
-        <div class="sort"><span class="material-symbols-outlined">sort</span> Sort by</div>
-      </header>
-
-      <article class="comment">
-        <div class="comment__avatar">JB</div>
-        <div class="comment__body">
-          <p class="comment__pinned"><span class="material-symbols-outlined">push_pin</span> Pinned by @janabridi</p>
-          <div class="comment__author-row">
-            <span class="comment__author">@janabridi</span>
-            <span class="comment__section-tag">TL;DR</span>
-            <span class="comment__time">1 year ago</span>
-          </div>
-          <div class="comment__text">
-            <p>48in48 pairs design + dev teams with nonprofits — 48 hours, build a real shipping website. Our team got <strong>UB Healthy Project</strong>, a food-equity nonprofit in San Diego that runs cooking classes for older adults.</p>
-            <p>We shipped, we won 1st of 50 teams, and the site is still live. <em>The constraint was the gift.</em></p>
-          </div>
-          <div class="comment__hearted">
-            <span class="heart">♥</span>
-            <span>Hearted by @janabridi</span>
-          </div>
-          <div class="comment__actions">
-            <button class="comment__action like"><span class="material-symbols-outlined">thumb_up</span> 3.1K</button>
-            <button class="comment__action"><span class="material-symbols-outlined">thumb_down</span></button>
-            <button class="comment__reply">Reply</button>
-          </div>
-        </div>
-      </article>
-
-      <article class="comment">
-        <div class="comment__avatar research">01</div>
-        <div class="comment__body">
-          <div class="comment__author-row">
-            <span class="comment__author">@janabridi</span>
-            <span class="comment__section-tag">Discovery</span>
-            <span class="comment__time">1 year ago</span>
-          </div>
-          <h3 class="comment__heading">Four hours to learn the whole organization.</h3>
-          <div class="comment__text">
-            <p>The opening session was a stakeholder interview with the nonprofit's founder. Four hours to understand who they serve, what they need from a website right now, and what they wish they could do but can't afford. Took notes like crazy.</p>
-            <p>The brief got cut down on the spot — only the things that would make a difference on Monday morning.</p>
-          </div>
-          <div class="comment__actions">
-            <button class="comment__action"><span class="material-symbols-outlined">thumb_up</span> 612</button>
-            <button class="comment__action"><span class="material-symbols-outlined">thumb_down</span></button>
-            <button class="comment__reply">Reply</button>
-          </div>
-        </div>
-      </article>
-
-      <article class="comment">
-        <div class="comment__avatar design">02</div>
-        <div class="comment__body">
-          <div class="comment__author-row">
-            <span class="comment__author">@janabridi</span>
-            <span class="comment__section-tag">Design</span>
-            <span class="comment__time">1 year ago</span>
-          </div>
-          <h3 class="comment__heading">Calm color palette. Big type. Older-user-first.</h3>
-          <div class="comment__text">
-            <p>The volunteer base and audience skew older. So: <strong>oversized type, deep contrast, no decorative animation, big tap targets</strong>. Palette pulled from food — leafy greens, warm golden yellows. Friendly without being childish.</p>
-            <p>Tradeoff: skipped the slick hero animation everyone wanted in the kickoff. The site reads instead of performs.</p>
-          </div>
-          <div class="comment__actions">
-            <button class="comment__action liked"><span class="material-symbols-outlined">thumb_up</span> 1.4K</button>
-            <button class="comment__action"><span class="material-symbols-outlined">thumb_down</span></button>
-            <button class="comment__reply">Reply</button>
-          </div>
-        </div>
-      </article>
-
-      <article class="comment">
-        <div class="comment__avatar build">03</div>
-        <div class="comment__body">
-          <div class="comment__author-row">
-            <span class="comment__author">@janabridi</span>
-            <span class="comment__section-tag">Build</span>
-            <span class="comment__time">1 year ago</span>
-          </div>
-          <h3 class="comment__heading">Decisions made fast. Decisions stuck.</h3>
-          <div class="comment__text">
-            <p>Cross-functional team — I led design while devs built in parallel. The hack: <em>every design decision had a 10-minute fuse</em>. If we couldn't agree in 10 minutes, the lead designer (me) called it and we moved on.</p>
-            <p>Zero revisits. No "what if we changed the nav at 3am". Velocity over optimization.</p>
-          </div>
-          <div class="comment__actions">
-            <button class="comment__action"><span class="material-symbols-outlined">thumb_up</span> 1.1K</button>
-            <button class="comment__action"><span class="material-symbols-outlined">thumb_down</span></button>
-            <button class="comment__reply">Reply</button>
-          </div>
-        </div>
-      </article>
-
-      <article class="comment">
-        <div class="comment__avatar outcome">04</div>
-        <div class="comment__body">
-          <div class="comment__author-row">
-            <span class="comment__author">@janabridi</span>
-            <span class="comment__section-tag">Outcome</span>
-            <span class="comment__time">1 year ago</span>
-          </div>
-          <h3 class="comment__heading">1st place. Site still live.</h3>
-          <div class="comment__text">
-            <p>50 teams. We won. More importantly the nonprofit got a real website out of the weekend — not a deck, not a Figma file, an actual <em>ubhealthyproject.org</em> they can hand to grant-writers and program staff.</p>
-            <p>Best lesson of the year on what "design done" can mean when the deadline is hard.</p>
-          </div>
-          <div class="comment__actions">
-            <button class="comment__action"><span class="material-symbols-outlined">thumb_up</span> 822</button>
-            <button class="comment__action"><span class="material-symbols-outlined">thumb_down</span></button>
-            <button class="comment__reply">Reply</button>
-          </div>
-        </div>
-      </article>
-
-      <div class="comment-input">
-        <div class="channel-avatar">U</div>
-        <input type="text" placeholder="Add a comment…" disabled>
-      </div>
-      <div class="footer-spacer"></div>
     </div>
   </div>
 </div>
-
-<script>
-  document.querySelectorAll('.like-btn, .comment__action').forEach(b => b.addEventListener('click', () => b.classList.toggle('liked')));
-  document.querySelectorAll('.sub-toggle').forEach(b => b.addEventListener('click', () => { b.classList.toggle('subbed'); b.textContent = b.classList.contains('subbed') ? 'Subscribed' : 'Subscribe'; }));
-</script>
 </body>
 </html>

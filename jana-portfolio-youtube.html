@@ -431,59 +431,23 @@
     max-width: 280px;
     color: #fff;
   }
-  .short__channel {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-  .short__channel-name {
-    font-size: 14px; font-weight: 500;
-  }
-  .short__channel-name::after {
-    content: '✓';
-    margin-left: 4px;
-    font-size: 11px;
-    background: rgba(255,255,255,0.7);
-    color: #000;
-    border-radius: 50%;
-    width: 14px; height: 14px;
-    display: inline-grid; place-items: center;
-    vertical-align: middle;
-  }
-  .short__subscribe {
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.4);
-    color: #fff;
-    padding: 5px 11px;
-    border-radius: 100px;
-    font-family: inherit;
-    font-size: 12px;
+  .short__title {
+    font-size: 15px;
     font-weight: 600;
-    cursor: pointer;
-    transition: background .15s;
-  }
-  .short__subscribe.subbed {
-    background: rgba(255,255,255,0.95);
-    color: #0f0f0f;
-    border-color: rgba(255,255,255,0.95);
+    line-height: 1.3;
+    margin-bottom: 6px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.7);
   }
   .short__caption {
-    font-size: 13px;
-    line-height: 1.45;
-    margin-bottom: 10px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.85);
     text-shadow: 0 1px 4px rgba(0,0,0,0.6);
   }
   .short__caption .tag {
-    color: #4fc3f7;
+    color: var(--brand-soft);
     font-weight: 500;
   }
-  .short__audio {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 12px;
-    color: rgba(255,255,255,0.92);
-  }
-  .short__audio .material-symbols-outlined { font-size: 16px; }
 
   .short__actions {
     display: flex;
@@ -655,10 +619,8 @@
           <span class="yt-logo__text"><b>lily</b>pad</span>
         </a>
         <div class="topbar__icons">
-          <button class="icon-btn" aria-label="Cast"><span class="material-symbols-outlined">cast</span></button>
-          <button class="icon-btn" aria-label="Notifications"><span class="material-symbols-outlined">notifications</span></button>
           <button class="icon-btn" aria-label="Search"><span class="material-symbols-outlined">search</span></button>
-          <button class="avatar-btn" aria-label="Profile">JB</button>
+          <button class="avatar-btn" aria-label="Jana Bridi">JB</button>
         </div>
       </div>
 
@@ -691,7 +653,7 @@
                 <div class="channel-avatar">JB</div>
                 <div class="video-card__text">
                   <p class="video-card__title">Designing CommuniCare with Father Joe's Villages — a device-agnostic comms platform for people experiencing homelessness</p>
-                  <p class="video-card__sub">Jana Bridi <span class="dot">·</span> 41K views <span class="dot">·</span> 2 weeks ago</p>
+                  <p class="video-card__sub">Field work · with Father Joe's Villages <span class="dot">·</span> 2025</p>
                 </div>
                 <button class="video-card__more" aria-label="More"><span class="material-symbols-outlined">more_vert</span></button>
               </div>
@@ -721,7 +683,7 @@
                 <div class="channel-avatar">JB</div>
                 <div class="video-card__text">
                   <p class="video-card__title">48 hours to ship a nonprofit's website — and we won (UB Healthy Project @ 48in48)</p>
-                  <p class="video-card__sub">Jana Bridi <span class="dot">·</span> 128K views <span class="dot">·</span> 1 year ago</p>
+                  <p class="video-card__sub">48in48 · 1st place out of 50 teams <span class="dot">·</span> 2024</p>
                 </div>
                 <button class="video-card__more" aria-label="More"><span class="material-symbols-outlined">more_vert</span></button>
               </div>
@@ -737,7 +699,7 @@
                 <div class="channel-avatar">JB</div>
                 <div class="video-card__text">
                   <p class="video-card__title">Building Pawesome — the small joys of pet care, designed end-to-end</p>
-                  <p class="video-card__sub">Jana Bridi <span class="dot">·</span> 22K views <span class="dot">·</span> 9 months ago</p>
+                  <p class="video-card__sub">Side project · end-to-end design & build <span class="dot">·</span> 2025</p>
                 </div>
                 <button class="video-card__more" aria-label="More"><span class="material-symbols-outlined">more_vert</span></button>
               </div>
@@ -753,7 +715,7 @@
                 <div class="channel-avatar">JB</div>
                 <div class="video-card__text">
                   <p class="video-card__title">Thread — a note-taking layer for Instagram and TikTok, built entirely with AI (Claude Code, Figma Make, Cursor, ChatGPT)</p>
-                  <p class="video-card__sub">Jana Bridi <span class="dot">·</span> 87K views <span class="dot">·</span> 3 days ago</p>
+                  <p class="video-card__sub">Full AI build · Claude Code + Figma Make + Cursor <span class="dot">·</span> 2026</p>
                 </div>
                 <button class="video-card__more" aria-label="More"><span class="material-symbols-outlined">more_vert</span></button>
               </div>
@@ -770,7 +732,7 @@
                 <div class="channel-avatar">JB</div>
                 <div class="video-card__text">
                   <p class="video-card__title">Turning my iPhone into a mouse — optical flow, gestures, and a custom cursor (4 features in one demo)</p>
-                  <p class="video-card__sub">Jana Bridi <span class="dot">·</span> 64K views <span class="dot">·</span> 6 days ago</p>
+                  <p class="video-card__sub">AI-assisted prototype · iOS + Windows <span class="dot">·</span> 2026</p>
                 </div>
                 <button class="video-card__more" aria-label="More"><span class="material-symbols-outlined">more_vert</span></button>
               </div>
@@ -784,47 +746,37 @@
           <!-- Populated by JS -->
         </div>
 
-        <!-- LIBRARY (You) -->
-        <div class="view" id="view-you" role="region" aria-label="You">
-          <div style="padding: 24px 14px 100px;">
-            <h2 style="font-size: 20px; margin-bottom: 4px;">Jana Bridi</h2>
-            <p style="color: var(--ink-dim); font-size: 14px; margin-bottom: 24px;">@janabridi <span style="margin: 0 4px;">·</span> 5 projects <span style="margin: 0 4px;">·</span> 1 designer</p>
+        <!-- ABOUT -->
+        <div class="view" id="view-you" role="region" aria-label="About">
+          <div style="padding: 24px 18px 100px;">
+            <p style="font-family: 'Roboto Mono', monospace; font-size: 11px; color: var(--brand-soft); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px;">About the designer</p>
+            <h2 style="font-size: 26px; margin-bottom: 6px; line-height: 1.15; letter-spacing: -0.02em;">Jana Bridi</h2>
+            <p style="color: var(--ink-dim); font-size: 13px; margin-bottom: 22px;">Cog Sci · UCSD · San Diego</p>
 
-            <p style="font-size: 13px; color: var(--ink); line-height: 1.6; margin-bottom: 28px;">
-              Cog Sci grad from UCSD designing for humans — and actually studied them. Currently shipping field work, weekend prototypes, and full AI builds.
+            <p style="font-size: 14px; color: var(--ink); line-height: 1.7; margin-bottom: 18px;">
+              I design for humans — and I actually studied them. Currently shipping field work with nonprofits, weekend prototypes, and full AI builds.
+            </p>
+            <p style="font-size: 13px; color: var(--ink-dim); line-height: 1.7; margin-bottom: 28px;">
+              The engineer who designs how people think.
             </p>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-              <a href="mailto:lanerodrodlane@gmail.com" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--bg-chip); padding: 10px; border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 13px;">
-                <span class="material-symbols-outlined">mail</span> Email
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 28px;">
+              <a href="mailto:lanerodrodlane@gmail.com" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--bg-chip); padding: 12px; border-radius: 10px; color: var(--ink); text-decoration: none; font-size: 13px;">
+                <span class="material-symbols-outlined" style="font-size: 18px;">mail</span> Email
               </a>
-              <a href="jana-portfolio.html" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--bg-chip); padding: 10px; border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 13px;">
-                <span class="material-symbols-outlined">apps</span> Pixel ver.
+              <a href="https://github.com/JanaB03/portfolio" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--bg-chip); padding: 12px; border-radius: 10px; color: var(--ink); text-decoration: none; font-size: 13px;">
+                <span class="material-symbols-outlined" style="font-size: 18px;">code</span> GitHub
               </a>
-              <a href="about.html" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--bg-chip); padding: 10px; border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 13px;">
-                <span class="material-symbols-outlined">person</span> About
-              </a>
-              <a href="https://github.com/JanaB03/portfolio" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--bg-chip); padding: 10px; border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 13px;">
-                <span class="material-symbols-outlined">code</span> Source
+              <a href="jana-portfolio.html" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--bg-chip); padding: 12px; border-radius: 10px; color: var(--ink); text-decoration: none; font-size: 13px; grid-column: 1 / -1;">
+                <span class="material-symbols-outlined" style="font-size: 18px;">grid_view</span> Pixel portfolio
               </a>
             </div>
 
-            <h3 style="font-size: 14px; margin: 32px 0 12px; color: var(--ink-dim); font-weight: 500;">RECENT UPLOADS</h3>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-              <a href="case-studies/yt/phone-mouse.html" style="display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none;">
-                <div style="width: 60px; aspect-ratio: 16/9; background: linear-gradient(135deg, #ff6b9d, #c44dff); border-radius: 6px;"></div>
-                <div>
-                  <p style="font-size: 13px; font-weight: 500;">Phone-as-Mouse</p>
-                  <p style="font-size: 11px; color: var(--ink-dim);">6 days ago</p>
-                </div>
-              </a>
-              <a href="case-studies/yt/thread.html" style="display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none;">
-                <div style="width: 60px; aspect-ratio: 16/9; background: linear-gradient(135deg, #4fc3f7, #1565c0); border-radius: 6px;"></div>
-                <div>
-                  <p style="font-size: 13px; font-weight: 500;">Thread</p>
-                  <p style="font-size: 11px; color: var(--ink-dim);">3 days ago</p>
-                </div>
-              </a>
+            <p style="font-family: 'Roboto Mono', monospace; font-size: 10px; color: var(--ink-mute); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px;">Right now</p>
+            <div style="display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--ink-dim); line-height: 1.7;">
+              <p><span style="color: var(--brand-soft); font-family: 'Roboto Mono', monospace; font-size: 11px; margin-right: 8px;">SIPPING</span> a lavender latte</p>
+              <p><span style="color: var(--brand-soft); font-family: 'Roboto Mono', monospace; font-size: 11px; margin-right: 8px;">BUILDING</span> Phone-as-Mouse</p>
+              <p><span style="color: var(--brand-soft); font-family: 'Roboto Mono', monospace; font-size: 11px; margin-right: 8px;">READING</span> The Design of Everyday Things</p>
             </div>
           </div>
         </div>
@@ -833,24 +785,21 @@
 
       <!-- BOTTOM NAV -->
       <nav class="bottom-nav" aria-label="App nav">
-        <button class="nav-btn active" data-view="home" aria-label="Home">
-          <span class="material-symbols-outlined">home</span>
-          <span>Home</span>
+        <button class="nav-btn active" data-view="home" aria-label="Work">
+          <span class="material-symbols-outlined">collections</span>
+          <span>Work</span>
         </button>
-        <button class="nav-btn" data-view="shorts" aria-label="Shorts">
-          <span class="material-symbols-outlined">flash_on</span>
-          <span>Shorts</span>
+        <button class="nav-btn" data-view="shorts" aria-label="Reels">
+          <span class="material-symbols-outlined">play_circle</span>
+          <span>Reels</span>
         </button>
-        <button class="nav-btn" data-view="add" aria-label="Add">
-          <span class="nav-plus"><span class="material-symbols-outlined">add</span></span>
+        <button class="nav-btn" data-view="you" aria-label="About">
+          <span class="material-symbols-outlined">person</span>
+          <span>About</span>
         </button>
-        <button class="nav-btn" data-view="subs" aria-label="Subscriptions">
-          <span class="material-symbols-outlined">subscriptions</span>
-          <span>Subs</span>
-        </button>
-        <button class="nav-btn" data-view="you" aria-label="You">
-          <span class="material-symbols-outlined">account_circle</span>
-          <span>You</span>
+        <button class="nav-btn" data-view="contact" aria-label="Contact">
+          <span class="material-symbols-outlined">mail</span>
+          <span>Contact</span>
         </button>
       </nav>
 
@@ -925,33 +874,18 @@
       <div class="short__progress"><span></span></div>
       <div class="short__overlay">
         <div class="short__info">
-          <div class="short__channel">
-            <div class="channel-avatar" style="width:30px;height:30px;font-size:12px;">JB</div>
-            <span class="short__channel-name">@janabridi</span>
-            <button class="short__subscribe">Subscribe</button>
-          </div>
+          <p class="short__title">${s.title}</p>
           <p class="short__caption">${s.caption} <span class="tag">${s.tag}</span></p>
-          <p class="short__audio">
-            <span class="material-symbols-outlined">music_note</span>
-            <span>${s.audio}</span>
-          </p>
         </div>
         <div class="short__actions">
           <button class="short-action like-btn">
             <span class="material-symbols-outlined">favorite</span>
-            <span class="short-action__count">${s.likes}</span>
           </button>
           <button class="short-action">
-            <span class="material-symbols-outlined">thumb_down</span>
-            <span class="short-action__count">Dislike</span>
-          </button>
-          <button class="short-action">
-            <span class="material-symbols-outlined">chat_bubble</span>
-            <span class="short-action__count">${s.comments}</span>
+            <span class="material-symbols-outlined">bookmark</span>
           </button>
           <button class="short-action">
             <span class="material-symbols-outlined">share</span>
-            <span class="short-action__count">${s.shares}</span>
           </button>
           <button class="short-action open-case" data-href="${s.href}" title="Open case study">
             <span class="material-symbols-outlined">open_in_new</span>
@@ -993,9 +927,8 @@
   document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const v = btn.dataset.view;
-      if (v === 'add' || v === 'subs') {
-        // playful toast for the not-built tabs
-        toast(v === 'add' ? "+ button is just for show 😅" : "no subs tab yet — try Shorts!");
+      if (v === 'contact') {
+        window.location.href = 'mailto:lanerodrodlane@gmail.com';
         return;
       }
       switchView(v);
@@ -1062,13 +995,6 @@
     if (like) {
       e.stopPropagation();
       like.classList.toggle('liked');
-      return;
-    }
-    const sub = e.target.closest('.short__subscribe');
-    if (sub) {
-      e.stopPropagation();
-      sub.classList.toggle('subbed');
-      sub.textContent = sub.classList.contains('subbed') ? 'Subscribed' : 'Subscribe';
       return;
     }
     const openCase = e.target.closest('.open-case');

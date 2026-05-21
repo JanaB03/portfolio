@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CommuniCare · lilypad</title>
+<title>CommuniCare — lilypad</title>
 <meta name="theme-color" content="#0f0f0f">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
 <link rel="stylesheet" href="yt-style.css">
 </head>
@@ -17,194 +17,80 @@
     <div class="phone__screen">
 
       <header class="topbar">
-        <a href="../../jana-portfolio-youtube.html" class="back-btn" aria-label="Back">
+        <a href="../../jana-portfolio-youtube.html" class="back-btn">
           <span class="material-symbols-outlined">arrow_back</span>
+          Portfolio
         </a>
-        <span class="yt-logo"><b>lily</b>pad</span>
-        <span class="topbar__spacer"></span>
-        <button class="icon-btn"><span class="material-symbols-outlined">cast</span></button>
-        <button class="icon-btn"><span class="material-symbols-outlined">search</span></button>
-        <button class="icon-btn"><span class="material-symbols-outlined">more_vert</span></button>
+        <span class="lily-mark"><b>lily</b>pad · case study</span>
       </header>
 
-      <div class="player player--cover">
-        <video src="../../OneDrive/communicare%20home%20page%20recording.mp4" autoplay loop muted playsinline></video>
-        <div class="player__hud">
-          <span class="player__time">5:12 / 12:34</span>
-          <span class="material-symbols-outlined">fullscreen</span>
+      <section class="hero">
+        <p class="hero__eyebrow">Shipped · Field work</p>
+        <h1 class="hero__title">CommuniCare</h1>
+        <p class="hero__sub">A device-agnostic communication platform for residents and case managers at Father Joe's Villages, San Diego.</p>
+        <div class="hero__meta">
+          <div class="hero__meta-item"><span class="k">Role</span><span class="v">Designer · UX engineer</span></div>
+          <div class="hero__meta-item"><span class="k">Year</span><span class="v">2025</span></div>
+          <div class="hero__meta-item" style="grid-column: 1 / -1;"><span class="k">Partner</span><span class="v">Father Joe's Villages — largest homeless services provider in San Diego</span></div>
         </div>
-        <div class="player__progress"><span style="width: 42%;"></span></div>
+      </section>
+
+      <div class="media">
+        <div class="media__frame media__frame--16x9 media__frame--cover">
+          <video src="../../OneDrive/communicare%20home%20page%20recording.mp4" autoplay loop muted playsinline></video>
+        </div>
+        <p class="media__caption">↑ CommuniCare home — designed for any device that walks in the door</p>
       </div>
 
-      <div class="title-block">
-        <h1>Designing CommuniCare with Father Joe's Villages — a device-agnostic comms platform for people experiencing homelessness</h1>
-        <div class="meta-line">
-          <span>41K views</span><span class="dot">·</span>
-          <span>2 weeks ago</span><span class="dot">·</span>
-          <span class="show-more">…more</span>
+      <section class="section">
+        <div class="section__marker">
+          <span class="section__num">01</span>
+          <span class="section__line"></span>
+          <span class="section__tag">Context</span>
         </div>
-      </div>
+        <h2>Designing where the users actually are.</h2>
+        <p>CommuniCare had to work on <strong>any device that walks in the door</strong>: shared kiosks, donated Androids, a case manager's iPhone, an old laptop in the resource room. We spent time at Father Joe's. Sat in waiting rooms. Watched what "communication" actually looks like when you don't always have a phone, don't always have charge, and the people you need to reach are intermittent.</p>
+        <p>The biggest unmet need wasn't <em>"how to send messages"</em> — it was <em>trust that the message got through</em>. That reframed half the product.</p>
+      </section>
 
-      <div class="desc-card">
-        <div class="desc-card__top">
-          <div class="stat">41K <span>views</span></div>
-          <div class="stat">Shipped <span>status</span></div>
-          <div class="stat" style="margin-left:auto;">San Diego <span>field site</span></div>
+      <section class="section">
+        <div class="section__marker">
+          <span class="section__num">02</span>
+          <span class="section__line"></span>
+          <span class="section__tag">Design</span>
         </div>
-        <p>A device-agnostic communication platform for residents and case managers at Father Joe's Villages. Designed in the field, with the people it's actually for.</p>
-        <div class="tags">
-          <span class="tag">#fieldwork</span>
-          <span class="tag">#a11y</span>
-          <span class="tag">#humanservices</span>
-          <span class="tag">#shipped</span>
+        <h2>Lowest-common-denominator first.</h2>
+        <p>Big touch targets. High contrast. No-account-required flows. Offline-friendly screens so the app doesn't break when the wifi blinks. Type sized for older users and low-light kiosks.</p>
+        <p>Tested every screen with actual residents. Every iteration came back with <em>"this word means something else here"</em> — language was a bigger design problem than layout.</p>
+      </section>
+
+      <section class="section">
+        <div class="section__marker">
+          <span class="section__num">03</span>
+          <span class="section__line"></span>
+          <span class="section__tag">Build</span>
         </div>
-      </div>
+        <h2>Tight loop with engineers and field staff.</h2>
+        <p>Design decisions reviewed at the same table as build constraints. Case managers tested screens in their actual workflows; their feedback closed bugs the dev team would never have seen. Shipping required the field team's buy-in as much as the design team's polish.</p>
+      </section>
 
-      <div class="action-bar">
-        <div class="like-group">
-          <button class="action-btn like-btn"><span class="material-symbols-outlined">thumb_up</span><span class="count">6.2K</span></button>
-          <button class="action-btn dislike-btn"><span class="material-symbols-outlined">thumb_down</span></button>
+      <section class="section">
+        <div class="section__marker">
+          <span class="section__num">04</span>
+          <span class="section__line"></span>
+          <span class="section__tag">Outcome</span>
         </div>
-        <button class="action-btn"><span class="material-symbols-outlined">share</span> Share</button>
-        <button class="action-btn"><span class="material-symbols-outlined">download</span> Save</button>
-        <button class="action-btn"><span class="material-symbols-outlined">bookmark</span></button>
-      </div>
+        <h2>Shipped. In use across Father Joe's programs.</h2>
+        <p>The humbling part was realizing "shipped" was a milestone, not the finish — every new resident reveals an edge case we hadn't designed for. <em>Equal parts humbling, hard, and the most meaningful design work I've done.</em></p>
+      </section>
 
-      <div class="channel-row">
-        <div class="channel-avatar">JB</div>
-        <div class="channel-info">
-          <div class="name">@janabridi</div>
-          <div class="subs">1.4K subscribers</div>
-        </div>
-        <button class="subscribe-btn sub-toggle">Subscribe</button>
-      </div>
+      <footer class="case-footer">
+        <a href="../../jana-portfolio-youtube.html">← Back to portfolio</a>
+        <span>CommuniCare · 2025</span>
+      </footer>
 
-      <header class="comments-header">
-        <div class="count"><span class="material-symbols-outlined">comment</span><span>Process · <em>5</em></span></div>
-        <div class="sort"><span class="material-symbols-outlined">sort</span> Sort by</div>
-      </header>
-
-      <article class="comment">
-        <div class="comment__avatar">JB</div>
-        <div class="comment__body">
-          <p class="comment__pinned"><span class="material-symbols-outlined">push_pin</span> Pinned by @janabridi</p>
-          <div class="comment__author-row">
-            <span class="comment__author">@janabridi</span>
-            <span class="comment__section-tag">TL;DR</span>
-            <span class="comment__time">2 weeks ago</span>
-          </div>
-          <div class="comment__text">
-            <p>CommuniCare is a communication platform for residents at Father Joe's Villages — the largest provider of homeless services in San Diego. It had to work on <strong>any device that walks in the door</strong>: shared kiosks, donated Androids, the case manager's iPhone, an old laptop in the resource room.</p>
-            <p>This was the most meaningful design work I've done. <em>Field-built, end to end.</em></p>
-          </div>
-          <div class="comment__hearted">
-            <span class="heart">♥</span>
-            <span>Hearted by @janabridi</span>
-          </div>
-          <div class="comment__actions">
-            <button class="comment__action like"><span class="material-symbols-outlined">thumb_up</span> 1.2K</button>
-            <button class="comment__action"><span class="material-symbols-outlined">thumb_down</span></button>
-            <button class="comment__reply">Reply</button>
-          </div>
-          <p class="comment__replies"><span class="material-symbols-outlined">arrow_drop_down</span>View 24 replies</p>
-        </div>
-      </article>
-
-      <article class="comment">
-        <div class="comment__avatar research">01</div>
-        <div class="comment__body">
-          <div class="comment__author-row">
-            <span class="comment__author">@janabridi</span>
-            <span class="comment__section-tag">Research</span>
-            <span class="comment__time">2 weeks ago</span>
-          </div>
-          <h3 class="comment__heading">Designing where the users actually are.</h3>
-          <div class="comment__text">
-            <p>We spent time at Father Joe's. Sat in waiting rooms. Watched what "communication" actually looks like when you don't always have a phone, don't always have charge, and the people you need to reach are intermittent.</p>
-            <p>Found that the biggest unmet need wasn't "how to send messages" — it was <em>trust that the message got through</em>. That reframed half the product.</p>
-          </div>
-          <div class="comment__actions">
-            <button class="comment__action"><span class="material-symbols-outlined">thumb_up</span> 487</button>
-            <button class="comment__action"><span class="material-symbols-outlined">thumb_down</span></button>
-            <button class="comment__reply">Reply</button>
-          </div>
-        </div>
-      </article>
-
-      <article class="comment">
-        <div class="comment__avatar design">02</div>
-        <div class="comment__body">
-          <div class="comment__author-row">
-            <span class="comment__author">@janabridi</span>
-            <span class="comment__section-tag">Design</span>
-            <span class="comment__time">2 weeks ago</span>
-          </div>
-          <h3 class="comment__heading">Designed for the lowest-common-denominator device.</h3>
-          <div class="comment__text">
-            <p>Big touch targets. High contrast. No-account-required flows. Offline-friendly screens so the app doesn't break when the wifi blinks. Type sized for older users and low-light kiosks.</p>
-            <p>Tested every screen with actual residents. Every iteration came back with "this word means something else here" — language was a bigger design problem than layout.</p>
-          </div>
-          <div class="comment__actions">
-            <button class="comment__action liked"><span class="material-symbols-outlined">thumb_up</span> 893</button>
-            <button class="comment__action"><span class="material-symbols-outlined">thumb_down</span></button>
-            <button class="comment__reply">Reply</button>
-          </div>
-        </div>
-      </article>
-
-      <article class="comment">
-        <div class="comment__avatar build">03</div>
-        <div class="comment__body">
-          <div class="comment__author-row">
-            <span class="comment__author">@janabridi</span>
-            <span class="comment__section-tag">Build</span>
-            <span class="comment__time">2 weeks ago</span>
-          </div>
-          <h3 class="comment__heading">Worked alongside engineers and field staff.</h3>
-          <div class="comment__text">
-            <p>Tight loop with the dev team — design decisions reviewed at the same table as build constraints. Case managers tested screens in their actual workflows; their feedback closed bugs the dev team would never have seen.</p>
-          </div>
-          <div class="comment__actions">
-            <button class="comment__action"><span class="material-symbols-outlined">thumb_up</span> 312</button>
-            <button class="comment__action"><span class="material-symbols-outlined">thumb_down</span></button>
-            <button class="comment__reply">Reply</button>
-          </div>
-        </div>
-      </article>
-
-      <article class="comment">
-        <div class="comment__avatar outcome">04</div>
-        <div class="comment__body">
-          <div class="comment__author-row">
-            <span class="comment__author">@janabridi</span>
-            <span class="comment__section-tag">Outcome</span>
-            <span class="comment__time">2 weeks ago</span>
-          </div>
-          <h3 class="comment__heading">Shipped. In use.</h3>
-          <div class="comment__text">
-            <p>Now running across Father Joe's programs. The most humbling part of the work was realizing that "shipped" was a milestone, not the finish — every new resident reveals an edge case we hadn't designed for.</p>
-            <p>Equal parts humbling, hard, and the most meaningful design work I've done.</p>
-          </div>
-          <div class="comment__actions">
-            <button class="comment__action"><span class="material-symbols-outlined">thumb_up</span> 740</button>
-            <button class="comment__action"><span class="material-symbols-outlined">thumb_down</span></button>
-            <button class="comment__reply">Reply</button>
-          </div>
-        </div>
-      </article>
-
-      <div class="comment-input">
-        <div class="channel-avatar">U</div>
-        <input type="text" placeholder="Add a comment…" disabled>
-      </div>
-      <div class="footer-spacer"></div>
     </div>
   </div>
 </div>
-
-<script>
-  document.querySelectorAll('.like-btn, .comment__action').forEach(b => b.addEventListener('click', () => b.classList.toggle('liked')));
-  document.querySelectorAll('.sub-toggle').forEach(b => b.addEventListener('click', () => { b.classList.toggle('subbed'); b.textContent = b.classList.contains('subbed') ? 'Subscribed' : 'Subscribe'; }));
-</script>
 </body>
 </html>
