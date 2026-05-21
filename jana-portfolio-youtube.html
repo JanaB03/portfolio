@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Jana Bridi — @janabridi</title>
-<meta name="description" content="Jana Bridi's design work, formatted like a YouTube mobile feed. Long-form case studies and Shorts." />
+<title>lilypad · jana bridi</title>
+<meta name="description" content="lilypad — Jana Bridi's design work, formatted like a video feed. Long-form case studies and shorts." />
 <meta name="theme-color" content="#0f0f0f" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,8 +13,12 @@
 
 <style>
   :root {
-    --yt-red: #ff0000;
-    --yt-red-soft: #ff4040;
+    --brand: #168b9d;          /* teal — lilypad accent */
+    --brand-soft: #4cc1d2;
+    --brand-deep: #0e6473;
+    --pad-green: #6b9a4f;
+    --yt-red: #168b9d;         /* legacy alias kept for unchanged components */
+    --yt-red-soft: #4cc1d2;
     --bg: #0f0f0f;
     --bg-elev: #1f1f1f;
     --bg-chip: #272727;
@@ -147,16 +151,19 @@
     letter-spacing: -0.7px;
   }
   .yt-logo__mark {
-    width: 28px; height: 20px;
-    background: var(--yt-red);
-    border-radius: 6px;
+    width: 26px; height: 26px;
     display: grid;
     place-items: center;
   }
-  .yt-logo__mark svg {
-    width: 12px; height: 12px; fill: #fff; margin-left: 1px;
+  .yt-logo__mark svg { width: 26px; height: 26px; display: block; }
+  .yt-logo__text {
+    color: var(--ink);
+    font-family: 'Roboto', system-ui;
+    font-weight: 500;
+    font-size: 17px;
+    letter-spacing: -0.3px;
   }
-  .yt-logo__text { color: var(--ink); }
+  .yt-logo__text b { color: var(--brand-soft); font-weight: 700; }
 
   .topbar__icons {
     display: flex; align-items: center; gap: 12px;
@@ -601,10 +608,10 @@
 <body>
 
 <aside class="desk-hint" aria-hidden="true">
-  jana bridi · portfolio<br>
-  formatted like a youtube mobile app<br><br>
-  tap the lightning bolt for shorts<br>
-  tap a card for the case study<br><br>
+  jana bridi · <b style="color:#4cc1d2">lilypad</b><br>
+  a portfolio formatted like a video feed<br><br>
+  tap the bolt for shorts<br>
+  tap a card to play the case study<br><br>
   <a href="jana-portfolio.html">→ back to the pixel version</a>
 </aside>
 
@@ -628,10 +635,24 @@
       <!-- TOP BAR -->
       <div class="topbar">
         <a class="yt-logo" href="jana-portfolio.html" title="Back to pixel portfolio">
-          <span class="yt-logo__mark">
-            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <span class="yt-logo__mark" aria-hidden="true">
+            <!-- stylized lily pad: rounded pad with a wedge notch + small lily bud -->
+            <svg viewBox="0 0 28 28">
+              <defs>
+                <radialGradient id="padg" cx="35%" cy="35%" r="70%">
+                  <stop offset="0%" stop-color="#9ed4a8"/>
+                  <stop offset="55%" stop-color="#4cc1d2"/>
+                  <stop offset="100%" stop-color="#168b9d"/>
+                </radialGradient>
+              </defs>
+              <path d="M14 3 a11 11 0 1 1 -0.01 0 L14 14 Z"
+                    fill="url(#padg)"
+                    stroke="#0e6473" stroke-width="1" stroke-linejoin="round"/>
+              <circle cx="20.5" cy="9.5" r="2.4" fill="#ffd1e0" stroke="#bf5a7a" stroke-width="0.9"/>
+              <circle cx="20.5" cy="9.5" r="0.8" fill="#bf5a7a"/>
+            </svg>
           </span>
-          <span class="yt-logo__text">Portfolio</span>
+          <span class="yt-logo__text"><b>lily</b>pad</span>
         </a>
         <div class="topbar__icons">
           <button class="icon-btn" aria-label="Cast"><span class="material-symbols-outlined">cast</span></button>
@@ -660,7 +681,7 @@
           <div class="feed">
 
             <!-- Long-form video 1 — CommuniCare -->
-            <article class="video-card" data-cat="design field" data-href="case-studies/communicare.html">
+            <article class="video-card" data-cat="design field" data-href="case-studies/yt/communicare.html">
               <div class="video-card__thumb">
                 <video muted loop playsinline preload="metadata" src="OneDrive/communicare%20home%20page%20recording.mp4"></video>
                 <span class="video-card__duration">12:34</span>
@@ -688,7 +709,7 @@
             </section>
 
             <!-- Long-form 2 — UB Healthy / 48in48 -->
-            <article class="video-card" data-cat="design field" data-href="case-studies/48in48.html">
+            <article class="video-card" data-cat="design field" data-href="case-studies/yt/48in48.html">
               <div class="video-card__thumb" style="background: linear-gradient(135deg, #2D6A4F 0%, #E9C46A 100%); display: grid; place-items: center; color: #fff; padding: 0 24px;">
                 <div style="text-align: center;">
                   <div style="font-size: 11px; letter-spacing: 0.2em; opacity: 0.85; margin-bottom: 6px;">48IN48 · 1ST PLACE</div>
@@ -707,7 +728,7 @@
             </article>
 
             <!-- Long-form 3 — Pawesome -->
-            <article class="video-card" data-cat="design code" data-href="case-studies/pawesome.html">
+            <article class="video-card" data-cat="design code" data-href="case-studies/yt/pawesome.html">
               <div class="video-card__thumb">
                 <video muted loop playsinline preload="metadata" src="OneDrive/pawesome%20recording.mp4"></video>
                 <span class="video-card__duration">8:21</span>
@@ -723,7 +744,7 @@
             </article>
 
             <!-- Long-form 4 — Thread -->
-            <article class="video-card" data-cat="design ai prototype" data-href="case-studies/thread.html">
+            <article class="video-card" data-cat="design ai prototype" data-href="case-studies/yt/thread.html">
               <div class="video-card__thumb">
                 <video muted loop playsinline preload="metadata" src="Downloads/cursorful-video-1778650424561.mp4"></video>
                 <span class="video-card__duration">3:12</span>
@@ -739,7 +760,7 @@
             </article>
 
             <!-- Long-form 5 — Phone-as-Mouse -->
-            <article class="video-card" data-cat="ai prototype code" data-href="case-studies/phone-mouse.html">
+            <article class="video-card" data-cat="ai prototype code" data-href="case-studies/yt/phone-mouse.html">
               <div class="video-card__thumb">
                 <video class="pm-thumb" muted loop playsinline preload="metadata"
                        data-playlist="videos/phone-mouse/01-optical.mp4,videos/phone-mouse/02-cursor-pad-1.mp4,videos/phone-mouse/03-cursor-pad-2.mp4,videos/phone-mouse/04-custom-cursor.mp4"></video>
@@ -790,14 +811,14 @@
 
             <h3 style="font-size: 14px; margin: 32px 0 12px; color: var(--ink-dim); font-weight: 500;">RECENT UPLOADS</h3>
             <div style="display: flex; flex-direction: column; gap: 8px;">
-              <a href="case-studies/phone-mouse.html" style="display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none;">
+              <a href="case-studies/yt/phone-mouse.html" style="display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none;">
                 <div style="width: 60px; aspect-ratio: 16/9; background: linear-gradient(135deg, #ff6b9d, #c44dff); border-radius: 6px;"></div>
                 <div>
                   <p style="font-size: 13px; font-weight: 500;">Phone-as-Mouse</p>
                   <p style="font-size: 11px; color: var(--ink-dim);">6 days ago</p>
                 </div>
               </a>
-              <a href="case-studies/thread.html" style="display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none;">
+              <a href="case-studies/yt/thread.html" style="display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none;">
                 <div style="width: 60px; aspect-ratio: 16/9; background: linear-gradient(135deg, #4fc3f7, #1565c0); border-radius: 6px;"></div>
                 <div>
                   <p style="font-size: 13px; font-weight: 500;">Thread</p>
@@ -856,7 +877,7 @@
       tag: '#aibuild',
       likes: '12K', comments: 482, shares: '1.2K',
       audio: 'original sound · @janabridi',
-      href: 'case-studies/phone-mouse.html'
+      href: 'case-studies/yt/phone-mouse.html'
     },
     {
       src: 'videos/phone-mouse/02-cursor-pad-1.mp4',
@@ -865,7 +886,7 @@
       tag: '#prototyping',
       likes: '8.4K', comments: 211, shares: 940,
       audio: 'original sound · @janabridi',
-      href: 'case-studies/phone-mouse.html'
+      href: 'case-studies/yt/phone-mouse.html'
     },
     {
       src: 'videos/phone-mouse/03-cursor-pad-2.mp4',
@@ -874,7 +895,7 @@
       tag: '#uxdetails',
       likes: '15K', comments: 367, shares: '2.1K',
       audio: 'original sound · @janabridi',
-      href: 'case-studies/phone-mouse.html'
+      href: 'case-studies/yt/phone-mouse.html'
     },
     {
       src: 'videos/phone-mouse/04-custom-cursor.mp4',
@@ -883,7 +904,7 @@
       tag: '#designdetails',
       likes: '22K', comments: 814, shares: '3.4K',
       audio: 'original sound · @janabridi',
-      href: 'case-studies/phone-mouse.html'
+      href: 'case-studies/yt/phone-mouse.html'
     },
     {
       src: 'Downloads/cursorful-video-1778650424561.mp4',
@@ -892,7 +913,7 @@
       tag: '#aibuild',
       likes: '34K', comments: '1.1K', shares: '5.8K',
       audio: 'original sound · @janabridi',
-      href: 'case-studies/thread.html'
+      href: 'case-studies/yt/thread.html'
     }
   ];
 

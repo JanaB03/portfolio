@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phone-as-Mouse · lilypad</title>
+<meta name="theme-color" content="#0f0f0f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<link rel="stylesheet" href="yt-style.css">
+</head>
+<body>
+<div class="page-wrap">
+  <div class="phone">
+    <div class="phone__island"></div>
+    <div class="phone__screen">
+
+      <header class="topbar">
+        <a href="../../jana-portfolio-youtube.html" class="back-btn" aria-label="Back">
+          <span class="material-symbols-outlined">arrow_back</span>
+        </a>
+        <span class="yt-logo"><b>lily</b>pad</span>
+        <span class="topbar__spacer"></span>
+        <button class="icon-btn" aria-label="Cast"><span class="material-symbols-outlined">cast</span></button>
+        <button class="icon-btn" aria-label="Search"><span class="material-symbols-outlined">search</span></button>
+        <button class="icon-btn" aria-label="More"><span class="material-symbols-outlined">more_vert</span></button>
+      </header>
+
+      <div class="player player--square">
+        <video id="pmPlayer" autoplay loop muted playsinline></video>
+        <div class="player__hud">
+          <span class="player__time" id="pmTime">0:00 / 5:48</span>
+          <span class="material-symbols-outlined">fullscreen</span>
+        </div>
+        <div class="player__progress"><span id="pmProgress" style="width:0%;"></span></div>
+      </div>
+
+      <div class="title-block">
+        <h1>Turning my iPhone into a mouse — optical flow, gestures, and a custom cursor</h1>
+        <div class="meta-line">
+          <span>64K views</span><span class="dot">·</span>
+          <span>6 days ago</span><span class="dot">·</span>
+          <span class="show-more">…more</span>
+        </div>
+      </div>
+
+      <div class="desc-card">
+        <div class="desc-card__top">
+          <div class="stat">64K <span>views</span></div>
+          <div class="stat">4 <span>features</span></div>
+          <div class="stat" style="margin-left:auto;">In progress <span>2026</span></div>
+        </div>
+        <p>Your iPhone, but it's a mouse. Point the camera at a surface — desk, notebook, your jeans — and optical flow becomes cursor motion on your laptop. No bluetooth pairing, no dongle.</p>
+        <div class="tags">
+          <span class="tag">#iosapp</span>
+          <span class="tag">#opticalflow</span>
+          <span class="tag">#aiassisted</span>
+          <span class="tag">#prototype</span>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <div class="like-group">
+          <button class="action-btn like-btn"><span class="material-symbols-outlined">thumb_up</span><span class="count">8.7K</span></button>
+          <button class="action-btn dislike-btn"><span class="material-symbols-outlined">thumb_down</span></button>
+        </div>
+        <button class="action-btn"><span class="material-symbols-outlined">share</span> Share</button>
+        <button class="action-btn"><span class="material-symbols-outlined">download</span> Save</button>
+        <button class="action-btn"><span class="material-symbols-outlined">bookmark</span></button>
+      </div>
+
+      <div class="channel-row">
+        <div class="channel-avatar">JB</div>
+        <div class="channel-info">
+          <div class="name">@janabridi</div>
+          <div class="subs">1.4K subscribers</div>
+        </div>
+        <button class="subscribe-btn sub-toggle">Subscribe</button>
+      </div>
+
+      <header class="comments-header">
+        <div class="count"><span class="material-symbols-outlined">comment</span><span>Process · <em>5</em></span></div>
+        <div class="sort"><span class="material-symbols-outlined">sort</span> Sort by</div>
+      </header>
+
+      <article class="comment">
+        <div class="comment__avatar">JB</div>
+        <div class="comment__body">
+          <p class="comment__pinned"><span class="material-symbols-outlined">push_pin</span> Pinned by @janabridi</p>
+          <div class="comment__author-row">
+            <span class="comment__author">@janabridi</span>
+            <span class="comment__section-tag">TL;DR</span>
+            <span class="comment__time">6 days ago</span>
+          </div>
+          <div class="comment__text">
+            <p>iPhone → desktop mouse via the camera. Four features in the prototype: <strong>optical-flow tracking</strong>, <strong>cursor pad touch mode</strong>, <strong>trackpad gestures</strong>, and a <strong>custom cursor</strong>. The clip above runs them in order.</p>
+            <p>iOS app talks to a tiny Python service on Windows. <em>Most of the typing was AI. Most of the "what to build next" was me.</em></p>
+          </div>
+          <div class="comment__hearted">
+            <span class="heart">♥</span>
+            <span>Hearted by @janabridi</span>
+          </div>
+          <div class="comment__actions">
+            <button class="comment__action like"><span class="material-symbols-outlined">thumb_up</span> 1.6K</button>
+            <button class="comment__action"><span class="material-symbols-outlined">thumb_down</span></button>
+            <button class="comment__reply">Reply</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="comment">
+        <div class="comment__avatar research">01</div>
+        <div class="comment__body">
+          <div class="comment__author-row">
+            <span class="comment__author">@janabridi</span>
+            <span class="comment__section-tag">Research</span>
+            <span class="comment__time">6 days ago</span>
+          </div>
+          <h3 class="comment__heading">Your phone is the best input device you already own.</h3>
+          <div class="comment__text">
+            <p>You carry it everywhere. It has a camera with computer-vision tracking baked in. Why are we still buying separate pieces of plastic to move a cursor? The project started as a "what if" — by hour two of prototyping it was clearly possible.</p>
+          </div>
+          <div class="comment__actions">
+            <button class="comment__action"><span class="material-symbols-outlined">thumb_up</span> 380</button>
+            <button class="comment__action"><span class="material-symbols-outlined">thumb_down</span></button>
+            <button class="comment__reply">Reply</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="comment">
+        <div class="comment__avatar design">02</div>
+        <div class="comment__body">
+          <div class="comment__author-row">
+            <span class="comment__author">@janabridi</span>
+            <span class="comment__section-tag">Design</span>
+            <span class="comment__time">6 days ago</span>
+          </div>
+          <h3 class="comment__heading">Two input modes, one mental model.</h3>
+          <div class="comment__text">
+            <p>Designed two interaction modes — <strong>camera mode</strong> (point at a surface) and <strong>pad mode</strong> (touch the screen). Both produce cursor motion; the user's body chooses which one feels right. Kept the iPhone UI minimal so attention stays on the surface, not on the app.</p>
+            <p>The custom cursor was a late add — once the cursor felt like <em>mine</em>, the laptop felt different.</p>
+          </div>
+          <div class="comment__actions">
+            <button class="comment__action"><span class="material-symbols-outlined">thumb_up</span> 522</button>
+            <button class="comment__action"><span class="material-symbols-outlined">thumb_down</span></button>
+            <button class="comment__reply">Reply</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="comment">
+        <div class="comment__avatar build">03</div>
+        <div class="comment__body">
+          <div class="comment__author-row">
+            <span class="comment__author">@janabridi</span>
+            <span class="comment__section-tag">Build</span>
+            <span class="comment__time">6 days ago</span>
+          </div>
+          <h3 class="comment__heading">SwiftUI on iOS, Python on Windows, AI in the middle.</h3>
+          <div class="comment__text">
+            <p>The iPhone runs a SwiftUI app that streams camera frames + touch events over the local network. A small Python service on Windows reads the stream and translates it into mouse movement.</p>
+            <ul>
+              <li><strong>Claude Code</strong> scaffolded the iOS app + the Windows service.</li>
+              <li><strong>Cursor</strong> handled file-by-file refinements.</li>
+              <li><strong>ChatGPT</strong> for prompt sharpening when I got stuck.</li>
+            </ul>
+          </div>
+          <div class="comment__actions">
+            <button class="comment__action liked"><span class="material-symbols-outlined">thumb_up</span> 1.1K</button>
+            <button class="comment__action"><span class="material-symbols-outlined">thumb_down</span></button>
+            <button class="comment__reply">Reply</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="comment">
+        <div class="comment__avatar reflect">04</div>
+        <div class="comment__body">
+          <div class="comment__author-row">
+            <span class="comment__author">@janabridi</span>
+            <span class="comment__section-tag">Reflection</span>
+            <span class="comment__time">6 days ago</span>
+          </div>
+          <h3 class="comment__heading">Small device, big posture experiment.</h3>
+          <div class="comment__text">
+            <p>The interesting question isn't "can a phone be a mouse" — it's <em>"what does a desk feel like when the mouse is just whatever you happen to be holding."</em> Working through this prototype is teaching me what people actually want from a pointing device, and what gets in the way.</p>
+          </div>
+          <div class="comment__actions">
+            <button class="comment__action"><span class="material-symbols-outlined">thumb_up</span> 612</button>
+            <button class="comment__action"><span class="material-symbols-outlined">thumb_down</span></button>
+            <button class="comment__reply">Reply</button>
+          </div>
+        </div>
+      </article>
+
+      <div class="comment-input">
+        <div class="channel-avatar">U</div>
+        <input type="text" placeholder="Add a comment…" disabled>
+      </div>
+
+      <div class="footer-spacer"></div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Playlist player
+  const PLAYLIST = [
+    '../../videos/phone-mouse/01-optical.mp4',
+    '../../videos/phone-mouse/02-cursor-pad-1.mp4',
+    '../../videos/phone-mouse/03-cursor-pad-2.mp4',
+    '../../videos/phone-mouse/04-custom-cursor.mp4'
+  ];
+  const v = document.getElementById('pmPlayer');
+  const bar = document.getElementById('pmProgress');
+  const timeEl = document.getElementById('pmTime');
+  let idx = 0;
+  v.src = PLAYLIST[0];
+  v.play().catch(() => {});
+  v.addEventListener('ended', () => {
+    idx = (idx + 1) % PLAYLIST.length;
+    v.src = PLAYLIST[idx];
+    v.play().catch(() => {});
+  });
+  v.addEventListener('timeupdate', () => {
+    if (!v.duration) return;
+    const overall = (idx + v.currentTime / v.duration) / PLAYLIST.length;
+    bar.style.width = `${overall * 100}%`;
+    const t = Math.round(overall * 348); // ~5:48 total
+    timeEl.textContent = `${Math.floor(t/60)}:${String(t%60).padStart(2,'0')} / 5:48`;
+  });
+
+  // Like + subscribe toggles
+  document.querySelectorAll('.like-btn, .comment__action').forEach(b => {
+    b.addEventListener('click', () => b.classList.toggle('liked'));
+  });
+  document.querySelectorAll('.sub-toggle').forEach(b => {
+    b.addEventListener('click', () => {
+      b.classList.toggle('subbed');
+      b.textContent = b.classList.contains('subbed') ? 'Subscribed' : 'Subscribe';
+    });
+  });
+</script>
+</body>
+</html>
