@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jana Bridi — @janabridi</title>
+<meta name="description" content="Jana Bridi's design work, formatted like a YouTube mobile feed. Long-form case studies and Shorts." />
+<meta name="theme-color" content="#0f0f0f" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet">
+
+<style>
+  :root {
+    --yt-red: #ff0000;
+    --yt-red-soft: #ff4040;
+    --bg: #0f0f0f;
+    --bg-elev: #1f1f1f;
+    --bg-chip: #272727;
+    --bg-chip-active: #f1f1f1;
+    --ink: #f1f1f1;
+    --ink-dim: #aaa;
+    --ink-mute: #717171;
+    --rule: #2a2a2a;
+    --phone-bezel: #2a2a2a;
+    --phone-frame: #0a0a0a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow: hidden; background: #1a1a1a; }
+  body {
+    font-family: 'Roboto', system-ui, sans-serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(ellipse at center, #2a2a2a 0%, #0d0d0d 70%);
+    padding: 24px;
+  }
+
+  /* Material Symbols sizing */
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; user-select: none; }
+  .ms-fill { font-variation-settings: 'FILL' 1, 'wght' 400; }
+
+  /* =========== PHONE FRAME =========== */
+  .phone {
+    width: min(420px, 100%);
+    height: min(900px, calc(100vh - 48px));
+    background: var(--phone-frame);
+    border-radius: 48px;
+    padding: 12px;
+    position: relative;
+    box-shadow:
+      0 0 0 1px #1a1a1a,
+      0 30px 80px -20px rgba(0,0,0,0.7),
+      0 0 0 6px #181818,
+      0 0 0 8px #2a2a2a;
+  }
+  .phone__screen {
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    border-radius: 36px;
+    overflow: hidden;
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* Dynamic island */
+  .phone__island {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110px;
+    height: 32px;
+    background: #000;
+    border-radius: 100px;
+    z-index: 50;
+    pointer-events: none;
+  }
+
+  /* Status bar */
+  .phone__status {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 44px;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    pointer-events: none;
+  }
+  .phone__status-right {
+    display: flex; align-items: center; gap: 5px;
+  }
+  .phone__status-right .material-symbols-outlined { font-size: 16px; }
+  .phone__status-right .battery {
+    width: 24px; height: 11px;
+    border: 1.2px solid var(--ink);
+    border-radius: 3px;
+    padding: 1px;
+    position: relative;
+  }
+  .phone__status-right .battery::after {
+    content: ''; position: absolute; right: -3px; top: 3px;
+    width: 2px; height: 3.5px; background: var(--ink); border-radius: 0 1px 1px 0;
+  }
+  .phone__status-right .battery span {
+    display: block;
+    width: 80%; height: 100%; background: var(--ink); border-radius: 1px;
+  }
+
+  /* =========== APP CHROME =========== */
+  .app {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding-top: 44px; /* status bar room */
+  }
+
+  /* Top bar */
+  .topbar {
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    flex-shrink: 0;
+    background: var(--bg);
+    z-index: 10;
+  }
+  .yt-logo {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-weight: 700;
+    font-size: 19px;
+    letter-spacing: -0.7px;
+  }
+  .yt-logo__mark {
+    width: 28px; height: 20px;
+    background: var(--yt-red);
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+  }
+  .yt-logo__mark svg {
+    width: 12px; height: 12px; fill: #fff; margin-left: 1px;
+  }
+  .yt-logo__text { color: var(--ink); }
+
+  .topbar__icons {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .topbar__icons .icon-btn {
+    width: 36px; height: 36px;
+    display: grid; place-items: center;
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .topbar__icons .icon-btn:hover { background: var(--bg-chip); }
+  .topbar__icons .icon-btn .material-symbols-outlined { font-size: 24px; }
+  .avatar-btn {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b9d, #c44dff);
+    display: grid; place-items: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    border: 0;
+  }
+
+  /* Category chips */
+  .chips {
+    display: flex;
+    gap: 8px;
+    padding: 8px 14px 12px;
+    overflow-x: auto;
+    flex-shrink: 0;
+    scrollbar-width: none;
+    background: var(--bg);
+  }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    background: var(--bg-chip);
+    color: var(--ink);
+    border: 0;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .15s, color .15s;
+  }
+  .chip:hover { background: #353535; }
+  .chip.active {
+    background: var(--bg-chip-active);
+    color: #0f0f0f;
+  }
+  .chip__explore {
+    display: flex; align-items: center; gap: 4px;
+    background: transparent;
+    border: 1px solid #3a3a3a;
+  }
+  .chip__explore .material-symbols-outlined { font-size: 16px; }
+
+  /* =========== VIEW CONTAINER =========== */
+  .view-stack {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+  .view {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s;
+  }
+  .view::-webkit-scrollbar { display: none; }
+  .view.active { opacity: 1; pointer-events: auto; }
+
+  /* =========== HOME FEED (long-form) =========== */
+  .feed {
+    padding-bottom: 80px; /* room for bottom nav */
+  }
+  .video-card {
+    margin-bottom: 16px;
+    cursor: pointer;
+  }
+  .video-card__thumb {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: var(--bg-elev);
+    overflow: hidden;
+  }
+  .video-card__thumb video,
+  .video-card__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .video-card__duration {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 5px;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+  }
+  .video-card__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: var(--yt-red);
+  }
+  .video-card__meta {
+    display: grid;
+    grid-template-columns: 40px 1fr 24px;
+    gap: 12px;
+    padding: 12px 14px 0;
+    align-items: start;
+  }
+  .channel-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b9d, #c44dff);
+    display: grid; place-items: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .video-card__text { min-width: 0; }
+  .video-card__title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .video-card__sub {
+    font-size: 12px;
+    color: var(--ink-dim);
+    line-height: 1.4;
+  }
+  .video-card__sub .dot { padding: 0 4px; }
+  .video-card__more {
+    background: transparent;
+    border: 0;
+    color: var(--ink-dim);
+    cursor: pointer;
+    padding: 4px 0 0;
+  }
+
+  /* Shorts row (inside home feed) */
+  .shorts-row {
+    margin: 8px 0 24px;
+    border-top: 8px solid #181818;
+    border-bottom: 8px solid #181818;
+    padding: 12px 0 16px;
+  }
+  .shorts-row__head {
+    display: flex; align-items: center; gap: 8px;
+    padding: 0 14px 12px;
+  }
+  .shorts-row__head .ms-fill { color: var(--yt-red); font-size: 22px; }
+  .shorts-row__head h2 {
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .shorts-row__scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 0 14px;
+    scrollbar-width: none;
+  }
+  .shorts-row__scroll::-webkit-scrollbar { display: none; }
+  .short-tile {
+    flex-shrink: 0;
+    width: 150px;
+    aspect-ratio: 9 / 16;
+    border-radius: 10px;
+    background: var(--bg-elev);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .short-tile video,
+  .short-tile img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .short-tile__title {
+    position: absolute;
+    left: 8px; right: 8px; bottom: 28px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    line-height: 1.3;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .short-tile__views {
+    position: absolute;
+    left: 8px; bottom: 8px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.9);
+    display: flex; align-items: center; gap: 3px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+  }
+  .short-tile__views .material-symbols-outlined { font-size: 14px; }
+
+  /* =========== SHORTS VIEW (vertical scroll-snap) =========== */
+  .shorts-view {
+    background: #000;
+    scroll-snap-type: y mandatory;
+    overflow-y: auto;
+    color: #fff;
+  }
+  .short {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    overflow: hidden;
+    background: #000;
+  }
+  .short video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    background: #000;
+  }
+  .short__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    pointer-events: none;
+    padding: 0 12px 88px 14px;
+  }
+  .short__overlay > * { pointer-events: auto; }
+
+  .short__info {
+    flex: 1;
+    max-width: 280px;
+    color: #fff;
+  }
+  .short__channel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .short__channel-name {
+    font-size: 14px; font-weight: 500;
+  }
+  .short__channel-name::after {
+    content: '✓';
+    margin-left: 4px;
+    font-size: 11px;
+    background: rgba(255,255,255,0.7);
+    color: #000;
+    border-radius: 50%;
+    width: 14px; height: 14px;
+    display: inline-grid; place-items: center;
+    vertical-align: middle;
+  }
+  .short__subscribe {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: #fff;
+    padding: 5px 11px;
+    border-radius: 100px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .short__subscribe.subbed {
+    background: rgba(255,255,255,0.95);
+    color: #0f0f0f;
+    border-color: rgba(255,255,255,0.95);
+  }
+  .short__caption {
+    font-size: 13px;
+    line-height: 1.45;
+    margin-bottom: 10px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  }
+  .short__caption .tag {
+    color: #4fc3f7;
+    font-weight: 500;
+  }
+  .short__audio {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.92);
+  }
+  .short__audio .material-symbols-outlined { font-size: 16px; }
+
+  .short__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+    width: 50px;
+  }
+  .short-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    padding: 0;
+  }
+  .short-action .material-symbols-outlined {
+    font-size: 30px;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.6));
+    transition: transform .15s;
+  }
+  .short-action:active .material-symbols-outlined { transform: scale(0.85); }
+  .short-action__count {
+    font-size: 12px;
+    font-weight: 500;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+  }
+  .short-action.liked .material-symbols-outlined { color: var(--yt-red-soft); }
+
+  .short__progress {
+    position: absolute;
+    bottom: 76px;
+    left: 14px; right: 76px;
+    height: 3px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .short__progress span {
+    display: block; height: 100%;
+    background: #fff;
+    width: 0%;
+    transition: width .2s linear;
+  }
+
+  /* =========== BOTTOM NAV =========== */
+  .bottom-nav {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 64px;
+    background: rgba(15, 15, 15, 0.97);
+    border-top: 1px solid var(--rule);
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+    z-index: 30;
+    padding-bottom: 6px;
+    backdrop-filter: blur(8px);
+  }
+  .nav-btn {
+    flex: 1;
+    background: transparent;
+    border: 0;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+  }
+  .nav-btn .material-symbols-outlined { font-size: 22px; }
+  .nav-btn.active .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+  .nav-btn .nav-plus {
+    width: 32px; height: 32px;
+    border: 1.5px solid #fff;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    margin-bottom: 2px;
+  }
+  .nav-btn .nav-plus .material-symbols-outlined { font-size: 18px; }
+
+  /* Hide bottom-nav inactive label only when in shorts mode */
+  .phone.shorts-mode .bottom-nav { background: rgba(0,0,0,0.55); border-color: rgba(255,255,255,0.08); }
+
+  /* desktop side hint */
+  .desk-hint {
+    position: fixed;
+    left: 24px;
+    bottom: 24px;
+    color: rgba(255,255,255,0.45);
+    font-family: 'Roboto Mono', monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    max-width: 240px;
+    z-index: 1;
+  }
+  .desk-hint a { color: rgba(255,255,255,0.75); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+  .desk-hint a:hover { color: #fff; }
+  @media (max-width: 720px) {
+    .desk-hint { display: none; }
+    body { padding: 0; }
+    .phone {
+      width: 100%;
+      height: 100vh;
+      border-radius: 0;
+      padding: 0;
+      box-shadow: none;
+    }
+    .phone__screen { border-radius: 0; }
+    .phone__island { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<aside class="desk-hint" aria-hidden="true">
+  jana bridi · portfolio<br>
+  formatted like a youtube mobile app<br><br>
+  tap the lightning bolt for shorts<br>
+  tap a card for the case study<br><br>
+  <a href="jana-portfolio.html">→ back to the pixel version</a>
+</aside>
+
+<div class="phone" id="phone">
+
+  <div class="phone__island"></div>
+
+  <div class="phone__screen">
+
+    <div class="phone__status">
+      <span id="clock">9:41</span>
+      <div class="phone__status-right">
+        <span class="material-symbols-outlined">network_cell</span>
+        <span class="material-symbols-outlined">wifi</span>
+        <div class="battery"><span></span></div>
+      </div>
+    </div>
+
+    <div class="app">
+
+      <!-- TOP BAR -->
+      <div class="topbar">
+        <a class="yt-logo" href="jana-portfolio.html" title="Back to pixel portfolio">
+          <span class="yt-logo__mark">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </span>
+          <span class="yt-logo__text">Portfolio</span>
+        </a>
+        <div class="topbar__icons">
+          <button class="icon-btn" aria-label="Cast"><span class="material-symbols-outlined">cast</span></button>
+          <button class="icon-btn" aria-label="Notifications"><span class="material-symbols-outlined">notifications</span></button>
+          <button class="icon-btn" aria-label="Search"><span class="material-symbols-outlined">search</span></button>
+          <button class="avatar-btn" aria-label="Profile">JB</button>
+        </div>
+      </div>
+
+      <!-- CATEGORY CHIPS -->
+      <div class="chips" id="chips">
+        <button class="chip chip__explore"><span class="material-symbols-outlined">explore</span></button>
+        <button class="chip active" data-cat="all">All</button>
+        <button class="chip" data-cat="design">Design</button>
+        <button class="chip" data-cat="code">Built</button>
+        <button class="chip" data-cat="field">Field work</button>
+        <button class="chip" data-cat="ai">Full AI build</button>
+        <button class="chip" data-cat="prototype">Prototypes</button>
+      </div>
+
+      <!-- VIEW STACK -->
+      <div class="view-stack">
+
+        <!-- HOME / LONG-FORM FEED -->
+        <div class="view active" id="view-home" role="region" aria-label="Home feed">
+          <div class="feed">
+
+            <!-- Long-form video 1 — CommuniCare -->
+            <article class="video-card" data-cat="design field" data-href="case-studies/communicare.html">
+              <div class="video-card__thumb">
+                <video muted loop playsinline preload="metadata" src="OneDrive/communicare%20home%20page%20recording.mp4"></video>
+                <span class="video-card__duration">12:34</span>
+                <span class="video-card__progress" style="width: 64%;"></span>
+              </div>
+              <div class="video-card__meta">
+                <div class="channel-avatar">JB</div>
+                <div class="video-card__text">
+                  <p class="video-card__title">Designing CommuniCare with Father Joe's Villages — a device-agnostic comms platform for people experiencing homelessness</p>
+                  <p class="video-card__sub">Jana Bridi <span class="dot">·</span> 41K views <span class="dot">·</span> 2 weeks ago</p>
+                </div>
+                <button class="video-card__more" aria-label="More"><span class="material-symbols-outlined">more_vert</span></button>
+              </div>
+            </article>
+
+            <!-- Shorts row -->
+            <section class="shorts-row" aria-label="Shorts">
+              <header class="shorts-row__head">
+                <span class="material-symbols-outlined ms-fill">flash_on</span>
+                <h2>Shorts</h2>
+              </header>
+              <div class="shorts-row__scroll" id="shortsRail">
+                <!-- populated by JS to mirror the shorts feed -->
+              </div>
+            </section>
+
+            <!-- Long-form 2 — UB Healthy / 48in48 -->
+            <article class="video-card" data-cat="design field" data-href="case-studies/48in48.html">
+              <div class="video-card__thumb" style="background: linear-gradient(135deg, #2D6A4F 0%, #E9C46A 100%); display: grid; place-items: center; color: #fff; padding: 0 24px;">
+                <div style="text-align: center;">
+                  <div style="font-size: 11px; letter-spacing: 0.2em; opacity: 0.85; margin-bottom: 6px;">48IN48 · 1ST PLACE</div>
+                  <div style="font-size: 22px; font-weight: 700; line-height: 1.1;">UB Healthy<br>Project</div>
+                </div>
+                <span class="video-card__duration">48:00</span>
+              </div>
+              <div class="video-card__meta">
+                <div class="channel-avatar">JB</div>
+                <div class="video-card__text">
+                  <p class="video-card__title">48 hours to ship a nonprofit's website — and we won (UB Healthy Project @ 48in48)</p>
+                  <p class="video-card__sub">Jana Bridi <span class="dot">·</span> 128K views <span class="dot">·</span> 1 year ago</p>
+                </div>
+                <button class="video-card__more" aria-label="More"><span class="material-symbols-outlined">more_vert</span></button>
+              </div>
+            </article>
+
+            <!-- Long-form 3 — Pawesome -->
+            <article class="video-card" data-cat="design code" data-href="case-studies/pawesome.html">
+              <div class="video-card__thumb">
+                <video muted loop playsinline preload="metadata" src="OneDrive/pawesome%20recording.mp4"></video>
+                <span class="video-card__duration">8:21</span>
+              </div>
+              <div class="video-card__meta">
+                <div class="channel-avatar">JB</div>
+                <div class="video-card__text">
+                  <p class="video-card__title">Building Pawesome — the small joys of pet care, designed end-to-end</p>
+                  <p class="video-card__sub">Jana Bridi <span class="dot">·</span> 22K views <span class="dot">·</span> 9 months ago</p>
+                </div>
+                <button class="video-card__more" aria-label="More"><span class="material-symbols-outlined">more_vert</span></button>
+              </div>
+            </article>
+
+            <!-- Long-form 4 — Thread -->
+            <article class="video-card" data-cat="design ai prototype" data-href="case-studies/thread.html">
+              <div class="video-card__thumb">
+                <video muted loop playsinline preload="metadata" src="Downloads/cursorful-video-1778650424561.mp4"></video>
+                <span class="video-card__duration">3:12</span>
+              </div>
+              <div class="video-card__meta">
+                <div class="channel-avatar">JB</div>
+                <div class="video-card__text">
+                  <p class="video-card__title">Thread — a note-taking layer for Instagram and TikTok, built entirely with AI (Claude Code, Figma Make, Cursor, ChatGPT)</p>
+                  <p class="video-card__sub">Jana Bridi <span class="dot">·</span> 87K views <span class="dot">·</span> 3 days ago</p>
+                </div>
+                <button class="video-card__more" aria-label="More"><span class="material-symbols-outlined">more_vert</span></button>
+              </div>
+            </article>
+
+            <!-- Long-form 5 — Phone-as-Mouse -->
+            <article class="video-card" data-cat="ai prototype code" data-href="case-studies/phone-mouse.html">
+              <div class="video-card__thumb">
+                <video class="pm-thumb" muted loop playsinline preload="metadata"
+                       data-playlist="videos/phone-mouse/01-optical.mp4,videos/phone-mouse/02-cursor-pad-1.mp4,videos/phone-mouse/03-cursor-pad-2.mp4,videos/phone-mouse/04-custom-cursor.mp4"></video>
+                <span class="video-card__duration">5:48</span>
+              </div>
+              <div class="video-card__meta">
+                <div class="channel-avatar">JB</div>
+                <div class="video-card__text">
+                  <p class="video-card__title">Turning my iPhone into a mouse — optical flow, gestures, and a custom cursor (4 features in one demo)</p>
+                  <p class="video-card__sub">Jana Bridi <span class="dot">·</span> 64K views <span class="dot">·</span> 6 days ago</p>
+                </div>
+                <button class="video-card__more" aria-label="More"><span class="material-symbols-outlined">more_vert</span></button>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+        <!-- SHORTS / VERTICAL FEED -->
+        <div class="view shorts-view" id="view-shorts" role="region" aria-label="Shorts feed">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- LIBRARY (You) -->
+        <div class="view" id="view-you" role="region" aria-label="You">
+          <div style="padding: 24px 14px 100px;">
+            <h2 style="font-size: 20px; margin-bottom: 4px;">Jana Bridi</h2>
+            <p style="color: var(--ink-dim); font-size: 14px; margin-bottom: 24px;">@janabridi <span style="margin: 0 4px;">·</span> 5 projects <span style="margin: 0 4px;">·</span> 1 designer</p>
+
+            <p style="font-size: 13px; color: var(--ink); line-height: 1.6; margin-bottom: 28px;">
+              Cog Sci grad from UCSD designing for humans — and actually studied them. Currently shipping field work, weekend prototypes, and full AI builds.
+            </p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <a href="mailto:lanerodrodlane@gmail.com" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--bg-chip); padding: 10px; border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 13px;">
+                <span class="material-symbols-outlined">mail</span> Email
+              </a>
+              <a href="jana-portfolio.html" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--bg-chip); padding: 10px; border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 13px;">
+                <span class="material-symbols-outlined">apps</span> Pixel ver.
+              </a>
+              <a href="about.html" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--bg-chip); padding: 10px; border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 13px;">
+                <span class="material-symbols-outlined">person</span> About
+              </a>
+              <a href="https://github.com/JanaB03/portfolio" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--bg-chip); padding: 10px; border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 13px;">
+                <span class="material-symbols-outlined">code</span> Source
+              </a>
+            </div>
+
+            <h3 style="font-size: 14px; margin: 32px 0 12px; color: var(--ink-dim); font-weight: 500;">RECENT UPLOADS</h3>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <a href="case-studies/phone-mouse.html" style="display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none;">
+                <div style="width: 60px; aspect-ratio: 16/9; background: linear-gradient(135deg, #ff6b9d, #c44dff); border-radius: 6px;"></div>
+                <div>
+                  <p style="font-size: 13px; font-weight: 500;">Phone-as-Mouse</p>
+                  <p style="font-size: 11px; color: var(--ink-dim);">6 days ago</p>
+                </div>
+              </a>
+              <a href="case-studies/thread.html" style="display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none;">
+                <div style="width: 60px; aspect-ratio: 16/9; background: linear-gradient(135deg, #4fc3f7, #1565c0); border-radius: 6px;"></div>
+                <div>
+                  <p style="font-size: 13px; font-weight: 500;">Thread</p>
+                  <p style="font-size: 11px; color: var(--ink-dim);">3 days ago</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM NAV -->
+      <nav class="bottom-nav" aria-label="App nav">
+        <button class="nav-btn active" data-view="home" aria-label="Home">
+          <span class="material-symbols-outlined">home</span>
+          <span>Home</span>
+        </button>
+        <button class="nav-btn" data-view="shorts" aria-label="Shorts">
+          <span class="material-symbols-outlined">flash_on</span>
+          <span>Shorts</span>
+        </button>
+        <button class="nav-btn" data-view="add" aria-label="Add">
+          <span class="nav-plus"><span class="material-symbols-outlined">add</span></span>
+        </button>
+        <button class="nav-btn" data-view="subs" aria-label="Subscriptions">
+          <span class="material-symbols-outlined">subscriptions</span>
+          <span>Subs</span>
+        </button>
+        <button class="nav-btn" data-view="you" aria-label="You">
+          <span class="material-symbols-outlined">account_circle</span>
+          <span>You</span>
+        </button>
+      </nav>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // ─── Clock ───
+  function tick() {
+    const d = new Date();
+    let h = d.getHours() % 12; if (h === 0) h = 12;
+    const m = String(d.getMinutes()).padStart(2, '0');
+    document.getElementById('clock').textContent = `${h}:${m}`;
+  }
+  tick(); setInterval(tick, 30000);
+
+  // ─── Shorts data (project shorts) ───
+  const SHORTS = [
+    {
+      src: 'videos/phone-mouse/01-optical.mp4',
+      title: 'Phone-as-Mouse: optical flow tracking',
+      caption: "Point your phone camera at any surface — your cursor follows. This is the whole reason the project exists.",
+      tag: '#aibuild',
+      likes: '12K', comments: 482, shares: '1.2K',
+      audio: 'original sound · @janabridi',
+      href: 'case-studies/phone-mouse.html'
+    },
+    {
+      src: 'videos/phone-mouse/02-cursor-pad-1.mp4',
+      title: 'Cursor pad: touch mode',
+      caption: "When the camera approach doesn't fit, your phone screen becomes a trackpad.",
+      tag: '#prototyping',
+      likes: '8.4K', comments: 211, shares: 940,
+      audio: 'original sound · @janabridi',
+      href: 'case-studies/phone-mouse.html'
+    },
+    {
+      src: 'videos/phone-mouse/03-cursor-pad-2.mp4',
+      title: 'Trackpad gestures that feel right',
+      caption: "Two-finger scroll, tap-to-click, drag. The small things that make a trackpad feel like a trackpad.",
+      tag: '#uxdetails',
+      likes: '15K', comments: 367, shares: '2.1K',
+      audio: 'original sound · @janabridi',
+      href: 'case-studies/phone-mouse.html'
+    },
+    {
+      src: 'videos/phone-mouse/04-custom-cursor.mp4',
+      title: 'Pick a cursor that looks like you',
+      caption: "If your input device is a screen, the cursor should match the vibe.",
+      tag: '#designdetails',
+      likes: '22K', comments: 814, shares: '3.4K',
+      audio: 'original sound · @janabridi',
+      href: 'case-studies/phone-mouse.html'
+    },
+    {
+      src: 'Downloads/cursorful-video-1778650424561.mp4',
+      title: 'Thread — note-taking on top of your feed',
+      caption: "Saves aren't really saves. Thread turns them into actual notes. Full AI build.",
+      tag: '#aibuild',
+      likes: '34K', comments: '1.1K', shares: '5.8K',
+      audio: 'original sound · @janabridi',
+      href: 'case-studies/thread.html'
+    }
+  ];
+
+  // Render shorts feed
+  const shortsView = document.getElementById('view-shorts');
+  shortsView.innerHTML = SHORTS.map((s, i) => `
+    <div class="short" data-idx="${i}" data-href="${s.href}">
+      <video src="${s.src}" muted loop playsinline preload="metadata"></video>
+      <div class="short__progress"><span></span></div>
+      <div class="short__overlay">
+        <div class="short__info">
+          <div class="short__channel">
+            <div class="channel-avatar" style="width:30px;height:30px;font-size:12px;">JB</div>
+            <span class="short__channel-name">@janabridi</span>
+            <button class="short__subscribe">Subscribe</button>
+          </div>
+          <p class="short__caption">${s.caption} <span class="tag">${s.tag}</span></p>
+          <p class="short__audio">
+            <span class="material-symbols-outlined">music_note</span>
+            <span>${s.audio}</span>
+          </p>
+        </div>
+        <div class="short__actions">
+          <button class="short-action like-btn">
+            <span class="material-symbols-outlined">favorite</span>
+            <span class="short-action__count">${s.likes}</span>
+          </button>
+          <button class="short-action">
+            <span class="material-symbols-outlined">thumb_down</span>
+            <span class="short-action__count">Dislike</span>
+          </button>
+          <button class="short-action">
+            <span class="material-symbols-outlined">chat_bubble</span>
+            <span class="short-action__count">${s.comments}</span>
+          </button>
+          <button class="short-action">
+            <span class="material-symbols-outlined">share</span>
+            <span class="short-action__count">${s.shares}</span>
+          </button>
+          <button class="short-action open-case" data-href="${s.href}" title="Open case study">
+            <span class="material-symbols-outlined">open_in_new</span>
+            <span class="short-action__count">Case</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Render shorts rail (mini horizontal scroll inside home feed)
+  const rail = document.getElementById('shortsRail');
+  rail.innerHTML = SHORTS.map(s => `
+    <div class="short-tile" data-href="${s.href}" data-src="${s.src}">
+      <video src="${s.src}" muted loop playsinline preload="metadata"></video>
+      <p class="short-tile__title">${s.title}</p>
+      <p class="short-tile__views"><span class="material-symbols-outlined">play_arrow</span>${s.likes}</p>
+    </div>
+  `).join('');
+
+  // ─── Tab switching ───
+  const phone = document.getElementById('phone');
+  const views = {
+    home:   document.getElementById('view-home'),
+    shorts: document.getElementById('view-shorts'),
+    you:    document.getElementById('view-you')
+  };
+  function switchView(name) {
+    Object.values(views).forEach(v => v.classList.remove('active'));
+    if (views[name]) views[name].classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.view === name);
+    });
+    phone.classList.toggle('shorts-mode', name === 'shorts');
+    // Pause anything not visible, play visible shorts
+    document.querySelectorAll('.short video').forEach(v => v.pause());
+    if (name === 'shorts') playCurrentShort();
+  }
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const v = btn.dataset.view;
+      if (v === 'add' || v === 'subs') {
+        // playful toast for the not-built tabs
+        toast(v === 'add' ? "+ button is just for show 😅" : "no subs tab yet — try Shorts!");
+        return;
+      }
+      switchView(v);
+    });
+  });
+
+  // Shorts rail click → go to shorts view
+  rail.addEventListener('click', (e) => {
+    const tile = e.target.closest('.short-tile');
+    if (!tile) return;
+    switchView('shorts');
+  });
+
+  // ─── Video card click ───
+  document.querySelectorAll('.video-card').forEach(card => {
+    const href = card.dataset.href;
+    if (!href) return;
+    card.addEventListener('click', () => { window.location.href = href; });
+  });
+
+  // ─── Shorts: auto-play the visible one (scroll-snap) ───
+  function playCurrentShort() {
+    const shorts = document.querySelectorAll('.short');
+    if (!shorts.length) return;
+    const containerRect = shortsView.getBoundingClientRect();
+    let best = null;
+    let bestDist = Infinity;
+    shorts.forEach(s => {
+      const r = s.getBoundingClientRect();
+      const dist = Math.abs(r.top - containerRect.top);
+      if (dist < bestDist) { bestDist = dist; best = s; }
+    });
+    shorts.forEach(s => {
+      const v = s.querySelector('video');
+      if (s === best) {
+        v.currentTime = 0;
+        v.play().catch(() => {});
+        startProgress(s);
+      } else {
+        v.pause();
+        const bar = s.querySelector('.short__progress span');
+        if (bar) bar.style.width = '0%';
+      }
+    });
+  }
+  function startProgress(short) {
+    const v = short.querySelector('video');
+    const bar = short.querySelector('.short__progress span');
+    const update = () => {
+      if (!short.isConnected) return;
+      if (v.duration) bar.style.width = `${(v.currentTime / v.duration) * 100}%`;
+      if (!v.paused) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+  shortsView.addEventListener('scroll', () => {
+    clearTimeout(shortsView._t);
+    shortsView._t = setTimeout(playCurrentShort, 120);
+  });
+
+  // ─── Short interactions ───
+  shortsView.addEventListener('click', (e) => {
+    const like = e.target.closest('.like-btn');
+    if (like) {
+      e.stopPropagation();
+      like.classList.toggle('liked');
+      return;
+    }
+    const sub = e.target.closest('.short__subscribe');
+    if (sub) {
+      e.stopPropagation();
+      sub.classList.toggle('subbed');
+      sub.textContent = sub.classList.contains('subbed') ? 'Subscribed' : 'Subscribe';
+      return;
+    }
+    const openCase = e.target.closest('.open-case');
+    if (openCase) {
+      e.stopPropagation();
+      window.location.href = openCase.dataset.href;
+      return;
+    }
+    const video = e.target.closest('.short')?.querySelector('video');
+    if (video) {
+      if (video.paused) video.play().catch(() => {});
+      else video.pause();
+    }
+  });
+
+  // ─── Category chips filter the home feed ───
+  document.querySelectorAll('.chips .chip[data-cat]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chips .chip[data-cat]').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const cat = chip.dataset.cat;
+      document.querySelectorAll('#view-home .video-card').forEach(card => {
+        const cats = (card.dataset.cat || '').split(/\s+/);
+        card.style.display = (cat === 'all' || cats.includes(cat)) ? '' : 'none';
+      });
+    });
+  });
+
+  // ─── Hover preview on home feed cards ───
+  document.querySelectorAll('#view-home .video-card video').forEach(v => {
+    const parent = v.closest('.video-card');
+    parent.addEventListener('mouseenter', () => { v.play().catch(() => {}); });
+    parent.addEventListener('mouseleave', () => { v.pause(); v.currentTime = 0; });
+  });
+
+  // ─── Phone-as-Mouse thumbnail plays its playlist on hover/visible ───
+  document.querySelectorAll('video.pm-thumb').forEach(v => {
+    const list = v.dataset.playlist.split(',').map(s => s.trim());
+    let i = 0;
+    v.src = list[0];
+    v.addEventListener('ended', () => {
+      i = (i + 1) % list.length;
+      v.src = list[i];
+      v.play().catch(() => {});
+    });
+  });
+
+  // ─── Shorts rail tiles autoplay when visible ───
+  const railIo = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      const v = e.target.querySelector('video');
+      if (!v) return;
+      if (e.isIntersecting) v.play().catch(() => {}); else v.pause();
+    });
+  }, { root: rail, threshold: 0.6 });
+  document.querySelectorAll('.short-tile').forEach(t => railIo.observe(t));
+
+  // ─── Tiny toast ───
+  function toast(msg) {
+    let el = document.getElementById('toast');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'toast';
+      Object.assign(el.style, {
+        position: 'absolute', bottom: '80px', left: '50%', transform: 'translateX(-50%)',
+        background: 'rgba(255,255,255,0.95)', color: '#0f0f0f',
+        padding: '10px 16px', borderRadius: '24px', fontSize: '13px', fontWeight: '500',
+        zIndex: '60', boxShadow: '0 6px 20px rgba(0,0,0,0.3)',
+        transition: 'opacity .25s, transform .25s',
+        opacity: '0'
+      });
+      document.querySelector('.phone__screen').appendChild(el);
+    }
+    el.textContent = msg;
+    requestAnimationFrame(() => {
+      el.style.opacity = '1';
+      el.style.transform = 'translateX(-50%) translateY(-4px)';
+    });
+    clearTimeout(el._t);
+    el._t = setTimeout(() => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateX(-50%) translateY(0)';
+    }, 1600);
+  }
+</script>
+</body>
+</html>
